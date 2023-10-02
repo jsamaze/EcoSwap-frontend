@@ -13,7 +13,6 @@
   <main>
 
 
-    {{ username }}
     <section class="vh-100 bg-image">
   <div class="mask d-flex align-items-center h-100 gradient-custom-3">
     <div class="container h-100">
