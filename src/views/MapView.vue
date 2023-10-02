@@ -37,8 +37,9 @@ export default {
   data() {
     return {
       map : undefined,
-      latitude: 0,
-      longitutde: 0
+      latitude: undefined,
+      longitutde: undefined,
+      marker: undefined
     }
   },
 
@@ -51,9 +52,9 @@ export default {
     },
 
     showPosition(position){
-      console.log(position.coords);
       this.latitude = position.coords.latitude;
       this.longitude = position.coords.longitude;
+      this.marker.setLatLng([this.latitude,this.longitude])
     }
 
   },
@@ -72,7 +73,7 @@ export default {
 
 
     // Creates a pointer at specified location (x,y)
-    var marker = L.marker([1.4068217418583884, 103.89997409411617]).addTo(this.map);
+    this.marker = L.marker([1.4068217418583884, 103.89997409411617]).addTo(this.map);
 
     // Creates a circle at specified location (x,y), can be edited
     var circle = L.circle([1.3950128243658293, 103.89281796062534], {
@@ -91,7 +92,7 @@ export default {
     ]).addTo(this.map);
 
     // Create popups binded to variables that appear when hovered over
-    marker.bindPopup("<b>Hello world!</b><br>I am the Church of Transfiguration.").openPopup();
+    this.marker.bindPopup("<b>Hello world!</b><br>I am the Church of Transfiguration.").openPopup();
     circle.bindPopup("I am a circle in Punggol.");
     polygon.bindPopup("I am a polygon.");
 
