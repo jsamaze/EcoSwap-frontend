@@ -36,6 +36,27 @@ import { RouterLink, RouterView } from 'vue-router'
   .subtitle {
     font-family: 'Spectral';
   }
+  .white {
+    color: #ffffff;
+  }
+  .green1 {
+    color: #eef3db;
+  }
+  .green2 {
+    color: #d2e296;
+  }
+  .green3 {
+    color: #8a9f53;
+  }
+  .green4 {
+    color: #748e1e;
+  }
+  .green5 {
+    color: #2a5717;
+  }
+  .green6{
+    color: #41571e;
+  }
 </style>
 
 <script>

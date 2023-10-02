@@ -53,50 +53,16 @@
       <div class="container-fluid carousel-inner">
         <div class="row container-fluid align-items-center">
 
-          <div class="col-sm">
+          <div class="col" v-for="item in items">
             <div class="carousel-item active">
               <div class="card" style="width: 18rem;">
                 <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title fs-3 subtitle">Item name</h5>
+                  <h5 class="card-title fs-3 subtitle">{{ item.itemName }}</h5>
                   <p class="card-text subtitle">
-                    Item category: <br>
-                    Item condition: <br>
-                    Item tags: <br>
-                  </p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        
-          <div class="container-fluid col">
-            <div class="carousel-item active">
-              <div class="card" style="width: 18rem;">
-                <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title fs-3 subtitle">Item name</h5>
-                  <p class="card-text subtitle">
-                    Item category: <br>
-                    Item condition: <br>
-                    Item tags: <br>
-                  </p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="container-fluid col">
-            <div class="carousel-item active">
-              <div class="card" style="width: 18rem;">
-                <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title fs-3 subtitle">Item name</h5>
-                  <p class="card-text subtitle">
-                    Item category: <br>
-                    Item condition: <br>
-                    Item tags: <br>
+                    Item category: {{ item.category }}<br>
+                    Item condition: {{ item.condition }} <br>
+                    Item tags: {{ item.tags }}<br>
                   </p>
                   <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
@@ -118,6 +84,27 @@
 
     </div>
 
+    <div class="container-fluid">
+    <h1 class="mt-5">Bootstrap 4 Horizontal Scrolling</h1>
+		<p class="subtitle">Horizontal scrolling without CSS. Just copy scrolling wrapper classes</p>
+    <div class="scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
+			<div class="col-5" v-for="item in items">
+				<div class="card" style="width: 18rem;">
+        <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title fs-3 subtitle">{{ item.itemName }}</h5>
+          <p class="card-text subtitle">
+            Item category: {{ item.category }}<br>
+            Item condition: {{ item.condition }} <br>
+            Item tags: {{ item.tags }}<br>
+          </p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
     <!-- recommended for you carousel -->
     <div class="container-fluid pt-4 ">
     <p class="title fs-1">Recommended for you</p>
@@ -133,12 +120,12 @@
       <div class="container-fluid carousel-inner">
         <div class="row container-fluid align-items-center">
 
-          <div class="col-sm">
+          <div class="col">
             <div class="carousel-item active">
               <div class="card" style="width: 18rem;">
                 <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title fs-3 subtitle">Item name</h5>
+                  <h5 class="card-title fs-3 subtitle">Item Name</h5>
                   <p class="card-text subtitle">
                     Item category: <br>
                     Item condition: <br>
@@ -213,6 +200,25 @@
   margin: 0rem;
   overflow: hidden;
 }
+.scrolling-wrapper{
+	overflow-x: auto;
+}
+
+.card-block{
+	height: 300px;
+	background-color: #fff;
+	border: none;
+	background-position: center;
+	background-size: cover;
+	transition: all 0.2s ease-in-out !important;
+	border-radius: 24px;
+}
+
+.card-block:hover{
+		transform: translateY(-5px);
+		box-shadow: none;
+		opacity: 0.9;
+	}
 </style>
 
 <script>
@@ -221,7 +227,7 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
-      name : "joshua"
+      items : []
     }
   },
 
@@ -239,7 +245,7 @@ export default {
     //don't forget to use this keyword
 
     // this is a reference to the backend URL in .env.local file
-    this.axios.get(`${import.meta.env.VITE_BACKEND}/user/joshua`).then( response => {
+    this.axios.get(`${import.meta.env.VITE_BACKEND}/items/popular`).then( response => { console.log(response); this.items= response.data.data;
       }
     ).catch ( error => {
     })
