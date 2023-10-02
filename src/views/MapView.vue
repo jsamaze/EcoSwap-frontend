@@ -1,0 +1,134 @@
+<script setup>
+  //import these to access GLOBAL state variables
+  import '../../node_modules/leaflet/dist/leaflet.css'
+  import L  from 'leaflet'
+  // //this is how you import external css files
+  // import "../assets/base.css"
+
+
+</script>
+
+<template>
+  <!-- type your HTML here -->
+  <main>
+    <div class="container">
+        <div id="map"></div>
+    </div>
+    <!-- Get location of user -->
+    <div>
+      <button v-on:click="getLocation()">
+          Your location
+      </button>
+      {{ latitude }}, {{ longitude }}
+    </div>
+
+  </main>
+</template>
+
+<style scoped>
+/* you can also import css files */
+#map { height: 100vh; }
+</style>
+
+<script>
+export default {
+
+  // this is data, website will reload if this change
+  data() {
+    return {
+      map : undefined,
+      latitude: undefined,
+      longitutde: undefined,
+      marker: undefined
+    }
+  },
+
+  methods: {
+    getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(this.showPosition);
+      } else { 
+      }
+    },
+
+    showPosition(position){
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+      this.marker.setLatLng([this.latitude,this.longitude])
+    }
+
+  },
+
+
+  //any ajax call to start is executed here
+  mounted() {
+
+    //put the javascript inside here
+    this.map = L.map('map').setView([1.402382926961625, 103.89701354063448], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        //dont forget to add this in front of map
+    }).addTo(this.map);
+
+
+    // Creates a pointer at specified location (x,y)
+    this.marker = L.marker([1.4068217418583884, 103.89997409411617]).addTo(this.map);
+
+    // Creates a circle at specified location (x,y), can be edited
+    var circle = L.circle([1.3950128243658293, 103.89281796062534], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 500
+    }).addTo(this.map);
+
+    // Creates a polygon at multiple specified locations [(x,y),(x,y)...]
+    var polygon = L.polygon([
+    [1.4068217418583884, 103.89997409411617],
+    [1.3950128243658293, 103.89281796062534],
+    [1.4015769166420673, 103.91617463620193],
+    [1.3371686592044003, 103.78213928798633]
+    ]).addTo(this.map);
+
+    // Create popups binded to variables that appear when hovered over
+    this.marker.bindPopup("<b>Hello world!</b><br>I am the Church of Transfiguration.").openPopup();
+    circle.bindPopup("I am a circle in Punggol.");
+    polygon.bindPopup("I am a polygon.");
+
+    // Create a popup that is constantly displayed
+    var popup = L.popup()
+    .setLatLng([1.3860354329444173, 103.90187309806764])
+    .setContent("I am a standalone popup.")
+    .openOn(this.map);
+
+
+    //Supposed to have an event occur when map is clicked, however it is not working
+    function onMapClick(e) {
+    alert("You clicked the map at " + e.latlng);
+    }
+
+    this.map.on('click', onMapClick);
+
+    // Supposed to show the latitude and longitude when map is clicked, however it is not working
+    var popup = L.popup();
+
+    function onMapClick(e) {
+        popup
+            .setLatLng(e.latlng)
+            .setContent("You clicked the map at " + e.latlng.toString())
+            .openOn(this.map);
+    }
+
+    this.map.on('click', onMapClick);
+
+
+    // Obtain the current location of user
+
+
+  }
+
+    
+
+}
+</script>

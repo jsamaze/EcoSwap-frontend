@@ -3,7 +3,18 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // Step 1.IMPORT before using 
 import TestView from '../views/TestView.vue'
+
 import UserMarketplaceView from '../views/UserMarketplaceView.vue'
+
+import MapView from '../views/MapView.vue'
+
+import homepage from '../views/homepage.vue'
+
+import register from '../views/register.vue'
+
+import login from '../views/login.vue'
+
+import UserProfileView from '../views/UserProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,9 +28,35 @@ const router = createRouter({
       component: TestView, //this is the imported view (.vue)
     },
     {
-      path: '/marketplace',  //this will be matched on the URL e.g. /test
-      name: 'User Marketplace', //page name
-      component: UserMarketplaceView, //this is the imported view (.vue)
+      path: '/marketplace',
+      name: 'User Marketplace',
+      component: UserMarketplaceView,
+    },
+    {
+      path: '/map',
+      name : 'map',
+      component: MapView
+    },
+    {
+      path: '/userProfile',
+      name : 'userProfile',
+      component: UserProfileView
+    },
+
+    {
+      path: '/register',  
+      name: 'register',
+      component: register,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login,
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: homepage,
     },
   ]
 })
