@@ -15,9 +15,14 @@ import { RouterLink, RouterView } from 'vue-router'
   <RouterView />
 </template>
 
-<style scoped>
+<style>
 /* put CSS here */
-
+  .title {
+    font-family: 'Libre Bodoni';
+  }
+  .subtitle {
+    font-family: 'Spectral';
+  }
 </style>
 
 <script>
