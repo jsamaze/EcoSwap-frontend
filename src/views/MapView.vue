@@ -14,6 +14,13 @@
     <div class="container">
         <div id="map"></div>
     </div>
+    <!-- Get location of user -->
+    <div>
+      <button v-on:click="getLocation()">
+          Your location
+      </button>
+      {{ latitude }}, {{ longitude }}
+    </div>
 
   </main>
 </template>
@@ -29,11 +36,25 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
-      map : undefined
+      map : undefined,
+      latitude: 0,
+      longitutde: 0
     }
   },
 
   methods: {
+    getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(this.showPosition);
+      } else { 
+      }
+    },
+
+    showPosition(position){
+      console.log(position.coords);
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+    }
 
   },
 
@@ -100,6 +121,8 @@ export default {
 
     this.map.on('click', onMapClick);
 
+
+    // Obtain the current location of user
 
 
   }
