@@ -21,6 +21,9 @@
 
 <style>
 /* you can also import css files */
+main {
+  background-color: aqua;
+}
 </style>
 
 <script>
