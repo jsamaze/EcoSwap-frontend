@@ -4,6 +4,17 @@ import { createRouter, createWebHistory } from 'vue-router'
 // Step 1.IMPORT before using 
 import TestView from '../views/TestView.vue'
 import MapView from '../views/MapView.vue'
+
+import homepage from '../views/homepage.vue'
+
+import register from '../views/register.vue'
+
+import login from '../views/login.vue'
+
+import settings from '../views/settings.vue'
+
+
+
 import UserProfileView from '../views/UserProfileView.vue'
 
 const router = createRouter({
@@ -26,7 +37,28 @@ const router = createRouter({
       path: '/userProfile',
       name : 'userProfile',
       component: UserProfileView
-    }
+    },
+
+    {
+      path: '/register',  //this will be matched on the URL e.g. /test
+      name: 'register', //page name
+      component: register, //this is the imported view (.vue)
+    },
+    {
+      path: '/login',  //this will be matched on the URL e.g. /test
+      name: 'login', //page name
+      component: login, //this is the imported view (.vue)
+    },
+    {
+      path: '/settings',  //this will be matched on the URL e.g. /test
+      name: 'settings', //page name
+      component: settings, //this is the imported view (.vue)
+    },
+    {
+      path: '/home',  //this will be matched on the URL e.g. /test
+      name: 'home', //page name
+      component: homepage, //this is the imported view (.vue)
+    },
   ]
 })
 
