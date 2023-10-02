@@ -23,7 +23,7 @@ const router = createRouter({
       path: '/map',
       name : 'map',
       component: MapView
-    }
+    },
     {
       path: '/homepage',  //this will be matched on the URL e.g. /test
       name: 'pageName', //page name
