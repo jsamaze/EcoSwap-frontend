@@ -48,6 +48,63 @@ export default {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         //dont forget to add this in front of map
     }).addTo(this.map);
+
+
+    // Creates a pointer at specified location (x,y)
+    var marker = L.marker([1.4068217418583884, 103.89997409411617]).addTo(this.map);
+
+    // Creates a circle at specified location (x,y), can be edited
+    var circle = L.circle([1.3950128243658293, 103.89281796062534], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 500
+    }).addTo(this.map);
+
+    // Creates a polygon at multiple specified locations [(x,y),(x,y)...]
+    var polygon = L.polygon([
+    [1.4068217418583884, 103.89997409411617],
+    [1.3950128243658293, 103.89281796062534],
+    [1.4015769166420673, 103.91617463620193],
+    [1.3371686592044003, 103.78213928798633]
+    ]).addTo(this.map);
+
+    // Create popups binded to variables that appear when hovered over
+    marker.bindPopup("<b>Hello world!</b><br>I am the Church of Transfiguration.").openPopup();
+    circle.bindPopup("I am a circle in Punggol.");
+    polygon.bindPopup("I am a polygon.");
+
+    // Create a popup that is constantly displayed
+    var popup = L.popup()
+    .setLatLng([1.3860354329444173, 103.90187309806764])
+    .setContent("I am a standalone popup.")
+    .openOn(this.map);
+
+
+    //Supposed to have an event occur when map is clicked, however it is not working
+    function onMapClick(e) {
+    alert("You clicked the map at " + e.latlng);
+    }
+
+    this.map.on('click', onMapClick);
+
+    // Supposed to show the latitude and longitude when map is clicked, however it is not working
+    var popup = L.popup();
+
+    function onMapClick(e) {
+        popup
+            .setLatLng(e.latlng)
+            .setContent("You clicked the map at " + e.latlng.toString())
+            .openOn(this.map);
+    }
+
+    this.map.on('click', onMapClick);
+
+
+
   }
+
+    
+
 }
 </script>
