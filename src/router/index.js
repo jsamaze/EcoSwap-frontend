@@ -12,6 +12,9 @@ import register from '../views/register.vue'
 
 import login from '../views/login.vue'
 
+import settings from '../views/settings.vue'
+
+
 
 
 const router = createRouter({
@@ -30,20 +33,26 @@ const router = createRouter({
       name : 'map',
       component: MapView
     },
-    {
-      path: '/homepage',  //this will be matched on the URL e.g. /test
-      name: 'pageName', //page name
-      component: homepage, //this is the imported view (.vue)
-    },
+
     {
       path: '/register',  //this will be matched on the URL e.g. /test
-      name: 'pageName', //page name
+      name: 'register', //page name
       component: register, //this is the imported view (.vue)
     },
     {
       path: '/login',  //this will be matched on the URL e.g. /test
-      name: 'pageName', //page name
+      name: 'login', //page name
       component: login, //this is the imported view (.vue)
+    },
+    {
+      path: '/settings',  //this will be matched on the URL e.g. /test
+      name: 'settings', //page name
+      component: settings, //this is the imported view (.vue)
+    },
+    {
+      path: '/home',  //this will be matched on the URL e.g. /test
+      name: 'home', //page name
+      component: homepage, //this is the imported view (.vue)
     },
   ]
 })

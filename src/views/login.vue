@@ -11,6 +11,9 @@
 <template>
   <!-- type your HTML here -->
   <main>
+
+
+    {{ username }}
     <section class="vh-100 bg-image">
   <div class="mask d-flex align-items-center h-100 gradient-custom-3">
     <div class="container h-100">
@@ -42,7 +45,7 @@
 
                 <div class="d-flex justify-content-center">
                   <button type="button"
-                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Login</button>
+                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" @click="login">Login</button>
                 </div>
 
                 
@@ -93,9 +96,17 @@ export default {
   },
 
   methods: {
-    test() {
+    login() {
       // you need to use this in the methods
-      this.name =jakob
+      this.axios.post(`${import.meta.env.VITE_BACKEND}/user/login`,{
+        username: this.username, 
+        password: this.password
+      }). then((response)=>{
+        console.log(response)
+        this.$router.push(`/home`)
+      }).catch((error)=>{
+        console.log(error)
+      })
     }
   },
 
