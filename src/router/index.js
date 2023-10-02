@@ -4,6 +4,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 // Step 1.IMPORT before using 
 import TestView from '../views/TestView.vue'
 
+import homepage from '../views/homepage.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
 
@@ -14,6 +16,11 @@ const router = createRouter({
       path: '/',  //this will be matched on the URL e.g. /test
       name: 'pageName', //page name
       component: TestView, //this is the imported view (.vue)
+    },
+    {
+      path: '/homepage',  //this will be matched on the URL e.g. /test
+      name: 'pageName', //page name
+      component: homepage, //this is the imported view (.vue)
     },
   ]
 })
