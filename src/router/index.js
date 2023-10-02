@@ -8,6 +8,9 @@ import MapView from '../views/MapView.vue'
 
 import homepage from '../views/homepage.vue'
 
+import register from '../views/register.vue'
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
 
@@ -28,6 +31,11 @@ const router = createRouter({
       path: '/homepage',  //this will be matched on the URL e.g. /test
       name: 'pageName', //page name
       component: homepage, //this is the imported view (.vue)
+    },
+    {
+      path: '/register',  //this will be matched on the URL e.g. /test
+      name: 'pageName', //page name
+      component: register, //this is the imported view (.vue)
     },
   ]
 })
