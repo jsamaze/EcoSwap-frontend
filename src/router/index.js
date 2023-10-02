@@ -10,6 +10,9 @@ import homepage from '../views/homepage.vue'
 
 import register from '../views/register.vue'
 
+import login from '../views/login.vue'
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,6 +39,11 @@ const router = createRouter({
       path: '/register',  //this will be matched on the URL e.g. /test
       name: 'pageName', //page name
       component: register, //this is the imported view (.vue)
+    },
+    {
+      path: '/login',  //this will be matched on the URL e.g. /test
+      name: 'pageName', //page name
+      component: login, //this is the imported view (.vue)
     },
   ]
 })
