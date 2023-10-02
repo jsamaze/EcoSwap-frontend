@@ -12,7 +12,6 @@ import register from '../views/register.vue'
 
 import login from '../views/login.vue'
 
-import settings from '../views/settings.vue'
 
 
 
@@ -44,11 +43,7 @@ const router = createRouter({
       name: 'login', //page name
       component: login, //this is the imported view (.vue)
     },
-    {
-      path: '/settings',  //this will be matched on the URL e.g. /test
-      name: 'settings', //page name
-      component: settings, //this is the imported view (.vue)
-    },
+
     {
       path: '/home',  //this will be matched on the URL e.g. /test
       name: 'home', //page name
