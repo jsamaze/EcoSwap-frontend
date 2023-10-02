@@ -24,15 +24,15 @@
                 
 
                 <div class="form-outline mb-4">
-                    <label class="form-label" for="form3Example1cg">Username</label>
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" />
+                    <label class="form-label" for="username">Username</label>
+                  <input v-model="username" type="text" id="username" class="form-control form-control-lg" />
                   
                 </div>
 
 
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example4cg">Password</label>
-                  <input type="password" id="form3Example4cg" class="form-control form-control-lg" />
+                  <input v-model="password" type="password" id="form3Example4cg" class="form-control form-control-lg" />
                   
                 </div>
 
@@ -87,7 +87,8 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
-      name : "joshua"
+      username : "",
+      password : ""
     }
   },
 
