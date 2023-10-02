@@ -9,6 +9,7 @@
 </script>
 
 <template>
+  
   <!-- type your HTML here -->
   <main>
     <div class="container-fluid bg-success-subtle">
