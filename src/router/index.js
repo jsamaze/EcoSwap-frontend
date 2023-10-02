@@ -4,6 +4,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 // Step 1.IMPORT before using 
 import TestView from '../views/TestView.vue'
 
+import MapView from '../views/MapView.vue'
+
 import homepage from '../views/homepage.vue'
 
 const router = createRouter({
@@ -17,6 +19,11 @@ const router = createRouter({
       name: 'pageName', //page name
       component: TestView, //this is the imported view (.vue)
     },
+    {
+      path: '/map',
+      name : 'map',
+      component: MapView
+    }
     {
       path: '/homepage',  //this will be matched on the URL e.g. /test
       name: 'pageName', //page name
