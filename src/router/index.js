@@ -4,16 +4,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 // Step 1.IMPORT before using 
 import TestView from '../views/TestView.vue'
 import MapView from '../views/MapView.vue'
-
 import homepage from '../views/homepage.vue'
-
 import register from '../views/register.vue'
-
 import login from '../views/login.vue'
-
-
-
-
 import UserProfileView from '../views/UserProfileView.vue'
 
 const router = createRouter({
