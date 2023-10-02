@@ -11,15 +11,16 @@
 <template>
   <!-- type your HTML here -->
   <main>
-
-    <div id="map"></div>
+    <div class="container">
+        <div id="map"></div>
+    </div>
 
   </main>
 </template>
 
-<style>
+<style scoped>
 /* you can also import css files */
-#map { height: 180px; }
+#map { height: 100vh; }
 </style>
 
 <script>
@@ -39,11 +40,14 @@ export default {
 
   //any ajax call to start is executed here
   mounted() {
-    this.map = L.map('map').setView([51.505, -0.09], 13);
+
+    //put the javascript inside here
+    this.map = L.map('map').setView([1.402382926961625, 103.89701354063448], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+        //dont forget to add this in front of map
+    }).addTo(this.map);
   }
 }
 </script>

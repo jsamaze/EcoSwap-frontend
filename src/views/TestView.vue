@@ -19,7 +19,7 @@
   </main>
 </template>
 
-<style>
+<style scoped>
 /* you can also import css files */
 main {
   background-color: aqua;
