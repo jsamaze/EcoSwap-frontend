@@ -3,8 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // Step 1.IMPORT before using 
 import TestView from '../views/TestView.vue'
-
 import MapView from '../views/MapView.vue'
+import UserProfileView from '../views/UserProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +21,11 @@ const router = createRouter({
       path: '/map',
       name : 'map',
       component: MapView
+    },
+    {
+      path: '/userProfile',
+      name : 'userProfile',
+      component: UserProfileView
     }
   ]
 })
