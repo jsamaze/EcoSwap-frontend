@@ -52,14 +52,10 @@
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example4cdg">Confirm password</label>
                   <input type="password" id="form3Example4cdg" class="form-control form-control-lg" />
-
+                
                 </div>
 
-                <div class="pl-sm-4 pl-2" id="img-section">
-                   <b>Profile Photo</b>
-                   <p>Accepted file type .png. Less than 1MB</p>
-                   <button class="btn button border"><b>Upload</b></button>
-                </div>
+                   
 
                 <br>
 
@@ -106,7 +102,7 @@
 </template>
 
 <style>
-/* you can also import css files */
+
 </style>
 
 <script>
@@ -131,6 +127,7 @@ export default {
   mounted() {
     //this happens when u load website
     // dont forget to put the word this
+    
 
     //dont forget to use this keyword
                    // this is a reference to the backend URL in .env.local file

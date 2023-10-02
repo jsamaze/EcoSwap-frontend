@@ -7,9 +7,9 @@ import TestView from '../views/TestView.vue'
 import UserMarketplaceView from '../views/UserMarketplaceView.vue'
 
 import MapView from '../views/MapView.vue'
-import homepage from '../views/homepage.vue'
-import register from '../views/register.vue'
-import login from '../views/login.vue'
+import HomepageView from '../views/HomepageView.vue'
+import RegisterView from '../views/RegisterView.vue'
+import LoginView from '../views/LoginView.vue'
 
 import UserProfileView from '../views/UserProfileView.vue'
 
@@ -43,17 +43,17 @@ const router = createRouter({
     {
       path: '/register',  
       name: 'register',
-      component: register,
+      component: RegisterView,
     },
     {
       path: '/login',
       name: 'login',
-      component: login,
+      component: LoginView,
     },
     {
-      path: '/home',
-      name: 'home',
-      component: homepage,
+      path: '/homepage',
+      name: 'homepage',
+      component: HomepageView,
     },
   ]
 })
