@@ -12,12 +12,12 @@
   
   <!-- type your HTML here -->
   <main>
-    <div class="container-fluid bg-success-subtle">
+    <div class="container-fluid bg">
 
       <!-- heading -->
       <div class="row">
         <div class="col">
-          <h1 class="heading text-center">Start your eco-journey with EcoSwap today!</h1>
+          <h1 class="title text-center">Start your eco-journey with EcoSwap today!</h1>
         </div>
       </div>
 
@@ -32,7 +32,7 @@
       <!-- users have saved part -->
       <div class="row text-center">
         
-        <h1>Our users have saved...</h1>
+        <h1 class="title">Our users have saved...</h1>
         
       </div>
       <!-- users  part-->
@@ -65,7 +65,7 @@
 
       <!-- about -->
       <div class="row text-center">
-        <h1>About EcoSwap</h1>
+        <h1 class="title">About EcoSwap</h1>
       </div>
 
       <!-- missions -->
@@ -93,7 +93,7 @@
 
       <!-- praises from user -->
       <div class="row text-center">
-        <h1>Praises from our users…</h1>
+        <h1 class="title">Praises from our users…</h1>
       </div>
 
       <div class="row">
@@ -143,6 +143,10 @@
 
 <style>
 /* you can also import css files */
+.bg{
+  background-color: #eef3db
+;
+}
 </style>
 
 <script>
