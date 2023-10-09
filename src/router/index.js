@@ -7,11 +7,12 @@ import TestView from '../views/TestView.vue'
 import UserMarketplaceView from '../views/UserMarketplaceView.vue'
 
 import MapView from '../views/MapView.vue'
-import HomepageView from '../views/HomepageView.vue'
+import HomepageGuestView from '../views/HomepageGuestView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 
 import UserProfileView from '../views/UserProfileView.vue'
+import ForgetView from '../views/ForgetView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,9 +52,14 @@ const router = createRouter({
       component: LoginView,
     },
     {
-      path: '/homepage',
-      name: 'homepage',
-      component: HomepageView,
+      path: '/homepageguest',
+      name: 'homepageguest',
+      component: HomepageGuestView.vue,
+    },
+    {
+      path: '/forgetpassword',
+      name: 'forgetpassword',
+      component: ForgetView,
     },
   ]
 })
