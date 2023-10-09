@@ -99,11 +99,7 @@
 
 
 
-  <!-- use this to access data -->
-    {{ name  }}
-  <!-- link to another page as if using a tag-->
-    <RouterLink to="/home">lmao</RouterLink>
-
+  
   </main>
 </div>
 </div>

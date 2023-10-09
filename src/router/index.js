@@ -13,6 +13,8 @@ import LoginView from '../views/LoginView.vue'
 
 import UserProfileView from '../views/UserProfileView.vue'
 import ForgetView from '../views/ForgetView.vue'
+import ResetpasswordView from '../views/ResetpasswordView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,9 +63,13 @@ const router = createRouter({
       name: 'forgetpassword',
       component: ForgetView,
     },
+    {
+      path: '/resetpassword',
+      name: 'resetpassword',
+      component: ResetpasswordView,
+    },
   ]
 })
-
 
 
 export default router

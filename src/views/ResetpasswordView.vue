@@ -15,26 +15,47 @@
 
     <section class="vh-100 bg-image background">
   <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-    <div class="container h-100 pb-5">
+    <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
           <div class="card" style="border-radius: 15px;">
             <div class="card-body p-5">
-              <h1 class=" text-center mb-5 title display-5">Forgot Password?</h1>
+              <h1 class=" text-center mb-5 title display-5">Reset Password</h1>
 
               <form>
                 
 
                 <div class="form-outline mb-4">
-                    <h5 class="form-label subtitle" for="username">Email</h5>
+                    <h5 class="form-label subtitle" for="username">OTP</h5>
                   <input v-model="username" type="text" id="username" class="form-control form-control-lg" />
                   
-                </div> 
+                </div>
+
+
+                <div class="form-outline mb-4">
+                    <h5 class="form-label subtitle" for="form3Example4cg">New Password</h5>
+                  <input v-model="password" type="password" id="form3Example4cg" class="form-control form-control-lg" />
+                  
+                </div>
+
+                <div class="form-outline mb-4">
+                    <h5 class="form-label subtitle" for="form3Example4cg">Confirm New Password</h5>
+                  <input v-model="password" type="password" id="form3Example4cg" class="form-control form-control-lg" />
+                  
+                </div>
+
+  
+
+                
 
                 <div class="d-flex justify-content-center">
                   <button type="button"
                     class="btn background-dark-green btn-block btn-lg gradient-custom-4 text-white subtitle" @click="login">Confirm</button>
                 </div>
+
+                
+
+               
 
               </form>
 
@@ -47,27 +68,6 @@
 </section>
 
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade background" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5 title text-center p-4" id="exampleModalLabel">An OTP has been sent to your email address.</h1>
-        
-      </div>
-      
-      <div class="modal-footer text-center justify-content-center">
-        <button type="button" class="btn background-dark-green title text-white" data-bs-dismiss="modal">Close</button>
-        
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
@@ -76,13 +76,10 @@
 
 
 
-
-  
+ 
 
   </main>
 </template>
-
-
 
 <style>
 /* you can also import css files */
