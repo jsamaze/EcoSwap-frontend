@@ -13,7 +13,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
+    <div class="navbar-nav ms-auto">
       <a class="nav-item nav-link active subtitle text-white" href="#">Home <span class="sr-only"></span></a>
       <a class="nav-item nav-link subtitle text-white" href="#">Marketplace</a>
       <a class="nav-item nav-link subtitle text-white" href="#">Map</a>
@@ -44,6 +44,9 @@ import { RouterLink, RouterView } from 'vue-router'
   }
   .subtitle {
     font-family: 'Spectral';
+  }
+  .subtitlebold {
+    font-weight: bold;
   }
   .whitefont {
     color: #ffffff;

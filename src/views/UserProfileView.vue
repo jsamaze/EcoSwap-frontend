@@ -11,80 +11,96 @@
 <template>
   <!-- type your HTML here -->
   <main>
-    <section style="background-color: #eee;">
-      <div class="container py-5">
 
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card mb-4">
-              <div class="card-body text-center">
-                <div class="profile-pic-wrapper">
-                  <div class="pic-holder">
-                    <!-- uploaded pic shown here -->
-                    <img id="profilePic" class="pic" src="https://source.unsplash.com/random/150x150?person">
+   <div class="container-fluid">
+    <div class="row background">
 
-                    <Input class="uploadProfileInput" type="file" name="profile_pic" id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
-                    <label for="newProfilePhoto" class="upload-file-block">
-                      <div class="text-center">
-                        <div class="mb-2">
-                          <i class="fa fa-camera fa-2x"></i>
-                        </div>
-                        <div class="text-uppercase">
-                          Update <br /> Profile Photo
-                        </div>
-                      </div>
-                    </label>
-                  </div>
+      <div class="col-4">
+        <section class="vh-100 bg-image background ">
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              
+
+              <form>
+                [PHOTO]
+
+
+                <div class="d-flex justify-content-center">
+                  <button type="button"
+                    class="btn background-dark-green btn-block btn-lg gradient-custom-4 text-white subtitle" @click="login">Upload/Edit Photo</button>
                 </div>
-                <h5 class="my-3">{{this.fullname}}</h5>
-                <p class="text-muted mb-1">Full Stack Developer</p>
-                <p class="text-muted mb-4">Singapore</p>
-              </div>
+              </form>
+
             </div>
-
-          </div>
-          <div class="col-lg-8">
-            <div class="card mb-4">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Username</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">{{this.username}}</p>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Email</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">{{this.email}}</p>
-                  </div>
-                </div>
-                
-                <hr>
-                <div class="row">
-                  <div class="col-sm-9">
-                  </div>
-                </div>
-    
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Preferred Bus Stop</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">{{this.pbs}}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
           </div>
         </div>
       </div>
+    </div>
+  </div>
 </section>
+      </div>
+
+      <div class="col-8">
+        <section class="vh-100 bg-image background">
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h1 class="text-center mb-5 title display-5">Profile Settings</h1>
+
+              <form>
+                
+
+                <div class="form-outline mb-4">
+                    <h5 class="form-label subtitle" for="username">Username</h5>
+                  <input v-model="username" type="text" id="username" class="form-control form-control-lg" />
+                  
+                </div>
+
+
+                <div class="form-outline mb-4">
+                    <h5 class="form-label subtitle" for="form3Example4cg">Email</h5>
+                  <input v-model="email" type="text" id="form3Example4cg" class="form-control form-control-lg" />
+                  
+                </div>
+
+                <div class="form-outline mb-4">
+                    <h5 class="form-label subtitle" for="form3Example4cg">Preferred Bus Stop</h5>
+                  <input v-model="prefereedbusstop" type="text" id="form3Example4cg" class="form-control form-control-lg" />
+                  
+                </div>
+
+  
+
+                
+
+                <div class="d-flex justify-content-center">
+                  <button type="button"
+                    class="btn background-dark-green btn-block btn-lg gradient-custom-4 text-white subtitle" @click="login">Confirm</button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+      </div>
+    </div>
+  </div>
+   
+
+
+
+
   <!-- use this to access data -->
     
   <!-- link to another page as if using a tag-->
@@ -240,6 +256,7 @@ export default {
       fullname: "",
       username: "",
       eamil: "",
+      prefereedbusstop: ""
     }
   },
 
@@ -332,7 +349,7 @@ export default {
       this.email = path.email;
       this.fullname = path.fullName;
       this.image = path.imageURL;
-      this.pbs = path.preferredBusStop
+      this.prefereedbusstop = path.preferredBusStop
       this.username = path.username
       }
     ).catch ( error => {

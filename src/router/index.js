@@ -14,6 +14,9 @@ import LoginView from '../views/LoginView.vue'
 import UserProfileView from '../views/UserProfileView.vue'
 import ForgetView from '../views/ForgetView.vue'
 import ResetpasswordView from '../views/ResetpasswordView.vue'
+import PhotoView from '../views/PhotoView.vue'
+import ListingguestView from '../views/ListingguestView.vue'
+
 
 
 const router = createRouter({
@@ -67,6 +70,16 @@ const router = createRouter({
       path: '/resetpassword',
       name: 'resetpassword',
       component: ResetpasswordView,
+    },
+    {
+      path: '/photo',
+      name: 'photo',
+      component: PhotoView,
+    },
+    {
+      path: '/listingguest',
+      name: 'listingguest',
+      component: ListingguestView,
     },
   ]
 })
