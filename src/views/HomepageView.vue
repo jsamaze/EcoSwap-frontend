@@ -16,21 +16,33 @@
 
       <!-- heading -->
       <div class="row">
+        <div class="col-2">
+        </div>
         <div class="col">
-          <h1 class="title text-center">Start your eco-journey with EcoSwap today!</h1>
+
+
+          <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h1 class="heading display-4 title text-center mb-3 mt-5 pt-5 ">Start your eco-journey with EcoSwap today!</h1>
+            </div>
+          </div>
+  
+        </div>
+
+        <div class="col-2">
         </div>
       </div>
 
       <!-- button -->
       <div class="row">
-        <div class="col text-center">
-          <button type="button" class="btn btn-success ">SIGN UP NOW</button>
+        <div class="col text-center mb-5">
+          <button type="button" class="btn background-dark-green text-white mt-4 mb-3">SIGN UP NOW</button>
         </div>
       </div>
 
 
       <!-- users have saved part -->
-      <div class="row text-center">
+      <div class="row text-center p-5">
         
         <h1 class="title">Our users have saved...</h1>
         
@@ -43,18 +55,18 @@
 
         <div class="col">
          
-          <p>25%</p>
-          <p>of land in Semakau Landfill</p>
+          <p class="subtitle">25%</p>
+          <p class="subtitle">of land in Semakau Landfill</p>
         </div>
 
         <div class="col">
-          <p>75%</p>
-          <p>of money spent on electronics</p>
+          <p class="subtitle">75%</p>
+          <p class="subtitle">of money spent on electronics</p>
         </div>
 
         <div class="col">
-          <p>75%</p>
-          <p>of water saved from clothes fabrication</p>
+          <p class="subtitle">75%</p>
+          <p class="subtitle">of water saved from clothes fabrication</p>
         </div>
 
         <div class="col">
@@ -64,7 +76,7 @@
       </div>
 
       <!-- about -->
-      <div class="row text-center">
+      <div class="row text-center p-5">
         <h1 class="title">About EcoSwap</h1>
       </div>
 
@@ -75,33 +87,33 @@
         </div>
 
         <div class="col-10">
-          <h5>
+          <h5 class="subtitle">
           OUR MISSIONS
         </h5>
-        <p>Do you know what helps you make your point clear?</p>
-        <h5>OUR GOALS</h5>
-        <ul>
+        <p class="subtitle">Do you know what helps you make your point clear?</p>
+        <h5 class="subtitle">OUR GOALS</h5>
+        <ul class="subtitle">
           <li>first</li>
           <li>first</li>
           <li>first</li>
         </ul>
-        <h5>HOW WE ACHIEVE THEM</h5>
-        <p>And the most important thing: the audience won’t miss the point of your presentation</p>
+        <h5 class="subtitle">HOW WE ACHIEVE THEM</h5>
+        <p class="subtitle">And the most important thing: the audience won’t miss the point of your presentation</p>
         </div>
         
       </div>
 
       <!-- praises from user -->
-      <div class="row text-center">
+      <div class="row text-center p-5">
         <h1 class="title">Praises from our users…</h1>
       </div>
 
-      <div class="row">
+      <div class="row ">
         <div class="col-2">
         </div>
         <div class="col-10">
-          <h5>User123</h5>
-        <p>Mercury is the closest planet to the Sun and the smallest one of them all</p>
+          <h5 class="subtitle">User123</h5>
+        <p class="subtitle">Mercury is the closest planet to the Sun and the smallest one of them all</p>
         </div>  
       </div>
 
@@ -109,8 +121,8 @@
         <div class="col-2">
         </div>
         <div class="col-10">
-          <h5>User456</h5>
-        <p>Mercury is the closest planet to the Sun and the smallest one of them all</p>
+          <h5 class="subtitle">User456</h5>
+        <p class="subtitle">Mercury is the closest planet to the Sun and the smallest one of them all</p>
         </div>  
       </div>
 
@@ -118,8 +130,8 @@
         <div class="col-2">
         </div>
         <div class="col-10">
-          <h5>User789</h5>
-        <p>Mercury is the closest planet to the Sun and the smallest one of them all</p>
+          <h5 class="subtitle">User789</h5>
+        <p class="subtitle">Mercury is the closest planet to the Sun and the smallest one of them all</p>
         </div>  
       </div>
 
@@ -150,6 +162,7 @@
 </style>
 
 <script>
+
 export default {
 
   // this is data, website will reload if this change
