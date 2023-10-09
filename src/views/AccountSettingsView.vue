@@ -12,42 +12,65 @@
   <!-- type your HTML here -->
   <main>
 
-   <div class="container-fluid">
-    <div class="row background">
 
-      <div class="col-4">
-        <section class="vh-100 bg-image background ">
-  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-          <div class="card" style="border-radius: 15px;">
-            <div class="card-body p-5">
-              
+    <div class="container-fluid ">
+      <div class="row background d-flex justify-content-center">
+        
+        <div class='col d-flex justify-content-center'>
+          <div class="white">
+            PUT THE PHOT THING HERE
+            <br>
+            <div class="d-flex justify-content-center">
+                  <button type="button"
+                    class="btn background-dark-green btn-block btn-lg gradient-custom-4 text-white subtitle" @click="login">Upload Photo</button>
+                </div>
+          </div>
+        </div>
+        <div class='col d-flex justify-content-center'>
+          <div class="white p-5">
+            <h1 class="title">Account Settings</h1>
+            <form>
+                
 
-              <form>
-                [PHOTO]
+                <div class="form-outline mb-4">
+                    <h5 class="form-label subtitle" for="username">Username</h5>
+                  <input v-model="username" type="text" id="username" class="form-control form-control-lg" />
+                  
+                </div>
 
+
+                <div class="form-outline mb-4">
+                    <h5 class="form-label subtitle" for="form3Example4cg">Email</h5>
+                  <input v-model="email" type="text" id="form3Example4cg" class="form-control form-control-lg" />
+                  
+                </div>
+
+                <div class="form-outline mb-4">
+                    <h5 class="form-label subtitle" for="form3Example4cg">Preferred Bus Stop</h5>
+                  <input v-model="prefereedbusstop" type="text" id="form3Example4cg" class="form-control form-control-lg" />
+                  
+                </div>
+
+  
+
+                
 
                 <div class="d-flex justify-content-center">
                   <button type="button"
-                    class="btn background-dark-green btn-block btn-lg gradient-custom-4 text-white subtitle" @click="login">Upload/Edit Photo</button>
+                    class="btn background-dark-green btn-block btn-lg gradient-custom-4 text-white subtitle" @click="login">Confirm</button>
                 </div>
               </form>
-
-            </div>
           </div>
+          
         </div>
+        
       </div>
     </div>
-  </div>
-</section>
-      </div>
-
+<!-- 
       <div class="col-8">
         <section class="vh-100 bg-image background">
   <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-    <div class="container h-100">
+    <div class="container-fluid h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
           <div class="card" style="border-radius: 15px;">
@@ -94,9 +117,9 @@
   </div>
 </section>
       </div>
-    </div>
-  </div>
-   
+    
+
+    -->
 
 
 
@@ -110,6 +133,15 @@
 
 <style scoped>
 /* you can also import css files */
+.white{
+  background-color: white;
+  width: 500px;
+  height: 500px;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 40px;
+
+}
 main {
     .profile-pic-wrapper {
     height: 100vh;
