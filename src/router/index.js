@@ -12,10 +12,10 @@ import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 
 import UserProfileView from '../views/UserProfileView.vue'
-import ForgetView from '../views/ForgetView.vue'
-import ResetpasswordView from '../views/ResetpasswordView.vue'
+import ForgotPasswordView from '../views/ForgotPasswordView.vue'
+import ResetPasswordView from '../views/ResetPasswordView.vue'
 import PhotoView from '../views/PhotoView.vue'
-import ListingguestView from '../views/ListingguestView.vue'
+import ListingGuestView from '../views/ListingGuestView.vue'
 
 
 
@@ -62,14 +62,14 @@ const router = createRouter({
       component: HomeGuestView,
     },
     {
-      path: '/forgetpassword',
-      name: 'forgetpassword',
-      component: ForgetView,
+      path: '/forgotpassword',
+      name: 'forgotpassword',
+      component: ForgotPasswordView,
     },
     {
       path: '/resetpassword',
       name: 'resetpassword',
-      component: ResetpasswordView,
+      component: ResetPasswordView,
     },
     {
       path: '/photo',
@@ -79,7 +79,7 @@ const router = createRouter({
     {
       path: '/listingguest',
       name: 'listingguest',
-      component: ListingguestView,
+      component: ListingGuestView,
     },
   ]
 })
