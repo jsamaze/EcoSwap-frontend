@@ -16,13 +16,13 @@
 
   <main>
     <section class="vh-100 bg-image">
-  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3 ">
     <div class="container h-100 pt-5">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-          <div class="card" style="border-radius: 15px;">
+          <div class="card hi" style="border-radius: 15px;">
             <div class="card-body p-5">
-              <h2 class="text-uppercase text-center mb-5 display-6 title">Registration</h2>
+              <h2 class="text-uppercase text-center mb-5 display-6 title ">Registration</h2>
 
               <form>
                 
@@ -110,6 +110,9 @@
 
 
 <style>
+.hi{
+  height: 900px;
+}
 
 </style>
 

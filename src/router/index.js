@@ -7,7 +7,7 @@ import TestView from '../views/TestView.vue'
 import UserMarketplaceView from '../views/UserMarketplaceView.vue'
 
 import MapView from '../views/MapView.vue'
-import HomepageGuestView from '../views/HomepageGuestView.vue'
+import HomeGuestView from '../views/HomeGuestView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 
@@ -59,7 +59,7 @@ const router = createRouter({
     {
       path: '/homepageguest',
       name: 'homepageguest',
-      component: HomepageGuestView.vue,
+      component: HomeGuestView,
     },
     {
       path: '/forgetpassword',

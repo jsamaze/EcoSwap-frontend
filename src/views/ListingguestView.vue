@@ -86,16 +86,11 @@
                                 Giving away a rice cooker purchased 10 years ago. 2L capacity. Limited edition design</p>
                             </div>
 
-                            <br>
-                            <div class="row">
-                                <p class="subtitle">                       
-                                <span class="subtitle">Desciption:</span>
-                                Giving away a rice cooker purchased 10 years ago. 2L capacity. Limited edition design</p>
-                            </div>
+                            
                             <br>
                             <div class="row">
                                 
-                                <h6 class="title">Listed by</h6>
+                                <h6 class="title">Listed by:</h6>
                             </div>
 
                             <div class="row">

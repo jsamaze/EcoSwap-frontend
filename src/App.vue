@@ -9,6 +9,8 @@ import { RouterLink, RouterView } from 'vue-router'
   <header>
     <nav class=" navbar navbar-expand-lg navbar background-green">
   <a class="  navbar-brand subtitle text-white" href="#">EcoSwap</a>
+  <button class="btn btn-outline-light" type="button">Guest</button>
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -17,7 +19,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <a class="nav-item nav-link active subtitle text-white" href="#">Home <span class="sr-only"></span></a>
       <a class="nav-item nav-link subtitle text-white" href="#">Marketplace</a>
       <a class="nav-item nav-link subtitle text-white" href="#">Map</a>
-      <a class="nav-item nav-link float-right subtitle text-white" href="#">Account Settings</a>
+      
     </div>
   </div>
 </nav>
