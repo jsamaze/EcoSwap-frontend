@@ -6,41 +6,65 @@ import { RouterLink, RouterView } from 'vue-router'
 
 
 <template>
+
+<div class="background d-flex flex-column min-vh-100">
   <header>
-    <nav class=" navbar navbar-expand-lg navbar background-green">
-  <a class="  navbar-brand subtitle text-white" href="#">EcoSwap</a>
-  <button class="btn btn-outline-light" type="button">Guest</button>
+      <nav class=" navbar navbar-expand-lg navbar background-green">
+    <a class="  navbar-brand subtitle text-white" href="#">EcoSwap</a>
+    <button class="btn btn-outline-light" type="button">Guest</button>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav ms-auto">
-      <a class="nav-item nav-link active subtitle text-white" href="#">Home <span class="sr-only"></span></a>
-      <a class="nav-item nav-link subtitle text-white" href="#">Marketplace</a>
-      <a class="nav-item nav-link subtitle text-white" href="#">Map</a>
-      
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ms-auto">
+        <a class="nav-item nav-link active subtitle text-white" href="#">Home <span class="sr-only"></span></a>
+        <a class="nav-item nav-link subtitle text-white" href="#">Marketplace</a>
+        <a class="nav-item nav-link subtitle text-white" href="#">Map</a>
+        
+      </div>
     </div>
-  </div>
-</nav>
-
+  </nav>
 
   </header>
 
   <!-- Replaced by component in /router/index.js -->
+  <main>
   <RouterView />
+  </main>
 
-  <footer class="background text-center text-lg-start">
+  <footer class="background text-center text-lg-start mt-auto">
   <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);"> © 2023 EcoSwap
+  <div class="text-center p-3 w-100" style="background-color: rgba(0, 0, 0, 0.2);"> © 2023 EcoSwap
   </div>
 
   <!-- Copyright -->
 </footer>
+
+
+</div>
 </template>
 
 <style>
 /* put CSS here */
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem;    /* Footer height */
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;            /* Footer height */
+}
+
+
+
   .title {
     font-family: 'Libre Bodoni';
   }

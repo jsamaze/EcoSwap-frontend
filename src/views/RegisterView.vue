@@ -10,18 +10,13 @@
 
 <template>
   <!-- type your HTML here -->
- <div class="container-fluid">
- <div class="row background pb-5">
-  <div class="col pb-5">
 
-  <main>
-    <section class="vh-100 bg-image">
-  <div class="mask d-flex align-items-center h-100 gradient-custom-3 ">
-    <div class="container h-100 pt-5">
-      <div class="row d-flex justify-content-center align-items-center h-100">
+  <div class="container">
+      <div class="row  justify-content-center align-items-center ">
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-          <div class="card hi" style="border-radius: 15px;">
-            <div class="card-body p-5">
+          <div class="card w-100 m-3 pb-0 h-auto" style="border-radius: 15px;">
+            <div class="card-body p-5 pb-0 h-50">
+
               <h2 class="text-uppercase text-center mb-5 display-6 title ">Registration</h2>
 
               <form>
@@ -75,35 +70,16 @@
                     class="btn background-dark-green btn-block btn-lg gradient-custom-4 text-white subtitle">Register</button>
                 </div>
 
-                <p class="text-center text-muted mt-5 mb-0 subtitle">Have already an account? <a href="#!"
+                <p class="text-center text-muted mt-5 mb-3 subtitle">Have already an account? <a href="#!"
                     class="fw-bold text-body"><u>Login here</u></a></p>
 
               </form>
 
-            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-</section>
-
-
-
-
-
-
-
-
-
-
-
-  
-  </main>
-</div>
-</div>
- </div>
 
 
 </template>

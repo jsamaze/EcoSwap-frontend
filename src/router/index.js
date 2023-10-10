@@ -26,11 +26,6 @@ const router = createRouter({
   routes: [
     // Step 2. Define the route so you can access
     {
-      path: '/',  //this will be matched on the URL e.g. /test
-      name: 'pageName', //page name
-      component: TestView, //this is the imported view (.vue)
-    },
-    {
       path: '/marketplace',
       name: 'User Marketplace',
       component: UserMarketplaceView,
@@ -53,6 +48,7 @@ const router = createRouter({
     },
     {
       path: '/login',
+      alias: '/', // you can also use this path to access this page
       name: 'login',
       component: LoginView,
     },
