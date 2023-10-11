@@ -242,7 +242,9 @@ export default {
     //don't forget to use this keyword
 
     // this is a reference to the backend URL in .env.local file
-    this.axios.get(`${import.meta.env.VITE_BACKEND}/items/popular`).then( response => { console.log(response); this.items= response.data.data;
+    this.axios.get(`${import.meta.env.VITE_BACKEND}/items/popular`).then( response => { 
+      console.log(response); 
+      this.items= response.data.data;
       }
     ).catch ( error => {
     })

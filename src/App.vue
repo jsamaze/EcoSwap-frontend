@@ -2,6 +2,8 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { useUserStore } from './store/UserStore';
+import { mapStores } from 'pinia';
 </script>
 
 
@@ -9,27 +11,61 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <div class="background d-flex flex-column min-vh-100">
   <header>
-      <nav class=" navbar navbar-expand-lg navbar background-green">
-    <a class="  navbar-brand subtitle text-white" href="#">EcoSwap</a>
-    <button class="btn btn-outline-light" type="button">Guest</button>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+
+      <nav class=" navbar navbar-expand-lg  background-green">
+      <div class="container-fluid">
+    <RouterLink class="  navbar-brand subtitle text-white" to="/">EcoSwap</RouterLink>
+    <button class="btn btn-outline-light" type="button">
+      <span v-if="!this.userStore.username">
+        Guest
+      </span>
+      <span v-else>
+        Hi, {{ userStore.username }}
+      </span>
+    </button>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"   aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav ms-auto">
+      <div class="navbar-nav ">
         <a class="nav-item nav-link active subtitle text-white" href="#">Home <span class="sr-only"></span></a>
         <a class="nav-item nav-link subtitle text-white" href="#">Marketplace</a>
         <a class="nav-item nav-link subtitle text-white" href="#">Map</a>
-        
+
+
+
+        <span v-if="this.userStore.username">
+          <RouterLink class="nav-item nav-link active subtitle text-white" to="/user/settings">Settings</RouterLink>
+        </span>
+
+
+        <button class="btn btn-danger mx-3" v-if="this.userStore.username" @click="logout">
+          Logout
+        </button>
+        <RouterLink to="/register" v-else>
+          <div class="d-grid gap-2">
+            <button class="btn btn-danger mx-3 btn-blk" >
+            Sign In/ Login
+            </button>
+          </div>
+
+        </RouterLink>
+
+
+
       </div>
     </div>
+  </div>
   </nav>
+
 
   </header>
 
   <!-- Replaced by component in /router/index.js -->
-  <main>
+  <main >
   <RouterView />
   </main>
 
@@ -47,21 +83,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <style>
 /* put CSS here */
-#page-container {
-  position: relative;
-  min-height: 100vh;
-}
 
-#content-wrap {
-  padding-bottom: 2.5rem;    /* Footer height */
-}
-
-#footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 2.5rem;            /* Footer height */
-}
 
 
 
@@ -114,6 +136,22 @@ export default {
   data() {
     return {
       // vue things go here
+    }
+  },
+  computed : {
+    ...mapStores(useUserStore)
+  },
+  methods: {
+    goRegister(){
+      this.$router.replace("/register")
+    },
+    logout(){
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/logout`).then(
+        response=>{
+          console.log(response)
+          this.$router.go(0)
+        }
+      )
     }
   }
 }

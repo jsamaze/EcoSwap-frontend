@@ -1,6 +1,7 @@
 <script setup>
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
+import GreenBtn from '../components/GreenBtn.vue';
 
 
   // //this is how you import external css files
@@ -37,8 +38,10 @@
       <!-- button -->
       <div class="row">
         <div class="col text-center mb-5">
-          <button type="button" class="btn background-dark-green text-white mt-4 mb-3">SIGN UP NOW</button>
-        </div>
+          <RouterLink to="/register">
+            <GreenBtn>Sign Up Now!</GreenBtn>
+         </RouterLink>
+          </div>
       </div>
 
 
