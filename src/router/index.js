@@ -20,6 +20,7 @@ import UserPhotoUpdateView from '../views/user/UserPhotoUpdateView.vue'
 
 import AccountSettingsView from '../views/user/AccountSettingsView.vue'
 
+import ChatView from '../views/chat/ChatView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -120,6 +121,17 @@ const router = createRouter({
       path: '/user/settings',
       name : 'account settings',
       component: AccountSettingsView,
+      meta : {
+        needAuth :true,
+      }
+    },
+
+    //F . Chat
+
+    {
+      path: '/chat',
+      name : 'Chat',
+      component: ChatView,
       meta : {
         needAuth :true,
       }

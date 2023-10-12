@@ -35,12 +35,16 @@
       </TextInput>
 </div>
     
-      <button class="btn btn-danger">
+      <!-- <button class="btn btn-danger">
         Request new OTP
-      </button>
+      </button> -->
+
+      <div>
+        To get a new OTP, please go to settings page and change password/verify email
+      </div>
 
     <GreenSubmitBtn class="m-3">
-      Send! (dk wht to say)
+      Submit
     </GreenSubmitBtn>
   </form>
 
@@ -99,7 +103,7 @@ export default {
           })
         }
 
-        this.$toast.success("You have successfully"+( this.passwordReset ?"changed password" : "confirmed email"))
+        this.$toast.success("You have successfully "+( this.passwordReset ?"changed password" : "confirmed email"))
 
         this.$router.push("/login")
 

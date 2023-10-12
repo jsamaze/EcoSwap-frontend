@@ -45,11 +45,13 @@ import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
                 Email : {{  oldEmail }}
               </TextInput>
 
-              Your email is {{ emailVerified ? "" : "not" }}verified
-              <br>
-              Click <GreenBtn>here</GreenBtn> to verify
-              <br>
-              if you change your email, you will need to receive OTP
+              Your email is {{ emailVerified ? "" : "not " }}verified
+              <div v-if="!emailVerified">
+                <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
+              </div>
+              <div>
+                if you change your email, you will need to receive OTP
+              </div>
               <br>
 
 
@@ -102,15 +104,13 @@ export default {
       prefereedbusstop: "",
       about:"",
       src:"",
-      emailVerified
-
+      emailVerified:false
     }
   },
 
   methods: {
     update() {
       // you need to use this in the methods
-      var msg;
 
       var data = {
         fullName: this.fullName,
@@ -130,9 +130,8 @@ export default {
       this.axios.patch(`${import.meta.env.VITE_BACKEND}/user`,data).then(
         response =>{
           if (data.email){
-            this.msg= "Success! Please check your email for OTP"
-            const myModal= new bsModal('#myModal')
-            myModal.show()
+            this.$toast.success( "Success! Please check your email for OTP")
+
             console.log(vm.username)
             this.$router.push({ path: '/otp', query: { username: vm.username } })
           }else {
@@ -143,6 +142,7 @@ export default {
         }
       ).catch (
         e=>{
+          console.log(e)
           this.$toast.error("Fail " + e.response.data.problem )
             // this.$router.go(0) //replace later
         }
@@ -150,6 +150,23 @@ export default {
     },
     changePassword(){
       this.$router.push("/forgotPassword")
+    },
+    verifyEmail(){
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/generateOTP`,{
+        params : {
+          username : this.username
+        }
+      }).then(
+        response => {
+          this.$toast.success( "OTP sent - please check your email")
+          this.$router.push({ path: '/otp', query: { username: this.username } })
+        }
+      ).catch(
+        response => {
+          this.$toast.error("Error in sending OTP")
+          this.email = ''
+        }
+      )
     }
   },
 
@@ -169,7 +186,7 @@ export default {
       this.oldEmail = path.email;
 
       this.newEmail = path.email;
-
+      this.emailVerified = path.emailVerified
       this.fullName = path.fullName;
       this.image = path.imageURL;
       this.prefereedbusstop = path.preferredBusStop

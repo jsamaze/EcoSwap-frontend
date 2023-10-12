@@ -6,6 +6,7 @@ import TextInput from '../../components/TextInput.vue';
 import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
 import { userStore } from '../../main';
 import {mapStores} from 'pinia'
+import { useUserStore } from '../../store/UserStore';
 
   // //this is how you import external css files
   // import "../assets/base.css"
@@ -44,7 +45,7 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
-      email:"",
+      username:"",
     }
   },
 
@@ -74,12 +75,12 @@ export default {
   mounted() {
     if (userStore.username){
       this.username = userStore.username
-      this.forgetPassword
+      this.forgetPassword()
     }
   },
 
   computed: {
-    ...mapStores(userStore)
+    ...mapStores(useUserStore)
   }
 }
 </script>
