@@ -26,10 +26,6 @@
 
   </MiddleCol>
 
-  <Modal>
-    {{ msg }}
-  </Modal>
-
 </template>
 
 <style scoped>
@@ -45,8 +41,6 @@ img {
 import { toRaw } from 'vue';
 import MiddleCol from '../../components/MiddleCol.vue';
 import GreenBtn from '../../components/GreenBtn.vue';
-import Modal from '../../components/Modal.vue'
-import bsModal from 'bootstrap/js/src/modal'
 
 export default {
   data() {
@@ -56,9 +50,7 @@ export default {
       cropperDisplay:'none',
       sendButtonDisplay:false,
       cropper:null,
-
-      msg: null
-    }
+        }
   },
   methods: {
     async pictureUpload (){
@@ -87,6 +79,10 @@ export default {
 
             this.showFileInput=false;
 
+            this.$toast.info("Please crop your photo",{
+              duration: 30000
+            })
+
         }
 
 
@@ -102,16 +98,12 @@ export default {
                     userPhoto:  blob
                 }).then(function (response) {
                 // handle success
-                vm.msg="Picture successfully uploaded"
-                var myModal = new bsModal("#myModal")
-                myModal.show()
+                vm.$toast.success("Picture successfully uploaded")
                 // if okay go to /home
                 vm.$router.push("/user/settings")
             }).catch (function (error){
               console.log(error)
-              vm.msg="Picture failed to be uploaded"
-                var myModal = new bsModal("#myModal")
-                myModal.show()
+              vm.$toast.error("Picture failed to be uploaded")
               vm.$router.push("/user/settings")
             });
             })

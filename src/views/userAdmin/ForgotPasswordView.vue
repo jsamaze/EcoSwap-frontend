@@ -4,9 +4,9 @@
 import MiddleCol from '../../components/MiddleCol.vue';
 import TextInput from '../../components/TextInput.vue';
 import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
-import MyModal from '../../components/Modal.vue'
+import { userStore } from '../../main';
+import {mapStores} from 'pinia'
 
-import bsModal from 'bootstrap/js/src/modal'
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -20,22 +20,15 @@ import bsModal from 'bootstrap/js/src/modal'
 
     <form class="mb-0 p-5" @submit.prevent="forgetPassword">
                 
-                <TextInput v-model="username" type="text" :required="true">
-                  Username
-                </TextInput>
+      <TextInput v-model="username" type="text" :required="true">
+        Username
+      </TextInput>
+      
+      <GreenSubmitBtn>Generate OTP!</GreenSubmitBtn>
 
-
-
-                <GreenSubmitBtn>Generate OTP!</GreenSubmitBtn>
-
-              </form>
+    </form>
 
   </MiddleCol>
-
-<MyModal>
-{{  msg }}
-</MyModal>
-
 
 </template>
 
@@ -52,7 +45,6 @@ export default {
   data() {
     return {
       email:"",
-      msg: "",
     }
   },
 
@@ -64,17 +56,13 @@ export default {
         }
       }).then(
         response => {
-          this.msg = "OTP sent - please check your email"
-          const myModal= new bsModal('#myModal')
-          myModal.show()
+          this.$toast.success( "OTP sent - please check your email")
           this.$router.push({ path: '/otp', query: { username: this.username } })
         }
       ).catch(
         response => {
-          this.msg = "Error in sending OTP"
+          this.$toast.error("Error in sending OTP")
           this.email = ''
-          const myModal= new bsModal('#myModal')
-          myModal.show()
         }
       )
 
@@ -84,7 +72,14 @@ export default {
 
   //any ajax call to start is executed here
   mounted() {
+    if (userStore.username){
+      this.username = userStore.username
+      this.forgetPassword
+    }
+  },
 
+  computed: {
+    ...mapStores(userStore)
   }
 }
 </script>

@@ -52,7 +52,7 @@ const router = createRouter({
       name: 'Forgot Password',
       component: ForgotPasswordView,
       meta : {
-        needAuth :false,
+        needAuth :null,
       }
     },
     {

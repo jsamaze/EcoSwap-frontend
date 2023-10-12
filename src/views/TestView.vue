@@ -10,10 +10,7 @@
 
 <template>
   <!-- type your HTML here -->
-  <main>
 
-
-  </main>
 </template>
 
 <style scoped>
@@ -28,15 +25,12 @@ export default {
 
   // this is data, website will reload if this change
   data() {
-    return {
-      name : "joshua"
-    }
+
   },
 
   methods: {
     test() {
       // you need to use this in the methods
-      this.name =jakob
     }
   },
 
@@ -46,12 +40,6 @@ export default {
     //this happens when u load website
     // dont forget to put the word this
 
-    //dont forget to use this keyword
-                   // this is a reference to the backend URL in .env.local file
-    this.axios.get(`${import.meta.env.VITE_BACKEND}/user/joshua`).then( response => {
-      }
-    ).catch ( error => {
-    })
   }
 }
 </script>

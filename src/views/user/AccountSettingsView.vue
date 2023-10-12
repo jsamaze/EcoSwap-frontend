@@ -1,11 +1,9 @@
 <script setup>
   //import these to access GLOBAL state variables
-  import {RouterLink} from 'vue-router'
+import {RouterLink} from 'vue-router'
 import TextInput from '../../components/TextInput.vue';
 import GreenBtn from '../../components/GreenBtn.vue';
-import bsModal from 'bootstrap/js/src/modal'
 import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
-import Modal from '../../components/Modal.vue'
 
   // //this is how you import external css files
   // import "../assets/base.css"
@@ -40,16 +38,32 @@ import Modal from '../../components/Modal.vue'
               <TextInput v-model="fullName">
                 Full Name
               </TextInput>
+
+              <hr>
               
               <TextInput v-model="newEmail">
                 Email : {{  oldEmail }}
               </TextInput>
+
+              Your email is {{ emailVerified ? "" : "not" }}verified
+              <br>
+              Click <GreenBtn>here</GreenBtn> to verify
+              <br>
               if you change your email, you will need to receive OTP
               <br>
+
+
+              <hr>
 
               <TextInput v-model="prefereedbusstop">
                 Preferred Bus Stop
               </TextInput>
+
+              <hr>
+
+              <GreenBtn @click="changePassword">Change Password</GreenBtn>
+
+              <hr> 
                About
               <textarea v-model="about" rows="6" class = "w-100  mb-3 fs-5">
 
@@ -67,9 +81,7 @@ import Modal from '../../components/Modal.vue'
       </div>
     </div>
 </div>
-<Modal>
-{{ msg }}
-</Modal>
+
 </template>
 
 <style scoped> 
@@ -90,8 +102,7 @@ export default {
       prefereedbusstop: "",
       about:"",
       src:"",
-
-      msg:null,
+      emailVerified
 
     }
   },
@@ -99,6 +110,8 @@ export default {
   methods: {
     update() {
       // you need to use this in the methods
+      var msg;
+
       var data = {
         fullName: this.fullName,
         preferredBusStop: this.prefereedbusstop,
@@ -123,20 +136,20 @@ export default {
             console.log(vm.username)
             this.$router.push({ path: '/otp', query: { username: vm.username } })
           }else {
-            this.msg= "Success!"
-            const myModal= new bsModal('#myModal')
-            myModal.show()
+            this.$toast.success("Success!")
+
             // this.$router.go(0) //replace later
           }
         }
       ).catch (
         e=>{
-          this.msg= "Fail!"
-            const myModal= new bsModal('#myModal')
-            myModal.show()
+          this.$toast.error("Fail " + e.response.data.problem )
             // this.$router.go(0) //replace later
         }
       )
+    },
+    changePassword(){
+      this.$router.push("/forgotPassword")
     }
   },
 

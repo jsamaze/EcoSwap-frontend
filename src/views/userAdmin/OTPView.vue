@@ -1,13 +1,9 @@
 <script setup>
   //import these to access GLOBAL state variables
-  import {RouterLink} from 'vue-router'
   import MiddleCol from '../../components/MiddleCol.vue'
-import GreenBtn from '../../components/GreenBtn.vue';
-import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
-import TextInput from '../../components/TextInput.vue';
-import Modal from '../../components/Modal.vue'
+  import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
+  import TextInput from '../../components/TextInput.vue';
 
-import bsModal from 'bootstrap/js/src/modal'
 
   // //this is how you import external css files
   // import "../assets/base.css"
@@ -50,9 +46,7 @@ import bsModal from 'bootstrap/js/src/modal'
 
   </MiddleCol>
 
-<Modal>
-{{ msg }}
-</Modal>
+
 
 
 
@@ -76,14 +70,13 @@ export default {
       passwordReset:false,
       prevRoute:null,
 
-      msg : null,
     }
   },
 
   methods: {
     async sendOTP() {
       if (this.passwordReset&&this.pw!=this.confirmPw){
-        this.msg = "Password does not match"
+        this.$toast.error("Password does not match")
         this.pw = "";
         this.confirmPw="";
         const myModal= new bsModal('#myModal')
@@ -105,28 +98,26 @@ export default {
             username : this.$route.query.username,
           })
         }
-        this.msg = "Success!"
-        const myModal= new bsModal('#myModal')
-        myModal.show()
 
+        this.$toast.success("You have successfully"+( this.passwordReset ?"changed password" : "confirmed email"))
 
         this.$router.push("/login")
 
 
       } catch (e){
         console.log(e)
+        var msg;
         switch (e.response.status){
           case 401:
-            this.msg = "OTP is expired. Please try again"
+            msg = "OTP is expired. Please try again"
             
 
             break;
           case 500:
-            this.msg = "Error! Please try again later"
+            msg = "Error! Please try again later"
             break;
         }
-        const myModal= new bsModal('#myModal')
-        myModal.show()
+        this.$toast.error(msg)
         this.$router.go(-1)
       }
     }

@@ -8,6 +8,9 @@ import axios from 'axios'
 import {createPinia} from 'pinia'
 import router from './router'
 import {useUserStore} from './store/UserStore'
+import ToastPlugin from 'vue-toast-notification'
+import 'vue-toast-notification/dist/theme-sugar.css'
+
 
 axios.defaults.withCredentials=true;
 
@@ -18,7 +21,7 @@ const pinia = createPinia()
 app.use(pinia)
 export const userStore = useUserStore()
 
-
+app.use(ToastPlugin)
 
 app.use(router)
 

@@ -1,14 +1,8 @@
 <script setup>
-  //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
-import MiddleCol from '../../components/MiddleCol.vue';
-import TextInput from '../../components/TextInput.vue';
-import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue'
-import Modal from '../../components/Modal.vue';
-import bsModal from 'bootstrap/js/src/modal'
-
-  // //this is how you import external css files
-  // import "../assets/base.css"
+  import MiddleCol from '../../components/MiddleCol.vue';
+  import TextInput from '../../components/TextInput.vue';
+  import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue'
 
 </script>
 
@@ -59,9 +53,6 @@ import bsModal from 'bootstrap/js/src/modal'
     </form>
   </MiddleCol>
 
-<Modal>
-{{ msg }}
-</Modal>
 
 </template>
 
@@ -85,12 +76,12 @@ export default {
       email : null,
       fullName : null,
 
-      msg : null,
     }
   },
 
   methods: {
     async register(){
+      var msg;
       try {
         if (this.pw != this.confirmPw){
           throw new Error("Password and Confirm password don't match")
@@ -102,17 +93,12 @@ export default {
             email : this.email,
             fullName : this.fullName
           })
-
-          this.msg = "Register Successful"
           this.$router.push({ path: '/otp', query: { username: this.username } })
-        
+          this.$toast.success("Register Successful")        
       } catch (e){
-        this.msg = "Failed to Register: "
-        this.msg += e.message
+        this.$toast.error( "Failed to Register: " + e.message)
       }
 
-      const myModal= new bsModal('#myModal')
-      myModal.show()
     }
   },
 

@@ -2,10 +2,8 @@
   import { useUserStore } from '../../store/UserStore';
   import { mapStores } from 'pinia';
   import {toRaw} from 'vue';
-  import Modal from '../../components/Modal.vue';
 import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
 import TextInput from '../../components/TextInput.vue';
-import bsModal from 'bootstrap/js/src/modal'
 </script>
 
 <template>
@@ -37,11 +35,6 @@ import bsModal from 'bootstrap/js/src/modal'
         </div>
       </div>
     </div>
-
-<Modal>
-  Failed to log in: 
-    <br>{{ errorMsg }}
-</Modal>
 </template>
 
 <style>
@@ -57,7 +50,6 @@ export default {
       username : null,
       password : null,
 
-      errorMsg : null
     }
   },
 
@@ -78,10 +70,10 @@ export default {
 
         this.$router.push(`/marketplace`)
       }).catch((error)=>{
-        console.log(error)
-        this.errorMsg = error.response.data.problem
-        const myModal= new bsModal('#myModal')
-        myModal.show()
+        console.log(error.response.data.problem)
+
+        this.$toast.error(error.response.data.problem)
+
       })
     }
   },
