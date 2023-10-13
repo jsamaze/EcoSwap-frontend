@@ -182,7 +182,7 @@ export default {
 
 
   //any ajax call to start is executed here
-  mounted() {
+  created() {
     //this happens when u load website
     // dont forget to put the word this
 

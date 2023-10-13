@@ -83,8 +83,7 @@ export default {
         this.$toast.error("Password does not match")
         this.pw = "";
         this.confirmPw="";
-        const myModal= new bsModal('#myModal')
-        myModal.show()
+
         return;
       }
 
@@ -128,7 +127,7 @@ export default {
   },
 
   // where was I from
-  mounted(){
+  created(){
     console.log(window.history.state.back)
 
     switch (window.history.state.back){

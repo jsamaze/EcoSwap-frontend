@@ -61,7 +61,7 @@ export default {
 
 
   //any ajax call to start is executed here
-  mounted() {
+  created() {
 
     //put the javascript inside here
     this.map = L.map('map').setView([1.402382926961625, 103.89701354063448], 13);

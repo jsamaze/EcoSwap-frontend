@@ -87,16 +87,21 @@ export default {
           throw new Error("Password and Confirm password don't match")
         }
 
-          var response = this.axios.post(`${import.meta.env.VITE_BACKEND}/user/register`,{
+          var response = await this.axios.post(`${import.meta.env.VITE_BACKEND}/user/register`,{
             username : this.username,
             password : this.pw,
             email : this.email,
             fullName : this.fullName
           })
           this.$router.push({ path: '/otp', query: { username: this.username } })
-          this.$toast.success("Register Successful")        
+          this.$toast.success("Register Successful")    
+          this.$toast.info("You can add a profile picture. Click me!",{
+            onClick: function(){
+              this.$router.push("/user/photo")
+            }
+          })    
       } catch (e){
-        this.$toast.error( "Failed to Register: " + e.message)
+        this.$toast.error( "Failed to Register: " + e.response.data.problem)
       }
 
     }
@@ -104,7 +109,7 @@ export default {
 
 
 
-  mounted() {
+  created() {
     
   }
 }

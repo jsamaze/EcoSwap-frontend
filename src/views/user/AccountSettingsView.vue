@@ -172,7 +172,7 @@ export default {
 
 
   //any ajax call to start is executed here
-  mounted() {
+  created() {
 
     //dont forget to use this keyword
                    // this is a reference to the backend URL in .env.local file

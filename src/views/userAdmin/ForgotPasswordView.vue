@@ -72,7 +72,7 @@ export default {
 
 
   //any ajax call to start is executed here
-  mounted() {
+  created() {
     if (userStore.username){
       this.username = userStore.username
       this.forgetPassword()
