@@ -105,10 +105,15 @@
 
                             <div class="mb-3"> 
                                 <label for="Desciption" class="form-label title">Desciption</label> 
-                                <input type="text" class="form-control" id="Desciption" placeholder=""> 
+                                 
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea> 
+                               
+                                
+                    
                             </div> 
                             </div>
 
+                           <br>
                            
                             
 

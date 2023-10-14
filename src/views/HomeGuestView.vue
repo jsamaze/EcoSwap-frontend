@@ -39,7 +39,7 @@ import GreenBtn from '../components/GreenBtn.vue';
       <div class="row">
         <div class="col text-center mb-5">
           <RouterLink to="/register">
-            <GreenBtn>Sign Up Now!</GreenBtn>
+            <GreenBtn class="button">Sign Up Now!</GreenBtn>
          </RouterLink>
           </div>
       </div>
@@ -159,6 +159,9 @@ import GreenBtn from '../components/GreenBtn.vue';
 .bg{
   background-color: #eef3db
 ;
+}
+.button{
+  text-decoration: none;
 }
 </style>
 

@@ -5,8 +5,10 @@ import axios from 'axios'
 // Step 1.IMPORT before using
 import ItemListingView from '../views/item/ItemListingView.vue'
 import ItemListingEditingView from '../views/item/ItemListingEditingView.vue'
-
 import ItemWishListView from '../views/item/ItemWishListView.vue'
+import ItemWishListEditingView from '../views/item/ItemWishListEditingView.vue'
+
+
 
 import LoginView from '../views/userAdmin/LoginView.vue'
 import RegisterView from '../views/userAdmin/RegisterView.vue'
@@ -86,9 +88,8 @@ const router = createRouter({
         needAuth :true,
       }
     },
-
     {
-      path: '/item/:itemIdwishlist',
+      path: '/item/:itemId/wishlist',
       name: 'item wish list',
       component: ItemWishListView,
       meta : {
@@ -97,14 +98,15 @@ const router = createRouter({
     },
 
     {
-      path: '/item/::itemIdwishlist/edit',
-      name: 'item wish listedit',
-      component: ItemWishListaEditingView,
+      path: '/item/:itemId/wishlist/edit',
+      name: 'item wish list edit',
+      component: ItemWishListEditingView,
       meta : {
         needAuth :true,
       }
     },
-
+    
+    
     // C. Many item related view
 
     {

@@ -56,9 +56,11 @@
                         </div>
                         <div class="col">
                             <div class="row mt-5">
-                                
-                                <h1 class="title">Rice Cooker</h1>
-                                <!-- <span class="badge text-bg-secondary float-end">Listing</span> -->
+                              <div class="col">
+                                <h1 class="title">Rice Cooker  <span class="badge background-dark-green">Listing</span></h1>
+                               
+                              </div>
+                               
 
                                 
                             </div>
