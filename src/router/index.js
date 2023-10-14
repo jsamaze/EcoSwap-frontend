@@ -4,6 +4,9 @@ import axios from 'axios'
 
 // Step 1.IMPORT before using
 import ItemListingView from '../views/item/ItemListingView.vue'
+import ItemListingEditingView from '../views/item/ItemListingEditingView.vue'
+
+import ItemWishListView from '../views/item/ItemWishListView.vue'
 
 import LoginView from '../views/userAdmin/LoginView.vue'
 import RegisterView from '../views/userAdmin/RegisterView.vue'
@@ -72,6 +75,33 @@ const router = createRouter({
       component: ItemListingView,
       meta : {
         needAuth :false,
+      }
+    },
+
+    {
+      path: '/item/:itemId/edit',
+      name: 'item edit',
+      component: ItemListingEditingView,
+      meta : {
+        needAuth :true,
+      }
+    },
+
+    {
+      path: '/item/:itemIdwishlist',
+      name: 'item wish list',
+      component: ItemWishListView,
+      meta : {
+        needAuth :true,
+      }
+    },
+
+    {
+      path: '/item/::itemIdwishlist/edit',
+      name: 'item wish listedit',
+      component: ItemWishListaEditingView,
+      meta : {
+        needAuth :true,
       }
     },
 
