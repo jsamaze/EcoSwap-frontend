@@ -9,6 +9,39 @@
 <template>
   <!-- type your HTML here -->
 
+  <!-- search bar + filter -->
+
+  <nav class="navbar bg-light sticky-top">
+    <div class="container-fluid">
+      <form class="d-flex" role="search">
+        <input class="form-control me-2 title" type="search" placeholder="Search for..." aria-label="Search">
+        <button class="btn btn-outline-success titleBold" type="submit">Search</button>
+      </form>
+      <div class="dropdown">
+      <button class="btn dropdown-toggle titleBold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Filter
+      </button>
+      <ul class="dropdown-menu">
+        <li class="titleBold">Categories</li>
+        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+          <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btncheck1">Checkbox 1</label>
+
+          <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btncheck2">Checkbox 2</label>
+
+          <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btncheck3">Checkbox 3</label>
+        </div>
+        <li class="titleBold">Tags</li>
+        <li class="dropdown-item subtitle">Action</li>
+        <li class="dropdown-item subtitle">Action</li>
+        <li class="dropdown-item subtitle">Action</li>
+      </ul>
+    </div>
+    </div>
+  </nav>
+
   <!-- promotion carousel -->
   <main>
     <div id="marketplaceCarousel" class="container-fluid carousel slide" data-bs-ride="carousel">
