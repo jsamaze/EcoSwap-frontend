@@ -19,13 +19,13 @@
       </div>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="d-block w-100" alt="...">
+          <img src="/src/assets/images/sergey-pesterev-JV78PVf3gGI-unsplash.jpg" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-          <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="d-block w-100" alt="...">
+          <img src="/src/assets/images/sergey-pesterev-JV78PVf3gGI-unsplash.jpg" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-          <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="d-block w-100" alt="...">
+          <img src="/src/assets/images/sergey-pesterev-JV78PVf3gGI-unsplash.jpg" class="d-block w-100" alt="...">
         </div>
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#marketplaceCarousel" data-bs-slide="prev">
@@ -46,9 +46,9 @@
       <div class="container-fluid scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
         <div class="col-lg-4 col-md-5 col-sm-7" v-for="item in items">
           <div class="card card-block">
-            <img src="..." class="card-img-top mx-3" alt="...">
-            <h5 class="card-title subtitle fs-3 mx-3">{{ item.itemName }}</h5>
-            <p class="card-text subtitle mx-3">
+            <img src="/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg" class="card-img-top" alt="...">
+            <h5 class="card-title subtitle fs-3 mx-3 mt-3">{{ item.itemName }}</h5>
+            <p class="card-text subtitle mx-3 mb-3">
               <span class="subtitleBold">Item category:</span> {{ item.category }}<br>
               <span class="subtitleBold">Item condition:</span> {{ item.condition }} <br>
               <span class="subtitleBold">Item tags:</span> {{ item.tags }}<br>
@@ -66,9 +66,9 @@
       <div class="container-fluid scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
         <div class="col-lg-4 col-md-5 col-sm-7" v-for="item in items">
           <div class="card card-block">
-            <img src="..." class="card-img-top mx-3" alt="...">
-            <h5 class="card-title subtitle fs-3 mx-3">{{ item.itemName }}</h5>
-            <p class="card-text subtitle mx-3">
+            <img src="/src/assets/images/scott-lord-gzjNCA2eON0-unsplash.jpg" class="card-img-top" alt="...">
+            <h5 class="card-title subtitle fs-3 mx-3 mt-3">{{ item.itemName }}</h5>
+            <p class="card-text subtitle mx-3 mb-3">
               <span class="subtitleBold">Item category:</span> {{ item.category }}<br>
               <span class="subtitleBold">Item condition:</span> {{ item.condition }} <br>
               <span class="subtitleBold">Item tags:</span> {{ item.tags }}<br>
@@ -85,7 +85,7 @@
 <style>
 /* you can also import css files */
 #marketplaceCarousel {
-  height: 480px;
+  height: auto;
   margin: 0rem;
   overflow: hidden;
 }
@@ -95,7 +95,7 @@
 }
 
 .card-block{
-	height: 350px;
+	height: fit-content;
   width: fit-content;
 	background-color: #fff;
 	border: none;

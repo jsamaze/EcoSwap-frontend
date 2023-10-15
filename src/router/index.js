@@ -110,7 +110,7 @@ const router = createRouter({
     // C. Many item related view
 
     {
-      path: '/marketplace', //for user to see trending items and search bar
+      path: '/user/marketplace', //for user to see trending items and search bar
       name: 'User Marketplace',
       component: UserMarketPlaceView,
       meta : {
