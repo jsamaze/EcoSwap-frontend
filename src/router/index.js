@@ -125,7 +125,7 @@ const router = createRouter({
       name: 'User Marketplace',
       component: UserMarketplaceView,
       meta : {
-        needAuth :false,
+        needAuth :true,
       }
     },
 
