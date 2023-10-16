@@ -10,6 +10,8 @@ import router from './router'
 import {useUserStore} from './store/UserStore'
 import ToastPlugin from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
+import {LoadingPlugin} from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 
 
 axios.defaults.withCredentials=true;
@@ -24,5 +26,7 @@ export const userStore = useUserStore()
 app.use(ToastPlugin)
 
 app.use(router)
+
+app.use(LoadingPlugin)
 
 app.mount('#app')

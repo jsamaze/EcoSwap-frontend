@@ -17,8 +17,8 @@
         <input class="form-control me-2 title" type="search" placeholder="Search for..." aria-label="Search">
         <button class="btn btn-outline-success titleBold" type="submit">Search</button>
       </form>
-      <div class="dropdown">
-      <button class="btn dropdown-toggle titleBold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <div class="dropdown align-self-start">
+      <button class="nav-item btn dropdown-toggle titleBold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         Filter
       </button>
       <ul class="dropdown-menu">
