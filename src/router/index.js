@@ -7,7 +7,7 @@ import ItemListingView from '../views/item/ItemListingView.vue'
 import ItemListingEditingView from '../views/item/ItemListingEditingView.vue'
 import ItemWishListView from '../views/item/ItemWishListView.vue'
 import ItemWishListEditingView from '../views/item/ItemWishListEditingView.vue'
-
+import ItemOwnerInformationView from '../views/item/ItemOwnerInformationView.vue'
 
 
 import LoginView from '../views/userAdmin/LoginView.vue'
@@ -181,7 +181,15 @@ const router = createRouter({
       }
     },
 
-
+    // Information of the Item Owner of the clicked listing
+    {
+      path: '/user/itemOwnerInformation',
+      name: 'itemOwnerInformation',
+      component: ItemOwnerInformationView,
+      meta : {
+        needAuth :true,
+      }
+    },
 
     //ETC - for not found page
     { 
