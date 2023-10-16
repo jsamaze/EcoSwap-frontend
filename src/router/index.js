@@ -11,6 +11,8 @@ import ItemWishListView from '../views/item/ItemWishListView.vue'
 import ItemWishListEditingView from '../views/item/ItemWishListEditingView.vue'
 import ItemOwnerInformationView from '../views/item/ItemOwnerInformationView.vue'
 import ItemListingView from '../views/item/ItemListingView.vue'
+import ItemListingAddView from '../views/item/ItemListingAddView.vue'
+import ItemWishListAddView from '../views/item/ItemWishListAddView.vue'
 
 
 
@@ -102,9 +104,17 @@ const router = createRouter({
         needAuth :true,
       }
     },
+    {
+      path: '/item/add',
+      name: 'item add',
+      component: ItemListingAddView,
+      meta : {
+        needAuth :true,
+      }
+    },
 
     {
-      path: '/item/:itemId/edit',
+      path: '/item/edit/:itemId',
       name: 'item edit',
       component: ItemListingEditingView,
       meta : {
@@ -112,16 +122,24 @@ const router = createRouter({
       }
     },
     {
-      path: '/item/:itemId/wishlist',
+      path: '/wishlistitem/:itemId',
       name: 'item wish list',
       component: ItemWishListView,
       meta : {
         needAuth :true,
       }
     },
+    {
+      path: '/wishlistitem/add',
+      name: 'item wish list add',
+      component: ItemWishListAddView,
+      meta : {
+        needAuth :true,
+      }
+    },
 
     {
-      path: '/item/:itemId/wishlist/edit',
+      path: '/wishlistitem/edit/:itemId',
       name: 'item wish list edit',
       component: ItemWishListEditingView,
       meta : {
