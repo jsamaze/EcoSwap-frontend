@@ -68,7 +68,7 @@ export default {
         this.userStore.username= response.data.username
         this.userStore.userId= response.data.userId
 
-        this.$router.push(`/marketplace`)
+        this.$router.push(`/user/marketplace`)
       }).catch((error)=>{
         console.log(error.response.data.problem)
 

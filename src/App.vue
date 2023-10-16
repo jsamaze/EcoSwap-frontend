@@ -90,11 +90,24 @@ import { mapStores } from 'pinia';
   .title {
     font-family: 'Libre Bodoni';
   }
+  .titleBold {
+    font-family: 'Libre Bodoni';
+    font-weight: bold;
+  }
+  .titleItalics {
+    font-family: 'Libre Bodoni';
+    font-style: italic;
+  }
   .subtitle {
     font-family: 'Spectral';
   }
-  .subtitlebold {
+  .subtitleBold {
+    font-family: 'Spectral';
     font-weight: bold;
+  }
+  .subtitleItalics {
+    font-family: 'Spectral';
+    font-style: italic;
   }
   .whitefont {
     color: #ffffff;

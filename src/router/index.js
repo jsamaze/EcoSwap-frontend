@@ -15,7 +15,9 @@ import RegisterView from '../views/userAdmin/RegisterView.vue'
 import ForgotPasswordView from '../views/userAdmin/ForgotPasswordView.vue'
 import OTPView from '../views/userAdmin/OTPView.vue'
 
-import UserMarketPlaceView from '../views/item/UserMarketplaceView.vue'
+import UserMarketplaceView from '../views/item/UserMarketplaceView.vue'
+import GuestMarketplaceView from '../views/item/GuestMarketplaceView.vue'
+
 import HomeGuestView from '../views/HomeGuestView.vue'
 
 
@@ -42,7 +44,7 @@ const router = createRouter({
       meta : {
         needAuth :false, // new feature : if true, user must be logged in
                           // if false, user must NOT be logged in
-                          // if null, neither is fine
+                          // if null, either is fine
       }
     },
     {
@@ -107,16 +109,26 @@ const router = createRouter({
     },
     
     
-    // C. Many item related view
+    // C. Marketplace
 
     {
-      path: '/marketplace', //for user to see trending items and search bar
+      path: '/marketplace', // for guests to see trending items and search bar
+      name: 'Guest Marketplace',
+      component: GuestMarketplaceView,
+      meta : {
+        needAuth :false,
+      }
+    },
+
+    {
+      path: '/user/marketplace', // for logged-in users to see trending items, recommended items and search bar
       name: 'User Marketplace',
-      component: UserMarketPlaceView,
+      component: UserMarketplaceView,
       meta : {
         needAuth :true,
       }
     },
+
     // {
     //   path: '/map',
     //   name : 'map',
@@ -127,7 +139,7 @@ const router = createRouter({
     // },
 
 
-    // D. For not logged in users
+    // D. Homepage
     {
       path: '/landing',
       alias:'/',
