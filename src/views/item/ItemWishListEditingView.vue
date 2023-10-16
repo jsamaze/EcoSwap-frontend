@@ -18,39 +18,14 @@
 
             <div class="col">
                 <!-- card -->
-                <div class="card w-75 m-auto my-5  ">
+                <div class="card w-75 m-auto my-5 ">
                 <div class="card-body  ">
                     
                     <a href="#" class="btn background-dark-green text-white"> Back</a>
                     <div class="row">
                         <div class="col">
                             <!-- carousel -->
-                            <div id="marketplaceCarousel" class="container-fluid carousel slide mt-5" data-bs-ride="carousel">
-                                <div class="carousel-indicators">
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                </div>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                    <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item">
-                                    <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item">
-                                    <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="d-block w-100" alt="...">
-                                    </div>
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#marketplaceCarousel" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#marketplaceCarousel" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                                </div>
+                            [PHOTO THING]
 
                             <!-- end carousel -->
                             <div class="row">
@@ -88,10 +63,15 @@
                             </div> 
                             <div class="row">
 
-                            <div class="mb-3"> 
+                              <div class="mb-3"> 
                                 <label for="exampleFormControlInput1" class="form-label title">Tags</label> 
-                                
-                            </div> 
+                                <select class="form-select" >
+                                <option selected>Tags</option>
+                                <option value="1">Kitchen</option>
+                                <option value="2">Essentials</option>
+                                <option value="3">Clothes</option>
+                              </select>
+                            </div>
 
                             </div>
 
