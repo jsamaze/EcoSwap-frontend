@@ -9,6 +9,7 @@ import OtherUserItemListingView from '../views/item/OtherUserItemListingView.vue
 import ItemListingEditingView from '../views/item/ItemListingEditingView.vue'
 import ItemWishListView from '../views/item/ItemWishListView.vue'
 import ItemWishListEditingView from '../views/item/ItemWishListEditingView.vue'
+import ItemOwnerInformationView from '../views/item/ItemOwnerInformationView.vue'
 import ItemListingView from '../views/item/ItemListingView.vue'
 
 
@@ -201,7 +202,15 @@ const router = createRouter({
       }
     },
 
-
+    // Information of the Item Owner of the clicked listing
+    {
+      path: '/user/itemOwnerInformation',
+      name: 'itemOwnerInformation',
+      component: ItemOwnerInformationView,
+      meta : {
+        needAuth :true,
+      }
+    },
 
     //ETC - for not found page
     { 
