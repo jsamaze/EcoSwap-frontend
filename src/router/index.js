@@ -31,6 +31,8 @@ import UserPhotoUpdateView from '../views/user/UserPhotoUpdateView.vue'
 
 import AccountSettingsView from '../views/user/AccountSettingsView.vue'
 
+import MapView from '../views/item/MapView.vue'
+
 import ChatView from '../views/chat/ChatView.vue'
 
 const router = createRouter({
@@ -150,14 +152,15 @@ const router = createRouter({
       }
     },
 
-    // {
-    //   path: '/map',
-    //   name : 'map',
-    //   component: MapView,
-    //   meta : {
-    //     needAuth :true,
-    //   }
-    // },
+    // Maps seems wonky lemme try - Jakob
+    {
+      path: '/map',
+      name : 'map',
+      component: MapView,
+      meta : {
+        needAuth :true,
+      }
+    },
 
 
     // D. Homepage
@@ -204,7 +207,7 @@ const router = createRouter({
 
     // Information of the Item Owner of the clicked listing
     {
-      path: '/user/itemOwnerInformation',
+      path: '/user/:userID',
       name: 'itemOwnerInformation',
       component: ItemOwnerInformationView,
       meta : {

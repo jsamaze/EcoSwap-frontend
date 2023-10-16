@@ -26,7 +26,7 @@
       <!-- Right column with Listed Items and Wishlist Items-->
       <div class="col-8">
         <!--Listed Items-->
-        <div class="row bg-success mh-50">
+        <div class="row bg-success mh-50 fit">
           <h5>Listed Items</h5>
           <br>
           <!-- Card for Listed Items, currently only uses Trending Items-->
@@ -75,6 +75,7 @@ main {
   background-color: aqua;
 }
 
+
 .parent {
   display: flex;
   justify-content: center;
@@ -94,6 +95,28 @@ h5{
   height: 250px;
   width: 250px;
 }
+
+.scrolling-wrapper{
+	overflow-x:auto;
+}
+
+.card-block{
+	height: fit-content;
+  width: fit-content;
+	background-color: #fff;
+	border: none;
+	background-position: center;
+	background-size: cover;
+	transition: all 0.2s ease-in-out !important;
+	border-radius: 24px;
+}
+
+.card-block:hover{
+		transform: translateY(-5px);
+    background-color: lightgray;
+		box-shadow: none;
+		opacity: 0.9;
+	}
 </style>
 
 <script>

@@ -1,7 +1,7 @@
 <script setup>
   //import these to access GLOBAL state variables
-  import '../../node_modules/leaflet/dist/leaflet.css'
-  import L  from 'leaflet'
+  import '/node_modules/leaflet/dist/leaflet.css'
+  import L from 'leaflet'
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -11,6 +11,7 @@
 <template>
   <!-- type your HTML here -->
   <main>
+
     <div class="container">
         <div id="map"></div>
     </div>
