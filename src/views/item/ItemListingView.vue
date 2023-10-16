@@ -25,39 +25,41 @@
                     <div class="row">
                         <div class="col">
                             <!-- carousel -->
-                            <div id="marketplaceCarousel" class="container-fluid carousel slide mt-5" data-bs-ride="carousel">
-                                <div class="carousel-indicators">
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                </div>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                    <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item">
-                                    <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item">
-                                    <img src="src/assets/images/david-becker-OK91o9WcZgQ-unsplash.jpg" class="d-block w-100" alt="...">
-                                    </div>
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#marketplaceCarousel" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#marketplaceCarousel" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                                </div>
+                            <br>
+                            <div id="marketplaceCarousel" class="container-fluid carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            </div>
+                            <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                <img src="/src/assets/images/scott-lord-uX1QIBXbkMA-unsplash.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="/src/assets/images/scott-lord-uX1QIBXbkMA-unsplash.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="/src/assets/images/scott-lord-uX1QIBXbkMA-unsplash.jpg" class="d-block w-100" alt="...">
+                              </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#marketplaceCarousel" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#marketplaceCarousel" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                          </div>
+
 
                             <!-- end carousel -->
                         </div>
                         <div class="col">
                             <div class="row mt-5">
                               <div class="col">
-                                <h1 class="title">Rice Cooker  <span class="badge background-dark-green">Listing</span></h1>
+                                <h1 class="title">Rice Cooker  <span class="badge background-dark-green float-end">Listing</span></h1>
                                
                               </div>
                                
@@ -111,7 +113,7 @@
                             
 
                             <div class="row">
-                                <a href="#" class="btn background-green text-white my-4"> Start Chat!</a>
+                                <a href="#" class="btn background-green text-white my-4 title">Edit Listing</a>
                             </div>
                             
                             

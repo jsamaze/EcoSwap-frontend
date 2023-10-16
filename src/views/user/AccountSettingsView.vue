@@ -19,7 +19,9 @@ import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
         
         <div class='col d-flex justify-content-center'>
           <div class="white">
+            <br><br>
             <img class="w-100" :src="src">
+            <br>
             <br>
             <RouterLink to="/user/photo">
               <GreenBtn>
@@ -31,9 +33,9 @@ import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
         <div class='col d-flex justify-content-center'>
           <div class="white p-5">
             <h1 class="title">Account Settings</h1>
-            <form @submit.prevent="update">
+            <form @submit.prevent="update" class="title">
               
-              Username : {{ username }}
+              <span class="title">Username : {{ username }}</span>
 
               <TextInput v-model="fullName">
                 Full Name
@@ -67,7 +69,7 @@ import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
 
               <hr> 
                About
-              <textarea v-model="about" rows="6" class = "w-100  mb-3 fs-5">
+              <textarea v-model="about" rows="6" class = " form-control w-100  mb-3 fs-5">
 
               </textarea>
 
