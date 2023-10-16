@@ -33,7 +33,11 @@ import UserPhotoUpdateView from '../views/user/UserPhotoUpdateView.vue'
 
 import AccountSettingsView from '../views/user/AccountSettingsView.vue'
 
+import MapView from '../views/item/MapView.vue'
+
 import ChatView from '../views/chat/ChatView.vue'
+
+import MapView from '../views/item/MapView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -168,14 +172,14 @@ const router = createRouter({
       }
     },
 
-    // {
-    //   path: '/map',
-    //   name : 'map',
-    //   component: MapView,
-    //   meta : {
-    //     needAuth :true,
-    //   }
-    // },
+    {
+      path: '/map',
+      name : 'map',
+      component: MapView,
+      meta : {
+        needAuth :true,
+      }
+    },
 
 
     // D. Homepage
@@ -216,13 +220,13 @@ const router = createRouter({
       name : 'Chat',
       component: ChatView,
       meta : {
-        needAuth :true,
+        needAuth :null,
       }
     },
 
     // Information of the Item Owner of the clicked listing
     {
-      path: '/user/itemOwnerInformation',
+      path: '/user/:userID',
       name: 'itemOwnerInformation',
       component: ItemOwnerInformationView,
       meta : {
