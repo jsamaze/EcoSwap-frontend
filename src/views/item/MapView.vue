@@ -1,7 +1,7 @@
 <script setup>
   //import these to access GLOBAL state variables
-  import '/node_modules/leaflet/dist/leaflet.css'
-  import L from 'leaflet'
+  import '../../../node_modules/leaflet/dist/leaflet.css'
+  import L  from 'leaflet'
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -62,7 +62,7 @@ export default {
 
 
   //any ajax call to start is executed here
-  created() {
+  mounted() {
 
     //put the javascript inside here
     this.map = L.map('map').setView([1.402382926961625, 103.89701354063448], 13);

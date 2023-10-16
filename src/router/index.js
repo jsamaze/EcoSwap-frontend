@@ -35,6 +35,8 @@ import MapView from '../views/item/MapView.vue'
 
 import ChatView from '../views/chat/ChatView.vue'
 
+import MapView from '../views/item/MapView.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
 
@@ -152,7 +154,6 @@ const router = createRouter({
       }
     },
 
-    // Maps seems wonky lemme try - Jakob
     {
       path: '/map',
       name : 'map',
@@ -201,7 +202,7 @@ const router = createRouter({
       name : 'Chat',
       component: ChatView,
       meta : {
-        needAuth :true,
+        needAuth :null,
       }
     },
 

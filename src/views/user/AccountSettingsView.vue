@@ -175,12 +175,15 @@ export default {
 
   //any ajax call to start is executed here
   created() {
+    let loader = this.$loading.show({
+                });
 
     //dont forget to use this keyword
                    // this is a reference to the backend URL in .env.local file
     this.axios.get(`${import.meta.env.VITE_BACKEND}/user/joshua`).then( response => {
       // below is all the information taken from response, assigned to this."data"
       console.log(response);
+      loader.hide()
       var path = response.data.data;
 
       this.about = path.about;
