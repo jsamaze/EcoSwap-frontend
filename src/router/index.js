@@ -3,10 +3,14 @@ import {useUserStore} from '../store/UserStore'
 import axios from 'axios'
 
 // Step 1.IMPORT before using
-import ItemListingView from '../views/item/ItemListingView.vue'
+import GuestItemListingView from '../views/item/GuestItemListingView.vue'
+import OtherUserItemListingView from '../views/item/OtherUserItemListingView.vue'
+
 import ItemListingEditingView from '../views/item/ItemListingEditingView.vue'
 import ItemWishListView from '../views/item/ItemWishListView.vue'
 import ItemWishListEditingView from '../views/item/ItemWishListEditingView.vue'
+import ItemOwnerInformationView from '../views/item/ItemOwnerInformationView.vue'
+import ItemListingView from '../views/item/ItemListingView.vue'
 
 
 
@@ -76,11 +80,28 @@ const router = createRouter({
 
     // B. ONE Item related views
     {
+      path: '/guestitem/:itemId',
+      name: 'guest item listing',
+      component: GuestItemListingView,
+      meta : {
+        needAuth :false,
+      }
+    },
+
+    {
+      path: '/otheruseritem/:itemId',
+      name: 'other user item',
+      component: OtherUserItemListingView,
+      meta : {
+        needAuth :true,
+      }
+    },
+    {
       path: '/item/:itemId',
       name: 'item listing',
       component: ItemListingView,
       meta : {
-        needAuth :false,
+        needAuth :true,
       }
     },
 
@@ -183,7 +204,15 @@ const router = createRouter({
       }
     },
 
-
+    // Information of the Item Owner of the clicked listing
+    {
+      path: '/user/itemOwnerInformation',
+      name: 'itemOwnerInformation',
+      component: ItemOwnerInformationView,
+      meta : {
+        needAuth :true,
+      }
+    },
 
     //ETC - for not found page
     { 

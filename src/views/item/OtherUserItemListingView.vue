@@ -55,79 +55,71 @@
 
 
                             <!-- end carousel -->
-                            <div class="row">
-                                <a href="#" class="btn background-green text-white my-4 subtitle"> Upload Photo</a>
-                            </div>
                         </div>
                         <div class="col">
                             <div class="row mt-5">
-                                
-                                <h1 class="title">Edit Listing</h1>
-                                <!-- <span class="badge text-bg-secondary float-end">Listing</span> -->
-
-                                
-                            </div>
-                            <div class="row">
-
-                                 <div class="mb-3"> 
-                                     <label for="name" class="form-label title">Listing Name</label> 
-                                     <input type="text" class="form-control" id="name" placeholder=""> 
-                                 </div> 
-                                
-                              
-                            
-                            </div>
-                            <div class="row">
-
-                            <div class="mb-3"> 
-                                <label for="exampleFormControlInput1" class="form-label title">Category</label> 
-                                <select class="form-select ">
-                                <option selected>Kitchenware</option>
-                                <option value="1">Furniture</option>
-                                <option value="2">Electronics</option>
-                                <option value="3">Clothes</option>
-                                </select>
-                            </div> 
-                            <div class="row">
-
-                            <div class="mb-3"> 
-                                <label for="exampleFormControlInput1" class="form-label title">Tags</label> 
-                                <select class="form-select" >
-                                <option selected>Tags</option>
-                                <option value="1">Kitchen</option>
-                                <option value="2">Essentials</option>
-                                <option value="3">Clothes</option>
-                              </select>
-                                
-                            </div> 
-
-                            </div>
-
-
-                            </div>
-                            
-
-                            
-
-                            <div class="row">
-
-                            <div class="mb-3"> 
-                                <label for="Desciption" class="form-label title">Desciption</label> 
-                                 
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea> 
+                              <div class="col">
+                                <h1 class="title">Rice Cooker  <span class="badge background-dark-green float-end">Listing</span></h1>
                                
+                              </div>
+                               
+
                                 
-                    
-                            </div> 
+                            </div>
+                            <div class="row">
+                                <span class="subtitle">
+                                <span class="subtitle">Category:</span>
+                                Kitchenware</span>
+                            </div>
+                            <div class="row">
+                                <span class="subtitle">
+                                <span class="subtitle">Condition:</span>
+                                Old</span>
+                            </div>
+                            <div class="row">
+                                <span class="subtitle">
+                                <span class="subtitle">Tags:</span>
+                                kitchen, essentials</span>
                             </div>
 
-                           <br>
-                           
+                            <br>
+
+                            <div class="row">
+                                <p class="subtitle">
+                                <span class="subtitle">Desciption:</span>
+                                Giving away a rice cooker purchased 10 years ago. 2L capacity. Limited edition design</p>
+                            </div>
+
+                            
+                            <br>
+                            <div class="row">
+                                
+                                <h6 class="title">Listed by:</h6>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-2">
+                                    picture
+                                </div>
+
+                                <div class="col-10">
+                                    <h6 class="subtitle">ABC</h6>
+                                    <h6 class="subtitle">Preferred bus stop: 04151</h6>
+                                    <h6 class="subtitle">50m away</h6>
+
+                                </div>
+                                
+                            </div>
                             
 
                             <div class="row">
-                                <a href="#" class="btn background-green text-white my-4 subtitle"> Save</a>
+                                <a href="#" class="btn background-green text-white my-4"> Start Chat!</a>
                             </div>
+                            
+                            
+                            
+
+
 
                         </div>
                     </div>
@@ -140,12 +132,19 @@
 
 
 
+
+
+
+
+
+
+ 
+
   </main>
 </template>
 
 <style>
 /* you can also import css files */
-
 .card{
     width: 700px;
     height: 700px;
