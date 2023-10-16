@@ -1,6 +1,7 @@
 <script setup>
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
+  import TextInput from '../../components/TextInput.vue'
 
 
   // //this is how you import external css files
@@ -11,8 +12,6 @@
 <template>
   <!-- type your HTML here -->
   <main>
-
-
     <div class="container-fluid">
         <div class="row background">
 
@@ -20,6 +19,8 @@
                 <!-- card -->
                 <div class="card w-75 m-auto my-5 ">
                 <div class="card-body  ">
+
+                  
                     
                     <a href="#" class="btn background-dark-green text-white"> Back</a>
                     <div class="row">
@@ -65,7 +66,7 @@
 
                               <div class="mb-3"> 
                                 <label for="exampleFormControlInput1" class="form-label title">Tags</label> 
-                                <select class="form-select" >
+                                <select class="form-select" multiselect>
                                 <option selected>Tags</option>
                                 <option value="1">Kitchen</option>
                                 <option value="2">Essentials</option>
