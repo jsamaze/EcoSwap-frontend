@@ -33,8 +33,6 @@ import UserPhotoUpdateView from '../views/user/UserPhotoUpdateView.vue'
 
 import AccountSettingsView from '../views/user/AccountSettingsView.vue'
 
-import MapView from '../views/item/MapView.vue'
-
 import ChatView from '../views/chat/ChatView.vue'
 
 import MapView from '../views/item/MapView.vue'
