@@ -81,23 +81,23 @@ const router = createRouter({
     },
 
     // B. ONE Item related views
-    {
-      path: '/guestitem/:itemId',
-      name: 'guest item listing',
-      component: GuestItemListingView,
-      meta : {
-        needAuth :false,
-      }
-    },
+    // {
+    //   path: '/guestitem/:itemId',
+    //   name: 'guest item listing',
+    //   component: GuestItemListingView,
+    //   meta : {
+    //     needAuth :false,
+    //   }
+    // },
 
-    {
-      path: '/otheruseritem/:itemId',
-      name: 'other user item',
-      component: OtherUserItemListingView,
-      meta : {
-        needAuth :true,
-      }
-    },
+    // {
+    //   path: '/otheruseritem/:itemId',
+    //   name: 'other user item',
+    //   component: OtherUserItemListingView,
+    //   meta : {
+    //     needAuth :true,
+    //   }
+    // },
     {
       path: '/item/:itemId',
       name: 'item listing',
@@ -116,38 +116,38 @@ const router = createRouter({
     },
 
     {
-      path: '/item/edit/:itemId',
+      path: '/item/:itemId/edit',
       name: 'item edit',
       component: ItemListingEditingView,
       meta : {
         needAuth :true,
       }
     },
-    {
-      path: '/wishlistitem/:itemId',
-      name: 'item wish list',
-      component: ItemWishListView,
-      meta : {
-        needAuth :true,
-      }
-    },
-    {
-      path: '/wishlistitem/add',
-      name: 'item wish list add',
-      component: ItemWishListAddView,
-      meta : {
-        needAuth :true,
-      }
-    },
+    // {
+    //   path: '/wishlistitem/:itemId',
+    //   name: 'item wish list',
+    //   component: ItemWishListView,
+    //   meta : {
+    //     needAuth :true,
+    //   }
+    // },
+    // {
+    //   path: '/wishlistitem/add',
+    //   name: 'item wish list add',
+    //   component: ItemWishListAddView,
+    //   meta : {
+    //     needAuth :true,
+    //   }
+    // },
 
-    {
-      path: '/wishlistitem/edit/:itemId',
-      name: 'item wish list edit',
-      component: ItemWishListEditingView,
-      meta : {
-        needAuth :true,
-      }
-    },
+    // {
+    //   path: '/wishlistitem/edit/:itemId',
+    //   name: 'item wish list edit',
+    //   component: ItemWishListEditingView,
+    //   meta : {
+    //     needAuth :true,
+    //   }
+    // },
     
     
     // C. Marketplace

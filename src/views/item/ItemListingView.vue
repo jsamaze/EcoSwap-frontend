@@ -2,6 +2,12 @@
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
 
+  import CustomCarousell from '../../components/CustomCarousell.vue'
+
+  import {mapStores} from 'pinia'
+  import {useUserStore} from '../../store/UserStore'
+
+import Btn from '../../components/Btn.vue'
 
   // //this is how you import external css files
   // import "../assets/base.css"
@@ -21,45 +27,27 @@
                 <div class="card w-75 m-auto my-5  ">
                 <div class="card-body  ">
                     
-                    <a href="#" class="btn background-dark-green text-white"> Back</a>
                     <div class="row">
                         <div class="col">
+                  
+                          <Btn @click="this.$router.go(-1)">
+                            Back
+                          </Btn>
+
                             <!-- carousel -->
                             <br>
-                            <div id="marketplaceCarousel" class="container-fluid carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-indicators">
-                              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                            </div>
-                            <div class="carousel-inner">
-                              <div class="carousel-item active">
-                                <img src="/src/assets/images/scott-lord-uX1QIBXbkMA-unsplash.jpg" class="d-block w-100" alt="...">
-                              </div>
-                              <div class="carousel-item">
-                                <img src="/src/assets/images/scott-lord-uX1QIBXbkMA-unsplash.jpg" class="d-block w-100" alt="...">
-                              </div>
-                              <div class="carousel-item">
-                                <img src="/src/assets/images/scott-lord-uX1QIBXbkMA-unsplash.jpg" class="d-block w-100" alt="...">
-                              </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#marketplaceCarousel" data-bs-slide="prev">
-                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                              <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#marketplaceCarousel" data-bs-slide="next">
-                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                              <span class="visually-hidden">Next</span>
-                            </button>
-                          </div>
+                            <CustomCarousell v-if="images && images.length>0" :images=images>
 
+                            </CustomCarousell>
 
                             <!-- end carousel -->
                         </div>
                         <div class="col">
                             <div class="row mt-5">
                               <div class="col">
-                                <h1 class="title">{{itemName}}  <span class="badge background-dark-green float-end">Listing</span></h1>
+                                <h1 class="title">{{itemName}}  <span class="badge background-dark-green float-end">
+                                  {{ itemType.split(" ")[0] }}
+                                </span></h1>
                                
                               </div>
                                
@@ -78,7 +66,7 @@
                             <div class="row">
                                 <span class="subtitle">
                                 <span class="subtitle">Tags:</span>
-                                kitchen, essentials</span>
+                                  {{ tagsToDisplay }}</span>
                             </div>
 
                             <br>
@@ -87,6 +75,13 @@
                                 <p class="subtitle">
                                 <span class="subtitle">Desciption:</span>
                                 {{description}}</p>
+                            </div>
+
+                            <div class="row">
+                              <p>No of views : {{ views }}</p>
+                              <span><button class="btn btn-warning" @click="likeOrDislike">
+                                        {{ youLike ? "dislike" : "like" }}
+                                     </button> {{ likes }}</span> 
                             </div>
 
                             
@@ -98,7 +93,7 @@
 
                             <div class="row">
                                 <div class="col-2">
-                                    picture
+                                   picture <!--   Joshua : need or not think later -->
                                 </div>
 
                                 <div class="col-10">
@@ -109,9 +104,18 @@
                                 </div>
                                 
                             </div>
-                            <div class="row">
-                                <a href="#" class="btn background-green text-white my-4 title">Edit Listing</a>
+
+                            <!-- display only if the logged in user is the same as item owner -->
+                            <div class="row" v-if="username == this.userStore.username">
+
+                                <RouterLink :to="`/item/${this.$route.params.itemId}/edit`" class="btn btn-success btn-lg gradient-custom-4 text-white subtitle my-4 title">Edit Listing</RouterLink>
                             </div>
+
+                            <!-- can start a chat as long as not my own item -->
+                            <div class="row" v-if="username != this.userStore.username">
+                                <RouterLink :to="`/chat/${this.$route.params.itemId}/${this.username}`" class="btn background-green text-white my-4 title">Start a chat</RouterLink>
+                            </div>
+
 
                         </div>
                     </div>
@@ -144,42 +148,77 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
+
+      itemType : "",
+
       condition : "",
       category : "",
       description : "",
       itemName : "",
       username : "",
-      preferredBusStop: ""
+      preferredBusStop: "",
+      tags: "",
+
+      views:null,
+      likes: null,
+
+      youLike: false,
+
+      images: null,
+
+
     }
   },
 
   methods: {
-    login() {
-      // you need to use this in the methods
-      this.axios.post(`${import.meta.env.VITE_BACKEND}/user/login`,{
-        username: this.username, 
-        password: this.password
-      }). then((response)=>{
-        console.log(response)
-        this.$router.push(`/home`)
-      }).catch((error)=>{
-        console.log(error)
-      })
+    async likeOrDislike(){
+      this.youLike = !this.youLike
+      this.youLike ? this.likes++ : this.likes--
+      try { 
+
+        if (this.youLike){
+          var response = await this.axios.delete(`${import.meta.env.VITE_BACKEND}/item/like/${this.$route.params.itemId}`)
+        } else {
+          var response = await this.axios.post(`${import.meta.env.VITE_BACKEND}/item/like/${this.$route.params.itemId}`)
+        }
+
+
+      } catch (e){
+        this.$toast.warning("issue with liking item")
+        console.log(e)
+        this.youLike = !this.youLike
+      this.youLike ? this.likes++ : this.likes--
+      }
     }
   },
 
-
-  //any ajax call to start is executed here
+  computed : {
+    ...mapStores(useUserStore),
+    tagsToDisplay(){
+      return this.tags.join(', ')
+    }
+  },
 
   created() {
+    var loader = this.$loading.show()
+
     this.axios.get(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}`)
         .then(response => {
-            
-            
+
+            loader.hide()
+
+            this.youLike = response.data.data.userLike ?? false;
+
              this.condition =response.data.data.condition;
              this.category = response.data.data.category;
              this.description = response.data.data.description;
              this.itemName = response.data.data.itemName;
+             this.tags = response.data.data.tags;
+             this.images = response.data.data.photoURL;
+             this.itemType = response.data.data.itemType;
+
+             this.likes = response.data.data.noOfLikes;
+             this.views = response.data.data.views
 
              this.username =response.data.data.user.username;
              this.preferredBusStop=response.data.data.user.preferredBusStop;
@@ -189,7 +228,11 @@ export default {
         })
         .catch( error => {
             console.log(error);
+            this.$toast.error("Item loading error!")
+            this.$router.go(-1)
         });
+    
+    
   }
 }
 
