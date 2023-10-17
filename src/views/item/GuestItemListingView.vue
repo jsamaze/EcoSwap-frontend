@@ -53,27 +53,27 @@
                             </button>
                           </div>
 
+
                             <!-- end carousel -->
                         </div>
                         <div class="col">
                             <div class="row mt-5">
                               <div class="col">
-                                <h1 class="title">Rice Cooker  <span class="badge background-dark-green float-end">Listing</span></h1>
+                                <h1 class="title">{{itemName}}  <span class="badge background-dark-green float-end">Listing</span></h1>
                                
                               </div>
                                
-
                                 
                             </div>
                             <div class="row">
                                 <span class="subtitle">
                                 <span class="subtitle">Category:</span>
-                                Kitchenware</span>
+                                {{category}}</span>
                             </div>
                             <div class="row">
                                 <span class="subtitle">
                                 <span class="subtitle">Condition:</span>
-                                Old</span>
+                                {{ condition }}</span>
                             </div>
                             <div class="row">
                                 <span class="subtitle">
@@ -86,7 +86,7 @@
                             <div class="row">
                                 <p class="subtitle">
                                 <span class="subtitle">Desciption:</span>
-                                Giving away a rice cooker purchased 10 years ago. 2L capacity. Limited edition design</p>
+                                {{description}}</p>
                             </div>
 
                             
@@ -102,23 +102,16 @@
                                 </div>
 
                                 <div class="col-10">
-                                    <h6 class="subtitle">ABC</h6>
-                                    <h6 class="subtitle">Preferred bus stop: 04151</h6>
+                                    <h6 class="subtitle">{{ username }}</h6>
+                                    <h6 class="subtitle">Preferred bus stop: {{ preferredBusStop }}</h6>
                                     <h6 class="subtitle">50m away</h6>
 
                                 </div>
                                 
                             </div>
-                            
-
                             <div class="row">
-                                <a href="#" class="btn background-green text-white my-4"> Start Chat!</a>
+                                <a href="#" class="btn background-green text-white my-4 title">Edit Listing</a>
                             </div>
-                            
-                            
-                            
-
-
 
                         </div>
                     </div>
@@ -130,14 +123,6 @@
     </div>
 
 
-
-
-
-
-
-
-
- 
 
   </main>
 </template>
@@ -159,8 +144,12 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
+      condition : "",
+      category : "",
+      description : "",
+      itemName : "",
       username : "",
-      password : ""
+      preferredBusStop: ""
     }
   },
 
@@ -181,16 +170,28 @@ export default {
 
 
   //any ajax call to start is executed here
-  created() {
-    //this happens when u load website
-    // dont forget to put the word this
 
-    //dont forget to use this keyword
-                   // this is a reference to the backend URL in .env.local file
-    this.axios.get(`${import.meta.env.VITE_BACKEND}/user/joshua`).then( response => {
-      }
-    ).catch ( error => {
-    })
+  created() {
+    this.axios.get(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}`)
+        .then(response => {
+            
+            
+             this.condition =response.data.data.condition;
+             this.category = response.data.data.category;
+             this.description = response.data.data.description;
+             this.itemName = response.data.data.itemName;
+
+             this.username =response.data.data.user.username;
+             this.preferredBusStop=response.data.data.user.preferredBusStop;
+
+             console.log(response.data);
+            console.log(response.data.data.user.username)
+        })
+        .catch( error => {
+            console.log(error);
+        });
   }
 }
+
+
 </script>

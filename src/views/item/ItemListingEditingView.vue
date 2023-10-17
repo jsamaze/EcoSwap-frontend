@@ -71,7 +71,7 @@
 
                                  <div class="mb-3"> 
                                      <label for="name" class="form-label title">Listing Name</label> 
-                                     <input type="text" class="form-control" id="name" placeholder=""> 
+                                     <input type="text" class="form-control" id="name" v-bind:placeholder="itemName"> 
                                  </div> 
                                 
                               
@@ -114,7 +114,7 @@
                             <div class="mb-3"> 
                                 <label for="Desciption" class="form-label title">Desciption</label> 
                                  
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea> 
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-bind:placeholder="itemName"></textarea> 
                                
                                 
                     
@@ -161,8 +161,12 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
+      condition : "",
+      category : "",
+      description : "",
+      itemName : "",
       username : "",
-      password : ""
+      preferredBusStop: ""
     }
   },
 
@@ -184,15 +188,24 @@ export default {
 
   //any ajax call to start is executed here
   created() {
-    //this happens when u load website
-    // dont forget to put the word this
+    this.axios.get(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}`)
+        .then(response => {
+            
+            
+             this.condition =response.data.data.condition;
+             this.category = response.data.data.category;
+             this.description = response.data.data.description;
+             this.itemName = response.data.data.itemName;
 
-    //dont forget to use this keyword
-                   // this is a reference to the backend URL in .env.local file
-    this.axios.get(`${import.meta.env.VITE_BACKEND}/user/joshua`).then( response => {
-      }
-    ).catch ( error => {
-    })
+             this.username =response.data.data.user.username;
+             this.preferredBusStop=response.data.data.user.preferredBusStop;
+
+             console.log(response.data);
+            console.log(response.data.data.user.username)
+        })
+        .catch( error => {
+            console.log(error);
+        });
   }
 }
 </script>

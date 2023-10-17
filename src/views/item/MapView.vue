@@ -11,6 +11,7 @@
 <template>
   <!-- type your HTML here -->
   <main>
+
     <div class="container">
         <div id="map"></div>
     </div>
