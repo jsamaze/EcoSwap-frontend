@@ -214,7 +214,7 @@ export default {
              this.description = response.data.data.description;
              this.itemName = response.data.data.itemName;
              this.tags = response.data.data.tags;
-             this.images = response.data.data.photoURL;
+             this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : ["/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg"];
              this.itemType = response.data.data.itemType;
 
              this.likes = response.data.data.noOfLikes;
