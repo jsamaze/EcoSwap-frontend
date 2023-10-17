@@ -66,10 +66,10 @@ import { mapStores } from 'pinia';
 
   <!-- Replaced by component in /router/index.js -->
   <main >
-  <RouterView />
+  <RouterView class="mt-auto"/>
   </main>
 
-  <footer class="background text-center text-lg-start mt-auto">
+  <footer v-if="this.$route.absolutePath=='/chat'" class="background text-center text-lg-start mt-auto">
   <!-- Copyright -->
   <div class="text-center p-3 w-100" style="background-color: rgba(0, 0, 0, 0.2);"> © 2023 EcoSwap
   </div>

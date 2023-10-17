@@ -4,37 +4,38 @@
   import {toRaw} from 'vue';
 import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
 import TextInput from '../../components/TextInput.vue';
+
+import { Form as VeeForm, Field, ErrorMessage } from 'vee-validate';
+
+import MiddleCol from '../../components/MiddleCol.vue'
+import * as yup from 'yup';
 </script>
 
 <template>
   <!-- type your HTML here -->
+  <MiddleCol>
+    <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
+      <form @submit="handleSubmit($event, login)">
+      <h1 class=" text-center mb-5 title display-5">Login</h1>
 
+      <TextInput  name="username">
+      </TextInput>
+      <TextInput name="password">
+      </TextInput>
+        
+        <GreenSubmitBtn>Login!</GreenSubmitBtn>
 
-    <div class="container">
-      <div class="row  justify-content-center align-items-center ">
-        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-          <div class="card w-100 m-3 pb-0 h-auto" style="border-radius: 15px;">
-            <div class="card-body p-5 pb-0 h-50">
-              <h1 class="text-uppercase text-center  title display-5">Login</h1>
+        <p class="text-center text-muted mt-3 subtitle">Don't have an account? 
+        <RouterLink to="/register" class="fw-bold text-body">Register here</RouterLink>
+      </p>
 
-              <form class="mb-0 p-5" @submit.prevent @submit="login">
-                
-                <TextInput v-model="username" type="text" :required="true">
-                  Username
-                </TextInput>
+      <p class="text-center text-muted mb-3 subtitle">Forgot your password?
+        <RouterLink to="/forgotPassword" class="fw-bold text-body">Click here</RouterLink>
+      </p>
+    </form>
+    </VeeForm>
+  </MiddleCol>
 
-                <TextInput v-model="password" type="password" :required="true">
-                  Password
-                </TextInput>
-
-                <GreenSubmitBtn>Login!</GreenSubmitBtn>
-
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 </template>
 
 <style>
@@ -47,32 +48,30 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
-      username : null,
-      password : null,
-
+      schema :  yup.object({
+        username: yup.string().required(),
+        password: yup.string().required().min(2),
+      })
     }
   },
 
   methods: {
-    login() {
+    login(values) {
       // you need to use this in the methods
-      let data = { password : this.password}
-      if (toRaw(this.username).includes("@")){
-        data.email = this.username
-      } else {
-        data.username = this.username
-      }
 
-      this.axios.post(`${import.meta.env.VITE_BACKEND}/user/login`,data
+      var loader = this.$loading.show()
+
+      this.axios.post(`${import.meta.env.VITE_BACKEND}/user/login`,values
       ). then((response)=>{
+        loader.hide()
         this.userStore.username= response.data.username
         this.userStore.userId= response.data.userId
-
         this.$router.push(`/user/marketplace`)
       }).catch((error)=>{
+        loader.hide()
         console.log(error.response.data.problem)
-
         this.$toast.error(error.response.data.problem)
+        this.$refs.form.resetForm();
 
       })
     }

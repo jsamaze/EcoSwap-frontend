@@ -88,6 +88,7 @@ export default {
 
         },
         send (){
+          var loader = this.$loading.show()
             this.showFileInput=false
             console.log(toRaw(this.cropper));
             var vm = this; 
@@ -97,6 +98,7 @@ export default {
                 this.axios.postForm( `${import.meta.env.VITE_BACKEND}/user/photo/`, {
                     userPhoto:  blob
                 }).then(function (response) {
+                  loader.hide()
                 // handle success
                 vm.$toast.success("Picture successfully uploaded")
                 // if okay go to /home

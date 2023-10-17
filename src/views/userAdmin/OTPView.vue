@@ -3,6 +3,8 @@
   import MiddleCol from '../../components/MiddleCol.vue'
   import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
   import TextInput from '../../components/TextInput.vue';
+  import {Field, Form as VeeForm} from 'vee-validate'
+  import * as yup from 'yup'
 
 
   // //this is how you import external css files
@@ -13,41 +15,34 @@
 <template>
   <!-- type your HTML here -->
 
-  <MiddleCol>
-    <h1 class=" text-center mb-5 title display-5">
-      {{ passwordReset ? "Reset Password" : "Confirm Email" }}
-    </h1>
-
-<form @submit.prevent="sendOTP">
   
-
-
-  <TextInput type="text" maxLength="6" minLength="6" v-model="otp" required="true">
+  <MiddleCol>
+    <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
+      <form @submit="handleSubmit($event, sendOTP)">
+      <h1  class=" text-center mb-5 title display-5">
+        {{ passwordReset ? "Reset Password" : "Confirm Email" }}
+      </h1>
+      <TextInput name="otp">
         One Time Password
       </TextInput>
-<div v-if="passwordReset">
-      <TextInput type="password" v-model="pw" required="true">
-        Password
-      </TextInput>
-
-      <TextInput type="password" v-model="confirmPw" required="true">
+      <div v-if="passwordReset">
+        <TextInput  name="password"></TextInput>
+      <TextInput name="passwordConfirmation">
         Confirm Password
       </TextInput>
-</div>
-    
-      <!-- <button class="btn btn-danger">
-        Request new OTP
-      </button> -->
 
-      <div>
-        To get a new OTP, please go to settings page and change password/verify email
       </div>
 
-    <GreenSubmitBtn class="m-3">
-      Submit
-    </GreenSubmitBtn>
-  </form>
+      <p>
+        To resend OTP, please go to account settings page after you have logged in
+      </p>
 
+        
+        <GreenSubmitBtn>Submit!</GreenSubmitBtn>
+
+
+    </form>
+    </VeeForm>
   </MiddleCol>
 
 
@@ -65,42 +60,49 @@
 <script>
 export default {
 
+  computed : {
+    schema(){
+      var s = {
+        otp : yup.number().min(0).max(999999).required().label("One time password"),
+    }
+
+    if (this.passwordReset){
+      s.password= yup.string().min(8).required(),
+      s.passwordConfirmation= yup
+      .string()
+      .oneOf([yup.ref('password')], 'Passwords do not match')
+      .required()
+    }
+    console.log(s)
+    return yup.object().shape(s)
+  }
+  },
+
   // this is data, website will reload if this change
   data() {
     return {
-      otp :null,
-      pw : null,
-      confirmPw : null,
       passwordReset:false,
       prevRoute:null,
-
-    }
+    
+  }
   },
 
-  methods: {
-    async sendOTP() {
-      if (this.passwordReset&&this.pw!=this.confirmPw){
-        this.$toast.error("Password does not match")
-        this.pw = "";
-        this.confirmPw="";
 
-        return;
-      }
+
+  methods: {
+    async sendOTP(values) {
+      var loader = this.$loading.show()
+      values.username = this.$route.query.username
 
       try{
         var response;
         if (this.passwordReset){
-          response = await this.axios.post(`${import.meta.env.VITE_BACKEND}/user/confirmPassword`,{
-            otp : this.otp,
-            username : this.$route.query.username,
-            password : this.pw
-          })
+          response = await this.axios.post(`${import.meta.env.VITE_BACKEND}/user/confirmPassword`,values)
         } else {
-          response = await this.axios.post(`${import.meta.env.VITE_BACKEND}/user/confirmEmail`,{
-            otp : this.otp,
-            username : this.$route.query.username,
-          })
+          response = await this.axios.post(`${import.meta.env.VITE_BACKEND}/user/confirmEmail`,values)
         }
+
+        loader.hide()
 
         this.$toast.success("You have successfully "+( this.passwordReset ?"changed password" : "confirmed email"))
 
@@ -108,6 +110,8 @@ export default {
 
 
       } catch (e){
+        loader.hide()
+
         console.log(e)
         var msg;
         switch (e.response.status){
@@ -123,7 +127,7 @@ export default {
         this.$toast.error(msg)
         this.$router.go(-1)
       }
-    }
+    },
   },
 
   // where was I from

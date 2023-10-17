@@ -105,6 +105,7 @@ export default {
 
     //Supposed to have an event occur when map is clicked, however it is not working
     function onMapClick(e) {
+      console.log(e)
     alert("You clicked the map at " + e.latlng);
     }
 

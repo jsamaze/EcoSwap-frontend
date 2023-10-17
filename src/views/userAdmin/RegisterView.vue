@@ -3,54 +3,36 @@
   import MiddleCol from '../../components/MiddleCol.vue';
   import TextInput from '../../components/TextInput.vue';
   import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue'
-
+import {Form as VeeForm} from 'vee-validate'
+import * as yup from 'yup'
 </script>
 
 <template>
   <!-- type your HTML here -->
 
   <MiddleCol>
-    <form @submit.prevent="register">
-      <h1 class="text-uppercase text-center  title display-5" >Register</h1>
-
-                
-      <TextInput type="text" v-model="username" required="true">
-        Username
+    <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
+      <form @submit="handleSubmit($event, register)">
+      <h1 class=" text-center mb-5 title display-5">Register</h1>
+      <TextInput  name="username"></TextInput>
+      <TextInput  name="fullName">
+        Full name
       </TextInput>
+      <TextInput  name="email"></TextInput>
 
-      <TextInput type="text" v-model="fullName" required="true">
-        Full Name
-      </TextInput>
-
-      <TextInput type="email" v-model="email" required="true">
-        Email
-      </TextInput>
-
-      <TextInput type="password" v-model="pw" required="true">
-        Password
-      </TextInput>
-
-      <TextInput type="password" v-model="confirmPw" required="true">
+      <TextInput  name="password"></TextInput>
+      <TextInput name="passwordConfirmation">
         Confirm Password
       </TextInput>
-        <br>
-      <!-- <div class="form-check d-flex justify-content-center mb-5">
-        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
-        <label class="form-check-label subtitle" for="form2Example3g">
-          I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
-        </label>
-      </div> -->
 
-      <GreenSubmitBtn>
-        Register
-      </GreenSubmitBtn>
+        
+        <GreenSubmitBtn>Register!</GreenSubmitBtn>
 
-      <p class="text-center text-muted mt-5 mb-3 subtitle">Have already an account? 
+        <p class="text-center text-muted mt-5 mb-3 subtitle">Have already an account? 
         <RouterLink to="/login" class="fw-bold text-body">Login here</RouterLink>
       </p>
-
-
     </form>
+    </VeeForm>
   </MiddleCol>
 
 
@@ -67,50 +49,45 @@
 <script>
 export default {
 
-  // this is data, website will reload if this change
   data() {
     return {
-      username:null,
-      pw:null,
-      confirmPw:null,
-      email : null,
-      fullName : null,
-
-    }
-  },
+      schema :  yup.object().shape({
+      password: yup.string().min(8).required(),
+      passwordConfirmation: yup
+      .string()
+      .required()
+      .oneOf([yup.ref('password')], 'Passwords do not match'),
+      username : yup.string().required(),
+      fullName : yup.string().required(),
+      email: yup.string().email().required(),
+      })
+     }
+    },
 
   methods: {
-    async register(){
+    async register(values){
+      let loader = this.$loading.show({});
       var msg;
-      try {
-        if (this.pw != this.confirmPw){
-          throw new Error("Password and Confirm password don't match")
-        }
-
-          var response = await this.axios.post(`${import.meta.env.VITE_BACKEND}/user/register`,{
-            username : this.username,
-            password : this.pw,
-            email : this.email,
-            fullName : this.fullName
-          })
-          this.$router.push({ path: '/otp', query: { username: this.username } })
+      try{
+          var response = await this.axios.post(`${import.meta.env.VITE_BACKEND}/user/register`,values)
+          this.$router.push({ path: '/otp', query: { username: values.username } })
+          loader.hide()
           this.$toast.success("Register Successful")    
-          this.$toast.info("You can add a profile picture. Click me!",{
+          this.$toast.info("You can add a profile picture in your account settings",{
             onClick: function(){
               this.$router.push("/user/photo")
             }
           })    
       } catch (e){
+        loader.hide()
         this.$toast.error( "Failed to Register: " + e.response.data.problem)
+        this.$refs.form.resetForm();
+
       }
 
     }
   },
 
 
-
-  created() {
-    
-  }
 }
 </script>

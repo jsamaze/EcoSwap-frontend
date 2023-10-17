@@ -8,6 +8,10 @@ import { userStore } from '../../main';
 import {mapStores} from 'pinia'
 import { useUserStore } from '../../store/UserStore';
 
+import {Field, Form as VeeForm} from 'vee-validate'
+  import * as yup from 'yup'
+
+
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -17,17 +21,22 @@ import { useUserStore } from '../../store/UserStore';
   <!-- type your HTML here -->
 
   <MiddleCol>
-    <h1 class="text-uppercase text-center  title display-5">Forgot Password</h1>
 
-    <form class="mb-0 p-5" @submit.prevent="forgetPassword">
-                
-      <TextInput v-model="username" type="text" :required="true">
-        Username
+    <h1 class="text-center mb-5 title display-5">Forgot Password</h1>
+    
+    <VeeForm v-slot="{ handleSubmit }" ref="form" 
+    :initial-values="initialValues" :validation-schema="schema" as="div" class="pb-3">
+      <form @submit="handleSubmit($event, forgetPassword)">
+
+
+    <TextInput name="username">
       </TextInput>
       
       <GreenSubmitBtn>Generate OTP!</GreenSubmitBtn>
 
     </form>
+    </VeeForm>
+
 
   </MiddleCol>
 
@@ -45,25 +54,35 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
-      username:"",
+      schema :  yup.object().shape({
+      username : yup.string().required(),
+      }),
+      username : "",
+      initialValues : {
+        username : null
+      },
     }
   },
 
   methods: {
-    forgetPassword() {
+    forgetPassword(values) {
+      var load = this.$loading.show()
       this.axios.get(`${import.meta.env.VITE_BACKEND}/user/generateOTP`,{
         params : {
-          username : this.username
+          username : values ? values.username : this.username
         }
       }).then(
         response => {
+          load.hide()
           this.$toast.success( "OTP sent - please check your email")
-          this.$router.push({ path: '/otp', query: { username: this.username } })
+          this.$router.push({ path: '/otp', query: { username: values.username } })
         }
       ).catch(
         response => {
+          load.hide()
           this.$toast.error("Error in sending OTP")
-          this.email = ''
+          this.$refs.form.resetForm();
+
         }
       )
 
@@ -74,8 +93,13 @@ export default {
   //any ajax call to start is executed here
   created() {
     if (userStore.username){
-      this.username = userStore.username
-      this.forgetPassword()
+      this.initialValues.username = userStore.username
+    }
+  },
+
+  mounted(){
+    if (userStore.username){
+      this.forgetPassword(this.initialValues)
     }
   },
 

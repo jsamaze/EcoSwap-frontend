@@ -5,6 +5,12 @@ import TextInput from '../../components/TextInput.vue';
 import GreenBtn from '../../components/GreenBtn.vue';
 import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
 
+import { Form as VeeForm } from 'vee-validate'
+
+import * as yup from 'yup'
+
+import { mapStores } from 'pinia';
+import { useUserStore } from '../../store/UserStore';
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -14,13 +20,13 @@ import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
   <!-- type your HTML here -->
 
 
-    <div class="container-fluid ">
-      <div class="row background d-flex justify-content-center">
+    <div class="container-fluid">
+      <div class="row background ">
         
-        <div class='col d-flex justify-content-center'>
-          <div class="white">
+        <div class='col-6 d-flex justify-content-center'>
+          <div class="">
             <br><br>
-            <img class="w-100" :src="src">
+            <img class="w-100 m-3" :src="src">
             <br>
             <br>
             <RouterLink to="/user/photo">
@@ -30,56 +36,57 @@ import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
             </RouterLink>
 
         </div>
-        <div class='col d-flex justify-content-center'>
+      </div>
+
+        <div class='col  justify-content-center'>
           <div class="white p-5">
-            <h1 class="title">Account Settings</h1>
-            <form @submit.prevent="update" class="title">
-              
-              <span class="title">Username : {{ username }}</span>
+     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
+      <form @submit="handleSubmit($event, update)" >
 
-              <TextInput v-model="fullName">
-                Full Name
-              </TextInput>
+        <h1 class="title">Account Settings</h1>
+        You cannot change your username : 
+        <span class="text-center fw-bold">{{ this.userStore.username }}</span>
 
-              <hr>
-              
-              <TextInput v-model="newEmail">
-                Email : {{  oldEmail }}
-              </TextInput>
-
-              Your email is {{ emailVerified ? "" : "not " }}verified
+        <hr>
+        <TextInput  name="fullName">
+          Full name
+        </TextInput>
+        <hr>
+        Your email is {{ emailVerified ? "" : "not " }}verified
               <div v-if="!emailVerified">
                 <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
               </div>
+            <hr>
               <div>
                 if you change your email, you will need to receive OTP
               </div>
-              <br>
+        <TextInput  name="email">
+          Email : {{  oldEmail }}
+        </TextInput>
+        <hr>
 
-
-              <hr>
-
-              <TextInput v-model="prefereedbusstop">
+        
+        <TextInput name="preferredBusStop">
                 Preferred Bus Stop
-              </TextInput>
+          </TextInput>
 
-              <hr>
-
-              <GreenBtn @click="changePassword">Change Password</GreenBtn>
-
-              <hr> 
-               About
-              <textarea v-model="about" rows="6" class = " form-control w-100  mb-3 fs-5">
-
-              </textarea>
-
-
-              <GreenSubmitBtn>
-                Confirm changes
-              </GreenSubmitBtn>
-              </form>
-          </div>
           
+          <hr>
+
+          <GreenBtn @click="changePassword">Change Password</GreenBtn>
+
+          <hr> 
+
+          <TextInput name="about" as="textarea">
+                About
+          </TextInput>
+
+        
+        <GreenSubmitBtn>Save!</GreenSubmitBtn>
+    </form>
+    </VeeForm>
+
+    
         </div>
         
       </div>
@@ -96,47 +103,45 @@ import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
 export default {
 
   // this is data, website will reload if this change
+  computed : {
+    ...mapStores(useUserStore)
+  },
   data() {
-    return {
-      fullName: "",
-      username: "",
 
+    return {
+      initialValues: null,
+      schema : yup.object().shape({
+        fullName : yup.string().required(),
+        preferredBusStop : yup.string().max(5)
+        .test('Digits only', 'The field should have digits only', (value) =>  value.length==0||/^\d+$/.test(value))
+        .label("Preferred Bus Stop"),
+
+                email : yup.string().required().email(),
+      }),
       oldEmail: "",
-      newEmail:"",
-      prefereedbusstop: "",
-      about:"",
       src:"",
       emailVerified:false
     }
   },
 
   methods: {
-    update() {
+    async update(data) {
       // you need to use this in the methods
 
-      var data = {
-        fullName: this.fullName,
-        preferredBusStop: this.prefereedbusstop,
-        about: this.about,
-      }
+      var loader = this.$loading.show()
 
-      if (this.oldEmail != this.newEmail){
+      if (data.email == this.oldEmail){
         data.email = this.newEmail
       }
 
-      console.log(JSON.stringify(data))
-
       var vm = this
-
 
       this.axios.patch(`${import.meta.env.VITE_BACKEND}/user`,data).then(
         response =>{
           if (data.email){
-            this.$toast.success( "Success! Please check your email for OTP")
-
-            console.log(vm.username)
-            this.$router.push({ path: '/otp', query: { username: vm.username } })
+            this.verifyEmail(loader)
           }else {
+            this.load(loader)
             this.$toast.success("Success!")
 
             // this.$router.go(0) //replace later
@@ -144,16 +149,16 @@ export default {
         }
       ).catch (
         e=>{
+          this.load(loader)
           console.log(e)
           this.$toast.error("Fail " + e.response.data.problem )
-            // this.$router.go(0) //replace later
         }
       )
     },
     changePassword(){
       this.$router.push("/forgotPassword")
     },
-    verifyEmail(){
+    async verifyEmail(loader){
       this.axios.get(`${import.meta.env.VITE_BACKEND}/user/generateOTP`,{
         params : {
           username : this.username
@@ -166,40 +171,46 @@ export default {
       ).catch(
         response => {
           this.$toast.error("Error in sending OTP")
-          this.email = ''
         }
-      )
+      ).finally(()=>{
+        loader.hide()
+        this.load()
+      })
+    },
+
+    load(loader){
+      let loader1 = loader ? loader : this.$loading.show();
+
+//dont forget to use this keyword
+               // this is a reference to the backend URL in .env.local file
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`).then( response => {
+        // below is all the information taken from response, assigned to this."data"
+        console.log(response);
+        loader1.hide()
+        var path = response.data.data;
+
+        this.$refs.form.setValues({
+          about : path.about,
+          email : path.email,
+          fullName : path.fullName,
+          preferredBusStop : path.preferredBusStop
+        })
+
+
+        this.oldEmail = path.email;
+        this.emailVerified = path.emailVerified
+        this.username = path.username
+        this.src = path.imageURL
+        }
+      ).catch ( error => {
+      })
     }
   },
 
 
   //any ajax call to start is executed here
   created() {
-    let loader = this.$loading.show({
-                });
-
-    //dont forget to use this keyword
-                   // this is a reference to the backend URL in .env.local file
-    this.axios.get(`${import.meta.env.VITE_BACKEND}/user/joshua`).then( response => {
-      // below is all the information taken from response, assigned to this."data"
-      console.log(response);
-      loader.hide()
-      var path = response.data.data;
-
-      this.about = path.about;
-
-      this.oldEmail = path.email;
-
-      this.newEmail = path.email;
-      this.emailVerified = path.emailVerified
-      this.fullName = path.fullName;
-      this.image = path.imageURL;
-      this.prefereedbusstop = path.preferredBusStop
-      this.username = path.username
-      this.src = path.imageURL
-      }
-    ).catch ( error => {
-    })
+    this.load()
   }
 }
 </script>
