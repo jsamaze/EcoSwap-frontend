@@ -1,6 +1,5 @@
 <script setup>
-  import '../../../node_modules/cropperjs/dist/cropper.js';
-  import '../../../node_modules/cropperjs/dist/cropper.css';
+  import Cropper from 'cropperjs';
 </script>
 
 <template>
