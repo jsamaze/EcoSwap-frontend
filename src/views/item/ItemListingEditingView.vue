@@ -48,7 +48,7 @@
                     </CustomCarousell>
 
                     <!-- end carousel -->
-                    <RouterLink :to='`/item/${this.$route.params.itemId}/addPhoto`'>
+                    <RouterLink v-if="images.length < 5" :to='`/item/${this.$route.params.itemId}/addPhoto`'>
                       <GreenBtn>
                       Add photos
                       </GreenBtn>

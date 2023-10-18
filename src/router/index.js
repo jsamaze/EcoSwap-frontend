@@ -13,7 +13,7 @@ import ItemOwnerInformationView from '../views/item/ItemOwnerInformationView.vue
 import ItemListingView from '../views/item/ItemListingView.vue'
 import ItemListingAddView from '../views/item/ItemListingAddView.vue'
 import ItemWishListAddView from '../views/item/ItemWishListAddView.vue'
-
+import ItemUploadPhotoView from '../views/item/ItemUploadPhotoView.vue'
 
 
 import LoginView from '../views/userAdmin/LoginView.vue'
@@ -101,7 +101,7 @@ const router = createRouter({
     {
       path: '/item/:itemId/addPhoto',
       name: 'item add photo',
-      component: ItemListingView,
+      component: ItemUploadPhotoView,
       meta : {
         needAuth :true,
       }
