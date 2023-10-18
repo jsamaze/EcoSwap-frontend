@@ -85,6 +85,7 @@
               <span class="subtitleBold">Item category:</span> {{ item.category }}<br>
               <span class="subtitleBold">Item condition:</span> {{ item.condition }} <br>
               <span class="subtitleBold">Item tags:</span> {{ item.tags }}<br>
+              <span>Views {{ item.views }}</span>
             </p>
           </div>
         </div>
