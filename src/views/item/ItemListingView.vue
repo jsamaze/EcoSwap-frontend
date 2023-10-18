@@ -93,7 +93,7 @@ import Btn from '../../components/Btn.vue'
 
                             <div class="row">
                                 <div class="col-2">
-                                   picture <!--   Joshua : need or not think later -->
+                                  <img class="w-100" :src="userPhotoURL" v-if="!!userPhotoURL">
                                 </div>
 
                                 <div class="col-10">
@@ -166,6 +166,8 @@ export default {
 
       images: null,
 
+      userPhotoURL : null,
+
 
     }
   },
@@ -189,6 +191,13 @@ export default {
         this.youLike = !this.youLike
       this.youLike ? this.likes++ : this.likes--
       }
+    },
+    getOwnerPhoto(){
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.username}`).then(response =>{
+        this.userPhotoURL = response.data.data.imageURL
+      }).catch(error=>{
+        this.$toast.warning("Failed to fetch owner photo")
+      })
     }
   },
 
@@ -225,6 +234,8 @@ export default {
 
              console.log(response.data);
             console.log(response.data.data.user.username)
+
+            this.getOwnerPhoto()
         })
         .catch( error => {
             console.log(error);

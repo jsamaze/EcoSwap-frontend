@@ -99,6 +99,24 @@ const router = createRouter({
     //   }
     // },
     {
+      path: '/item/:itemId/addPhoto',
+      name: 'item add photo',
+      component: ItemListingView,
+      meta : {
+        needAuth :true,
+      }
+    },
+
+    {
+      path: '/item/:itemId/removePhoto',
+      name: 'item remove photo',
+      component: ItemListingView,
+      meta : {
+        needAuth :true,
+      }
+    },
+
+    {
       path: '/item/:itemId',
       name: 'item listing',
       component: ItemListingView,
@@ -198,7 +216,7 @@ const router = createRouter({
       name: 'User Photo Update',
       component: UserPhotoUpdateView,
       meta : {
-        needAuth :true,
+        needAuth :true,  
       }
     },
 

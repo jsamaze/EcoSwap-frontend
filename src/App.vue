@@ -159,9 +159,11 @@ export default {
       this.$router.replace("/register")
     },
     logout(){
+      var loader = this.$loading.show()
       this.axios.get(`${import.meta.env.VITE_BACKEND}/user/logout`).then(
         response=>{
           console.log(response)
+          loader.hide()
           this.$router.go(0)
         }
       )
