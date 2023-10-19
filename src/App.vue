@@ -1,60 +1,34 @@
 <!-- 3 parts - script, template, style  -->
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import { useUserStore } from './store/UserStore';
 import { mapStores } from 'pinia';
+
+import NavBar from './components/NavBar.vue';
 </script>
 
 
 <template>
-
-<div class="container-fluid px-0">
+    <div class="container-fluid px-0">
   <header>
-    <h2 class="logo titleBold">EcoSwap</h2>
-    <nav class="navigation">
-      <span>
-        <span v-if="!this.userStore.username">
-          <a href="/login" class="active">Guest</a>
-        </span>
-        <span v-if="this.userStore.username">
-          <a href="/user/settings" class="active">Hi, {{ userStore.username }}</a>
-        </span>
-      </span>
-      <span>
-        <span v-if="!this.userStore.username">
-          <a href="/">Home</a>
-        </span>
-        <span v-if="this.userStore.username">
-          <a href="/user/home">Home</a>
-        </span>
-      </span>
-      <span>
-        <span v-if="!this.userStore.username">
-          <a href="/marketplace">Marketplace</a>
-        </span>
-        <span v-if="this.userStore.username">
-          <a href="/user/marketplace">Marketplace</a>
-        </span>
-      </span>
-      <span>
-        <span v-if="!this.userStore.username">
-          <a href="/map">Map</a>
-        </span>
-        <span v-if="this.userStore.username">
-          <a href="/user/map">Map</a>
-        </span>
-      </span>
-    </nav>
+
+    <NavBar ></NavBar>
+
+
+<div style="height: 55px;">
+
+</div>
+
   </header>
 </div>
 
   <!-- Replaced by component in /router/index.js -->
   <main >
-  <RouterView class="mt-auto"/>
+  <RouterView class="mt-auto pt-3"/>
   </main>
 
-  <footer v-if="this.$route.absolutePath=='/chat'" class="background text-center text-lg-start mt-auto">
+  <footer v-if="this.$route.absolutePath!='/chat'" class="background text-center text-lg-start mt-auto">
   <!-- Copyright -->
   <div class="text-center p-3 w-100 subtitle" style="background-color: rgba(0, 0, 0, 0.2);"> © 2023 EcoSwap
   </div>
@@ -66,27 +40,41 @@ import { mapStores } from 'pinia';
 <style>
 /* put CSS here */
 
+header {
+  display:table
+}
+
+
+
   /* nav bar */
-  header {
+ .navigation {
     background-color: #f7f7f7;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 15px 50px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    z-index: 100;
+    /* max-height: 10vh; */
+    /* position: fixed;  */
+    /* top: 0;
+    left: 0; */
+    /* width: 100%;
+    padding: 15px 50px; */
+    /* display: flex; */
+    /* justify-content: flex-start; */
+    /* align-items: center;
+    z-index: 100; */
   }
 
-  .logo {
+  .logo ,h2 {
     color: #359381;
-    pointer-events: none;
-    margin-right: 20px;
+    /* pointer-events: none;
+    margin-right: 20px; */
+
+
   }
 
-  .navigation a {
+  h2:hover {
+    color : white;
+  }
+
+
+  .navigation a,  .active-class {
     text-decoration: none;
     color: #359381;
     padding: 6px 15px;
@@ -96,7 +84,7 @@ import { mapStores } from 'pinia';
   }
 
   .navigation a:hover,
-  .navigation a.active {
+  .navigation a .active,  .active-class {
     background: #359381;
     color: #fff;
   }
@@ -174,6 +162,9 @@ export default {
     ...mapStores(useUserStore)
   },
   methods: {
+    printHeight(e){
+      console.log(e.target.clientHeight)
+    },  
     goRegister(){
       this.$router.replace("/register")
     },

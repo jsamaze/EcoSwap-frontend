@@ -173,7 +173,7 @@ export default {
       this.youLike ? this.likes++ : this.likes--
       try { 
 
-        if (this.youLike){
+        if (!this.youLike){
           var response = await this.axios.delete(`${import.meta.env.VITE_BACKEND}/item/like/${this.$route.params.itemId}`)
         } else {
           var response = await this.axios.post(`${import.meta.env.VITE_BACKEND}/item/like/${this.$route.params.itemId}`)

@@ -13,12 +13,19 @@ body {
     overflow-x: hidden;
 }
 
+section.parallax {
+    overflow: hidden;
+    position: relative;
+}
+
 .parallax {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow: hidden;
+    position: relative;
 }
 
 #text {
@@ -34,6 +41,8 @@ body {
     left: 0;
     width: 100%;
     pointer-events: none;
+    min-height: 100vh;
+    object-fit: cover;
 }
 
 .secFill {
