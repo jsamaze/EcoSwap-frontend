@@ -9,60 +9,45 @@ import { mapStores } from 'pinia';
 
 <template>
 
-<div class="background d-flex flex-column min-vh-100">
+<div class="container-fluid px-0">
   <header>
-
-
-      <nav class=" navbar navbar-expand-lg  background-green">
-      <div class="container-fluid">
-    <RouterLink class="  navbar-brand subtitle text-white" to="/">EcoSwap</RouterLink>
-    <button class="btn btn-outline-light" type="button">
-      <span v-if="!this.userStore.username">
-        Guest
-      </span>
-      <span v-else>
-        Hi, {{ userStore.username }}
-      </span>
-    </button>
-
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"   aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav ">
-        <a class="nav-item nav-link active subtitle text-white" href="#">Home <span class="sr-only"></span></a>
-        <a class="nav-item nav-link subtitle text-white" href="#">Marketplace</a>
-        <a class="nav-item nav-link subtitle text-white" href="#">Map</a>
-
-
-
-        <span v-if="this.userStore.username">
-          <RouterLink class="nav-item nav-link active subtitle text-white" to="/user/settings">Settings</RouterLink>
+    <h2 class="logo titleBold">EcoSwap</h2>
+    <nav class="navigation">
+      <span>
+        <span v-if="!this.userStore.username">
+          <a href="/login" class="active">Guest</a>
         </span>
-
-
-        <button class="btn btn-danger mx-3" v-if="this.userStore.username" @click="logout">
-          Logout
-        </button>
-        <RouterLink to="/register" v-else>
-          <div class="d-grid gap-2">
-            <button class="btn btn-danger mx-3 btn-blk" >
-            Sign In/ Login
-            </button>
-          </div>
-
-        </RouterLink>
-
-
-
-      </div>
-    </div>
-  </div>
-  </nav>
-
-
+        <span v-if="this.userStore.username">
+          <a href="/user/settings" class="active">Hi, {{ userStore.username }}</a>
+        </span>
+      </span>
+      <span>
+        <span v-if="!this.userStore.username">
+          <a href="/">Home</a>
+        </span>
+        <span v-if="this.userStore.username">
+          <a href="/user/home">Home</a>
+        </span>
+      </span>
+      <span>
+        <span v-if="!this.userStore.username">
+          <a href="/marketplace">Marketplace</a>
+        </span>
+        <span v-if="this.userStore.username">
+          <a href="/user/marketplace">Marketplace</a>
+        </span>
+      </span>
+      <span>
+        <span v-if="!this.userStore.username">
+          <a href="/map">Map</a>
+        </span>
+        <span v-if="this.userStore.username">
+          <a href="/user/map">Map</a>
+        </span>
+      </span>
+    </nav>
   </header>
+</div>
 
   <!-- Replaced by component in /router/index.js -->
   <main >
@@ -71,44 +56,78 @@ import { mapStores } from 'pinia';
 
   <footer v-if="this.$route.absolutePath=='/chat'" class="background text-center text-lg-start mt-auto">
   <!-- Copyright -->
-  <div class="text-center p-3 w-100" style="background-color: rgba(0, 0, 0, 0.2);"> © 2023 EcoSwap
+  <div class="text-center p-3 w-100 subtitle" style="background-color: rgba(0, 0, 0, 0.2);"> © 2023 EcoSwap
   </div>
-
-  <!-- Copyright -->
-</footer>
+  </footer>
 
 
-</div>
 </template>
 
 <style>
 /* put CSS here */
 
+  /* nav bar */
+  header {
+    background-color: #f7f7f7;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 100;
+  }
+
+  .logo {
+    color: #359381;
+    pointer-events: none;
+    margin-right: 20px;
+  }
+
+  .navigation a {
+    text-decoration: none;
+    color: #359381;
+    padding: 6px 15px;
+    border-radius: 20px;
+    margin: 0 10px;
+    font-weight: 600;
+  }
+
+  .navigation a:hover,
+  .navigation a.active {
+    background: #359381;
+    color: #fff;
+  }
 
 
-
+  /* fonts */
   .title {
-    font-family: 'Libre Bodoni';
+    font-family: 'Poppins';
   }
   .titleBold {
-    font-family: 'Libre Bodoni';
+    font-family: 'Poppins';
     font-weight: bold;
   }
-  .titleItalics {
-    font-family: 'Libre Bodoni';
-    font-style: italic;
-  }
   .subtitle {
-    font-family: 'Spectral';
+    font-family: 'Poppins';
   }
   .subtitleBold {
-    font-family: 'Spectral';
+    font-family: 'Poppins';
     font-weight: bold;
   }
   .subtitleItalics {
-    font-family: 'Spectral';
+    font-family: 'Poppins';
     font-style: italic;
   }
+
+  /* font size */
+  .text-responsive {
+    font-size: calc(100% + 1vw + 1vh);
+  }
+
+  /* font colours */
   .whitefont {
     color: #ffffff;
   }
