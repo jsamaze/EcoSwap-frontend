@@ -54,7 +54,7 @@ import { mapStores } from 'pinia';
   <RouterView class="mt-auto"/>
   </main>
 
-  <footer v-if="this.$route.absolutePath=='/chat'" class="background text-center text-lg-start mt-auto">
+  <footer  class="background text-center text-lg-start mt-auto">
   <!-- Copyright -->
   <div class="text-center p-3 w-100 subtitle" style="background-color: rgba(0, 0, 0, 0.2);"> © 2023 EcoSwap
   </div>
