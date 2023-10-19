@@ -14,6 +14,7 @@ import ToastPlugin from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
 import {LoadingPlugin} from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
+import { useLoadStore } from './store/InitialLoadStore';
 
 
 axios.defaults.withCredentials=true;
@@ -24,6 +25,7 @@ app.use(VueAxios, axios)
 const pinia = createPinia()
 app.use(pinia)
 export const userStore = useUserStore()
+export const loadStore = useLoadStore()
 
 app.use(ToastPlugin)
 

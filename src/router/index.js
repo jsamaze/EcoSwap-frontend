@@ -38,6 +38,8 @@ import ChatView from '../views/chat/ChatView.vue'
 import MapView from '../views/item/MapView.vue'
 
 import ItemDeletePhotoView from '../views/item/ItemDeletePhotoView.vue'
+import { useLoadStore } from '../store/InitialLoadStore'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -274,10 +276,12 @@ const router = createRouter({
 
 export default router
 
-//IMPORTANT : in privileged pages, there must be at least one privileged AJAX call that can indicate not logged in
+// IMPORTANT : in privileged pages, there must be at least one privileged AJAX call that can indicate not logged in
 
 router.beforeEach(async (to,from)=>{
   const userStore = useUserStore();
+  const loadStore = useLoadStore()
+
 
   var isLoggedIn = !!userStore.username;
   var skip= false
@@ -313,25 +317,27 @@ router.beforeEach(async (to,from)=>{
     }
   }
 
-  
   if (skip){
+    loadStore.loading=false
     return true;
   }
   if (needAuth && !isLoggedIn){
+    loadStore.loading=false
       return { name :'Guest Homepage'}
   } else if (isLoggedIn && !needAuth)  {
+    loadStore.loading=false
     return {name :'User Marketplace'}
     }
   }
 )
 
 
-//IGNORE
-// {
-//   path: '/randomItems', //match
-//   name: 'randomItems',
-//   component: RandomItems, //then put
-//   meta : {
-//     needAuth :true,
-//   }
-// },
+// //IGNORE
+// // {
+// //   path: '/randomItems', //match
+// //   name: 'randomItems',
+// //   component: RandomItems, //then put
+// //   meta : {
+// //     needAuth :true,
+// //   }
+// // },

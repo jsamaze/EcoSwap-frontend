@@ -4,19 +4,29 @@
 import { RouterView } from 'vue-router'
 import { useUserStore } from './store/UserStore';
 import { mapStores } from 'pinia';
-
+import { useLoadStore } from './store/InitialLoadStore';
+import Loading from 'vue-loading-overlay'
 import NavBar from './components/NavBar.vue';
 </script>
 
 
 <template>
+
+  <!-- this is to load the page initially -->
+    <div class="vl-parent">
+        <loading v-model:active="loadStore.loading"
+          loader="bars"/>
+    </div>
+
+
+
     <div class="d-flex flex-column min-vh-100 background">
   <header>
 
     <NavBar ></NavBar>
 
 
-<div style="height: 60px;">
+<div style="height: 60px; background-color: #f7f7f7;;">
   I am here to avoid item hiding behind nav bar
 </div>
 
@@ -27,10 +37,12 @@ import NavBar from './components/NavBar.vue';
   <RouterView class="mt-auto pt-3"/>
   </main>
 
-  <footer v-if="this.$route.absolutePath!='/chat'" class="background text-center text-lg-start mt-auto">
+  <footer v-if="$route.fullPath!='/chat'" class="background text-center text-lg-start mt-auto">
   <!-- Copyright -->
-  <div class="text-center p-3 w-100 subtitle" style="background-color: rgba(0, 0, 0, 0.2);"> © 2023 EcoSwap
+  <div class="text-center p-3 w-100 subtitle" style="background-color: rgba(0, 0, 0, 0.2);"> 
+    © 2023 EcoSwap
   </div>
+  
   </footer>
 
 </div>
@@ -149,15 +161,19 @@ header {
     background-color: #8a9f53;
   }
 
+  /* disable parallax when seeing in mobile */
 
-  html,body:not(.parallax)
+  @media (max-width: 600px) {
+    html,body:not(.parallax)
 {
     width: 100%;
     height: 100%;
     margin: 0px;
     padding: 0px;
-    /* overflow-x: hidden;  */
+    overflow-x: hidden; 
 }
+  }
+
 </style>
 
 <script>
@@ -168,7 +184,7 @@ export default {
     }
   },
   computed : {
-    ...mapStores(useUserStore)
+    ...mapStores(useUserStore, useLoadStore)
   },
   methods: {
     printHeight(e){
@@ -178,6 +194,7 @@ export default {
       this.$router.replace("/register")
     },
     
-  }
+  },
+
 }
 </script>

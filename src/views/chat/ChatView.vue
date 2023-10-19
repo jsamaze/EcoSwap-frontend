@@ -1,7 +1,9 @@
 <template>
-  <section class="chat-container">
-  <aside class="conversations">
-    <button class="conversation p-3">
+  <section class="chat-container" :style="{'height': chatHeight }">
+  <div class="conversations" >
+    <button class="conversation position-sticky top-0">Chats!</button>
+
+    <button class="conversation p-3" >
       <div class="text-start fs-5">
         Joshua   
         <div class="float-end fs-6">27/7</div>
@@ -27,15 +29,15 @@
     <button class="conversation">Item 18</button>
     <button class="conversation">Item 19</button>
     <button class="conversation">Item 20</button>
-  </aside>
-  <header class="p-3">
+  </div>
+  <header class="p-3 m-0">
     <button class="go-back" id='back-button'>◀</button>
     <h2>
       Hyinki
     </h2>
     <button>See items traded</button>
   </header>
-  <div class="messages">
+  <div class="messages" :style="{'height':  convoHeight}">
     <article class="message">
       <article class="msgBox">H!</article>
       <article class="msgTime">27/7, 19:19</article>
@@ -83,16 +85,16 @@
   border: 1px solid pink;
   display: grid;
   grid-template-columns: 290px 1fr;
-  grid-template-rows: 1fr auto 1fr;
+  grid-template-rows: 10vh auto 10vh;
   column-gap: 1rem;
-  height: 90vh;
+  /* height: 90vh; */
   overflow-x: hidden;
 
   column-gap: 0;
 }
 
 .conversations {
-  height: 90vh;
+  /* height: 90vh; */
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -104,7 +106,7 @@
 }
 
 .messages {
-  height: 50vh;
+  /* height: 50vh; */
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -171,9 +173,10 @@ header {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid black;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   padding-inline: 1rem;
-  height:10vh
+  height:10vh;
+  background-color:red
 }
 
 footer {
@@ -233,6 +236,11 @@ h2 {
   font-size: smaller;
 }
 
+footer > * {
+  height:70%;
+  box-sizing: border-box;
+}
+
 </style>
 
 
@@ -240,7 +248,22 @@ h2 {
 import popover from "bootstrap/js/src/popover"
 
 export default {
+  data(){
+    return {
+      height : 0,
+    }
+  },
+
+  computed : {
+    chatHeight(){
+      return this.height-80 + 'px';
+    },
+    convoHeight(){
+      return (this.height-80) -(this.height*0.25) +'px'
+    }
+  },
   mounted(){
+    this.height =  window.innerHeight;
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new popover(popoverTriggerEl))
     
