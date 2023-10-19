@@ -94,7 +94,7 @@ import GreenBtn from '../../components/GreenBtn.vue'
                                 <div class="col-10">
                                     <h6 class="subtitle">{{ username }}</h6>
                                     <h6 class="subtitle">Preferred bus stop: {{ preferredBusStop }}</h6>
-                                    <h6 class="subtitle">50m away</h6>
+                                    <!-- <h6 class="subtitle">50m away</h6> -->
 
                                 </div>
                                 
