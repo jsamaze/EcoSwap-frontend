@@ -8,6 +8,8 @@
   import {useUserStore} from '../../store/UserStore'
 
 import Btn from '../../components/Btn.vue'
+import MiddleCardForListing from '../../components/MiddleCardForListing.vue'
+import GreenBtn from '../../components/GreenBtn.vue'
 
   // //this is how you import external css files
   // import "../assets/base.css"
@@ -16,57 +18,50 @@ import Btn from '../../components/Btn.vue'
 
 <template>
   <!-- type your HTML here -->
-  <main>
+
+    <MiddleCardForListing>
+      <div class="row">
 
 
-    <div class="container-fluid">
-        <div class="row background">
+          <div class="col">
+    
+            <Btn @click="this.$router.go(-1)">
+              Back
+            </Btn>
 
-            <div class="col">
-                <!-- card -->
-                <div class="card w-75 m-auto my-5  ">
-                <div class="card-body  ">
-                    
-                    <div class="row">
+              <br>
+              <CustomCarousell v-if="images && images.length>0" :images=images>
+
+              </CustomCarousell>
+
+          </div>
                         <div class="col">
-                  
-                          <Btn @click="this.$router.go(-1)">
-                            Back
-                          </Btn>
 
-                            <!-- carousel -->
-                            <br>
-                            <CustomCarousell v-if="images && images.length>0" :images=images>
-
-                            </CustomCarousell>
-
-                            <!-- end carousel -->
-                        </div>
-                        <div class="col">
-                            <div class="row mt-5">
-                              <div class="col">
-                                <h1 class="title">{{itemName}}  <span class="badge background-dark-green float-end">
-                                  {{ itemType.split(" ")[0] }}
-                                </span></h1>
-                               
-                              </div>
-                               
-                                
+                          <div class="row mt-5">
+                            <div class="col">
+                              <h1 class="title">{{itemName}}  <span class="badge background-dark-green float-end">
+                                {{ itemType }}
+                              </span></h1>
+                              
+                            </div>  
                             </div>
+
                             <div class="row">
                                 <span class="subtitle">
                                 <span class="subtitle">Category:</span>
                                 {{category}}</span>
                             </div>
+
                             <div class="row">
                                 <span class="subtitle">
                                 <span class="subtitle">Condition:</span>
                                 {{ condition }}</span>
                             </div>
+
                             <div class="row">
                                 <span class="subtitle">
                                 <span class="subtitle">Tags:</span>
-                                  {{ tagsToDisplay }}</span>
+                                  {{ tags }}</span>
                             </div>
 
                             <br>
@@ -105,30 +100,30 @@ import Btn from '../../components/Btn.vue'
                                 
                             </div>
 
-                            <!-- display only if the logged in user is the same as item owner -->
-                            <div class="row" v-if="username == this.userStore.username">
+                            <div class="row" v-if="username == userStore.username">
+                              <RouterLink :to="`/item/${$route.params.itemId}/edit`">
+                                <GreenBtn >
+                                    Edit Listing
+                                  </GreenBtn>
+                              </RouterLink>
 
-                                <RouterLink :to="`/item/${this.$route.params.itemId}/edit`" class="btn btn-success btn-lg gradient-custom-4 text-white subtitle my-4 title">Edit Listing</RouterLink>
                             </div>
 
-                            <!-- can start a chat as long as not my own item -->
-                            <div class="row" v-if="username != this.userStore.username">
-                                <RouterLink :to="`/chat/${this.$route.params.itemId}/${this.username}`" class="btn background-green text-white my-4 title">Start a chat</RouterLink>
+
+                            <div class="row" v-if="username != userStore.username && itemType != 'WishList'">
+                                <RouterLink :to="`/chat/${$route.params.itemId}`">
+                                  <GreenBtn>
+                                    StartChat
+                                  </GreenBtn>
+                                </RouterLink>
                             </div>
 
 
                         </div>
                     </div>
-                </div>
-                </div>
-                <!-- card end -->
-            </div>
-        </div>
-    </div>
+    </MiddleCardForListing>
 
 
-
-  </main>
 </template>
 
 <style>
@@ -203,12 +198,21 @@ export default {
 
   computed : {
     ...mapStores(useUserStore),
-    tagsToDisplay(){
-      return this.tags.join(', ')
-    }
+    // tagsToDisplay(){
+    //   return this.tags.join(', ')
+    // }
   },
 
   created() {
+
+    // this.$watch(
+    //   () => this.$route.params.itemId,
+    //   (toParams, previousParams) => {
+    //     console.log("cat")
+    //     this.$router.go(0)
+    //   }
+    // )
+
     var loader = this.$loading.show()
 
     this.axios.get(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}`)
@@ -222,7 +226,7 @@ export default {
              this.category = response.data.data.category;
              this.description = response.data.data.description;
              this.itemName = response.data.data.itemName;
-             this.tags = response.data.data.tags;
+             this.tags = response.data.data.tags.join(", ");
              this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : ["/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg"];
              this.itemType = response.data.data.itemType;
 

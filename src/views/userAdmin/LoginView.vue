@@ -19,6 +19,7 @@ import * as yup from 'yup';
       <h1 class=" text-center mb-5 title display-5">Login</h1>
 
       <TextInput  name="username">
+        Username or Email
       </TextInput>
       <TextInput name="password">
       </TextInput>

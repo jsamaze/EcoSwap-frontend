@@ -5,7 +5,7 @@
 <template>
                     <div class="d-flex justify-content-center">
                   <input type="submit"
-                    class="btn btn-success  btn-lg gradient-custom-4 text-white subtitle" 
+                    class="btn btn-success  btn-lg gradient-custom-4 text-white subtitle my-3" 
                     :value="$slots.default()[0].children"> 
                 </div>
 </template>

@@ -16,6 +16,7 @@
   import {mapStores} from 'pinia'
 
   import * as yup from 'yup'
+import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
     // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -23,18 +24,9 @@
 
 <template>
   <!-- type your HTML here -->
-  <main>
+      <MiddleCardForListing>
 
-
-    <div class="container-fluid">
-        <div class="row background">
-
-            <div class="col">
-                <!-- card -->
-                <div class="card w-75 m-auto my-5  ">
-                <div class="card-body  ">
-                    
-                    <div class="row">
+        <div class="row">
                       <div class="col">
                   
                   <Btn @click="this.$router.go(-1)">
@@ -118,16 +110,8 @@
     </VeeForm>
                         </div>
                     </div>
-                </div>
-                </div>
-                <!-- card end -->
-            </div>
-        </div>
-    </div>
+      </MiddleCardForListing>
 
-
-
-  </main>
 </template>
 
 <style>
