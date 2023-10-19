@@ -10,21 +10,20 @@ import NavBar from './components/NavBar.vue';
 
 
 <template>
-    <div class="container-fluid px-0">
+    <div class="d-flex flex-column min-vh-100 background">
   <header>
 
     <NavBar ></NavBar>
 
 
-<div style="height: 55px;">
-
+<div style="height: 60px;">
+  I am here to avoid item hiding behind nav bar
 </div>
 
   </header>
-</div>
 
   <!-- Replaced by component in /router/index.js -->
-  <main >
+  <main class="" >
   <RouterView class="mt-auto pt-3"/>
   </main>
 
@@ -34,7 +33,7 @@ import NavBar from './components/NavBar.vue';
   </div>
   </footer>
 
-
+</div>
 </template>
 
 <style>
@@ -149,6 +148,16 @@ header {
   .background-green{
     background-color: #8a9f53;
   }
+
+
+  html,body:not(.parallax)
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    /* overflow-x: hidden;  */
+}
 </style>
 
 <script>
@@ -168,16 +177,7 @@ export default {
     goRegister(){
       this.$router.replace("/register")
     },
-    logout(){
-      var loader = this.$loading.show()
-      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/logout`).then(
-        response=>{
-          console.log(response)
-          loader.hide()
-          this.$router.go(0)
-        }
-      )
-    }
+    
   }
 }
 </script>

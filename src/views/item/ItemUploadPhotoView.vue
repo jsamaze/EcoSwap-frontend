@@ -53,6 +53,9 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                 </div>
                         <div class="col">
 
+                          <h1 class="title">Add photo to listing</h1>
+
+
       <!-- Component 1 of this page - the file upload button -->
       <div class="mb-3" v-show="showFileInput">
         <label for="formFile" class="form-label">Upload one photo</label>
@@ -73,11 +76,9 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
     </div>
 
     <div v-show="optionsShow">
-      <RouterLink :to='`/item/${this.$route.params.itemId}/addPhoto`'>
-        <GreenBtn>
+        <GreenBtn @click="$router.go(0)">
         Upload another photo
       </GreenBtn >
-      </RouterLink >
 
       <RouterLink :to='`/item/${this.$route.params.itemId}/edit`'>
         <GreenBtn>

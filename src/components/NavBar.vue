@@ -2,7 +2,7 @@
 
 <template>
 
-    <nav class="navbar navbar-expand-lg fixed-top navigation" >
+    <nav class="navbar navbar-expand-lg fixed-top navigation pe-3" style="width: 100vw;" >
       <router-link class="navbar-brand" to="/">
         <h2 class="logo titleBold">EcoSwap</h2>
       </router-link>
@@ -38,6 +38,18 @@ import { mapStores } from 'pinia';
 export default {
     computed: {
         ...mapStores(useUserStore)
+    },
+    methods : {
+      logout(){
+      var loader = this.$loading.show()
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/logout`).then(
+        response=>{
+          console.log(response)
+          loader.hide()
+          this.$router.go(0)
+        }
+      )
+    }
     }
 }
 

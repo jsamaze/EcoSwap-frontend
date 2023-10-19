@@ -134,6 +134,10 @@ import GreenBtn from '../components/GreenBtn.vue';
 .button{
   text-decoration: none;
 }
+
+/* .parallax img, .parallax, .container-fluid{
+  overflow-x: visible;
+} */
 </style>
 
 <script>

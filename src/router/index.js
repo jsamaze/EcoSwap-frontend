@@ -37,6 +37,8 @@ import ChatView from '../views/chat/ChatView.vue'
 
 import MapView from '../views/item/MapView.vue'
 
+import ItemDeletePhotoView from '../views/item/ItemDeletePhotoView.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
 
@@ -106,7 +108,14 @@ const router = createRouter({
         needAuth :true,
       }
     },
-
+    {
+      path: '/item/:itemId/deletePhoto',
+      name: 'item delete photo',
+      component: ItemDeletePhotoView,
+      meta : {
+        needAuth :true,
+      }
+    },
     {
       path: '/item/:itemId/removePhoto',
       name: 'item remove photo',

@@ -25,71 +25,33 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 </script>
 
+
+
 <template>
   <!-- type your HTML here -->
 
 
   <MiddleCardForListing>
-    <div class="row">
-                      <div class="col">
-                  
-                  <Btn @click="this.$router.go(-1)">
-                    Back
-                  </Btn>
+    <h1 class="title text-center">Delete Photo from Listing</h1>
+    <div class="row justify-content-center">
 
-                    <!-- carousel -->
-                    <br>
-                    <CustomCarousell v-if="images && images.length>0" :images=images>
-
-                    </CustomCarousell>
-
-                    <!-- end carousel -->
-
-                    <RouterLink :to='`/item/${this.$route.params.itemId}/deletePhoto`'>
-                    <GreenBtn v-if="images[0] != '/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg'">
-                      Delete photos
-                    </GreenBtn>
-                    </RouterLink>
-                </div>
-                        <div class="col">
-
-      <!-- Component 1 of this page - the file upload button -->
-      <div class="mb-3" v-show="showFileInput">
-        <label for="formFile" class="form-label">Upload one photo</label>
-        <input class="form-control " id="formFile" type="file" ref="fileInput" name="avatar" v-show="showFileInput" accept="image/*" @change="pictureUpload()" />
-      </div>
-
-      <div v-show="!optionsShow">
-      <div id="cropper" :style="{display:cropperDisplay}">
-            <!--  Component 2 of this page the part where you crop - the cropper is put on this img element -->
-            <!-- dont use v-if -->
-            <img ref="imageCrop" src="" class="img-fluid" alt="Picture" v-show="showCanvas" :style="{display:'block', maxWidth:'100%'}">
-      </div>
-
-      <GreenBtn @click="send" id="SendButton" v-if="sendButtonDisplay">
-        Send!
-      </GreenBtn>
+        <div class="col-4 p-3"  v-for="img, idx in images">
+            <div class="img-wrap">
+            <span class="close" @click="deletePhoto(idx)">&times;</span>
+            <img :src="img" class="w-100" style="min-width: 100%;">
+        </div>
+        </div>
 
     </div>
 
-    <div v-show="optionsShow">
-      <RouterLink :to='`/item/${this.$route.params.itemId}/addPhoto`'>
+    <RouterLink :to="`/item/${$route.params.itemId}/edit`">
         <GreenBtn>
-        Upload another photo
-      </GreenBtn >
-      </RouterLink >
+        Go back to editing listing
+        </GreenBtn>
+    </RouterLink>
 
-      <RouterLink :to='`/item/${this.$route.params.itemId}/edit`'>
-        <GreenBtn>
-        Edit other parts of listing
-      </GreenBtn>
-      </RouterLink>
-
-    </div>
-
-
-                        </div>
-                    </div>
+    
+    
   </MiddleCardForListing>
                     
 
@@ -97,15 +59,35 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 </template>
 
-<style>
-/* you can also import css files */
 
-.card{
-    width: 700px;
-    height: 700px;
+
+<style scoped>
+.img-wrap {
+    position: relative;
+    display: inline-block;
+    border: 1px red solid;
+    min-width: auto;
+    font-size: 0;
 }
-.bold{
+.img-wrap .close {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 100;
+    background-color: #FFF;
+    padding: 5px 2px 2px;
+    color: #000;
     font-weight: bold;
+    cursor: pointer;
+    opacity: .2;
+    text-align: center;
+    font-size: 22px;
+    line-height: 10px;
+    border-radius: 50%;
+    width:5%
+}
+.img-wrap:hover .close {
+    opacity: 1;
 }
 </style>
 
@@ -115,99 +97,60 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
-      images:"",
-
-      showFileInput:true,
-      showCanvas:false,
-      cropperDisplay:'none',
-      sendButtonDisplay:false,
-      cropper:null,
-      category : null,
-      condition : null,
+      images:null,
     }
   },
 
   methods: {
 
-
-    async pictureUpload (){
-      var fileInput= this.$refs.fileInput; //this is how you get the HTMLElement a la DOM
-      var imageElement = this.$refs.imageCrop;
-      //pls pls dont rearrange this code it is working already
-      // if the cropper is hidden while configured, it may not display properly
-      console.log(imageElement)
-
-        //if someone submit a file
-        if (fileInput.files.length){
-
-          
-          this.sendButtonDisplay='block';
-            this.cropperDisplay='block';
-            this.showCanvas=true;
-
-            console.log(imageElement)
-            imageElement.src = URL.createObjectURL(fileInput.files[0]);
-            imageElement.onload = () => {
-                URL.revokeObjectURL(imageElement.src);
-            };
-            this.cropper = await new Cropper(imageElement,{
-                aspectRatio: 1, //you can change aspect ratio of cropper here
-            });
-
-            this.showFileInput=false;
-
-            this.$toast.info("Please crop your photo",{
-            })
-
-        }
+    deletePhoto(key){
+        var load = this.$loading.show()
+        console.log(key)
+        this.images.splice(key,1)
+        this.axios.delete(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}/photo`,{
+            params: {index : key}
+        }).then(
+            response => {
+                if (this.images.length == 0 ){
+                    this.$toast.info("This listing no longer has photos")
+                    this.$route.push(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}/edit`)
+                }
+            }
+        ).catch(
+            e =>{
+                this.$toast.error("Failed to delete photo!")
+                this.load(load)
+            }
+        ). finally(
+            load.hide()
+        )
+    },
 
 
-        },
-        send (){
-          var loader = this.$loading.show()
-            this.showFileInput=false
-            console.log(toRaw(this.cropper));
-            var vm = this; 
-            toRaw(this.cropper).getCroppedCanvas().toBlob((blob) => {
+    load(loader){
+      var loader = loader || this.$loading.show()
 
-                //replace with the API end point u need
-                this.axios.postForm( `${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}/photo/`, {
-                    itemPhoto:  blob
-                }).then(function (response) {
-                  loader.hide()
-                // handle success
-                vm.$toast.success("Picture successfully uploaded")
-                // if okay go to /home
-            }).catch (function (error){
-              console.log(error)
-              vm.$toast.error("Picture failed to be uploaded")
-            }).finally(
-              ()=>{
-                this.optionsShow = true
-                this.load()
-              }
-            );
-            })
-        },
-    load(){
-      var loader = this.$loading.show()
-
-this.axios.get(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}`)
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}`)
     .then(response => {
 
-      var data = response.data.data
-      if (data.user.username != this.userStore.username){
+        console.log(response.data.data)
+
+
+    //     console.log(response)
+    //   var data = response.data.data
+      if (response.data.data.user.username != this.userStore.username){
           this.$toast.error("You cannot modify items that are not yours")
           this.$router.push(`/item/${this.$route.params.itemId}`)
         }
 
+    //     console.log(data)
 
         loader.hide()
 
-        this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : ["/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg"];
+        this.images =  response.data.data.photoURL
 
-        if (this.images.length >= 5){
-          this.$toast.error("You can only have a maximum of 5 photos")
+        if (this.images.length == 0){
+          this.$toast.error("You don't have any photos")
           this.$router.push(`/item/${this.$route.params.itemId}/edit`)
         }
 
@@ -216,7 +159,7 @@ this.axios.get(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId
     .catch( error => {
         console.log(error);
         this.$toast.error("Item loading error!")
-        this.$router.go(-1)
+        this.$router.push(`/item/${this.$route.params.itemId}/edit`)
     });
     }
   },
