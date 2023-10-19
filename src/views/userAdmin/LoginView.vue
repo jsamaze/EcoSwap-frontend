@@ -13,7 +13,7 @@ import * as yup from 'yup';
 
 <template>
   <!-- type your HTML here -->
-  <MiddleCol>
+  <MiddleCol class="mt-3">
     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
       <form @submit="handleSubmit($event, login)">
       <h1 class=" text-center mb-5 title display-5">Login</h1>

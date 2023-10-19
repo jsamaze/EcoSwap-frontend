@@ -1,6 +1,7 @@
 <script setup>
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
+import ItemCard from '../../components/ItemCard.vue';
 
 
   // //this is how you import external css files
@@ -32,15 +33,9 @@
           <!-- Card for Listed Items, currently only uses Trending Items-->
           <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
             <div class="col-lg-3" v-for="item in items">
-              <div class="card card-block">
-                <img src="/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg" class="card-img-top" alt="...">
-                <h5 class="card-title subtitle fs-3 mx-3 mt-3">{{ item.itemName }}</h5>
-                <p class="card-text subtitle mx-3 mb-3">
-                  <span class="subtitleBold">Item category:</span> {{ item.category }}<br>
-                  <span class="subtitleBold">Item condition:</span> {{ item.condition }} <br>
-                  <span class="subtitleBold">Item tags:</span> {{ item.tags }}<br>
-                </p>
-              </div>
+              <ItemCard :item="item">
+
+              </ItemCard>
             </div>
           </div>
         </div>
@@ -52,15 +47,9 @@
           <!-- Card for Wishlist Items, currently only uses Trending Items-->
           <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
             <div class="col-lg-3" v-for="item in items">
-              <div class="card card-block">
-                <img src="/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg" class="card-img-top" alt="...">
-                <h5 class="card-title subtitle fs-3 mx-3 mt-3">{{ item.itemName }}</h5>
-                <p class="card-text subtitle mx-3 mb-3">
-                  <span class="subtitleBold">Item category:</span> {{ item.category }}<br>
-                  <span class="subtitleBold">Item condition:</span> {{ item.condition }} <br>
-                  <span class="subtitleBold">Item tags:</span> {{ item.tags }}<br>
-                </p>
-              </div>
+              <ItemCard :item="item">
+
+              </ItemCard>
             </div>
           </div>
         </div>

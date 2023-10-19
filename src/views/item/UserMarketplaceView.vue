@@ -1,6 +1,7 @@
 <script setup>
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
+import ItemCard from '../../components/ItemCard.vue';
 
   // this is how you import external css files
   // import "../assets/body.css"
@@ -11,7 +12,7 @@
 
   <!-- search bar + filter -->
 
-  <nav class="navbar bg-light sticky-top">
+  <nav class="navbar bg-light sticky-top mt-3">
     <div class="container-fluid">
       <form class="d-flex" role="search">
         <input class="form-control me-2 title" type="search" placeholder="Search for..." aria-label="Search">
@@ -78,16 +79,9 @@
       <h1 class="titleBold mt-5">Trending</h1>
       <div class="container-fluid scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
         <div class="col-lg-4 col-md-5 col-sm-7" v-for="item in items">
-          <div class="card card-block">
-            <img src="/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg" class="card-img-top" alt="...">
-            <h5 class="card-title subtitle fs-3 mx-3 mt-3">{{ item.itemName }}</h5>
-            <p class="card-text subtitle mx-3 mb-3">
-              <span class="subtitleBold">Item category:</span> {{ item.category }}<br>
-              <span class="subtitleBold">Item condition:</span> {{ item.condition }} <br>
-              <span class="subtitleBold">Item tags:</span> {{ item.tags }}<br>
-              <span>Views {{ item.views }}</span>
-            </p>
-          </div>
+          <ItemCard :item="item">
+
+          </ItemCard>
         </div>
       </div>
     </div>
@@ -99,15 +93,9 @@
       <h1 class="titleBold mt-5">Recommended for you</h1>
       <div class="container-fluid scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
         <div class="col-lg-4 col-md-5 col-sm-7" v-for="item in items">
-          <div class="card card-block">
-            <img src="/src/assets/images/scott-lord-uX1QIBXbkMA-unsplash.jpg" class="card-img-top" alt="...">
-            <h5 class="card-title subtitle fs-3 mx-3 mt-3">{{ item.itemName }}</h5>
-            <p class="card-text subtitle mx-3 mb-3">
-              <span class="subtitleBold">Item category:</span> {{ item.category }}<br>
-              <span class="subtitleBold">Item condition:</span> {{ item.condition }} <br>
-              <span class="subtitleBold">Item tags:</span> {{ item.tags }}<br>
-            </p>
-          </div>
+          <ItemCard :item="item">
+
+          </ItemCard>
         </div>
       </div>
     </div>
