@@ -141,7 +141,7 @@
 
 .card-block:hover{
 		transform: translateY(-5px);
-    background-color: lightgray;
+    background-color: #d2e296;
 		box-shadow: none;
 		opacity: 0.9;
 	}
@@ -172,7 +172,6 @@ export default {
 
     // this is a reference to the backend URL in .env.local file
     this.axios.get(`${import.meta.env.VITE_BACKEND}/items/popular`).then( response => { 
-      console.log(response); 
       this.items= response.data.data;
       }
     ).catch ( error => {

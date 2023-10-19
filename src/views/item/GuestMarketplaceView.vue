@@ -120,7 +120,7 @@
 
 .card-block:hover{
 		transform: translateY(-5px);
-    background-color: lightgray;
+    background-color: #d2e296;
 		box-shadow: none;
 		opacity: 0.9;
 	}
