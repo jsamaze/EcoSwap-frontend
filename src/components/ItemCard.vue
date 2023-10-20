@@ -7,6 +7,7 @@
               <span class="subtitleBold">Item condition:</span> {{ item.condition }} <br>
               <span class="subtitleBold">Item tags:</span> {{ item.tags.join(", ") }}<br>
               <span class="subtitleBold">Views </span> {{ item.views }}<br>
+              <span class="subtitleBold">Owner </span> {{ item.user.username }}<br>
             </p>
           </div>
 </template>

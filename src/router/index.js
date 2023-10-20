@@ -42,7 +42,7 @@ import { useLoadStore } from '../store/InitialLoadStore'
 
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
 
   //this array contains routes - Vue Router
   routes: [
@@ -316,9 +316,11 @@ router.beforeEach(async (to,from)=>{
         }
     }
   }
-  console.log("lol")
   loadStore.loading=false
 
+  if (skip){
+    return true
+  }
   if (needAuth && !isLoggedIn){
       return { name :'Guest Homepage'}
   } else if (isLoggedIn && !needAuth)  {

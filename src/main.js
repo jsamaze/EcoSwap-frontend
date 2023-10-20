@@ -15,6 +15,8 @@ import 'vue-toast-notification/dist/theme-sugar.css'
 import {LoadingPlugin} from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 import { useLoadStore } from './store/InitialLoadStore';
+import { useNotificationStore } from './store/NotificationStore';
+import { useChatStore } from './store/ChatStore';
 
 
 axios.defaults.withCredentials=true;
@@ -26,6 +28,9 @@ const pinia = createPinia()
 app.use(pinia)
 export const userStore = useUserStore()
 export const loadStore = useLoadStore()
+export const notificationStore = useNotificationStore()
+export const chatStore = useChatStore()
+export const itemChatStore = itemChatStore()
 
 app.use(ToastPlugin)
 
@@ -35,5 +40,20 @@ app.use(LoadingPlugin, {
     opacity : 0.1,
 },{
 })
+
+axios.interceptors.response.use(function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response;
+  }, function (error) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    console.log(error)
+    if (error.status == 401){
+        console.log("intercept")
+        UserStore.username = undefined;
+    }
+    return Promise.reject(error);
+  });
 
 app.mount('#app')

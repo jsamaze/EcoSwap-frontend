@@ -26,10 +26,12 @@ import { mapStores } from 'pinia';
           <div class="row">
             <div class="col-6">
               <h3 class="text-center">ABC</h3>
+
               <div>
                 <input class="form-check-input" type="checkbox" name="lorem" id="0">  
                 <label for="0" class="form-check-label d-inline">    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed quibusdam repellat eius ex amet unde modi ullam delectus obcaecati, magni alias, deserunt nihil. Asperiores cum fugit nihil reprehenderit, numquam in!</label>
               </div>
+              
             </div>
             <div class="col-6">
               <h3 class="text-center">ABC</h3>
