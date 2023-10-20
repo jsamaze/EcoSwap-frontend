@@ -21,28 +21,20 @@ import { mapStores } from 'pinia';
 
         <!-- Checklists go here -->
         <div class="container">
-          <div class="row">
-            <div class="col-6">
-              You
-            </div>
-            <div class="col-6">
-              Them
-            </div>
-          </div>
+
 
           <div class="row">
             <div class="col-6">
-              <ul>
-                <li>k</li>
-                <li>a</li>
-                <li>x</li>
-                <li>y</li>
-                <li>b</li>
-              </ul>
+              <h3 class="text-center">ABC</h3>
+              <div>
+                <input class="form-check-input" type="checkbox" name="lorem" id="0">  
+                <label for="0" class="form-check-label d-inline">    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed quibusdam repellat eius ex amet unde modi ullam delectus obcaecati, magni alias, deserunt nihil. Asperiores cum fugit nihil reprehenderit, numquam in!</label>
+              </div>
             </div>
             <div class="col-6">
+              <h3 class="text-center">ABC</h3>
               <ul>
-                <li>k</li>
+                <li>lmao</li>
                 <li>a</li>
                 <li>x</li>
                 <li>y</li>
@@ -72,12 +64,14 @@ import { mapStores } from 'pinia';
 
 
   <header class="p-3 m-0">
-    <button class="go-back btn btn-primary" id='back-button'>◀</button>
-      <h1>Hyinki</h1>
+    <button class="go-back bg-transparent me-3" id='back-button'>⬅️</button>
+      <h2>SSSSSSSSSSSSSS...</h2>  
+
+      <!-- to limit the length of full name max 14-->
 
     <!-- Hide this button when no chat is displayed -->
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-      See items traded
+      🛒
     </button>
   </header>
 
@@ -101,7 +95,8 @@ import { mapStores } from 'pinia';
 
     </div> -->
 
-    <textarea class="form-control"></textarea>
+    <!-- input text or text area? -->
+    <input type="text" class="form-control">
     
     <button class="btn btn-success">Send!</button>
   </footer>
@@ -249,7 +244,7 @@ footer {
 
 }
 
-h1 {
+h2 {
   font-size: 1.5rem;
   flex: 1;
   color : white

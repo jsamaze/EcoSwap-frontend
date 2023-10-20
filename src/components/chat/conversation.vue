@@ -2,6 +2,8 @@
     <button :class="styleObj" >
       <div class="text-start fs-5">
         {{ chat[oppRole].fullName }}   
+          <!-- to limit the length of full name max 14-->
+
         <div class="float-end fs-6">{{ dateString }}</div>
       </div>
       <div class="text-start">{{ chat.latestMessage.textContent }}</div>
