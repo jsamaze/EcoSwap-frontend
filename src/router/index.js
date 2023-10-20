@@ -316,16 +316,12 @@ router.beforeEach(async (to,from)=>{
         }
     }
   }
+  console.log("lol")
+  loadStore.loading=false
 
-  if (skip){
-    loadStore.loading=false
-    return true;
-  }
   if (needAuth && !isLoggedIn){
-    loadStore.loading=false
       return { name :'Guest Homepage'}
   } else if (isLoggedIn && !needAuth)  {
-    loadStore.loading=false
     return {name :'User Marketplace'}
     }
   }

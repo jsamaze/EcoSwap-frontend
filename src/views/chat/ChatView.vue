@@ -1,83 +1,118 @@
+<script setup>
+import Conversation from '../../components/chat/conversation.vue';
+import message from '../../components/chat/message.vue'
+import { useUserStore } from '../../store/UserStore';
+import { mapStores } from 'pinia';
+</script>
+
 <template>
-  <section class="chat-container" :style="{'height': chatHeight }">
-  <div class="conversations" >
-    <button class="conversation position-sticky top-0">Chats!</button>
 
-    <button class="conversation p-3" >
-      <div class="text-start fs-5">
-        Joshua   
-        <div class="float-end fs-6">27/7</div>
+  
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-dark" id="staticBackdropLabel">
+          The items being traded
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="text-start">Heyo do you have the item </div>
-    </button>
-    <button class="conversation">Item 2</button>
-    <button class="conversation">Item 3</button>
-    <button class="conversation">Item 4</button>
-    <button class="conversation">Item 5</button>
-    <button class="conversation">Item 6</button>
-    <button class="conversation">Item 7</button>
-    <button class="conversation">Item 8</button>
-    <button class="conversation">Item 9</button>
-    <button class="conversation">Item 10</button>
-    <button class="conversation">Item 11</button>
-    <button class="conversation">Item 12</button>
-    <button class="conversation">Item 13</button>
-    <button class="conversation">Item 14</button>
-    <button class="conversation">Item 15</button>
-    <button class="conversation">Item 16</button>
-    <button class="conversation">Item 17</button>
-    <button class="conversation">Item 18</button>
-    <button class="conversation">Item 19</button>
-    <button class="conversation">Item 20</button>
+      <div class="modal-body">
+
+        <!-- Checklists go here -->
+        <div class="container">
+          <div class="row">
+            <div class="col-6">
+              You
+            </div>
+            <div class="col-6">
+              Them
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <ul>
+                <li>k</li>
+                <li>a</li>
+                <li>x</li>
+                <li>y</li>
+                <li>b</li>
+              </ul>
+            </div>
+            <div class="col-6">
+              <ul>
+                <li>k</li>
+                <li>a</li>
+                <li>x</li>
+                <li>y</li>
+                <li>b</li>
+              </ul>            
+            </div>
+          </div>
+        </div>
+        <!-- checklists end -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">End chat success</button>
+      </div>
+    </div>
   </div>
+</div> 
+
+
+  <section class="chat-container mt-3" :style="{'height': chatHeight }">
+
+
+  <div class="conversations" >
+    <button class="chat-header position-sticky top-0">Chats!</button>
+    <!-- <Conversation :username="username" :chat="latestChats[0]" :chosen="false"></Conversation> -->
+  </div>
+
+
   <header class="p-3 m-0">
-    <button class="go-back" id='back-button'>◀</button>
-    <h2>
-      Hyinki
-    </h2>
-    <button>See items traded</button>
+    <button class="go-back btn btn-primary" id='back-button'>◀</button>
+      <h1>Hyinki</h1>
+
+    <!-- Hide this button when no chat is displayed -->
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      See items traded
+    </button>
   </header>
-  <div class="messages" :style="{'height':  convoHeight}">
-    <article class="message">
-      <article class="msgBox">H!</article>
-      <article class="msgTime">27/7, 19:19</article>
-    </article>
-    <article class="message">
-      <article class="msgBox msgBoxThem">Bye!</article>
-      <article class="msgTime">27/7, 19:19</article>
-    </article>
-    <article class="message">
-      <article class="msgBox">H!</article>
-      <article class="msgTime">27/7, 19:19</article>
-    </article>
-    <article class="message">
-      <article class="msgBox msgBoxThem">Bye!</article>
-      <article class="msgTime">27/7, 19:19</article>
-    </article>
-    <article class="message">
-      <article class="msgBox">H!</article>
-      <article class="msgTime">27/7, 19:19</article>
-    </article>
-    <article class="message">
-      <article class="msgBox msgBoxThem">Bye!</article>
-      <article class="msgTime">27/7, 19:19</article>
-    </article>
 
+
+  <div class="messages py-3" :style="{'height':  convoHeight}">
+    <message :userRole="userRole" :message="sampleMessage"></message>
   </div>
-  <footer>
 
-    <div class="btn-group dropup">
+
+  <footer>
+    <!-- <div class="btn-group dropup">
+
       <button type="button" class="btn btn-secondary dropdown-toggle btn btn-info" data-bs-toggle="dropdown" aria-expanded="false">
         Options
       </button>
+
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#">End chat</a></li>
         <li><a class="dropdown-item" href="#">Mark chat a success</a></li>
       </ul>
-    </div>
-    <input type="text" name="" id="" class="form-control"><button class="btn btn-success">Send!</button>
+
+    </div> -->
+
+    <textarea class="form-control"></textarea>
+    
+    <button class="btn btn-success">Send!</button>
   </footer>
+
+
+
 </section>
+
+
+
+
 </template>
 
 <style scoped>
@@ -99,10 +134,16 @@
   display: flex;
   flex-direction: column;
   grid-row: 1 / -1;
-  
-  :hover {
-    background-color: grey;
-  }
+
+}
+
+.chat-header {
+  padding-block: 12px;
+  border: none;
+  background: darkblue;
+  color:white;
+  font-size: 1rem;
+
 }
 
 .messages {
@@ -124,6 +165,10 @@ header {
     gap: 0;
     grid-template-columns: 100vw 100vw;
   }
+
+  footer > * {
+  height:30%;
+}
 
   .chat-container.conversations-mode header,
   .chat-container.messages-mode footer,
@@ -201,18 +246,13 @@ footer {
   .go-back {
     display: none;
   }
+
 }
 
-.conversation {
-  padding-block: 12px;
-  border: none;
-  background: aliceblue;
-  font-size: 1rem;
-}
-
-h2 {
+h1 {
   font-size: 1.5rem;
   flex: 1;
+  color : white
 }
 
 .msgBox {
@@ -228,14 +268,6 @@ h2 {
   border-radius: 5px 5px 0 5px;
 }
 
-.message:nth-child(even) {  /*opposite*/
-  align-self: end;
-}
-
-.msgTime{
-  font-size: smaller;
-}
-
 footer > * {
   height:70%;
   box-sizing: border-box;
@@ -245,12 +277,26 @@ footer > * {
 
 
 <script>
-import popover from "bootstrap/js/src/popover"
-
+// import popover from "bootstrap/js/src/popover"
 export default {
   data(){
     return {
+
+
       height : 0,
+      username : 'sarah',
+
+      latestChats : [],
+
+
+      userRole : 'buyer',
+      sampleMessage : 			{
+				"sender": "buyer",
+				"textContent": "kk",
+				"_id": "651ac80298e56021d1b7fd28",
+				"createdAt": "2023-10-02T13:39:14.884Z",
+				"updatedAt": "2023-10-02T13:39:14.884Z"
+			},
     }
   },
 
@@ -260,14 +306,12 @@ export default {
     },
     convoHeight(){
       return (this.height-80) -(this.height*0.25) +'px'
-    }
+    },
+    ...mapStores(useUserStore)
   },
   mounted(){
-    this.height =  window.innerHeight;
-    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new popover(popoverTriggerEl))
-    
-    
+    this.height =  window.innerHeight;   
+        
     const gridElement = document.getElementsByClassName("chat-container")[0];
     const conversations = document.getElementsByClassName("conversations")[0];
     const backButton = document.getElementById("back-button");
