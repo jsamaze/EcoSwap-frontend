@@ -23,7 +23,7 @@ import GreenBtn from '../../components/GreenBtn.vue'
       <div class="row">
 
 
-          <div class="col">
+          <div class="col-sm-6">
     
             <Btn @click="this.$router.go(-1)">
               Back
@@ -35,13 +35,14 @@ import GreenBtn from '../../components/GreenBtn.vue'
               </CustomCarousell>
 
           </div>
-                        <div class="col">
+                        <div class="col-sm-6">
 
                           <div class="row mt-5">
                             <div class="col">
-                              <h1 class="title">{{itemName}}  <span class="badge background-dark-green float-end">
+                              <span class="badge background-dark-green float-end fs-4">
                                 {{ itemType }}
-                              </span></h1>
+                              </span>
+                              <h1 class="title">{{itemName}}  </h1>
                               
                             </div>  
                             </div>

@@ -16,14 +16,14 @@
     <div class="container-fluid">
         <div class="row background">
 
-            <div class="col">
+            <div class="col-sm-6">
                 <!-- card -->
                 <div class="card w-75 m-auto my-5  ">
                 <div class="card-body  ">
                     
                     <a href="#" class="btn background-dark-green text-white"> Back</a>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm-6">
                             <!-- carousel -->
                             <br>
                             <div id="marketplaceCarousel" class="container-fluid carousel slide" data-bs-ride="carousel">
@@ -56,9 +56,9 @@
 
                             <!-- end carousel -->
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6">
                             <div class="row mt-5">
-                              <div class="col">
+                              <div class="col-sm-6">
                                 <h1 class="title">{{itemName}}  <span class="badge background-dark-green float-end">Listing</span></h1>
                                
                               </div>

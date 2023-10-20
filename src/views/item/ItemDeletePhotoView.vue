@@ -35,11 +35,9 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
     <h1 class="title text-center">Delete Photo from Listing</h1>
     <div class="row justify-content-center">
 
-        <div class="col-4 p-3"  v-for="img, idx in images">
-            <div class="img-wrap">
-            <span class="close" @click="deletePhoto(idx)">&times;</span>
+        <div class="col-sm-4 p-0 position-relative "  v-for="img, idx in images">
+            <button class="btn btn-danger position-absolute top-0 end-0" @click="deletePhoto(idx)" >x</button>
             <img :src="img" class="w-100" style="min-width: 100%;">
-        </div>
         </div>
 
     </div>
@@ -62,33 +60,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 
 <style scoped>
-.img-wrap {
-    position: relative;
-    display: inline-block;
-    border: 1px red solid;
-    min-width: auto;
-    font-size: 0;
-}
-.img-wrap .close {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    z-index: 100;
-    background-color: #FFF;
-    padding: 5px 2px 2px;
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-    opacity: .2;
-    text-align: center;
-    font-size: 22px;
-    line-height: 10px;
-    border-radius: 50%;
-    width:5%
-}
-.img-wrap:hover .close {
-    opacity: 1;
-}
+
 </style>
 
 <script>

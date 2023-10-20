@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <div class="row background">
 
-            <div class="col">
+            <div class="col-sm-6">
                 <!-- card -->
                 <div class="card w-75 m-auto my-5 ">
                 <div class="card-body  ">
@@ -24,7 +24,7 @@
                     
                     <a href="#" class="btn background-dark-green text-white"> Back</a>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm-6">
                             <!-- carousel -->
                             [PHOTO THING]
 
@@ -33,7 +33,7 @@
                                 <a href="#" class="btn background-green text-white my-4 subtitle"> Upload Photo</a>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6">
                             <div class="row mt-5">
                                 
                                 <h1 class="title">Edit Wish List</h1>

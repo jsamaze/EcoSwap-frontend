@@ -31,7 +31,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
   <MiddleCardForListing>
     <div class="row">
-                      <div class="col">
+                      <div class="col-sm-6">
                   
                   <Btn @click="this.$router.go(-1)">
                     Back
@@ -51,14 +51,14 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     </GreenBtn>
                     </RouterLink>
                 </div>
-                        <div class="col">
+                        <div class="col-sm-6">
 
                           <h1 class="title">Add photo to listing</h1>
 
 
       <!-- Component 1 of this page - the file upload button -->
       <div class="mb-3" v-show="showFileInput">
-        <label for="formFile" class="form-label">Upload one photo</label>
+        <label for="formFile" class="form-label">Upload one photo at a time</label>
         <input class="form-control " id="formFile" type="file" ref="fileInput" name="avatar" v-show="showFileInput" accept="image/*" @change="pictureUpload()" />
       </div>
 

@@ -27,7 +27,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
       <MiddleCardForListing>
 
         <div class="row">
-                      <div class="col">
+                      <div class="col-sm-6">
                   
                   <Btn @click="this.$router.go(-1)">
                     Back
@@ -52,7 +52,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     </GreenBtn>
                     </RouterLink>
                 </div>
-                        <div class="col">
+                        <div class="col-sm-6">
 
 
 
@@ -60,11 +60,13 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
       <form @submit="handleSubmit($event, update)" >
 
         <div class="row mt-5">           
-            <h1 class="title">Edit Listing</h1>
+            <h1 class="title text-center">Edit Listing</h1>
             <!-- <span class="badge text-bg-secondary float-end">Listing</span> -->                  
         </div>
 
-        This is a {{ itemType }} item
+        <div class="text-center fs-5">
+          This is a {{ itemType }} item
+        </div>
 
 
         <TextInput  name="itemName">

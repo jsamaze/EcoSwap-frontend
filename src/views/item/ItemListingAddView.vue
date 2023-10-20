@@ -27,7 +27,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 <MiddleCardForListing>
   <div class="row">
-                      <div class="col">
+                      <div class="col-sm-6">
                   
                   <Btn @click="this.$router.go(-1)">
                     Back
@@ -42,7 +42,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     <!-- end carousel -->
                     You can add photos after this
                 </div>
-                        <div class="col">
+                        <div class="col-sm-6">
 
 
 

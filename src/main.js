@@ -17,6 +17,7 @@ import 'vue-loading-overlay/dist/css/index.css';
 import { useLoadStore } from './store/InitialLoadStore';
 import { useNotificationStore } from './store/NotificationStore';
 import { useChatStore } from './store/ChatStore';
+import { useItemChatStore } from './store/ItemChatStore';
 
 
 axios.defaults.withCredentials=true;
@@ -30,7 +31,7 @@ export const userStore = useUserStore()
 export const loadStore = useLoadStore()
 export const notificationStore = useNotificationStore()
 export const chatStore = useChatStore()
-export const itemChatStore = itemChatStore()
+export const itemChatStore = useItemChatStore()
 
 app.use(ToastPlugin)
 
@@ -52,6 +53,7 @@ axios.interceptors.response.use(function (response) {
     if (error.status == 401){
         console.log("intercept")
         UserStore.username = undefined;
+        router.go(0)
     }
     return Promise.reject(error);
   });

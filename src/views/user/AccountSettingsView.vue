@@ -11,6 +11,7 @@ import * as yup from 'yup'
 
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/UserStore';
+import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -20,11 +21,11 @@ import { useUserStore } from '../../store/UserStore';
   <!-- type your HTML here -->
 
 
+   <MiddleCardForListing>
     <div class="container-fluid">
-      <div class="row background ">
+      <div class="row">
         
-        <div class='col-6 d-flex justify-content-center'>
-          <div class="">
+        <div class='col justify-content-center'>
             <br><br>
             <img class="w-100 m-3" :src="src">
             <br>
@@ -35,15 +36,14 @@ import { useUserStore } from '../../store/UserStore';
               </GreenBtn>
             </RouterLink>
 
-        </div>
       </div>
 
         <div class='col  justify-content-center'>
-          <div class="white p-5">
+          <div class="white p-3">
      <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
       <form @submit="handleSubmit($event, update)" >
 
-        <h1 class="title">Account Settings</h1>
+        <h1 class="title text-center">Account Settings</h1>
         You cannot change your username : 
         <span class="text-center fw-bold">{{ this.userStore.username }}</span>
 
@@ -93,6 +93,7 @@ import { useUserStore } from '../../store/UserStore';
     </div>
 </div>
 
+   </MiddleCardForListing>
 </template>
 
 <style scoped> 
@@ -113,7 +114,7 @@ export default {
       schema : yup.object().shape({
         fullName : yup.string().required(),
         preferredBusStop : yup.string().max(5)
-        .test('Digits only', 'The field should have digits only', (value) =>  value.length==0||/^\d+$/.test(value))
+        .test('Digits only', 'The field should have digits only', (value) =>  value.toString().length==0||/^\d+$/.test(value))
         .label("Preferred Bus Stop"),
 
                 email : yup.string().required().email(),
