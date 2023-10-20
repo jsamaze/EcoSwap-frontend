@@ -7,7 +7,7 @@ import { mapStores } from 'pinia';
 
 <template>
 
-  
+  <!-- modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
@@ -52,6 +52,7 @@ import { mapStores } from 'pinia';
     </div>
   </div>
 </div> 
+<!-- modal end -->
 
 
   <section class="chat-container mt-3" :style="{'height': chatHeight }">
