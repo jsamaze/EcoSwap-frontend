@@ -96,9 +96,11 @@ import { mapStores } from 'pinia';
     </div> -->
 
     <!-- input text or text area? -->
-    <input type="text" class="form-control">
+    <form @submit.prevent>
+      <input type="text" class="form-control">
     
-    <button class="btn btn-success">Send!</button>
+      <input type="submit" class="btn btn-success" value="Send!">
+    </form>
   </footer>
 
 
@@ -219,7 +221,7 @@ header {
   background-color:red
 }
 
-footer {
+footer form {
   display: flex;
   flex-direction: row;
   margin-bottom: 1rem;
