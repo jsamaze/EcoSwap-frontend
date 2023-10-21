@@ -6,7 +6,7 @@ import { useUserStore } from './store/UserStore';
 import { mapStores } from 'pinia';
 import { useLoadStore } from './store/InitialLoadStore';
 import Loading from 'vue-loading-overlay'
-import NavBar from './components/NavBar.vue';
+import NavBar from '/src/components/NavBar.vue';
 import { useNotificationStore } from './store/NotificationStore';
 </script>
 
@@ -53,84 +53,83 @@ header {
     background-color: #f7f7f7;
   }
 
-  .logo {
-    color: #359381;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: auto;
-    margin-bottom: auto;
-  }
+.logo {
+  color: #359381;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
 
-  .navigation a, .active-class {
-    text-decoration: none;
-    color: #359381;
-    padding: 6px 15px;
-    border-radius: 20px;
-    margin: 0 10px;
-    font-weight: 600;
-  }
+.navigation a {
+  text-decoration: none;
+  color: #359381;
+  padding: 6px 15px;
+  border-radius: 20px;
+  margin: 0 10px;
+  font-weight: 600;
+}
 
-  .navigation a:hover,
-  .navigation a .active, .active-class {
-    background: #359381;
-    color: #fff;
-  }
+.navigation a:hover {
+  background: #359381;
+  color: #fff;
+}
 
 
-  /* fonts */
-  .title {
-    font-family: 'Poppins';
-  }
-  .titleBold {
-    font-family: 'Poppins';
-    font-weight: bold;
-  }
-  .subtitle {
-    font-family: 'Poppins';
-  }
-  .subtitleBold {
-    font-family: 'Poppins';
-    font-weight: bold;
-  }
-  .subtitleItalics {
-    font-family: 'Poppins';
-    font-style: italic;
-  }
+/* fonts */
+.title {
+  font-family: 'Poppins';
+}
+.titleBold {
+  font-family: 'Poppins';
+  font-weight: bold;
+}
+.subtitle {
+  font-family: 'Poppins';
+}
+.subtitleBold {
+  font-family: 'Poppins';
+  font-weight: bold;
+}
+.subtitleItalics {
+  font-family: 'Poppins';
+  font-style: italic;
+}
 
-  /* font colours */
-  .whitefont {
-    color: #ffffff;
-  }
-  .green1font {
-    color: #eef3db;
-  }
-  .green2font {
-    color: #d2e296;
-  }
-  .green3font {
-    color: #8a9f53;
-  }
-  .green4font {
-    color: #748e1e;
-  }
-  .green5font {
-    color: #2a5717;
-  }
-  .green6font{
-    color: #41571e;
-  }
-  .background{
-    background-color: #eef3db;  
-  }
-  .heading{
-    font-size: 100px;
-  }
-  .background-dark-green{
-    background-color: #2a5717;
-  }
-  .background-green{
-    background-color: #8a9f53;
-  }
+/* font colours */
+.whitefont {
+  color: #ffffff;
+}
+.green1font {
+  color: #eef3db;
+}
+.green2font {
+  color: #d2e296;
+}
+.green3font {
+  color: #8a9f53;
+}
+.green4font {
+  color: #748e1e;
+}
+.green5font {
+  color: #2a5717;
+}
+.green6font{
+  color: #41571e;
+}
+.background{
+  background-color: #eef3db;  
+}
+.heading{
+  font-size: 100px;
+}
+.background-dark-green{
+  background-color: #2a5717;
+}
+.background-green{
+  background-color: #8a9f53;
+}
 
   /* disable parallax when seeing in mobile */
 
