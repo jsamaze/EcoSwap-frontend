@@ -242,11 +242,11 @@ const router = createRouter({
     //F . Chat
 
     {
-      path: '/chat',
+      path: '/chat/:username?',
       name : 'Chat',
       component: ChatView,
       meta : {
-        needAuth :null,
+        needAuth :true,
       }
     },
 

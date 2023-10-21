@@ -19,6 +19,7 @@
       <router-link class="nav-item nav-link" to="/user/home">Home</router-link>
       <router-link class="nav-item nav-link" to="/user/marketplace">Marketplace</router-link>
       <router-link class="nav-item nav-link" to="/user/map">Map</router-link>
+      <router-link class="nav-item nav-link" to="/chat">Chat</router-link>
       <button class="btn btn-danger mx-3" @click="logout" >
         Logout
       </button>
