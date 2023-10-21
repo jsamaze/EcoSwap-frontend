@@ -1,6 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, START_LOCATION } from 'vue-router'
 import {useUserStore} from '../store/UserStore'
 import axios from 'axios'
+import {socket} from '../socket'
 
 // Step 1.IMPORT before using
 import GuestItemListingView from '../views/item/GuestItemListingView.vue'
@@ -294,7 +295,7 @@ router.beforeEach(async (to,from)=>{
 
 
   // if not logged in lets check whether that is the case
-  if (!isLoggedIn){
+  if (!isLoggedIn && from == START_LOCATION){
     try {
         //try calling login - guaranteed to fail due to lack of body
         const response = await axios.post(`${import.meta.env.VITE_BACKEND}/user/login`,{});
@@ -314,6 +315,10 @@ router.beforeEach(async (to,from)=>{
           userStore.userId = error.response.data.userId
         }
     }
+  }
+
+  if (!socket.connected && isLoggedIn){
+    await socket.connect()
   }
   loadStore.loading=false
   

@@ -209,7 +209,8 @@ export default {
           message :  `${this.notificationStore.usernameFrom} has rejected your request to close the trade`
          }
       }
-      if (notificationMap.hasOwnProperty(this.notificationStore.event)){
+      if (notificationMap.hasOwnProperty(this.notificationStore.event) && 
+      !( this.notificationStore.event == 'message' && this.$route.fullPath.includes(`chat/${this.notificationStore.usernameFrom.sender}`))){
         this.$toast[notificationMap[this.notificationStore.event].toastType](
         notificationMap[this.notificationStore.event].message
       )

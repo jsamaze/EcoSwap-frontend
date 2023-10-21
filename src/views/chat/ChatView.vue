@@ -36,8 +36,7 @@ import bsModal from 'bootstrap/js/src/modal'
               <h3 class="text-center">Listed Items by me</h3>
 
               <div v-for="item in myListedItems">
-                <input :id="item._id" @change="updateMyItems" type="checkbox" v-model='mySelectedItems' :value="item._id"  
-                :checked="mySelectedItems.includes(item._id)">
+                <input :id="item._id" @change="updateMyItems" type="checkbox" v-model='mySelectedItems' :value="item._id" >
                 <label :for="item._id" class="form-check-label d-inline">  {{ "   " +  item.itemName }}</label>
               </div>
               
@@ -45,8 +44,7 @@ import bsModal from 'bootstrap/js/src/modal'
             <div class="col-6">
               <h3 class="text-center">Listed Items by {{ truncatedChattingWith }}</h3>
               <div v-for="item in otherListedItems">
-                <input type="checkbox" :value="item._id"  
-                :checked="itemChatStore.items.includes(item._id)" disabled >
+                <input type="checkbox" :value="item._id"  v-model="itemChatStore.items" disabled >
                 <label class="form-check-label d-inline">  {{ "   " +  item.itemName }}</label>
               </div>
               
