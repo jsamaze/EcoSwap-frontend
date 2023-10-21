@@ -5,25 +5,30 @@ import message from '../../components/chat/message.vue'
 import { useLoadStore } from '../../store/InitialLoadStore';
 import { useItemChatStore } from '../../store/ItemChatStore';
 import { useUserStore } from '../../store/UserStore';
+import {useChatStore} from '../../store/ChatStore'
 import { mapStores } from 'pinia';
+import {socket} from '../../socket'
+import { useNotificationStore } from '../../store/NotificationStore';
+
+import bsModal from 'bootstrap/js/src/modal'
 </script>
 
 <template>
 
   <!-- modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" ref="myModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5 text-dark" id="staticBackdropLabel">
-          The items being traded
+          {{ modalHeading}}
         </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="seeChecklist=true"></button>
       </div>
       <div class="modal-body">
 
         <!-- Checklists go here -->
-        <div class="container">
+        <div class="container" v-if="seeChecklist">
 
 
           <div class="row">
@@ -31,7 +36,7 @@ import { mapStores } from 'pinia';
               <h3 class="text-center">Listed Items by me</h3>
 
               <div v-for="item in myListedItems">
-                <input :id="item._id" @change="updateMyItems" type="checkbox" :value="item._id"  
+                <input :id="item._id" @change="updateMyItems" type="checkbox" v-model='mySelectedItems' :value="item._id"  
                 :checked="mySelectedItems.includes(item._id)">
                 <label :for="item._id" class="form-check-label d-inline">  {{ "   " +  item.itemName }}</label>
               </div>
@@ -49,10 +54,22 @@ import { mapStores } from 'pinia';
           </div>
         </div>
         <!-- checklists end -->
+        <div class="container" v-else>
+          <h3 class="text-center my-3">
+            {{ endChatSuccessState =='needRespond' ? `${chattingWithFullName} is inviting you to close the trade.` :""}} 
+             Do you want to close the deal with {{ chattingWithFullName }}?
+            </h3>
+        </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" v-if="seeChecklist">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success">End chat success</button>
+        <button type="button" class="btn btn-success" @click="switchModal" :disabled="endChatSuccessState=='waiting'">{{ secondButton }}</button>
+      </div>
+      <div class="modal-footer" v-else>
+        <button type="button" class="btn btn-secondary" @click="switchModal" >Go Back</button>
+        <button type="button" class="btn btn-success" @click="requestEndChat" data-bs-dismiss="modal" >{{ endChatSuccessState =='needRespond' ? 'Accept' : "Propose to trade" }}</button>
+        <button type="button" class="btn btn-danger" @click="rejectEndChat" v-if="endChatSuccessState=='needRespond'" data-bs-dismiss="modal">Reject</button>
+
       </div>
     </div>
   </div>
@@ -65,7 +82,7 @@ import { mapStores } from 'pinia';
 
   <div class="conversations" >
     <button class="chat-header position-sticky top-0">Chats!</button>
-    <Conversation :id="id" v-for="chat,idx in currentChats" :username="userStore.username" :chat="chat" :chosen="chattingWith && idx ==0"
+    <Conversation :id='chat._id' v-for="chat,idx in currentChats" :username="userStore.username" :chat="chat" :chosen="chattingWith && idx ==0"
     @click="swapScreenToChatting"
      ></Conversation>
   </div>
@@ -104,7 +121,7 @@ import { mapStores } from 'pinia';
     </div> -->
 
     <!-- input text or text area? -->
-    <form @submit.prevent="sendMessage">
+    <form @submit.prevent="submitMsg">
       <input type="text" class="form-control" v-model="textContent">
     
       <input type="submit" class="btn btn-success" value="Send!" >
@@ -121,166 +138,8 @@ import { mapStores } from 'pinia';
 </template>
 
 <style scoped>
-.chat-container {
-  border: 1px solid pink;
-  display: grid;
-  grid-template-columns: 290px 1fr;
-  grid-template-rows: 10vh auto 10vh;
-  column-gap: 1rem;
-  /* height: 90vh; */
-  overflow-x: hidden;
-
-  column-gap: 0;
-}
-
-.conversations {
-  /* height: 90vh; */
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  grid-row: 1 / -1;
-
-}
-
-.chat-header {
-  padding-block: 12px;
-  border: none;
-  background: darkblue;
-  color:white;
-  font-size: 1rem;
-
-}
-
-.messages {
-  /* height: 50vh; */
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.messages,
-.conversations,
-header {
-  transition: transform 0.4s, opacity 0.3s;
-}
-
-@media (max-width: 600px) {
-  .chat-container {
-    gap: 0;
-    grid-template-columns: 100vw 100vw;
-  }
-
-  footer > * {
-  height:30%;
-}
-
-  .chat-container.conversations-mode header,
-  .chat-container.messages-mode footer,
-
-  .chat-container.conversations-mode .messages {
-    transform: translateX(100%);
-    transition-timing-function: ease-in;
-    opacity: 0;
-  }
-
-  .chat-container.conversations-mode .conversations {
-    opacity: 1;
-    transition-timing-function: ease-out;
-  }
-
-  .chat-container.messages-mode header,
-  .chat-container.messages-mode footer,
-  .chat-container.messages-mode .messages {
-    transform: translateX(-100%);
-    transition-timing-function: ease-out;
-    opacity: 1;
-  }
-
-  .chat-container.messages-mode .conversations {
-    transform: translateX(-100%);
-    transition-timing-function: ease-in;
-    opacity: 0;
-  }
-}
-
-/* Not important from here on */
-/* =========================== */
-/* =========================== */
-/* =========================== */
-
-* {
-  box-sizing: border-box;
-}
-
-
-body {
-  width: min(100vw, 600px);
-  margin: auto;
-}
-
-header {
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid black;
-  /* margin-bottom: 1rem; */
-  padding-inline: 1rem;
-  height:10vh;
-  background-color:red
-}
-
-footer form {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 1rem;
-  padding-inline: 1rem;
-  height:10vh
-}
-
-
-.messages {
-  padding-inline: 1rem;
-  /* overflow: scroll; */
-}
-
-.go-back {
-  border: none;
-  font-size: 1.2rem;
-}
-
-@media (min-width: 600px) {
-  .go-back {
-    display: none;
-  }
-
-}
-
-h2 {
-  font-size: 1.5rem;
-  flex: 1;
-  color : white
-}
-
-.msgBox {
-  padding: 1rem;
-  width: fit-content;
-  border-radius: 5px 5px 5px 0;
-  background-color: cornsilk;
-  color: midnightblue;
-}
-
-.msgBoxThem {
-  background-color: lavender;
-  border-radius: 5px 5px 0 5px;
-}
-
-footer > * {
-  height:70%;
-  box-sizing: border-box;
-}
-
+@import '@/assets/ChatView.css';
 </style>
-
 
 <script>
 // import popover from "bootstrap/js/src/popover"
@@ -321,12 +180,25 @@ export default {
       //otherSelectedItem is in the itemChatStore also in id
 
 
+      //modal related
+      seeChecklist : true,
+      myModal : null,
+
+      //to decide second screen or button
       endChatSuccessState : null, //either waiting or needRespond or null
 
 
     }
   },
   methods : {
+    switchModal(){
+      this.seeChecklist= !this.seeChecklist;
+    },
+    onResize(){
+      this.height =  window.innerHeight;   
+      this.width = window.innerWidth;
+
+    },
     swapScreenToChatting(){
       var idx = this.chatContainerClasses.indexOf(this.conversationsModeClass)
       if(idx != -1){
@@ -355,14 +227,6 @@ export default {
           this.usernamesChattingNow = this.currentChats.map(chat => {
             return chat.buyer.username!=this.userStore.username ? chat.buyer.username : chat.seller.username
           })
-          // console.log(peopleChattingNow)
-          // if (peopleChattingNow.includes(this.$route.params.username)){
-          //   this.activeChatUser=this.$route.params.username
-          //   this.loadChat()
-          // } else {
-          //   this.$router.push("/chat")
-          // }
-          //include data
       } catch (e) {
         console.log(e)
         this.$toast.error("Failed to load current chats. Please reload")
@@ -446,7 +310,102 @@ export default {
     } else {
       this.$router.push('/chat')
     }
-    }
+    },
+
+    sendMessage(textContent){
+      this.currentMessages=[...this.currentMessages,{
+            sender:this.myRole,
+            textContent: textContent,
+            createdAt: new Date().toISOString(),
+          }]
+      this.currentChats.forEach(element => {
+        if(element.seller.username == this.chattingWith ||element.buyer.username == this.chattingWith ){
+          element.latestMessage = {
+            sender:this.myRole,
+            textContent:textContent,
+            createdAt: new Date().toISOString(),
+          }
+        }
+      });
+
+    
+      socket.emit("sendMessage",{
+        to : this.chattingWith,
+        textContent: textContent,
+      }, async (response)=>{
+        if (response.code==200){
+
+        } else {
+          console.log(repsonse.status)
+          console.log(response.problem)
+          this.$toast.error(`Failed to send ${textContent}`)
+          
+          this.loadStore.loading=true
+          await this.loadChat()
+          this.loadStore.loading=false
+        }
+      })
+    },
+    submitMsg(){
+      this.sendMessage(this.textContent)
+      this.textContent=""
+    },
+
+    updateMyItems(){
+      socket.emit("updateItemChat",this.chattingWith,this.mySelectedItems,(response)=>{
+        console.log(response)
+        if (response.code==200){
+
+        } else {
+          console.log(repsonse.status)
+          console.log(response.problem)
+          this.$toast.error(`Failed to set item ${textContent}`)
+          
+          this.$router.go(0)
+        }
+      })
+    },
+
+    rejectEndChat(){
+
+      this.seeChecklist=true
+      this.axios.patch(`${import.meta.env.VITE_BACKEND}/chat/user/${this.chattingWith}`,null,{
+        params: {reject:"True"}
+      }).then(
+        response => {
+          if(response.data.status=="reset the process of closing chat"){
+            this.$toast.warning("Sucessfully reset closing chat")
+            this.endChatSuccessState=null
+          }
+        })
+    },
+    requestEndChat(){
+
+      this.seeChecklist = true
+
+      this.axios.patch(`${import.meta.env.VITE_BACKEND}/chat/user/${this.chattingWith}`).then(
+        response => {
+          switch (response.data.status){
+            case "endChatSuccess":
+              this.$toast.success("Trade is successful! The chat and items are now archived!")
+              this.$router.push('/')
+              break;
+            case "requestEndChatSuccess":
+              this.$toast.warning("Please wait for the other party")
+              this.endChatSuccessState = 'waiting';
+              break;
+            default:
+              this.$toast.error(response.data.status)
+              break;
+          }
+        }
+      ).catch(error => {
+        alert(error.response.data.status)
+      })
+
+    },
+
+
   },
 
   watch : {
@@ -466,6 +425,11 @@ export default {
 
 
   computed : {
+    modalHeading(){
+      if(this.seeChecklist){
+        return "Items to be traded"
+      }
+    },
     chatHeight(){
       return this.height-80 + 'px';
     },
@@ -477,13 +441,25 @@ export default {
       return subStr + (subStr.length == 14 ?  "..." : "")
 
     },
-    ...mapStores(useUserStore,useLoadStore,useItemChatStore)
+    secondButton(){
+      if(!this.endChatSuccessState){
+        return "Request to close the trade"
+      } else if (this.endChatSuccessState=='waiting'){
+        return `Waiting for ${this.chattingWith}`
+      } else {
+        return 'Agree to close the trade'
+      }
+    },
+    ...mapStores(useUserStore,useLoadStore,useItemChatStore,useChatStore,useNotificationStore)
 
   },
 
   async created(){
     this.height =  window.innerHeight;   
     this.width = window.innerWidth;
+
+
+    // ALL WATCH HERE
     this.$watch(
       () => this.$route.params,
       async (toParams, previousParams) => {
@@ -494,14 +470,76 @@ export default {
       }
     )
 
+    this.$watch(()=>this.chatStore.createdAt,function (newMessage){
+      if (this.chatStore.sender==this.chattingWith){
+        this.currentMessages= [...this.currentMessages, {
+            sender: this.myRole=="buyer" ? "seller" : "buyer",
+            textContent: this.chatStore.textContent,
+            createdAt: this.chatStore.createdAt
+        }]
+      }
+        this.currentChats.forEach(element => {
+        if(element.seller.username == this.chattingWith ||element.buyer.username == this.chattingWith ){
+          element.latestMessage = {
+            sender:this.myRole=="buyer" ? "seller" : "buyer",
+            textContent: this.chatStore.textContent,
+            createdAt: this.chatStore.createdAt
+          }
+        }})
+      })
+
+      this.$watch(()=>this.notificationStore.time,async function (newNotification){
+      switch (this.notificationStore.event) {
+        case "newChat" : 
+          await this.loadCurrentChats()
+          if (this.usernamesChattingNow.includes(this.$route.params.username)){
+            var index = this.usernamesChattingNow.indexOf(this.$route.params.username)
+            this.chattingWith = this.$route.params.username
+
+            var chatToMove = this.currentChats[index]
+            this.currentChats.splice(index,1)
+            this.currentChats= [chatToMove, ...this.currentChats]
+
+            var usernameToMove = this.usernamesChattingNow[index]
+            this.usernamesChattingNow.splice(index,1)
+            this.usernamesChattingNow.unshift(usernameToMove)
+          }
+          break;
+        case "endChatSuccess":
+          if (this.notificationStore.usernameFrom == this.chattingWith){
+            this.$router.go()
+          }
+          break;
+        case "requestEndChatSuccess":
+          if (this.chattingWith==this.notificationStore.usernameFrom){
+            this.endChatSuccessState='needRespond'
+          }          
+          break;
+        case "resetEndChatSuccess":
+          if (this.chattingWith==this.notificationStore.usernameFrom){
+            this.endChatSuccessState=null
+          }
+          break;
+        }})
+        
+   
+
+    //start to load the chats
+
     this.loadStore.loading = true
     await this.loadCurrentChats()
-      await this.checkParamsAndLoad()
-
+    await this.checkParamsAndLoad()
     this.loadStore.loading = false
   },
-  async mounted(){
+  mounted() {
+    this.myModal = bsModal.getOrCreateInstance(this.$refs.myModal)
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    })
+  },
 
-  }
+  beforeDestroy() { 
+    window.removeEventListener('resize', this.onResize); 
+  },
 }
 </script>

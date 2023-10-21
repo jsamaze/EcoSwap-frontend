@@ -4,16 +4,21 @@ import 'cropperjs/dist/cropper.css';
 
 import * as bootstrap from 'bootstrap'
 import * as Vue from 'vue'
+
 import App from './App.vue'
+
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 import {createPinia} from 'pinia'
 import router from './router'
-import {useUserStore} from './store/UserStore'
+
 import ToastPlugin from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
+
 import {LoadingPlugin} from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
+
+import {useUserStore} from './store/UserStore'
 import { useLoadStore } from './store/InitialLoadStore';
 import { useNotificationStore } from './store/NotificationStore';
 import { useChatStore } from './store/ChatStore';
