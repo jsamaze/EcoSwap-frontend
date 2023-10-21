@@ -4,13 +4,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-body {
-    background: #f9f9f9;
-    min-height: 100vh;
-    overflow-x: hidden;
+    font-family: 'Poppins';
 }
 
 section.parallax {
@@ -19,17 +13,15 @@ section.parallax {
 }
 
 .parallax {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
-    position: relative;
+    width: 100%;
 }
 
 #text {
-    font-size: x-large;
+    font-size: 350%;
     position: relative;
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0,0,0,.2);
@@ -45,32 +37,84 @@ section.parallax {
     object-fit: cover;
 }
 
-.secFill {
-    position: relative;
-    background: #003329;
-    padding: 100px;
-}
-
 .sec {
     position: relative;
     background: #003329;
-    padding-bottom: 100px;
+    padding: 20px;
+    padding-top: 40px;
+    text-align: center;
 }
 
 .sec h2 {
     font-size: 3em;
     color: #fff;
-    margin-bottom: 10px;
 }
 
 .sec p {
-    font-size: 1em;
-    color: #fff;
-    font-weight: 300;
+    font-weight: 400;
+    color: white;
+    font-size: 28px;
+    margin-top: 40px;
+}
+
+.skill-item {
+    position: relative;
+    max-width: 250px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 60px;
+    color: #555;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-top: 100%;
+    margin-bottom: 27px;
+    border: 3px solid white;
+    border-radius: 50px;
+    background: white;
+}
+
+.skill-item .chart,
+.skill-item .chart canvas{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.skill-item .chart:before {
+    content: "";
+    width: 0;
+    height: 100%;
+}
+
+.skill-item .chart:before,
+.skill-item .percent {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.skill-item .percent {
+    position: relative;
+    line-height: 1;
+    font-size: 70px;
+    color: #333;
+    font-weight: 400;
+    z-index: 2;
+}
+
+.skill-item .percent:after {
+    content: attr(data-after);
+    font-size: 20px;
 }
 
 .sec2 {
     position: relative;
     background: #d2e296;
-    padding: 100px;
+    padding-bottom: 50px;
 }
