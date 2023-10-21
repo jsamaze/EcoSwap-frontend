@@ -21,7 +21,7 @@ import { useNotificationStore } from './store/NotificationStore';
     <div class="d-flex flex-column min-vh-100 background">
   <header>
     <NavBar ></NavBar>
-    <div style="height: 60px; background-color: #f7f7f7;;">
+    <div style="height: 70px; background-color: #f7f7f7;;">
       I am here to avoid item hiding behind nav bar
     </div>
   </header>

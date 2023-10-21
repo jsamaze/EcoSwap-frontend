@@ -12,8 +12,8 @@ import ItemCard from '../../components/ItemCard.vue';
 
   <!-- search bar + filter -->
 
-  <nav class="navbar bg-light mt-3">
-    <div class="container-fluid">
+  <nav class="navbar bg-light">
+    <div class="container-fluid p-3">
       <form class="d-flex" role="search">
         <input class="form-control me-2 title" type="search" placeholder="Search for..." aria-label="Search">
         <button class="btn btn-outline-success titleBold" type="submit">Search</button>
