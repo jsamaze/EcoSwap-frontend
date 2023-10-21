@@ -19,17 +19,15 @@ section.parallax {
 }
 
 .parallax {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
-    position: relative;
+    z-index: 1;
 }
 
 #text {
-    font-size: x-large;
+    font-size: 350%;
     position: relative;
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0,0,0,.2);
@@ -45,16 +43,10 @@ section.parallax {
     object-fit: cover;
 }
 
-.secFill {
-    position: relative;
-    background: #003329;
-    padding: 100px;
-}
-
 .sec {
     position: relative;
     background: #003329;
-    padding-bottom: 100px;
+    padding: 50px;
 }
 
 .sec h2 {
@@ -72,5 +64,5 @@ section.parallax {
 .sec2 {
     position: relative;
     background: #d2e296;
-    padding: 100px;
+    padding-bottom: 50px;
 }

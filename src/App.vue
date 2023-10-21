@@ -27,7 +27,7 @@ import { useNotificationStore } from './store/NotificationStore';
     <NavBar ></NavBar>
 
 
-<div style="height: 60px; background-color: #f7f7f7;;">
+<div style="height: 60px; margin-bottom: 7px; background-color: #f7f7f7;;">
   I am here to avoid item hiding behind nav bar
 </div>
 
@@ -55,11 +55,8 @@ import { useNotificationStore } from './store/NotificationStore';
 header {
   display:table
 }
-
-
-
   /* nav bar */
- .navigation {
+.navigation {
     background-color: #f7f7f7;
     /* max-height: 10vh; */
     /* position: fixed;  */
@@ -73,20 +70,11 @@ header {
     z-index: 100; */
   }
 
-  .logo ,h2 {
+  .logo {
     color: #359381;
-    /* pointer-events: none;
-    margin-right: 20px; */
-
-
   }
 
-  h2:hover {
-    color : white;
-  }
-
-
-  .navigation a,  .active-class {
+  .navigation a, .active-class {
     text-decoration: none;
     color: #359381;
     padding: 6px 15px;
@@ -96,7 +84,7 @@ header {
   }
 
   .navigation a:hover,
-  .navigation a .active,  .active-class {
+  .navigation a .active, .active-class {
     background: #359381;
     color: #fff;
   }
@@ -120,11 +108,6 @@ header {
   .subtitleItalics {
     font-family: 'Poppins';
     font-style: italic;
-  }
-
-  /* font size */
-  .text-responsive {
-    font-size: calc(100% + 1vw + 1vh);
   }
 
   /* font colours */

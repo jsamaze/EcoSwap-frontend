@@ -10,9 +10,12 @@ import ItemCard from '../../components/ItemCard.vue';
 <template>
   <!-- type your HTML here -->
 
+  <!-- to prevent search bar from hiding behind nav bar -->
+
+
   <!-- search bar + filter -->
 
-  <nav class="navbar bg-light sticky-top mt-3">
+  <nav class="navbar bg-light mt-3">
     <div class="container-fluid">
       <form class="d-flex" role="search">
         <input class="form-control me-2 title" type="search" placeholder="Search for..." aria-label="Search">

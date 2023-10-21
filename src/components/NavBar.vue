@@ -2,10 +2,10 @@
 
 <template>
 
-    <nav class="navbar navbar-expand-lg fixed-top navigation pe-3" style="width: 100vw;" >
-      <router-link class="navbar-brand" to="/">
-        <h2 class="logo titleBold">EcoSwap</h2>
-      </router-link>
+<nav class="navbar navbar-expand-lg fixed-top navigation pe-3" style="width: 100vw;" >
+  <router-link class="navbar-brand" to="/">
+    <h2 class="logo titleBold">EcoSwap</h2>
+  </router-link>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
     <span class="navbar-toggler-icon"></span>
   </button>
