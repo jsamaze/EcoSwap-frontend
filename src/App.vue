@@ -33,6 +33,7 @@ import { useChatStore } from './store/ChatStore';
   <main class="" >
   <RouterView class="mt-auto pt-3"/>
   </main>
+  <img class="d-none" src="./assets/images/scott-lord-uX1QIBXbkMA-unsplash.jpg"/>
 
   <footer v-if="!$route.fullPath.includes('chat')" class="background text-center text-lg-start mt-auto">
   <!-- Copyright -->
