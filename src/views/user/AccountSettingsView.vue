@@ -45,7 +45,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
         <h1 class="title text-center">Account Settings</h1>
         You cannot change your username : 
-        <span class="text-center fw-bold">{{ this.userStore.username }}</span>
+        <span class="text-center fw-bold">{{ userStore.username }}</span>
 
         <hr>
         <TextInput  name="fullName">
