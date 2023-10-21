@@ -147,10 +147,8 @@ export default {
       // css classes
       conversationsModeClass : "conversations-mode",
       messagesModeClass : "messages-mode",
-      chatContainerClasses :[
-        'chat-container',
-       'mt-3' 
-    ],
+      chatContainerClasses :
+        'chat-container ',
 
       // UI related
       height : 0,
@@ -198,19 +196,10 @@ export default {
 
     },
     swapScreenToChatting(){
-      var idx = this.chatContainerClasses.indexOf(this.conversationsModeClass)
-      if(idx != -1){
-        this.chatContainerClasses.splice(idx,1)
-      }
-      this.chatContainerClasses.push(this.messagesModeClass)
+      this.chatContainerClasses = 'chat-container ' + this.messagesModeClass
     },
     swapScreenToConversations(){
-      var idx = this.chatContainerClasses.indexOf(this.messagesModeClass)
-      if(idx != -1){
-        this.chatContainerClasses.splice(idx,1)
-      }
-      this.chatContainerClasses.push(this.conversationsModeClass)
-
+      this.chatContainerClasses = 'chat-container ' + this.conversationsModeClass
 
     },
     async loadCurrentChats(){

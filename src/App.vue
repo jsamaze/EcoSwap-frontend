@@ -20,18 +20,15 @@ import { useChatStore } from './store/ChatStore';
           loader="bars"/>
     </div>
     <div class="d-flex flex-column min-vh-100 background">
-  <header>
-    <NavBar ></NavBar>
 
-    <!-- reduce this amount, the parallax can see the edge alr -->
-    <div style="height: 55px; background-color: #f7f7f7;;">
-      I am here to avoid item hiding behind nav bar
-    </div>
-  </header>
+      <header class="sticky-top">
+        <NavBar ></NavBar>
+      </header>
+
 
   <!-- Replaced by component in /router/index.js -->
   <main class="" >
-  <RouterView class="mt-auto pt-3"/>
+  <RouterView />
   </main>
   <img class="d-none" src="./assets/images/scott-lord-uX1QIBXbkMA-unsplash.jpg"/>
 

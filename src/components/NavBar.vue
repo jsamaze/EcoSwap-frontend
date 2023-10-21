@@ -2,7 +2,7 @@
 
 <template>
 
-<nav class="navbar navbar-expand-lg fixed-top navigation p-3" style="width: 100vw;" >
+<nav class="navbar navbar-expand-lg navigation p-3" style="width: 100%;" >
   <h2 class="logo titleBold">EcoSwap</h2>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
     <span class="navbar-toggler-icon"></span>
