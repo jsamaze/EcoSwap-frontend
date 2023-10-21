@@ -1,6 +1,9 @@
 <script setup>
+import { nextTick } from 'vue';
 import Conversation from '../../components/chat/conversation.vue';
 import message from '../../components/chat/message.vue'
+import { useLoadStore } from '../../store/InitialLoadStore';
+import { useItemChatStore } from '../../store/ItemChatStore';
 import { useUserStore } from '../../store/UserStore';
 import { mapStores } from 'pinia';
 </script>
@@ -25,23 +28,23 @@ import { mapStores } from 'pinia';
 
           <div class="row">
             <div class="col-6">
-              <h3 class="text-center">ABC</h3>
+              <h3 class="text-center">Listed Items by me</h3>
 
-              <div>
-                <input class="form-check-input" type="checkbox" name="lorem" id="0">  
-                <label for="0" class="form-check-label d-inline">    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed quibusdam repellat eius ex amet unde modi ullam delectus obcaecati, magni alias, deserunt nihil. Asperiores cum fugit nihil reprehenderit, numquam in!</label>
+              <div v-for="item in myListedItems">
+                <input :id="item._id" @change="updateMyItems" type="checkbox" :value="item._id"  
+                :checked="mySelectedItems.includes(item._id)">
+                <label :for="item._id" class="form-check-label d-inline">  {{ "   " +  item.itemName }}</label>
               </div>
               
             </div>
             <div class="col-6">
-              <h3 class="text-center">ABC</h3>
-              <ul>
-                <li>lmao</li>
-                <li>a</li>
-                <li>x</li>
-                <li>y</li>
-                <li>b</li>
-              </ul>            
+              <h3 class="text-center">Listed Items by {{ truncatedChattingWith }}</h3>
+              <div v-for="item in otherListedItems">
+                <input type="checkbox" :value="item._id"  
+                :checked="itemChatStore.items.includes(item._id)" disabled >
+                <label class="form-check-label d-inline">  {{ "   " +  item.itemName }}</label>
+              </div>
+              
             </div>
           </div>
         </div>
@@ -57,30 +60,32 @@ import { mapStores } from 'pinia';
 <!-- modal end -->
 
 
-  <section class="chat-container mt-3" :style="{'height': chatHeight }">
+  <section ref="chatContainer" :class="chatContainerClasses" :style="{'height': chatHeight }">
 
 
   <div class="conversations" >
     <button class="chat-header position-sticky top-0">Chats!</button>
-    <!-- <Conversation :username="username" :chat="latestChats[0]" :chosen="false"></Conversation> -->
+    <Conversation :id="id" v-for="chat,idx in currentChats" :username="userStore.username" :chat="chat" :chosen="chattingWith && idx ==0"
+    @click="swapScreenToChatting"
+     ></Conversation>
   </div>
 
 
   <header class="p-3 m-0">
-    <button class="go-back bg-transparent me-3" id='back-button'>⬅️</button>
-      <h2>SSSSSSSSSSSSSS...</h2>  
+    <button class="go-back bg-transparent me-3" id='back-button' @click="swapScreenToConversations">⬅️</button>
+      <h2>{{ chattingWith ? truncatedChattingWith : "No chat selected"}}</h2>  
 
       <!-- to limit the length of full name max 14-->
 
     <!-- Hide this button when no chat is displayed -->
-    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
       🛒
     </button>
   </header>
 
 
-  <div class="messages py-3" :style="{'height':  convoHeight}">
-    <message :userRole="userRole" :message="sampleMessage"></message>
+  <div ref="messages" id="messages" class="messages py-3" :style="{'height':  convoHeight}">
+    <message v-for='msg in currentMessages' :userRole="myRole" :message="msg" ref="msgs"></message>
   </div>
 
 
@@ -99,10 +104,10 @@ import { mapStores } from 'pinia';
     </div> -->
 
     <!-- input text or text area? -->
-    <form @submit.prevent>
-      <input type="text" class="form-control">
+    <form @submit.prevent="sendMessage">
+      <input type="text" class="form-control" v-model="textContent">
     
-      <input type="submit" class="btn btn-success" value="Send!">
+      <input type="submit" class="btn btn-success" value="Send!" >
     </form>
   </footer>
 
@@ -235,6 +240,7 @@ footer form {
 
 .messages {
   padding-inline: 1rem;
+  /* overflow: scroll; */
 }
 
 .go-back {
@@ -281,52 +287,220 @@ footer > * {
 export default {
   data(){
     return {
+      // css classes
+      conversationsModeClass : "conversations-mode",
+      messagesModeClass : "messages-mode",
+      chatContainerClasses :[
+        'chat-container',
+        'mt-3' 
+    ],
 
-
+      // UI related
       height : 0,
-      username : 'sarah',
+      width:0,
 
-      latestChats : [],
+      //information about user
+      usernamesChattingNow : [],
 
 
-      userRole : 'buyer',
-      sampleMessage : 			{
-				"sender": "buyer",
-				"textContent": "kk",
-				"_id": "651ac80298e56021d1b7fd28",
-				"createdAt": "2023-10-02T13:39:14.884Z",
-				"updatedAt": "2023-10-02T13:39:14.884Z"
-			},
+      //left panel info
+      currentChats : [],
+
+      //right panel info
+      firstScroll : false,
+      chattingWith : null,
+      chattingWithFullName : null,
+
+      myRole : 'buyer',
+      currentMessages : [],
+      textContent : "",
+
+      myListedItems : [],
+      mySelectedItems : [], // all in id only
+      otherListedItems: [],
+      //otherSelectedItem is in the itemChatStore also in id
+
+
+      endChatSuccessState : null, //either waiting or needRespond or null
+
+
     }
   },
+  methods : {
+    swapScreenToChatting(){
+      var idx = this.chatContainerClasses.indexOf(this.conversationsModeClass)
+      if(idx != -1){
+        this.chatContainerClasses.splice(idx,1)
+      }
+      this.chatContainerClasses.push(this.messagesModeClass)
+    },
+    swapScreenToConversations(){
+      var idx = this.chatContainerClasses.indexOf(this.messagesModeClass)
+      if(idx != -1){
+        this.chatContainerClasses.splice(idx,1)
+      }
+      this.chatContainerClasses.push(this.conversationsModeClass)
+
+
+    },
+    async loadCurrentChats(){
+
+
+      try {
+         var response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/chat`);
+         console.log(response)
+
+          this.currentChats = response.data.data
+
+          this.usernamesChattingNow = this.currentChats.map(chat => {
+            return chat.buyer.username!=this.userStore.username ? chat.buyer.username : chat.seller.username
+          })
+          // console.log(peopleChattingNow)
+          // if (peopleChattingNow.includes(this.$route.params.username)){
+          //   this.activeChatUser=this.$route.params.username
+          //   this.loadChat()
+          // } else {
+          //   this.$router.push("/chat")
+          // }
+          //include data
+      } catch (e) {
+        console.log(e)
+        this.$toast.error("Failed to load current chats. Please reload")
+      }
+
+    },
+
+    async loadChat(){
+      try {
+        this.chattingWith = this.$route.params.username 
+
+        var ajax1 =  await this.axios.get(`${import.meta.env.VITE_BACKEND}/chat/user/${this.chattingWith}`)
+        var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search/`,{
+                                params : { itemType : "Listed",
+                              username: this.userStore.username}
+                              })
+        var ajax3 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search/`,{
+                      params : { itemType : "Listed",
+                    username: this.chattingWith}
+                    })
+
+        var currentChat = ajax1.data.data
+        this.currentMessages = currentChat.messages
+
+        this.myRole = currentChat.seller.username == this.userStore.username ? "seller" : "buyer"
+        this.mySelectedItems =  currentChat[this.myRole+"Items"].map((item)=>item._id )
+        
+        this.itemChatStore.username = this.chattingWith
+        this.itemChatStore.items = currentChat[(this.myRole=='seller' ? 'buyer' : 'seller')+'Items'].map((item)=>item._id )
+
+
+        this.endChatSuccessState = 
+            (currentChat[this.myRole+'Close'] ? 'waiting' : (
+              (currentChat.buyerClose || currentChat.sellerClose) ? 'needRespond' : null))
+        
+        this.myListedItems = ajax2.data.data
+        this.otherListedItems = ajax3.data.data
+        // this.scrollChat()
+
+        this.swapScreenToChatting()
+
+        this.chattingWithFullName = currentChat[(this.myRole=='seller' ? 'buyer' : 'seller')].fullName
+      } catch (e) {
+        console.error(e)
+        this.$toast.error("Failed to load user chat")
+      }
+    },
+    scrollChat(){
+      console.log(this.$refs)
+      nextTick(
+        this.$refs.msgs[this.$refs.msgs.length-1].$el.scrollIntoView({
+        behavior : 'smooth'
+      })
+
+      )
+    },
+    sendMessage(){
+      if (this.textContent){
+        this.currentMessages = [...this.currentMessages, {
+        sender : this.myRole,
+        textContent :this.textContent,
+        createdAt : new Date().toISOString()
+      }]
+      this.textContent=""
+      }
+    },
+    async checkParamsAndLoad(){
+      if (this.usernamesChattingNow.includes(this.$route.params.username)){
+      var index = this.usernamesChattingNow.indexOf(this.$route.params.username)
+      this.chattingWith = this.$route.params.username
+
+      var chatToMove = this.currentChats[index]
+      this.currentChats.splice(index,1)
+      this.currentChats= [chatToMove, ...this.currentChats]
+
+      var usernameToMove = this.usernamesChattingNow[index]
+      this.usernamesChattingNow.splice(index,1)
+      this.usernamesChattingNow.unshift(usernameToMove)
+
+      await this.loadChat()
+    } else {
+      this.$router.push('/chat')
+    }
+    }
+  },
+
+  watch : {
+    currentMessages(){
+      
+      nextTick(()=>{
+        if(!this.firstScroll){
+          this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight
+          this.firstScroll=true
+        } else {
+          this.scrollChat() 
+        }
+      })
+    }
+  },
+
+
 
   computed : {
     chatHeight(){
       return this.height-80 + 'px';
     },
     convoHeight(){
-      return (this.height-80) -(this.height*0.25) +'px'
+      return (this.height-80) -(this.height*0.21) +'px'
     },
-    ...mapStores(useUserStore)
+    truncatedChattingWith(){
+      var subStr = this.chattingWithFullName?.substr(0,14) ?? ""
+      return subStr + (subStr.length == 14 ?  "..." : "")
+
+    },
+    ...mapStores(useUserStore,useLoadStore,useItemChatStore)
+
   },
-  mounted(){
+
+  async created(){
     this.height =  window.innerHeight;   
-        
-    const gridElement = document.getElementsByClassName("chat-container")[0];
-    const conversations = document.getElementsByClassName("conversations")[0];
-    const backButton = document.getElementById("back-button");
-    const conversationsModeClass = "conversations-mode";
-    const messagesModeClass = "messages-mode";
+    this.width = window.innerWidth;
+    this.$watch(
+      () => this.$route.params,
+      async (toParams, previousParams) => {
+        // react to route changes...
+        this.loadStore.loading= true
+        await this.checkParamsAndLoad()
+        this.loadStore.loading = false
+      }
+    )
 
-    conversations.addEventListener("click", () => {
-      gridElement.classList.remove(conversationsModeClass);
-      gridElement.classList.add(messagesModeClass);
-    });
+    this.loadStore.loading = true
+    await this.loadCurrentChats()
+      await this.checkParamsAndLoad()
 
-    backButton.addEventListener("click", () => {
-      gridElement.classList.remove(messagesModeClass);
-      gridElement.classList.add(conversationsModeClass);
-});
+    this.loadStore.loading = false
+  },
+  async mounted(){
 
   }
 }

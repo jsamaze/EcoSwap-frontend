@@ -18,6 +18,7 @@ import { useLoadStore } from './store/InitialLoadStore';
 import { useNotificationStore } from './store/NotificationStore';
 import { useChatStore } from './store/ChatStore';
 import { useItemChatStore } from './store/ItemChatStore';
+import { useSocketStore } from './store/SocketStore';
 
 
 axios.defaults.withCredentials=true;
@@ -32,6 +33,7 @@ export const loadStore = useLoadStore()
 export const notificationStore = useNotificationStore()
 export const chatStore = useChatStore()
 export const itemChatStore = useItemChatStore()
+export const socketStore = useSocketStore()
 
 app.use(ToastPlugin)
 
@@ -42,6 +44,8 @@ app.use(LoadingPlugin, {
 },{
 })
 
+app.mount('#app')
+
 axios.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
@@ -49,13 +53,15 @@ axios.interceptors.response.use(function (response) {
   }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    console.log(error)
-    if (error.status == 401){
+    console.log(error.response.status)
+    if (error.response.status == 401){
+
         console.log("intercept")
-        UserStore.username = undefined;
-        router.go(0)
+        userStore.username = undefined;
+        userStore.userId = undefined;
+        let instance = app.$toast.error('Your session has expired! Please log in again');
+        router.push("/")
     }
     return Promise.reject(error);
   });
 
-app.mount('#app')

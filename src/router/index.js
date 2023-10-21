@@ -1,6 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, START_LOCATION } from 'vue-router'
 import {useUserStore} from '../store/UserStore'
 import axios from 'axios'
+import {socket} from '../socket'
 
 // Step 1.IMPORT before using
 import GuestItemListingView from '../views/item/GuestItemListingView.vue'
@@ -39,6 +40,7 @@ import MapView from '../views/item/MapView.vue'
 
 import ItemDeletePhotoView from '../views/item/ItemDeletePhotoView.vue'
 import { useLoadStore } from '../store/InitialLoadStore'
+import {useSocketStore} from '../store/SocketStore'
 
 
 const router = createRouter({
@@ -243,11 +245,11 @@ const router = createRouter({
     //F . Chat
 
     {
-      path: '/chat',
+      path: '/chat/:username?',
       name : 'Chat',
       component: ChatView,
       meta : {
-        needAuth :null,
+        needAuth :true,
       }
     },
 
@@ -281,9 +283,11 @@ export default router
 router.beforeEach(async (to,from)=>{
   const userStore = useUserStore();
   const loadStore = useLoadStore()
+  const socketStore = useSocketStore();
 
 
   var isLoggedIn = !!userStore.username;
+  console.log(isLoggedIn)
   var skip= false
   const needAuth = to.matched.some(
   (record) => {
@@ -295,7 +299,7 @@ router.beforeEach(async (to,from)=>{
 
 
   // if not logged in lets check whether that is the case
-  if (!isLoggedIn){
+  if (from == START_LOCATION && !isLoggedIn){
     try {
         //try calling login - guaranteed to fail due to lack of body
         const response = await axios.post(`${import.meta.env.VITE_BACKEND}/user/login`,{});
@@ -316,6 +320,12 @@ router.beforeEach(async (to,from)=>{
         }
     }
   }
+
+  if(userStore.username && !socket.connected) {
+    await socket.connect()
+    socketStore.connected = true
+  }
+
   loadStore.loading=false
 
   if (skip){

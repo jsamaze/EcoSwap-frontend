@@ -1,9 +1,9 @@
 <template>
     <article class="message">
-      <article :class="{msgBox:true, msgBoxThem:!isUser}">
+      <article :class="{msgBox:true, msgBoxThem:isUser}">
         {{message.textContent}}
       </article>
-      <article :class="{msgTIme:true, msgTimeThem:!isUser}">{{ dateString }}</article>
+      <article :class="{msgTIme:true, msgTimeThem:isUser}">{{ dateString }}</article>
     </article>
 </template>
 
@@ -17,7 +17,8 @@
 }
 
 
-/* Add this class for opp */
+/* Add this class for opp - actually its opposite logic  */
+/* them refers to user */
 .msgBoxThem {
   background-color: lavender;
   border-radius: 5px 5px 0 5px;

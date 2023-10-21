@@ -7,6 +7,7 @@ import { mapStores } from 'pinia';
 import { useLoadStore } from './store/InitialLoadStore';
 import Loading from 'vue-loading-overlay'
 import NavBar from './components/NavBar.vue';
+import { useNotificationStore } from './store/NotificationStore';
 </script>
 
 
@@ -37,7 +38,7 @@ import NavBar from './components/NavBar.vue';
   <RouterView class="mt-auto pt-3"/>
   </main>
 
-  <footer v-if="$route.fullPath!='/chat'" class="background text-center text-lg-start mt-auto">
+  <footer v-if="!$route.fullPath.includes('chat')" class="background text-center text-lg-start mt-auto">
   <!-- Copyright -->
   <div class="text-center p-3 w-100 subtitle" style="background-color: rgba(0, 0, 0, 0.2);"> 
     © 2023 EcoSwap
@@ -180,11 +181,24 @@ header {
 export default {
   data() {
     return {
-      // vue things go here
+      notificationMap : {
+        "connect" : {
+          toastType : "success",
+          message : "You can now receive real time notifications!"
+        },
+        "disconnected" : {
+          toastType : "warning",
+          message : "You can no longer receive real time notification. Please refresh to reconnect"
+        },
+        "connect_error" : {
+          toastType : "error",
+          message : "Failed to connect to server for real time notification. Please try refreshing"
+        }
+      }
     }
   },
   computed : {
-    ...mapStores(useUserStore, useLoadStore)
+    ...mapStores(useUserStore, useLoadStore, useNotificationStore)
   },
   methods: {
     printHeight(e){
@@ -195,6 +209,18 @@ export default {
     },
     
   },
+
+  created(){
+    // DEALS WITH NOTIFICATION TOAST LOGIC
+
+    this.$watch( ()=> this.notificationStore.time, function (notification) {
+      this.$toast[this.notificationMap[this.notificationStore.event].toastType](
+        this.notificationMap[this.notificationStore.event].message
+      )
+    })
+
+
+  }
 
 }
 </script>

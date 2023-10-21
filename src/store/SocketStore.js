@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export const useChatStore = defineStore('chat',{
+export const useSocketStore = defineStore('socket',{
   state: () => ({
     connected : false
   }),

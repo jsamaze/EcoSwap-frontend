@@ -1,12 +1,12 @@
 <template>
-    <button :class="styleObj" >
+    <button :class="styleObj"  @click="$router.push(`/chat/${usernameThem}`)">
       <div class="text-start fs-5">
-        {{ chat[oppRole].fullName }}   
+        {{ fullName }}   
           <!-- to limit the length of full name max 14-->
 
         <div class="float-end fs-6">{{ dateString }}</div>
       </div>
-      <div class="text-start">{{ chat.latestMessage.textContent }}</div>
+      <div class="text-start">{{ latestMessageTextContent }}</div>
     </button>
 </template>
 
@@ -42,15 +42,30 @@ export default {
         return {"conversation" : true, "p-3" : true, "chosen" : this.chosen}
         // return ['conversation','p-3','chosen']
     },
-    userRole(){
-      return this.chat.seller.username == this.username ? 'seller' : 'buyer'
-    },
-    oppRole(){
-        return this.userRole =='seller' ? 'buyer' : 'seller'
-    },
     dateString (){
-      var date = new moment(this.chat.latestMessage.createdAt) 
-      return  date.format("DD/MM")
+      if (this.chat.latestMessage){
+        var date = new moment(this.chat.latestMessage.createdAt) 
+        return  date.format("DD/MM")
+      }
+      return null
+    },
+    latestMessageTextContent (){
+      var temp = this.chat.latestMessage ? this.chat.latestMessage.textContent : "No messages yet..."
+      var subStr = temp.substr(0,23)
+      return subStr + (subStr.length == 23 ?  "..." : "")
+    },
+    fullName(){
+
+      var userRole = this.chat.seller.username == this.username ? 'seller' : 'buyer';
+      var oppRole = userRole =='seller' ? 'buyer' : 'seller'
+      console.log(this.chat[oppRole].fullName)
+      var subStr = this.chat[oppRole].fullName.substr(0,14)
+      return subStr + (subStr.length == 14 ?  "..." : "")
+    },
+    usernameThem(){
+      var userRole = this.chat.seller.username == this.username ? 'seller' : 'buyer';
+      var oppRole = userRole =='seller' ? 'buyer' : 'seller'
+      return this.chat[oppRole].username
     }
   }
 }
