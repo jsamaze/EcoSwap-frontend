@@ -38,6 +38,7 @@ import ChatView from '../views/chat/ChatView.vue'
 import MapView from '../views/item/MapView.vue'
 
 import ItemDeletePhotoView from '../views/item/ItemDeletePhotoView.vue'
+import { useLoadStore } from '../store/InitialLoadStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -279,6 +280,8 @@ export default router
 router.beforeEach(async (to,from)=>{
   const userStore = useUserStore();
 
+  const loadStore = useLoadStore();
+
   var isLoggedIn = !!userStore.username;
   var skip= false
   const needAuth = to.matched.some(
@@ -312,7 +315,7 @@ router.beforeEach(async (to,from)=>{
         }
     }
   }
-
+  loadStore.loading=false
   
   if (skip){
     return true;
