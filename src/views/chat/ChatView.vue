@@ -95,8 +95,8 @@ import bsModal from 'bootstrap/js/src/modal'
       <!-- to limit the length of full name max 14-->
 
     <!-- Hide this button when no chat is displayed -->
-    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-      🛒
+    <button class="btn btn-light p-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-show="chattingWith">
+      🛒 🤝
     </button>
   </header>
 
@@ -151,7 +151,7 @@ export default {
       messagesModeClass : "messages-mode",
       chatContainerClasses :[
         'chat-container',
-        'mt-3' 
+       'mt-3' 
     ],
 
       // UI related

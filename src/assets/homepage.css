@@ -7,6 +7,8 @@
     font-family: 'Poppins';
 }
 
+
+
 section.parallax {
     overflow: hidden;
     position: relative;
@@ -117,4 +119,5 @@ section.parallax {
     position: relative;
     background: #d2e296;
     padding-bottom: 50px;
+    width: 100%;
 }

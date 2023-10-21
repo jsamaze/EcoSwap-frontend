@@ -22,7 +22,9 @@ import { useChatStore } from './store/ChatStore';
     <div class="d-flex flex-column min-vh-100 background">
   <header>
     <NavBar ></NavBar>
-    <div style="height: 70px; background-color: #f7f7f7;;">
+
+    <!-- reduce this amount, the parallax can see the edge alr -->
+    <div style="height: 55px; background-color: #f7f7f7;;">
       I am here to avoid item hiding behind nav bar
     </div>
   </header>
@@ -135,7 +137,7 @@ header {
   /* disable parallax when seeing in mobile */
 
   @media (max-width: 600px) {
-    html,body:not(.parallax)
+    html,body
 {
     width: 100%;
     height: 100%;

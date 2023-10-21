@@ -112,11 +112,9 @@ import GreenBtn from '../../components/GreenBtn.vue'
 
 
                             <div class="row" v-if="username != userStore.username && itemType != 'WishList'">
-                                <RouterLink :to="`/chat/${$route.params.itemId}`">
-                                  <GreenBtn>
-                                    StartChat
+                                  <GreenBtn @click="startChat">
+                                    Start Chat about this item
                                   </GreenBtn>
-                                </RouterLink>
                             </div>
 
 
@@ -144,7 +142,7 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
-
+      itemId : 0,
       itemType : "",
 
       condition : "",
@@ -190,11 +188,34 @@ export default {
     },
     getOwnerPhoto(){
       this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.username}`).then(response =>{
-        this.userPhotoURL = response.data.data.imageURL
+        console.log(response)
+        this.userPhotoURL = response.data.data.imageURL.length > 0 ? response.data.data.imageURL : "/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg"
       }).catch(error=>{
         this.$toast.warning("Failed to fetch owner photo")
+        this.userPhotoURL = "/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg"
+
       })
-    }
+    },
+    startChat(){
+      var loader = this.$loading.show()
+
+      this.axios.post(`${import.meta.env.VITE_BACKEND}/chat/user/${this.username}`,{
+        itemId : this.itemId
+      }).then(
+        (response) =>{
+          this.$toast.success(`Successfully started chat with ${this.username}`)
+        }).catch(
+          error =>{
+            this.$toast.warning(error.response.data.problem)
+          }
+        ).finally(
+
+          ()=> {
+            loader.hide()
+            this.$router.push(`/chat/${this.username}`)
+          }
+        )
+    },
   },
 
   computed : {
@@ -222,6 +243,8 @@ export default {
             loader.hide()
 
             this.youLike = response.data.data.userLike ?? false;
+
+            this.itemId = response.data.data._id
 
              this.condition =response.data.data.condition;
              this.category = response.data.data.category;

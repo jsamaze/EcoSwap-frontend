@@ -5,7 +5,6 @@ import GreenBtn from '../components/GreenBtn.vue';
 
 
   // this is how you import external css files
-  import "../assets/homepage.css"
 
 </script>
 
@@ -13,7 +12,7 @@ import GreenBtn from '../components/GreenBtn.vue';
   
   <!-- type your HTML here -->
   <main>
-    <div class="container-fluid bg px-0">
+    <div class="container-fluid bg px-0 mt-0">
       <section class="parallax z-1">
           <img src="../assets/images/hill1.png" id="hill1">
           <img src="../assets/images/hill2.png" id="hill2">
@@ -73,9 +72,9 @@ import GreenBtn from '../components/GreenBtn.vue';
           </div>
       </section>
 
-      <section class="sec2">
+      <section class="sec2 container-fluid">
         <!-- about -->
-        <div class="row text-center p-5">
+        <div class="row text-center">
           <h1 class="titleBold">About EcoSwap</h1>
         </div>
         <!-- missions -->
@@ -140,6 +139,7 @@ import GreenBtn from '../components/GreenBtn.vue';
 
 <style>
 /* you can also import css files */
+@import "../assets/homepage.css"
 
 </style>
 
