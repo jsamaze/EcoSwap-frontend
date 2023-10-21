@@ -1,7 +1,6 @@
-import { createRouter, createWebHistory, START_LOCATION } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import {useUserStore} from '../store/UserStore'
 import axios from 'axios'
-import {socket} from '../socket'
 
 // Step 1.IMPORT before using
 import GuestItemListingView from '../views/item/GuestItemListingView.vue'
@@ -39,12 +38,9 @@ import ChatView from '../views/chat/ChatView.vue'
 import MapView from '../views/item/MapView.vue'
 
 import ItemDeletePhotoView from '../views/item/ItemDeletePhotoView.vue'
-import { useLoadStore } from '../store/InitialLoadStore'
-import {useSocketStore} from '../store/SocketStore'
-
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
 
   //this array contains routes - Vue Router
   routes: [
@@ -245,11 +241,11 @@ const router = createRouter({
     //F . Chat
 
     {
-      path: '/chat/:username?',
+      path: '/chat',
       name : 'Chat',
       component: ChatView,
       meta : {
-        needAuth :true,
+        needAuth :null,
       }
     },
 
@@ -278,74 +274,64 @@ const router = createRouter({
 
 export default router
 
-// IMPORTANT : in privileged pages, there must be at least one privileged AJAX call that can indicate not logged in
+//IMPORTANT : in privileged pages, there must be at least one privileged AJAX call that can indicate not logged in
 
-router.beforeEach(async (to,from)=>{
-  const userStore = useUserStore();
-  const loadStore = useLoadStore()
-  const socketStore = useSocketStore();
+// router.beforeEach(async (to,from)=>{
+//   const userStore = useUserStore();
 
-
-  var isLoggedIn = !!userStore.username;
-  console.log(isLoggedIn)
-  var skip= false
-  const needAuth = to.matched.some(
-  (record) => {
-    if (record.meta.needAuth==null){
-      skip = true
-    }
-    return record.meta.needAuth
-  });
+//   var isLoggedIn = !!userStore.username;
+//   var skip= false
+//   const needAuth = to.matched.some(
+//   (record) => {
+//     if (record.meta.needAuth==null){
+//       skip = true
+//     }
+//     return record.meta.needAuth
+//   });
 
 
-  // if not logged in lets check whether that is the case
-  if (from == START_LOCATION && !isLoggedIn){
-    try {
-        //try calling login - guaranteed to fail due to lack of body
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND}/user/login`,{});
-      } catch (error) {
+//   // if not logged in lets check whether that is the case
+//   if (!isLoggedIn){
+//     try {
+//         //try calling login - guaranteed to fail due to lack of body
+//         const response = await axios.post(`${import.meta.env.VITE_BACKEND}/user/login`,{});
+//       } catch (error) {
 
-        // actually already logged in because return code 301
-        // note if 500 means not logged in
-        if (!error.response.status){
-          // backend is not on
-          return {name : "NotFound"}
-        }
-        if (error.response.status == 301) {
-          console.error(error);
-          isLoggedIn=true
-          //lets restore the piniaStore
-          userStore.username = error.response.data.username
-          userStore.userId = error.response.data.userId
-        }
-    }
-  }
+//         // actually already logged in because return code 301
+//         // note if 500 means not logged in
+//         if (!error.response.status){
+//           // backend is not on
+//           return {name : "NotFound"}
+//         }
+//         if (error.response.status == 301) {
+//           console.error(error);
+//           isLoggedIn=true
+//           //lets restore the piniaStore
+//           userStore.username = error.response.data.username
+//           userStore.userId = error.response.data.userId
+//         }
+//     }
+//   }
 
-  if(userStore.username && !socket.connected) {
-    await socket.connect()
-    socketStore.connected = true
-  }
-
-  loadStore.loading=false
-
-  if (skip){
-    return true
-  }
-  if (needAuth && !isLoggedIn){
-      return { name :'Guest Homepage'}
-  } else if (isLoggedIn && !needAuth)  {
-    return {name :'User Marketplace'}
-    }
-  }
-)
+  
+//   if (skip){
+//     return true;
+//   }
+//   if (needAuth && !isLoggedIn){
+//       return { name :'Guest Homepage'}
+//   } else if (isLoggedIn && !needAuth)  {
+//     return {name :'User Marketplace'}
+//     }
+//   }
+// )
 
 
-// //IGNORE
-// // {
-// //   path: '/randomItems', //match
-// //   name: 'randomItems',
-// //   component: RandomItems, //then put
-// //   meta : {
-// //     needAuth :true,
-// //   }
-// // },
+//IGNORE
+// {
+//   path: '/randomItems', //match
+//   name: 'randomItems',
+//   component: RandomItems, //then put
+//   meta : {
+//     needAuth :true,
+//   }
+// },

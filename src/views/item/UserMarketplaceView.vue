@@ -10,9 +10,6 @@ import ItemCard from '../../components/ItemCard.vue';
 <template>
   <!-- type your HTML here -->
 
-  <!-- to prevent search bar from hiding behind nav bar -->
-
-
   <!-- search bar + filter -->
 
   <nav class="navbar bg-light mt-3">

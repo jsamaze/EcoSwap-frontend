@@ -18,19 +18,12 @@ import { useNotificationStore } from './store/NotificationStore';
         <loading v-model:active="loadStore.loading"
           loader="bars"/>
     </div>
-
-
-
     <div class="d-flex flex-column min-vh-100 background">
   <header>
-
     <NavBar ></NavBar>
-
-
-<div style="height: 60px; margin-bottom: 7px; background-color: #f7f7f7;;">
-  I am here to avoid item hiding behind nav bar
-</div>
-
+    <div style="height: 60px; background-color: #f7f7f7;;">
+      I am here to avoid item hiding behind nav bar
+    </div>
   </header>
 
   <!-- Replaced by component in /router/index.js -->
@@ -58,20 +51,14 @@ header {
   /* nav bar */
 .navigation {
     background-color: #f7f7f7;
-    /* max-height: 10vh; */
-    /* position: fixed;  */
-    /* top: 0;
-    left: 0; */
-    /* width: 100%;
-    padding: 15px 50px; */
-    /* display: flex; */
-    /* justify-content: flex-start; */
-    /* align-items: center;
-    z-index: 100; */
   }
 
   .logo {
     color: #359381;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
   }
 
   .navigation a, .active-class {
