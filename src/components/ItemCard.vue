@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import placeholder from '../assets/assets'
+import {placeholder} from '../assets/assets'
 export default {
     props : ["item"],
     data() {
