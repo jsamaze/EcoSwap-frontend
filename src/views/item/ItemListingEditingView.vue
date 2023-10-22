@@ -19,7 +19,7 @@
 import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
     // //this is how you import external css files
   // import "../assets/base.css"
-  import placeholder from '../assets/assets'
+  import placeholder from '../../assets/assets'
 
 </script>
 
