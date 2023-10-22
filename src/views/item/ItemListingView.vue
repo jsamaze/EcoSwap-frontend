@@ -189,10 +189,10 @@ export default {
     getOwnerPhoto(){
       this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.username}`).then(response =>{
         console.log(response)
-        this.userPhotoURL = response.data.data.imageURL.length > 0 ? response.data.data.imageURL : "/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg"
+        this.userPhotoURL = response.data.data.imageURL.length > 0 ? response.data.data.imageURL : placeholder
       }).catch(error=>{
         this.$toast.warning("Failed to fetch owner photo")
-        this.userPhotoURL = "/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg"
+        this.userPhotoURL = placeholder
 
       })
     },
@@ -253,7 +253,7 @@ export default {
              this.tags = response.data.data.tags.join(", ");
 
              console.log(response.data.data)
-             this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : ["/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg"];
+             this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : [placeholder];
              this.itemType = response.data.data.itemType;
 
              this.likes = response.data.data.noOfLikes;

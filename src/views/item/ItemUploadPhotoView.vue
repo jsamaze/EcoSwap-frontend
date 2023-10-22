@@ -206,7 +206,7 @@ this.axios.get(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId
 
         loader.hide()
 
-        this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : ["/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg"];
+        this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : [placeholder];
 
         if (this.images.length >= 5){
           this.$toast.error("You can only have a maximum of 5 photos")

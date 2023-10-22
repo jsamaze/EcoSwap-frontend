@@ -30,7 +30,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
         <div class="row">
                       <div class="col-sm-6">
                   
-                  <Btn @click="this.$router.go(-1)">
+                  <Btn @click="$router.go(-1)">
                     Back
                   </Btn>
 
@@ -205,7 +205,7 @@ this.axios.get(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId
           return;
         }
 
-        this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : ["/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg"];
+        this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : [placeholder];
 
 
 
