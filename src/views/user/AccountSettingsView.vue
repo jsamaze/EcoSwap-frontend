@@ -202,7 +202,7 @@ export default {
         this.oldEmail = path.email;
         this.emailVerified = path.emailVerified
         this.username = path.username
-        this.src = path.imageURL
+        this.src = path.imageURL.length > 0 ? path.imageURL : placeholder
         }
       ).catch ( error => {
       })
