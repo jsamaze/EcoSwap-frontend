@@ -13,7 +13,7 @@ import GreenBtn from '../../components/GreenBtn.vue'
 
   // //this is how you import external css files
   // import "../assets/base.css"
-
+import { placeholder } from '../../assets/assets'
 </script>
 
 <template>

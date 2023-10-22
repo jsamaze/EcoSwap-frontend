@@ -41,13 +41,13 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     </CustomCarousell>
 
                     <!-- end carousel -->
-                    <RouterLink v-if="images.length < 5" :to='`/item/${this.$route.params.itemId}/addPhoto`'>
+                    <RouterLink v-if="images.length < 5" :to='`/item/${$route.params.itemId}/addPhoto`'>
                       <GreenBtn>
                       Add photos
                       </GreenBtn>
                     </RouterLink>
 
-                    <RouterLink :to='`/item/${this.$route.params.itemId}/deletePhoto`'>
+                    <RouterLink :to='`/item/${$route.params.itemId}/deletePhoto`'>
                     <GreenBtn v-if="images[0] != placeholder">
                       Delete photos
                     </GreenBtn>
