@@ -19,6 +19,7 @@
 import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
     // //this is how you import external css files
   // import "../assets/base.css"
+  import placeholder from '../assets/assets'
 
 </script>
 
@@ -47,7 +48,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     </RouterLink>
 
                     <RouterLink :to='`/item/${this.$route.params.itemId}/deletePhoto`'>
-                    <GreenBtn v-if="images[0] != '/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg'">
+                    <GreenBtn v-if="images[0] != placeholder">
                       Delete photos
                     </GreenBtn>
                     </RouterLink>

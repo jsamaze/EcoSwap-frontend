@@ -13,8 +13,7 @@
 </template>
 
 <script>
-
-import placeholder from '../assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg'
+import placeholder from '../assets/assets'
 export default {
     props : ["item"],
     data() {

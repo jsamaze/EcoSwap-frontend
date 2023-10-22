@@ -19,6 +19,7 @@
 import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
     // //this is how you import external css files
   // import "../assets/base.css"
+  import placeholder from '../assets/assets'
 
 </script>
 
@@ -35,7 +36,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
                     <!-- carousel -->
                     <br>
-                    <CustomCarousell  :images="['/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg']">
+                    <CustomCarousell  :images="[placeholder]">
 
                     </CustomCarousell>
 
