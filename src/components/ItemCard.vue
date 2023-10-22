@@ -17,7 +17,7 @@
 import placeholder from '../assets/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg'
 export default {
     props : ["item"],
-    data : {placeholder :placeholder}
+    data : {placeholder :placeholder},
     methods : {
         clickCard(){
             this.$router.push(`/item/${this.item._id}`)
