@@ -36,7 +36,7 @@ import bsModal from 'bootstrap/js/src/modal'
               <h3 class="text-center">Listed Items by me</h3>
 
               <div v-for="item in myListedItems">
-                <input :id="item._id" @change="updateMyItems" type="checkbox" v-model='mySelectedItems' :value="item._id" >
+                <input :id="item._id" type="checkbox" v-model.lazy='mySelectedItems' :value="item._id" >
                 <label :for="item._id" class="form-check-label d-inline">  {{ "   " +  item.itemName }}</label>
               </div>
               
@@ -182,6 +182,8 @@ export default {
 
       //to decide second screen or button
       endChatSuccessState : null, //either waiting or needRespond or null
+
+      debouncedChecklist : null,
 
 
     }
@@ -392,6 +394,14 @@ export default {
 
     },
 
+     debounce_leading(func, timeout = 1000){
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+      };
+}
+
 
   },
 
@@ -406,6 +416,9 @@ export default {
           this.scrollChat() 
         }
       })
+    },
+    mySelectedItems(){
+      this.debouncedChecklist()
     }
   },
 
@@ -444,6 +457,8 @@ export default {
   async created(){
     this.height =  window.innerHeight;   
     this.width = window.innerWidth;
+
+    this.debouncedChecklist = this.debounce_leading(()=>this.updateMyItems())
 
 
     // ALL WATCH HERE
