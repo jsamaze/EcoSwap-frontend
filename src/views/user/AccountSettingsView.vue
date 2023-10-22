@@ -12,6 +12,7 @@ import * as yup from 'yup'
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/UserStore';
 import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
+import { placeholder } from '../../assets/assets';
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -120,7 +121,7 @@ export default {
                 email : yup.string().required().email(),
       }),
       oldEmail: "",
-      src:"",
+      src:placeholder,
       emailVerified:false
     }
   },
