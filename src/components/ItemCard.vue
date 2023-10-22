@@ -14,7 +14,7 @@
 
 <script>
 
-import placeholder from '../../assets//src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg'
+import placeholder from '../../assets/src/assets/images/scott-lord-PiqZfESKt3k-unsplash.jpg'
 export default {
     props : ["item"],
     data : {placeholder :placeholder}
