@@ -1,7 +1,10 @@
 <script setup>
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
-import ItemCard from '../../components/ItemCard.vue';
+  import ItemCard from '../../components/ItemCard.vue';
+  import {mapStores} from 'pinia';
+import { useUserStore } from '../../store/UserStore';
+
 
 
   // //this is how you import external css files
@@ -15,25 +18,26 @@ import ItemCard from '../../components/ItemCard.vue';
   <div class="container-fluid">
     <div class="row">
       <!-- Left column with profile pic and username, values should be dynamic-->
-      <div class="parent col-4 bg-info">
+      <div class="parent col-3 bg-info">
         <div class="row">
-            <img class="big center" src="\src\assets\images\scott-lord-PiqZfESKt3k-unsplash.jpg" id="imgHere">
-            <h3 class="center" id="otherUsername">Other User's Name</h3>
-            <p class="center" id="otherBusStop">Other User's Preferred Bus Stop</p>
-            <p class="center" id="otherUserRating">Other User's Rating</p>
+            <img class="big center" :src="user.imageURL" id="imgHere">
+            <h3 class="center" id="Username">{{ user.fullName }}</h3>
+            <p class="center" id="PreferredBusStop">Preferred Bus Stop: {{user.preferredBusStop}}</p>
+            <p class="center" id="UserRating">User Rating: {{user.avgRating ?? "NIL"}}</p>
+            <p class="center" id="Tier">Tier: <span :style="{color: user.tier}">{{user.tier}}</span></p>
         </div>
       </div>
 
       <!-- Right column with Listed Items and Wishlist Items-->
-      <div class="col-8">
+      <div class="col-9">
         <!--Listed Items-->
         <div class="row bg-success mh-50 fit">
-          <h5>Listed Items</h5>
+          <h5>My Listed Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==$route.params.username">Add</button> </h5>
           <br>
           <!-- Card for Listed Items, currently only uses Trending Items-->
           <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
-            <div class="col-lg-3" v-for="item in items">
-              <ItemCard :item="item">
+            <div class="col-lg-3" v-for="itemL in listedItems">
+              <ItemCard :item="itemL">
 
               </ItemCard>
             </div>
@@ -42,12 +46,12 @@ import ItemCard from '../../components/ItemCard.vue';
 
         <!--Wishlist Items-->
         <div class="row bg-success mh-50">
-          <h5>Wishlist Items</h5>
+          <h5>My Wishlist Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==$route.params.username">Add</button></h5>
           <br>
           <!-- Card for Wishlist Items, currently only uses Trending Items-->
           <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
-            <div class="col-lg-3" v-for="item in items">
-              <ItemCard :item="item">
+            <div class="col-lg-3" v-for="itemW in wishlistItems">
+              <ItemCard :item="itemW">
 
               </ItemCard>
             </div>
@@ -114,7 +118,9 @@ export default {
   // this is data, website will reload if this change
   data() {
     return{
-      items: []
+      listedItems: [],
+      wishlistItems: [],
+      user: null
     }
   },
 
@@ -124,18 +130,49 @@ export default {
     }
   },
 
+  computed:{
+      ...mapStores(useUserStore)
+  },
+
 
   //any ajax call to start is executed here
   created() {
+    console.log(this.userStore.username);
     //this happens when you load website
     //don't forget to use this keyword
     // this is a reference to the backend URL in .env.local file
-    this.axios.get(`${import.meta.env.VITE_BACKEND}/items/popular`).then( response => { 
-      console.log(response); 
-      this.items= response.data.data;
-      }
-    ).catch (error => {
+    var loader = this.$loading.show()
+    this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.$route.params.username}`).then(response =>{
+      console.log(response);
+      loader.hide();
+      this.user = response.data.data
+    }).catch(error=>{
+      this.$toast.error("There is an error in fetching user data");
+      this.$router.go(-1)
     })
+
+    this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
+    params : { 
+        itemType : 'Listed', // Listed or WishList (DEFAULT to listed)
+        username : this.$route.params.username,
+        traded : false,
+    }
+    }).then(response=>{
+      // console.log(response);
+      this.listedItems = response.data.data
+      })
+
+    this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
+    params : { 
+        itemType : 'WishList', // Listed or WishList (DEFAULT to listed)
+        username : this.$route.params.username,
+    }
+    }).then(response=>{
+      console.log(response);
+      this.wishlistItems = response.data.data
+      })
+
+
   }
 }
 </script>

@@ -12,41 +12,18 @@
   <!-- type your HTML here -->
   <main>
 
-    <div class="container-fluid">
-      <div class="row">
-        <!-- Creating an accordion for each item with a loop -->
-        <div class="col-2">
-          <div class="accordion" id="accordionExample" style="margin-top: 10px">
-            <div class="accordion-item" v-for="({listedItem,wishListItemMatch},idx) in nearbyUserArr">
-              <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#'+idx">
-                  {{listedItem.itemName}}
-                </button>
-              </h2>
-              <div :id="idx" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <ul>
-                    <li v-for="item in wishListItemMatch">{{item.itemName}}</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="col-10">
-          <div id="map"></div>
-          <!-- Get location of user -->
-          <div>
-            <button v-on:click="getLocation()">
-                Your location
-            </button>
-            {{ latitude }}, {{ longitude }}
-          </div>
-        </div>
-
-      </div>
+    <div class="container">
+        <div id="map"></div>
     </div>
+    <!-- Get location of user -->
+    <div>
+      <button v-on:click="getLocation()">
+          Your location
+      </button>
+      {{ latitude }}, {{ longitude }}
+    </div>
+
   </main>
 </template>
 
@@ -66,8 +43,7 @@ export default {
       longitutde: undefined,
       marker: undefined,
       pointsArr: [],
-      emoji: undefined,
-      nearbyUserArr: []
+      emoji: undefined
     }
   },
 
@@ -114,19 +90,6 @@ export default {
 
   },
 
-  created() {
-
-    //get nearby user data
-    this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyListingsRecommended`,{
-    params : {
-        radiusInKm:5, //MUST GIVE
-    }
-    }).then(response=>{
-      console.log(response);
-      this.nearbyUserArr = response.data
-    })
-
-  },
 
   //any ajax call to start is executed here
   mounted() {
@@ -136,7 +99,6 @@ export default {
       iconSize: [38,55],
       iconAnchor: [19,0]
     })
-
 
     //put the javascript inside here
     this.map = L.map('map',{tap:false}).setView([1.402382926961625, 103.89701354063448], 13);

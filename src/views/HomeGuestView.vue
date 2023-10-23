@@ -73,8 +73,12 @@ import GreenBtn from '../components/GreenBtn.vue';
       </section>
 
       <section class="sec2 container-fluid">
+        <br><br>
         <!-- about -->
         <div class="row text-center">
+          <br><br>
+          <br>
+          
           <h1 class="titleBold">About EcoSwap</h1>
         </div>
         <!-- missions -->
