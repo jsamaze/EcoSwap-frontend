@@ -4,6 +4,7 @@
   import ItemCard from '../../components/ItemCard.vue';
   import {mapStores} from 'pinia';
 import { useUserStore } from '../../store/UserStore';
+import { placeholder } from '../../assets/assets';
 
 
 
@@ -20,11 +21,14 @@ import { useUserStore } from '../../store/UserStore';
       <!-- Left column with profile pic and username, values should be dynamic-->
       <div class="parent col-3 bg-info">
         <div class="row">
-            <img class="big center" :src="user.imageURL" id="imgHere">
+            <img class="big center" :src="user.imageURL.length == 0 ? placeholder : user.imageURL" id="imgHere">
             <h3 class="center" id="Username">{{ user.fullName }}</h3>
             <p class="center" id="PreferredBusStop">Preferred Bus Stop: {{user.preferredBusStop}}</p>
             <p class="center" id="UserRating">User Rating: {{user.avgRating ?? "NIL"}}</p>
             <p class="center" id="Tier">Tier: <span :style="{color: user.tier}">{{user.tier}}</span></p>
+            <button class="btn btn-primary" @click="$router.push('/reward')" v-if="userStore.username==$route.params.username">Points</button>
+            <button class="btn btn-primary" @click="$router.push(`/review/${$route.params.username}`)" >See reviews</button>
+
         </div>
       </div>
 
