@@ -226,7 +226,7 @@ const router = createRouter({
       name : 'map',
       component: MapView,
       meta : {
-        needAuth :false,
+        needAuth :true,
       }
     },
 

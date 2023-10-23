@@ -1,7 +1,10 @@
 <script setup>
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
-import ItemCard from '../../components/ItemCard.vue';
+  import ItemCard from '../../components/ItemCard.vue';
+  import {mapStores} from 'pinia';
+import { useUserStore } from '../../store/UserStore';
+
 
 
   // //this is how you import external css files
@@ -15,7 +18,7 @@ import ItemCard from '../../components/ItemCard.vue';
   <div class="container-fluid">
     <div class="row">
       <!-- Left column with profile pic and username, values should be dynamic-->
-      <div class="parent col-4 bg-info">
+      <div class="parent col-3 bg-info">
         <div class="row">
             <img class="big center" :src="user.imageURL" id="imgHere">
             <h3 class="center" id="Username">{{ user.fullName }}</h3>
@@ -26,10 +29,10 @@ import ItemCard from '../../components/ItemCard.vue';
       </div>
 
       <!-- Right column with Listed Items and Wishlist Items-->
-      <div class="col-8">
+      <div class="col-9">
         <!--Listed Items-->
         <div class="row bg-success mh-50 fit">
-          <h5>My Listed Items</h5>
+          <h5>My Listed Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==$route.params.username">Add</button> </h5>
           <br>
           <!-- Card for Listed Items, currently only uses Trending Items-->
           <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
@@ -43,7 +46,7 @@ import ItemCard from '../../components/ItemCard.vue';
 
         <!--Wishlist Items-->
         <div class="row bg-success mh-50">
-          <h5>My Wishlist Items</h5>
+          <h5>My Wishlist Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==$route.params.username">Add</button></h5>
           <br>
           <!-- Card for Wishlist Items, currently only uses Trending Items-->
           <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
@@ -127,9 +130,14 @@ export default {
     }
   },
 
+  computed:{
+      ...mapStores(useUserStore)
+  },
+
 
   //any ajax call to start is executed here
   created() {
+    console.log(this.userStore.username);
     //this happens when you load website
     //don't forget to use this keyword
     // this is a reference to the backend URL in .env.local file
@@ -138,6 +146,9 @@ export default {
       console.log(response);
       loader.hide();
       this.user = response.data.data
+    }).catch(error=>{
+      this.$toast.error("There is an error in fetching user data");
+      this.$router.go(-1)
     })
 
     this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
