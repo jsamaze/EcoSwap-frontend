@@ -65,12 +65,15 @@ import { placeholder } from '../../assets/assets';
         <TextInput  name="email">
           Email (If you change your email, you will need to receive OTP)
         </TextInput>
-        
 
-        
-        <TextInput name="preferredBusStop">
-                Preferred Bus Stop
-          </TextInput>
+        <div class="text-center">
+          <h6 v-if="busStop">Current bus stop is : {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h6>
+          <h4 v-else>You are yet to choose a preferred bus stop!</h4>
+          <GreenBtn @click="$router.push('/user/busStop')">
+          Change your preferred bus stop
+          </GreenBtn>
+        </div>
+
 
           
           
@@ -123,7 +126,8 @@ export default {
       }),
       oldEmail: "",
       src:placeholder,
-      emailVerified:false
+      emailVerified:false,
+      busStop : null,
     }
   },
 
@@ -144,7 +148,6 @@ export default {
           if (data.email){
             this.verifyEmail(loader)
           }else {
-            this.load(loader)
             this.$toast.success("Success!")
 
             // this.$router.go(0) //replace later
@@ -177,7 +180,6 @@ export default {
         }
       ).finally(()=>{
         loader.hide()
-        this.load()
   
       })
     },
@@ -199,6 +201,8 @@ export default {
           fullName : path.fullName,
           preferredBusStop : path.preferredBusStop
         })
+
+        this.busStop = path.busStop
 
 
         this.oldEmail = path.email;
