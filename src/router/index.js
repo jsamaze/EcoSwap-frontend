@@ -42,6 +42,7 @@ import ItemDeletePhotoView from '../views/item/ItemDeletePhotoView.vue'
 import { useLoadStore } from '../store/InitialLoadStore'
 
 import RewardView from '../views/RewardView.vue'
+import ReviewView from '../views/ReviewView.vue'
 
 
 const router = createRouter({
@@ -163,7 +164,14 @@ const router = createRouter({
         needAuth :true,
       }
     },
-
+    {
+      path: '/review',
+      name: 'review',
+      component: ReviewView,
+      meta : {
+        needAuth :true,
+      }
+    },
 
     
     // {
