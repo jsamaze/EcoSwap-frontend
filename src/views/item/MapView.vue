@@ -53,9 +53,33 @@ export default {
     },
 
     showPosition(position){
-      this.latitude = position.coords.latitude;
-      this.longitude = position.coords.longitude;
-      this.marker.setLatLng([this.latitude,this.longitude])
+
+      // bus stop within radius from a pt
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/radius`,{
+          params : {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              radiusInKm: 0.5,
+          }
+      })
+      .then(resp=>{
+        console.log(resp);
+        resp.data.forEach(item => {
+          var temp = L.marker([item.loc.coordinates[1],item.loc.coordinates[0]]).addTo(this.map)
+          temp.bindPopup("Popup content")
+          temp.on('mouseover',function(e){
+              this.epenPopup()
+          }),
+          temp.on('mouseout', function(e){
+            this.closePopup()
+          })
+          
+        });
+      })
+
+
+
+
     }
 
   },
@@ -65,7 +89,7 @@ export default {
   mounted() {
 
     //put the javascript inside here
-    this.map = L.map('map').setView([1.402382926961625, 103.89701354063448], 13);
+    this.map = L.map('map',{tap:false}).setView([1.402382926961625, 103.89701354063448], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
