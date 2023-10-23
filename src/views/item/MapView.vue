@@ -14,16 +14,17 @@
 
     <div class="container-fluid">
       <div class="row">
+        <div class="accordion" id="accordionExample">
         <!-- Creating an accordion for each item with a loop -->
         <div class="col-2">
           <div class="accordion" id="accordionExample" style="margin-top: 10px">
             <div class="accordion-item" v-for="({listedItem,wishListItemMatch},idx) in nearbyUserArr">
               <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#'+idx">
+                <button class="accordion-button" :class="{ collapsed: idx >0}" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#collapse'+idx">
                   {{listedItem.itemName}}
                 </button>
               </h2>
-              <div :id="idx" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div :id="`collapse${idx}`" class="accordion-collapse collapse" :class="{show: idx === 0}" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                   <ul>
                     <li v-for="item in wishListItemMatch">{{item.itemName}}</li>
@@ -47,7 +48,9 @@
 
       </div>
     </div>
+    </div>
   </main>
+
 </template>
 
 <style scoped>
