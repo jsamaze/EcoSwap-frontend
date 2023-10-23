@@ -46,7 +46,9 @@ data() {
     emoji: L.icon({
     iconUrl: pinPicture,
     iconSize: [38,55],
-    iconAnchor: [19,55]
+    iconAnchor: [19,55],
+    popupAnchor:  [0, -55] 
+
   })
   }
 },
