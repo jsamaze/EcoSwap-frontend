@@ -14,17 +14,17 @@ import * as yup from 'yup'
     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
       <form @submit="handleSubmit($event, register)">
       <div class="titleBold">
-        <h1 class="text-center mb-5 title display-5">Register</h1>
-      <TextInput  name="username"></TextInput>
-      <TextInput  name="fullName">
-        Full name
-      </TextInput>
-      <TextInput  name="email"></TextInput>
+        <h1 class="titleBold text-center mb-5 display-5">Register</h1>
+        <TextInput  name="username"></TextInput>
+        <TextInput  name="fullName">
+          Full name
+        </TextInput>
+        <TextInput  name="email"></TextInput>
 
-      <TextInput  name="password"></TextInput>
-      <TextInput name="passwordConfirmation">
-        Confirm Password
-      </TextInput>
+        <TextInput  name="password"></TextInput>
+        <TextInput name="passwordConfirmation">
+          Confirm Password
+        </TextInput>
       </div>
 
         
