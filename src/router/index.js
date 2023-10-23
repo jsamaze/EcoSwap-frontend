@@ -41,6 +41,9 @@ import MapView from '../views/item/MapView.vue'
 import ItemDeletePhotoView from '../views/item/ItemDeletePhotoView.vue'
 import { useLoadStore } from '../store/InitialLoadStore'
 
+import RewardView from '../views/RewardView.vue'
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
 
@@ -152,6 +155,17 @@ const router = createRouter({
         needAuth :true,
       }
     },
+    {
+      path: '/reward',
+      name: 'reward',
+      component: RewardView,
+      meta : {
+        needAuth :true,
+      }
+    },
+
+
+    
     // {
     //   path: '/wishlistitem/:itemId',
     //   name: 'item wish list',
