@@ -14,6 +14,7 @@ import GreenBtn from '../../components/GreenBtn.vue'
   // //this is how you import external css files
   // import "../assets/base.css"
 import { placeholder } from '../../assets/assets'
+import * as bootstrap from 'bootstrap'
 </script>
 
 <template>
@@ -75,9 +76,9 @@ import { placeholder } from '../../assets/assets'
 
                             <div class="row">
                               <p>No of views : {{ views }}</p>
-                              <span><button class="btn btn-warning" @click="likeOrDislike">
+                              <span><button class="btn btn-warning" @click="likeOrDislike" v-if="userStore.username">
                                         {{ youLike ? "dislike" : "like" }}
-                                     </button> {{ likes }}</span> 
+                                     </button>  <span v-else>Number of likes</span> {{ likes }}</span> 
                             </div>
 
                             
@@ -93,7 +94,11 @@ import { placeholder } from '../../assets/assets'
                                 </div>
 
                                 <div class="col-10">
-                                    <h6 class="subtitle">{{ username }}</h6>
+                                  <RouterLink :to="userStore.username ? `/user/${username}` : ``">
+                                    <h6 class="subtitle">
+                                      <span ref="username" data-bs-toggle="tooltip" data-bs-title="Login to see more">{{ username }}</span>
+                                    </h6>
+                                  </RouterLink>
                                     <h6 class="subtitle">Preferred bus stop: {{ preferredBusStop }}</h6>
                                     <!-- <h6 class="subtitle">50m away</h6> -->
 
@@ -111,7 +116,7 @@ import { placeholder } from '../../assets/assets'
                             </div>
 
 
-                            <div class="row" v-if="username != userStore.username && itemType != 'WishList'">
+                            <div class="row" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
                                   <GreenBtn @click="startChat">
                                     Start Chat about this item
                                   </GreenBtn>
@@ -161,6 +166,8 @@ export default {
       images: null,
 
       userPhotoURL : null,
+
+      popover : null,
 
 
     }
@@ -225,7 +232,9 @@ export default {
     // }
   },
 
-  created() {
+
+
+  mounted() {
 
     // this.$watch(
     //   () => this.$route.params.itemId,
@@ -272,9 +281,13 @@ export default {
             this.$toast.error("Item loading error!")
             this.$router.go(-1)
         });
-    
-    
-  }
+
+    if(!this.userStore.username){
+      this.popover = new bootstrap.Tooltip(this.$refs.username)
+    }
+  
+  },
+
 }
 
 </script>

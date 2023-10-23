@@ -111,7 +111,7 @@ const router = createRouter({
       name: 'item listing',
       component: ItemListingView,
       meta : {
-        needAuth :true,
+        needAuth :false,
       }
     },
     {

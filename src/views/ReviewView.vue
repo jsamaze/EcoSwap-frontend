@@ -123,7 +123,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
         <form @submit="handleSubmit($event, sendReview)">
 
           <select class="form-select" v-model="rating">
-            <option selected value="1">1</option>
+            <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
@@ -170,7 +170,7 @@ export default {
         chat : { createdAt : 0},
         for : {username : ""}
       },
-      rating:0,
+      rating:5,
 
       schema : {
         textContent : yup.string().required("Please fill in the review")

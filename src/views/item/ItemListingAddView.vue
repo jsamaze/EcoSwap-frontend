@@ -182,6 +182,10 @@ export default {
 
   //any ajax call to start is executed here
   created() {
+    console.log(this.$route.query.itemType)
+    if(this.$route.query.itemType){
+      this.itemType = this.$route.query.itemType
+    }
   }
 }
 </script>
