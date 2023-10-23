@@ -253,7 +253,7 @@ const router = createRouter({
 
     // Information of the Item Owner of the clicked listing
     {
-      path: '/user/:userID',
+      path: '/user/:username',
       name: 'itemOwnerInformation',
       component: ItemOwnerInformationView,
       meta : {

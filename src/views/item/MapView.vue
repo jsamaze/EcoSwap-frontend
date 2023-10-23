@@ -4,7 +4,7 @@
   import L  from 'leaflet'
   // //this is how you import external css files
   // import "../assets/base.css"
-
+  import {pinPicture} from "../../assets/assets"
 
 </script>
 
@@ -40,7 +40,9 @@ export default {
       map : undefined,
       latitude: undefined,
       longitutde: undefined,
-      marker: undefined
+      marker: undefined,
+      pointsArr: [],
+      emoji: undefined
     }
   },
 
@@ -65,16 +67,19 @@ export default {
       .then(resp=>{
         console.log(resp);
         resp.data.forEach(item => {
-          var temp = L.marker([item.loc.coordinates[1],item.loc.coordinates[0]]).addTo(this.map)
-          temp.bindPopup("Popup content")
+          var temp = L.marker([item.loc.coordinates[1],item.loc.coordinates[0]],{icon: this.emoji}).addTo(this.map)
+          this.pointsArr.push(temp)
+          temp.bindPopup(item.Description)
           temp.on('mouseover',function(e){
-              this.epenPopup()
+              this.openPopup()
           }),
           temp.on('mouseout', function(e){
             this.closePopup()
           })
           
         });
+        this.map.flyTo([position.coords.latitude,position.coords.longitude],16)
+      
       })
 
 
@@ -87,6 +92,12 @@ export default {
 
   //any ajax call to start is executed here
   mounted() {
+    // create an icon 
+    this.emoji = L.icon({
+      iconUrl: pinPicture,
+      iconSize: [38,55],
+      iconAnchor: [19,0]
+    })
 
     //put the javascript inside here
     this.map = L.map('map',{tap:false}).setView([1.402382926961625, 103.89701354063448], 13);
@@ -158,3 +169,6 @@ export default {
 
 }
 </script>
+
+
+//
