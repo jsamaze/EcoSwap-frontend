@@ -16,7 +16,7 @@
     </div>
     <div class="navbar-nav" v-if="userStore.username">
       <router-link  class="nav-item nav-link" to="/user/settings" >Hi, {{ userStore.username }}</router-link>
-      <router-link class="nav-item nav-link" to="/user/home">Home</router-link>
+      <router-link class="nav-item nav-link" :to="`/user/${userStore.username}`">Home</router-link>
       <router-link class="nav-item nav-link" to="/user/marketplace">Marketplace</router-link>
       <router-link class="nav-item nav-link" to="/user/map">Map</router-link>
       <router-link class="nav-item nav-link" to="/chat">Chat</router-link>

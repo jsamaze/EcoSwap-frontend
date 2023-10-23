@@ -1,18 +1,18 @@
 <script setup>
   //import these to access GLOBAL state variables
 import {RouterLink} from 'vue-router'
-import TextInput from '../../components/TextInput.vue';
-import GreenBtn from '../../components/GreenBtn.vue';
-import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
+import TextInput from '../components/TextInput.vue';
+import GreenBtn from '../components/GreenBtn.vue';
+import GreenSubmitBtn from '../components/GreenSubmitBtn.vue';
 
 import { Form as VeeForm } from 'vee-validate'
 
 import * as yup from 'yup'
 
 import { mapStores } from 'pinia';
-import { useUserStore } from '../../store/UserStore';
-import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
-import { placeholder } from '../../assets/assets';
+import { useUserStore } from '../store/UserStore';
+import MiddleCardForListing from '../components/MiddleCardForListing.vue';
+import { placeholder } from '../assets/assets';
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -23,75 +23,82 @@ import { placeholder } from '../../assets/assets';
 
 
    <MiddleCardForListing>
+    
     <div class="container-fluid">
-      <div class="row">
+      <div class="row m-5">
+        
         
         <div class='col justify-content-center'>
-            <br><br>
-            <img class="w-100 m-3" :src="src">
-            <br>
-            <br>
-            <RouterLink to="/user/photo">
-              <GreenBtn>
-                Change Photo
-              </GreenBtn>
-            </RouterLink>
+            <div class="white p-3">
+                <h3>Completed Reviews</h3>
+                
+                <div class="card" style="width: 100%; height: auto;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item ">
+                        Review for User: JaneSmith456
+                        <br>Rating: 4.5 out of 5
+                        <br>Comment: "Jane was a pleasure to trade with. The item was in great condition, and the exchange was smooth and easy. Highly recommended!"
+                    </li>
+                    <li class="list-group-item">
+                        Review for User: GreenThumb77
+                        <br>Rating: 5 out of 5
+                        <br>Comment: "GreenThumb77 is a true environmentalist! We traded eco-friendly items, and the process was quick and hassle-free. Looking forward to more trades."
+                    </li>
+                    <li class="list-group-item">
+                        Review for User: RetroQueen22
+                        <br>Rating: 4 out of 5
+                        <br>Comment: "RetroQueen22 has an impressive collection of vintage items. The trade went well, but there was a minor delay. Still, I'm happy with my new items."
+                    </li>
+                </ul>
+                </div>
+
+            </div>
+            
+            
+                
+            
+            
+            
 
       </div>
 
         <div class='col  justify-content-center'>
           <div class="white p-3">
-     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
-      <form @submit="handleSubmit($event, update)" >
+            <h3>Uncompleted Reviews</h3>
 
-        <h1 class="title text-center">Account Settings</h1>
-        Your email is {{ emailVerified ? "" : "not " }}verified
-              <div v-if="!emailVerified">
-                <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
-              </div>
-              <br><br>
-        You cannot change your username: 
-        <span class="text-center fw-bold">{{ userStore.username }}</span>
+            <div class="card" style="width: 100%; height: auto;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        For user: SustainableSoul
+                        <br>Date of transaction: 8 Dec 2022
+                        <br> 
+                        <TextInput name="Review:"></TextInput>
+                        <GreenSubmitBtn>Submit Review</GreenSubmitBtn>
 
-       
-        <TextInput  name="fullName">
-          Full name
-        </TextInput>
-        
-        
-            
-              
-              
-        <TextInput  name="email">
-          Email (If you change your email, you will need to receive OTP)
-        </TextInput>
+                       
+                    </li>
+                    <li class="list-group-item">
+                        For user: SustainableSoul
+                        <br>Date of transaction: 8 Dec 2022
+                        <br> 
+                        <TextInput name="Review:"></TextInput>
+                        <GreenSubmitBtn>Submit Review</GreenSubmitBtn>
 
-        <div class="text-center">
-          <h6 v-if="busStop">Current bus stop is : {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h6>
-          <h4 v-else>You are yet to choose a preferred bus stop!</h4>
-          <GreenBtn @click="$router.push('/user/busStop')">
-          Change your preferred bus stop
-          </GreenBtn>
-        </div>
+                       
+                    </li>
+                    <li class="list-group-item">
+                        For user: SustainableSoul
+                        <br>Date of transaction: 8 Dec 2022
+                        <br> 
+                        <TextInput name="Review:"></TextInput>
+                        <GreenSubmitBtn>Submit Review</GreenSubmitBtn>
 
-
-          
-          
-
-          <GreenBtn @click="changePassword">Click here to change password</GreenBtn>
-
-         
-
-          <TextInput name="about" as="textarea">
-                About
-          </TextInput>
-
-        
-        <GreenSubmitBtn>Save changes</GreenSubmitBtn>
-    </form>
-    </VeeForm>
-
+                       
+                    </li>
+                </ul>
+                </div>
     
+
         </div>
         
       </div>
@@ -102,6 +109,8 @@ import { placeholder } from '../../assets/assets';
 </template>
 
 <style scoped> 
+
+
 
 </style>
 
@@ -126,8 +135,7 @@ export default {
       }),
       oldEmail: "",
       src:placeholder,
-      emailVerified:false,
-      busStop : null,
+      emailVerified:false
     }
   },
 
@@ -148,6 +156,7 @@ export default {
           if (data.email){
             this.verifyEmail(loader)
           }else {
+            this.load(loader)
             this.$toast.success("Success!")
 
             // this.$router.go(0) //replace later
@@ -180,7 +189,7 @@ export default {
         }
       ).finally(()=>{
         loader.hide()
-  
+        this.load()
       })
     },
 
@@ -201,8 +210,6 @@ export default {
           fullName : path.fullName,
           preferredBusStop : path.preferredBusStop
         })
-
-        this.busStop = path.busStop
 
 
         this.oldEmail = path.email;

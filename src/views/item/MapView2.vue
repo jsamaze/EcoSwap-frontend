@@ -12,45 +12,19 @@
   <!-- type your HTML here -->
   <main>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="accordion" id="accordionExample">
-        <!-- Creating an accordion for each item with a loop -->
-        <div class="col-2">
-          <div class="accordion" id="accordionExample" style="margin-top: 10px">
-            <div class="accordion-item" v-for="({listedItem,wishListItemMatch},idx) in nearbyUserArr">
-              <h2 class="accordion-header">
-                <button class="accordion-button" :class="{ collapsed: idx >0}" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#collapse'+idx">
-                  {{listedItem.itemName}}
-                </button>
-              </h2>
-              <div :id="`collapse${idx}`" class="accordion-collapse collapse" :class="{show: idx === 0}" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <ul>
-                    <li v-for="item in wishListItemMatch">{{item.itemName}}</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="col-10">
-          <div id="map"></div>
-          <!-- Get location of user -->
-          <div>
-            <button v-on:click="getLocation()">
-                Your location
-            </button>
-            {{ latitude }}, {{ longitude }}
-          </div>
-        </div>
+    <div class="container">
+        <div id="map"></div>
+    </div>
+    <!-- Get location of user -->
+    <div>
+      <button v-on:click="getLocation()">
+          Your location
+      </button>
+      {{ latitude }}, {{ longitude }}
+    </div>
 
-      </div>
-    </div>
-    </div>
   </main>
-
 </template>
 
 <style scoped>
@@ -74,6 +48,7 @@ data() {
     iconSize: [38,55],
     iconAnchor: [19,55],
     popupAnchor:  [0, -55] 
+
   })
   }
 },

@@ -1,18 +1,18 @@
 <script setup>
   //import these to access GLOBAL state variables
 import {RouterLink} from 'vue-router'
-import TextInput from '../../components/TextInput.vue';
-import GreenBtn from '../../components/GreenBtn.vue';
-import GreenSubmitBtn from '../../components/GreenSubmitBtn.vue';
+import TextInput from '../components/TextInput.vue';
+import GreenBtn from '../components/GreenBtn.vue';
+import GreenSubmitBtn from '../components/GreenSubmitBtn.vue';
 
 import { Form as VeeForm } from 'vee-validate'
 
 import * as yup from 'yup'
 
 import { mapStores } from 'pinia';
-import { useUserStore } from '../../store/UserStore';
-import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
-import { placeholder } from '../../assets/assets';
+import { useUserStore } from '../store/UserStore';
+import MiddleCardForListing from '../components/MiddleCardForListing.vue';
+import { placeholder } from '../assets/assets';
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -23,75 +23,70 @@ import { placeholder } from '../../assets/assets';
 
 
    <MiddleCardForListing>
+    
     <div class="container-fluid">
       <div class="row">
+        <h1 >Total Points: </h1>
         
         <div class='col justify-content-center'>
-            <br><br>
-            <img class="w-100 m-3" :src="src">
-            <br>
-            <br>
-            <RouterLink to="/user/photo">
-              <GreenBtn>
-                Change Photo
-              </GreenBtn>
-            </RouterLink>
+            <div class="white p-3">
+                <h3>Rewards</h3>
+                
+                <div class="card" style="width: 100%; height: auto;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item ">
+                        <b>$5 NTUC Voucher</b>
+                        <br>5 points
+                        <GreenSubmitBtn>Redeem</GreenSubmitBtn>
+                    </li>
+                    <li class="list-group-item">
+                        <b>$5 NTUC Voucher</b>
+                        <br>5 points
+                        <GreenSubmitBtn>Redeem</GreenSubmitBtn>
+                    </li>
+                    <li class="list-group-item">
+                        <b>$5 NTUC Voucher</b>
+                        <br>5 points
+                        <GreenSubmitBtn>Redeem</GreenSubmitBtn>
+                    </li>
+                </ul>
+                </div>
+
+            </div>
+            
+            
+                
+            
+            
+            
 
       </div>
 
         <div class='col  justify-content-center'>
           <div class="white p-3">
-     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
-      <form @submit="handleSubmit($event, update)" >
+            <h3>Transactions</h3>
 
-        <h1 class="title text-center">Account Settings</h1>
-        Your email is {{ emailVerified ? "" : "not " }}verified
-              <div v-if="!emailVerified">
-                <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
-              </div>
-              <br><br>
-        You cannot change your username: 
-        <span class="text-center fw-bold">{{ userStore.username }}</span>
-
-       
-        <TextInput  name="fullName">
-          Full name
-        </TextInput>
-        
-        
-            
-              
-              
-        <TextInput  name="email">
-          Email (If you change your email, you will need to receive OTP)
-        </TextInput>
-
-        <div class="text-center">
-          <h6 v-if="busStop">Current bus stop is : {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h6>
-          <h4 v-else>You are yet to choose a preferred bus stop!</h4>
-          <GreenBtn @click="$router.push('/user/busStop')">
-          Change your preferred bus stop
-          </GreenBtn>
-        </div>
-
-
-          
-          
-
-          <GreenBtn @click="changePassword">Click here to change password</GreenBtn>
-
-         
-
-          <TextInput name="about" as="textarea">
-                About
-          </TextInput>
-
-        
-        <GreenSubmitBtn>Save changes</GreenSubmitBtn>
-    </form>
-    </VeeForm>
-
+            <div class="card" style="width: 100%; height: auto;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <b>Listed Item</b>
+                        <br>+5 points
+                       
+                    </li>
+                    <li class="list-group-item">
+                        <b>Add Wish List Item</b>
+                        <br>+1 points
+                       
+                    </li>
+                    <li class="list-group-item">
+                        <b>Successfully Traded Item</b>
+                        <br>+10 points
+                       
+                    </li>
+                </ul>
+                </div>
     
+
         </div>
         
       </div>
@@ -102,6 +97,8 @@ import { placeholder } from '../../assets/assets';
 </template>
 
 <style scoped> 
+
+
 
 </style>
 
@@ -126,8 +123,7 @@ export default {
       }),
       oldEmail: "",
       src:placeholder,
-      emailVerified:false,
-      busStop : null,
+      emailVerified:false
     }
   },
 
@@ -148,6 +144,7 @@ export default {
           if (data.email){
             this.verifyEmail(loader)
           }else {
+            this.load(loader)
             this.$toast.success("Success!")
 
             // this.$router.go(0) //replace later
@@ -180,7 +177,7 @@ export default {
         }
       ).finally(()=>{
         loader.hide()
-  
+        this.load()
       })
     },
 
@@ -201,8 +198,6 @@ export default {
           fullName : path.fullName,
           preferredBusStop : path.preferredBusStop
         })
-
-        this.busStop = path.busStop
 
 
         this.oldEmail = path.email;

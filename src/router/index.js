@@ -26,7 +26,7 @@ import UserMarketplaceView from '../views/item/UserMarketplaceView.vue'
 import GuestMarketplaceView from '../views/item/GuestMarketplaceView.vue'
 
 import HomeGuestView from '../views/HomeGuestView.vue'
-
+import SetBusStop from '../views/userAdmin/SetBusStop.vue'
 
 import NotFoundView from '../views/NotFoundView.vue'
 
@@ -40,6 +40,10 @@ import MapView from '../views/item/MapView.vue'
 
 import ItemDeletePhotoView from '../views/item/ItemDeletePhotoView.vue'
 import { useLoadStore } from '../store/InitialLoadStore'
+
+import RewardView from '../views/RewardView.vue'
+import ReviewView from '../views/ReviewView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -152,6 +156,24 @@ const router = createRouter({
         needAuth :true,
       }
     },
+    {
+      path: '/reward',
+      name: 'reward',
+      component: RewardView,
+      meta : {
+        needAuth :true,
+      }
+    },
+    {
+      path: '/review',
+      name: 'review',
+      component: ReviewView,
+      meta : {
+        needAuth :true,
+      }
+    },
+
+    
     // {
     //   path: '/wishlistitem/:itemId',
     //   name: 'item wish list',
@@ -240,6 +262,16 @@ const router = createRouter({
       }
     },
 
+    {
+      path: '/user/busStop',
+      name : 'Change Bus Stop',
+      component: SetBusStop,
+      meta : {
+        needAuth :true,
+      }
+    },
+
+
     //F . Chat
 
     {
@@ -253,7 +285,7 @@ const router = createRouter({
 
     // Information of the Item Owner of the clicked listing
     {
-      path: '/user/:userID',
+      path: '/user/:username',
       name: 'itemOwnerInformation',
       component: ItemOwnerInformationView,
       meta : {
