@@ -14,7 +14,7 @@ this.axios.post(`${import.meta.env.VITE_BACKEND}/chatReview`, {
     textContent : ...,
     reviewId : ..., // see all the incomplete ones from the get command,
     rating : 3 //between 0 to 5
-}
+})
 
 this.axios.get( `${import.meta.env.VITE_BACKEND}/reward`)
 this.axios.get( `${import.meta.env.VITE_BACKEND}/reward/transactions`)
@@ -54,10 +54,10 @@ this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search/${seach_query}`,{
     params : {
         tags : [...], // array of tags
         category : "Electronics", // Electronics/Fashion/Furniture/Kitchenware
-        condiiton : 'old', // old new
+        condition : 'old', // old new
         itemType : 'Listed', // Listed or WishList (DEFAULT to listed)
         username : 'ok',
-        traded : true/false
+        traded : true/false,
         includeOwn : true/false //IF LOGGED IN choose to exclude self or not
     }
 })
