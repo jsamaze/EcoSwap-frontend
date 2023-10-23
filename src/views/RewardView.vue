@@ -1,18 +1,10 @@
 <script setup>
   //import these to access GLOBAL state variables
-import {RouterLink} from 'vue-router'
-import TextInput from '../components/TextInput.vue';
 import GreenBtn from '../components/GreenBtn.vue';
-import GreenSubmitBtn from '../components/GreenSubmitBtn.vue';
-
-import { Form as VeeForm } from 'vee-validate'
-
-import * as yup from 'yup'
-
 import { mapStores } from 'pinia';
 import { useUserStore } from '../store/UserStore';
 import MiddleCardForListing from '../components/MiddleCardForListing.vue';
-import { placeholder } from '../assets/assets';
+import moment from "moment";
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -26,31 +18,36 @@ import { placeholder } from '../assets/assets';
     
     <div class="container-fluid">
       <div class="row">
-        <h1 >Total Points: </h1>
+        <h1 >Points summary: </h1>
         
-        <div class='col justify-content-center'>
+        <div class='col justify-content-center overflow-auto' style="height: 60vh;">
             <div class="white p-3">
+              <h3>Here is how you can get points</h3>
+                
+                <div class="card" style="width: 100%; height: auto;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item " v-for="item in choices">
+                        <b>{{ item.rewardName }}</b>
+                        {{ (item.points > 0 ? "+" : "")+  item.points }} points
+                    </li>
+                </ul>
+                </div>
+
                 <h3>Rewards</h3>
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item ">
-                        <b>$5 NTUC Voucher</b>
-                        <br>5 points
-                        <GreenSubmitBtn>Redeem</GreenSubmitBtn>
-                    </li>
-                    <li class="list-group-item">
-                        <b>$5 NTUC Voucher</b>
-                        <br>5 points
-                        <GreenSubmitBtn>Redeem</GreenSubmitBtn>
-                    </li>
-                    <li class="list-group-item">
-                        <b>$5 NTUC Voucher</b>
-                        <br>5 points
-                        <GreenSubmitBtn>Redeem</GreenSubmitBtn>
+                    <li class="list-group-item " v-for="item in rewards">
+                        <b>{{ item.prizeTitle }}</b>
+                        <p>{{ item.prizeDescription }}</p>
+                        {{ Math.abs( item.points) }} points
+                        <GreenBtn @click="(Math.abs(item.points) <= netPoints) && redeem(item.rewardName)" :disabled="Math.abs(item.points) > netPoints" disabledPopover="Not enough points">Redeem</GreenBtn>
                     </li>
                 </ul>
                 </div>
+
+
+
 
             </div>
             
@@ -62,25 +59,52 @@ import { placeholder } from '../assets/assets';
 
       </div>
 
-        <div class='col  justify-content-center'>
+        <div class='col  justify-content-center overflow-auto' style="height: 60vh;">
           <div class="white p-3">
+
+            You have accumulated {{ accPoints }} points so far
+            (before spending)
+
+            <br> Your are tier {{ tier }}
+
+            <table class="table table-striped">
+              <tr>
+                <th>Tier</th>
+                <th>Points range</th>
+              </tr>
+              <tr>
+                <td>Green</td>
+                <td>0-99</td>
+              </tr>
+              <tr>
+                <td>Silver</td>
+                <td>100-299</td>
+              </tr>
+              <tr>
+                <td>Gold</td>
+                <td>300-499</td>
+              </tr>
+              <tr>
+                <td>Superstar</td>
+                <td>500+</td>
+              </tr>
+            </table>
+
+            You have {{ netPoints }} points to spend
+
             <h3>Transactions</h3>
 
             <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <b>Listed Item</b>
-                        <br>+5 points
+                    <li class="list-group-item" :class="{'bg-success text-white' : rewards_rewardName.includes(transaction.rewardName) }" v-for="transaction in transactions">
+                        <b>{{ transaction.rewardName}}</b>
+                        {{ moment(transaction.createdAt).format("DD/MM/YYYY")}}
+
+                        <br>{{ (transaction.points > 0 ? "+" : "")+  transaction.points }} points
                        
                     </li>
-                    <li class="list-group-item">
-                        <b>Add Wish List Item</b>
-                        <br>+1 points
-                       
-                    </li>
-                    <li class="list-group-item">
-                        <b>Successfully Traded Item</b>
-                        <br>+10 points
+                    <li class="list-group-item" v-if="transactions.length == 0">
+                      Empty
                        
                     </li>
                 </ul>
@@ -112,101 +136,62 @@ export default {
   data() {
 
     return {
-      initialValues: null,
-      schema : yup.object().shape({
-        fullName : yup.string().required(),
-        preferredBusStop : yup.string().max(5)
-        .test('Digits only', 'The field should have digits only', (value) =>  value.toString().length==0||/^\d+$/.test(value))
-        .label("Preferred Bus Stop"),
+      rewards : [],
+      choices : [],
+      transactions : [],
 
-                email : yup.string().required().email(),
-      }),
-      oldEmail: "",
-      src:placeholder,
-      emailVerified:false
+      netPoints:0,
+      accPoints:0,
+      tier:0,
+      rewards_rewardName: [],
     }
   },
 
   methods: {
-    async update(data) {
-      // you need to use this in the methods
+    async load (){
+      try {
+        var l = this.$loading.show()
+        var ajax1 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/reward`)
+        var ajax2 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/reward/transactions`)
+        var ajax3 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`)
 
-      var loader = this.$loading.show()
+        this.rewards = ajax1.data.rewards
+        this.choices = ajax1.data.choices
+        this.transactions = ajax2.data.data
 
-      if (data.email == this.oldEmail){
-        data.email = this.newEmail
-      }
-
-      var vm = this
-
-      this.axios.patch(`${import.meta.env.VITE_BACKEND}/user`,data).then(
-        response =>{
-          if (data.email){
-            this.verifyEmail(loader)
-          }else {
-            this.load(loader)
-            this.$toast.success("Success!")
-
-            // this.$router.go(0) //replace later
-          }
-        }
-      ).catch (
-        e=>{
-          this.load(loader)
-          console.log(e)
-          this.$toast.error("Fail " + e.response.data.problem )
-        }
-      )
-    },
-    changePassword(){
-      this.$router.push("/forgotPassword")
-    },
-    async verifyEmail(loader){
-      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/generateOTP`,{
-        params : {
-          username : this.username
-        }
-      }).then(
-        response => {
-          this.$toast.success( "OTP sent - please check your email")
-          this.$router.push({ path: '/otp', query: { username: this.username } })
-        }
-      ).catch(
-        response => {
-          this.$toast.error("Error in sending OTP")
-        }
-      ).finally(()=>{
-        loader.hide()
-        this.load()
-      })
-    },
-
-    load(loader){
-      let loader1 = loader ? loader : this.$loading.show();
-
-//dont forget to use this keyword
-               // this is a reference to the backend URL in .env.local file
-      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`).then( response => {
-        // below is all the information taken from response, assigned to this."data"
-        console.log(response);
-        loader1.hide()
-        var path = response.data.data;
-
-        this.$refs.form.setValues({
-          about : path.about,
-          email : path.email,
-          fullName : path.fullName,
-          preferredBusStop : path.preferredBusStop
+        this.rewards_rewardName = this.rewards.map(e => {
+          return e.rewardName
         })
 
+        this.netPoints = ajax3.data.data.netPoints
+        this.accPoints = ajax3.data.data.accumulatedPoints
+        this.tier = ajax3.data.data.tier
 
-        this.oldEmail = path.email;
-        this.emailVerified = path.emailVerified
-        this.username = path.username
-        this.src = path.imageURL.length > 0 ? path.imageURL : placeholder
+        l.hide()
+        
+
+      } catch (error) {
+        console.log(error)
+        this.$router.push("/")
+      }
+    },
+    redeem(rewardName){
+      var load = this.$loading.show()
+
+      this.axios.post(`${import.meta.env.VITE_BACKEND}/reward/${rewardName}/`).then(
+        response => {
+          this.$toast.success("Success redeeming. Please check your email")
+          load.hide()
+          this.load()
         }
-      ).catch ( error => {
-      })
+      ).catch(
+        e => {
+          console.log(e)
+          this.$toast.error("Error: " + e.response.data.problem)
+          load.hide()
+        }
+      )
+
     }
   },
 
