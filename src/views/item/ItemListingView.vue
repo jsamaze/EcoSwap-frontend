@@ -26,7 +26,7 @@ import * as bootstrap from 'bootstrap'
 
           <div class="col-sm-6">
     
-            <Btn @click="this.$router.go(-1)">
+            <Btn @click="$router.go(-1)">
               Back
             </Btn>
 

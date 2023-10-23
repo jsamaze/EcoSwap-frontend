@@ -34,7 +34,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
     <div class="row">
                       <div class="col-sm-6">
                   
-                  <Btn @click="this.$router.go(-1)">
+                  <Btn @click="$router.go(-1)">
                     Back
                   </Btn>
 
