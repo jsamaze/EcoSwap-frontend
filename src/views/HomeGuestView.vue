@@ -77,15 +77,18 @@ import GreenBtn from '../components/GreenBtn.vue';
 
       <div class="sec2 container-fluid">
         <!-- about -->
+        <br><br><br>
+        <br>
         <div class="row text-center">
           <br><br>
           <br>
           
           <h1 class="titleBold">About EcoSwap</h1>
+          
         </div>
         <!-- missions -->
         <div class="row">
-          <div class="col-1">
+          <div class="col-2">
           </div>
           <div class="col">
             <h5 class="subtitleBold">OUR MISSION</h5>
@@ -99,7 +102,7 @@ import GreenBtn from '../components/GreenBtn.vue';
             <h5 class="subtitleBold">HOW WE ACHIEVE THEM</h5>
             <p class="subtitle">We provide an easy-to-use online platform and mobile app where users can list and find a wide range of used items for swapping.</p>
           </div>
-          <div class="col-1">
+          <div class="col-2">
           </div>
         </div>
         <!-- praises from user -->
@@ -108,33 +111,33 @@ import GreenBtn from '../components/GreenBtn.vue';
           <h1 class="title subtitleBold">Praises from our users…</h1>
         </div>
         <div class="row ">
-          <div class="col-1">
+          <div class="col-2">
           </div>
           <div class="col">
             <h5 class="subtitle subtitleBold">Alyssa Soh</h5>
             <p class="subtitle">"Ecoswap has completely changed the way I think about shopping. I've been able to find so many great items while reducing my environmental footprint. Thank you for making sustainability so accessible!"</p>
           </div>
-          <div class="col-1">
+          <div class="col-2">
           </div>
         </div>
         <div class="row">
-          <div class="col-1">
+          <div class="col-2">
           </div>
           <div class="col">
             <h5 class="subtitle subtitleBold">Brandon Low</h5>
             <p class="subtitle">"Ecoswap isn't just a platform; it's a community that cares about our planet. I've made new friends and learned so much about living more sustainably. It's like a family!"</p>
           </div>
-          <div class="col-1">
+          <div class="col-2">
           </div>
         </div>
         <div class="row">
-          <div class="col-1">
+          <div class="col-2">
           </div>
           <div class="col">
             <h5 class="subtitle subtitleBold">Amanda Tay</h5>
             <p class="subtitle">"I can't thank Ecoswap enough for helping me save money. As a single parent, it's been a financial lifeline. Swapping items I no longer need for things I do has been a game-changer."</p>
           </div>
-          <div class="col-1">
+          <div class="col-2">
           </div>
         </div>
       </div>
