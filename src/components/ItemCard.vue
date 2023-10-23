@@ -1,5 +1,5 @@
 <template>
-            <div class="card card-block" @click="clickCard">
+            <div class="card card-block" @click="clickCard" style="cursor: pointer;">
             <img :src="item.photoURLs.length > 0 ? item.photoURLs[0] : placeholder" class="card-img-top w-100" alt="...">
             <h5 class="card-title subtitle fs-3 mx-3 mt-3">{{ item.itemName }}</h5>
             <p class="card-text subtitle mx-3 mb-3">
