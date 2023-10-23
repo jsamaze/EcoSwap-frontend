@@ -45,26 +45,27 @@ import { placeholder } from '../../assets/assets';
       <form @submit="handleSubmit($event, update)" >
 
         <h1 class="title text-center">Account Settings</h1>
-        You cannot change your username : 
-        <span class="text-center fw-bold">{{ userStore.username }}</span>
-
-        <hr>
-        <TextInput  name="fullName">
-          Full name
-        </TextInput>
-        <hr>
         Your email is {{ emailVerified ? "" : "not " }}verified
               <div v-if="!emailVerified">
                 <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
               </div>
-            <hr>
-              <div>
-                if you change your email, you will need to receive OTP
-              </div>
-        <TextInput  name="email">
-          Email : {{  oldEmail }}
+              <br><br>
+        You cannot change your username: 
+        <span class="text-center fw-bold">{{ userStore.username }}</span>
+
+       
+        <TextInput  name="fullName">
+          Full name
         </TextInput>
-        <hr>
+        
+        
+            
+              
+              
+        <TextInput  name="email">
+          Email (If you change your email, you will need to receive OTP)
+        </TextInput>
+        
 
         
         <TextInput name="preferredBusStop">
@@ -72,18 +73,18 @@ import { placeholder } from '../../assets/assets';
           </TextInput>
 
           
-          <hr>
+          
 
-          <GreenBtn @click="changePassword">Change Password</GreenBtn>
+          <GreenBtn @click="changePassword">Click here to change password</GreenBtn>
 
-          <hr> 
+         
 
           <TextInput name="about" as="textarea">
                 About
           </TextInput>
 
         
-        <GreenSubmitBtn>Save!</GreenSubmitBtn>
+        <GreenSubmitBtn>Save changes</GreenSubmitBtn>
     </form>
     </VeeForm>
 
