@@ -26,7 +26,7 @@ import UserMarketplaceView from '../views/item/UserMarketplaceView.vue'
 import GuestMarketplaceView from '../views/item/GuestMarketplaceView.vue'
 
 import HomeGuestView from '../views/HomeGuestView.vue'
-
+import SetBusStop from '../views/userAdmin/SetBusStop.vue'
 
 import NotFoundView from '../views/NotFoundView.vue'
 
@@ -261,6 +261,16 @@ const router = createRouter({
         needAuth :true,
       }
     },
+
+    {
+      path: '/user/busStop',
+      name : 'Change Bus Stop',
+      component: SetBusStop,
+      meta : {
+        needAuth :true,
+      }
+    },
+
 
     //F . Chat
 
