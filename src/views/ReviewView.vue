@@ -13,6 +13,10 @@ import { mapStores } from 'pinia';
 import { useUserStore } from '../store/UserStore';
 import MiddleCardForListing from '../components/MiddleCardForListing.vue';
 import { placeholder } from '../assets/assets';
+import { userStore } from '../main';
+import moment from 'moment';
+import { useLoadStore } from '../store/InitialLoadStore';
+
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -30,29 +34,43 @@ import { placeholder } from '../assets/assets';
         
         <div class='col justify-content-center'>
             <div class="white p-3">
-                <h3>Completed Reviews</h3>
+                <h3>Reviews {{ $route.params.username }} got</h3>
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item ">
-                        Review for User: JaneSmith456
-                        <br>Rating: 4.5 out of 5
-                        <br>Comment: "Jane was a pleasure to trade with. The item was in great condition, and the exchange was smooth and easy. Highly recommended!"
+                    <li class="list-group-item " v-for="review in reviews">
+                        Review from {{ review.by.username }}
+                        written on {{ moment(review.updatedAt).format("DD/MM/YYYY") }}
+                        for chat closed on {{ moment(review.createdAt).format("DD/MM/YYYY") }}
+                        <br>Rating: {{ review.rating }} out of 5
+                        <br>Comment: "{{ review.textContent }}"
                     </li>
-                    <li class="list-group-item">
-                        Review for User: GreenThumb77
-                        <br>Rating: 5 out of 5
-                        <br>Comment: "GreenThumb77 is a true environmentalist! We traded eco-friendly items, and the process was quick and hassle-free. Looking forward to more trades."
+                    <li class="list-group-item" v-if="reviews.length == 0">
+                      Empty
                     </li>
-                    <li class="list-group-item">
-                        Review for User: RetroQueen22
-                        <br>Rating: 4 out of 5
-                        <br>Comment: "RetroQueen22 has an impressive collection of vintage items. The trade went well, but there was a minor delay. Still, I'm happy with my new items."
-                    </li>
+
                 </ul>
                 </div>
 
             </div>
+
+            <h3>Reviews {{ $route.params.username }} wrote</h3>
+                
+                <div class="card" style="width: 100%; height: auto;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item " v-for="review in completedReviews" >
+                        Review for {{ review.for.username }}
+                        written on {{ moment(review.updatedAt).format("DD/MM/YYYY") }}
+                        for chat closed on {{ moment(review.createdAt).format("DD/MM/YYYY") }}
+
+                        <br>Rating: {{ review.rating }} out of 5
+                        <br>Comment: "{{ review.textContent }}"
+                    </li>
+                    <li class="list-group-item" v-if="completedReviews.length == 0">
+                      Empty
+                    </li>
+                </ul>
+                </div>
             
             
                 
@@ -61,42 +79,28 @@ import { placeholder } from '../assets/assets';
             
 
       </div>
-
-        <div class='col  justify-content-center'>
+        <!-- hide this column if its not my reviews -->
+        <div class='col  justify-content-center' v-if="userStore.username == $route.params.username">
           <div class="white p-3">
             <h3>Uncompleted Reviews</h3>
 
             <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        For user: SustainableSoul
-                        <br>Date of transaction: 8 Dec 2022
+                    <li class="list-group-item" v-for="review in uncompletedReviews">
+                        For user: {{ review.for.username}}
+                        <br>Date of transaction:{{ moment(review.chat.createdAt).format("DD/MM/YYYY") }}
+
                         <br> 
-                        <TextInput name="Review:"></TextInput>
-                        <GreenSubmitBtn>Submit Review</GreenSubmitBtn>
+                        <GreenBtn data-bs-toggle="modal" data-bs-target="#exampleModal" @click="selectedReview=review">Write review</GreenBtn>
 
                        
                     </li>
-                    <li class="list-group-item">
-                        For user: SustainableSoul
-                        <br>Date of transaction: 8 Dec 2022
-                        <br> 
-                        <TextInput name="Review:"></TextInput>
-                        <GreenSubmitBtn>Submit Review</GreenSubmitBtn>
-
-                       
-                    </li>
-                    <li class="list-group-item">
-                        For user: SustainableSoul
-                        <br>Date of transaction: 8 Dec 2022
-                        <br> 
-                        <TextInput name="Review:"></TextInput>
-                        <GreenSubmitBtn>Submit Review</GreenSubmitBtn>
-
-                       
+                    <li class="list-group-item" v-if="uncompletedReviews.length == 0">
+                      Empty
                     </li>
                 </ul>
                 </div>
+
     
 
         </div>
@@ -106,6 +110,45 @@ import { placeholder } from '../assets/assets';
 </div>
 
    </MiddleCardForListing>
+
+<!-- modal -->
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Write a review</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <VeeForm v-slot="{ handleSubmit, values }" ref="form" :validation-schema="schema" as="div" class="pb-3">
+        <form @submit="handleSubmit($event, sendReview)">
+
+          <select class="form-select" v-model="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+
+      <div class="modal-body">
+        For user: {{ selectedReview.for.username}}
+      <br>Date of transaction:{{ moment(selectedReview.chat.createdAt).format("DD/MM/YYYY") }}
+
+
+          <TextInput as="textarea" name="textContent">
+            Content
+          </TextInput>
+          <!-- {{ values }} -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" @click.prevent class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-success" value="Save changes" v-if="values.textContent" data-bs-dismiss="modal"/>
+      </div>
+    </form>
+      </VeeForm>
+    </div>
+  </div>
+</div>
 </template>
 
 <style scoped> 
@@ -116,109 +159,66 @@ import { placeholder } from '../assets/assets';
 
 <script>
 export default {
-
-  // this is data, website will reload if this change
-  computed : {
-    ...mapStores(useUserStore)
-  },
-  data() {
-
+  data(){
     return {
-      initialValues: null,
-      schema : yup.object().shape({
-        fullName : yup.string().required(),
-        preferredBusStop : yup.string().max(5)
-        .test('Digits only', 'The field should have digits only', (value) =>  value.toString().length==0||/^\d+$/.test(value))
-        .label("Preferred Bus Stop"),
+      uncompletedReviews :[],
+      completedReviews : [],
 
-                email : yup.string().required().email(),
-      }),
-      oldEmail: "",
-      src:placeholder,
-      emailVerified:false
+      reviews : [],
+
+      selectedReview : {
+        chat : { createdAt : 0},
+        for : {username : ""}
+      },
+      rating:0,
+
+      schema : {
+        textContent : yup.string().required("Please fill in the review")
+      }
     }
   },
+  computed : {
+    ...mapStores(useUserStore, useLoadStore)
+  },
 
-  methods: {
-    async update(data) {
-      // you need to use this in the methods
 
-      var loader = this.$loading.show()
+  methods : {
+    sendReview(values){
+      values.reviewId = this.selectedReview._id
+      values.rating = this.rating
 
-      if (data.email == this.oldEmail){
-        data.email = this.newEmail
-      }
+      this.loadStore.loading=true
 
-      var vm = this
-
-      this.axios.patch(`${import.meta.env.VITE_BACKEND}/user`,data).then(
-        response =>{
-          if (data.email){
-            this.verifyEmail(loader)
-          }else {
-            this.load(loader)
-            this.$toast.success("Success!")
-
-            // this.$router.go(0) //replace later
-          }
-        }
-      ).catch (
-        e=>{
-          this.load(loader)
-          console.log(e)
-          this.$toast.error("Fail " + e.response.data.problem )
-        }
-      )
-    },
-    changePassword(){
-      this.$router.push("/forgotPassword")
-    },
-    async verifyEmail(loader){
-      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/generateOTP`,{
-        params : {
-          username : this.username
-        }
-      }).then(
+      this.axios.post(`${import.meta.env.VITE_BACKEND}/chatReview`, values).then(
         response => {
-          this.$toast.success( "OTP sent - please check your email")
-          this.$router.push({ path: '/otp', query: { username: this.username } })
+          this.$toast.success("Successfully published review!")
+          this.load()
         }
       ).catch(
-        response => {
-          this.$toast.error("Error in sending OTP")
+        e => {
+          console.log(e)
+          this.$toast.error("Failed to post review")
         }
-      ).finally(()=>{
-        loader.hide()
-        this.load()
-      })
+      ).finally(
+        ()=> {this.loadStore.loading=false}
+      )
     },
-
-    load(loader){
-      let loader1 = loader ? loader : this.$loading.show();
-
-//dont forget to use this keyword
-               // this is a reference to the backend URL in .env.local file
-      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`).then( response => {
-        // below is all the information taken from response, assigned to this."data"
-        console.log(response);
-        loader1.hide()
-        var path = response.data.data;
-
-        this.$refs.form.setValues({
-          about : path.about,
-          email : path.email,
-          fullName : path.fullName,
-          preferredBusStop : path.preferredBusStop
-        })
-
-
-        this.oldEmail = path.email;
-        this.emailVerified = path.emailVerified
-        this.username = path.username
-        this.src = path.imageURL.length > 0 ? path.imageURL : placeholder
+    async load(){
+      this.loadStore.loading = true
+      try {
+        if (this.userStore.username == this.$route.params.username){
+          var ajax1 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/chatReview`)
+          this.uncompletedReviews = ajax1.data.data
         }
-      ).catch ( error => {
-      })
+        var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.$route.params.username}`)
+        this.reviews = ajax2.data.data.reviewsReceived
+        this.completedReviews = ajax2.data.data.reviewsWritten
+      } catch (error) {
+        console.log(error)
+        this.$router.push("/")
+      } finally {
+        this.loadStore.loading = false
+      }
     }
   },
 

@@ -165,7 +165,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/review',
+      path: '/review/:username',
       name: 'review',
       component: ReviewView,
       meta : {
