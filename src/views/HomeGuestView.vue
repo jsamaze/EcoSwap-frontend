@@ -23,7 +23,7 @@ import GreenBtn from '../components/GreenBtn.vue';
           <img src="../assets/images/leaf.png" id="leaf">
           <h1 class="titleBold text-center" id="text">Start your journey<br>with EcoSwap today!
             <!-- sign up button -->
-            <RouterLink to="/register" style="display: inline-block; text-decoration: none;">
+            <RouterLink to="/register" style="display: block; text-decoration: none;">
               <GreenBtn class="button title">Sign Up Now!</GreenBtn>
             </RouterLink>
           </h1>
