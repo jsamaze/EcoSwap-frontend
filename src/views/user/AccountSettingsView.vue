@@ -177,6 +177,7 @@ export default {
       ).finally(()=>{
         loader.hide()
         this.load()
+  
       })
     },
 
