@@ -1,49 +1,41 @@
 import { createRouter, createWebHistory, START_LOCATION } from 'vue-router'
 import {useUserStore} from '../store/UserStore'
+import { useLoadStore } from '../store/InitialLoadStore'
+
 import axios from 'axios'
 import {socket} from '../socket'
 
 // Step 1.IMPORT before using
-import GuestItemListingView from '../views/item/GuestItemListingView.vue'
-import OtherUserItemListingView from '../views/item/OtherUserItemListingView.vue'
-
-import ItemListingEditingView from '../views/item/ItemListingEditingView.vue'
-import ItemWishListView from '../views/item/ItemWishListView.vue'
-import ItemWishListEditingView from '../views/item/ItemWishListEditingView.vue'
 import ItemOwnerInformationView from '../views/item/ItemOwnerInformationView.vue'
+
 import ItemListingView from '../views/item/ItemListingView.vue'
 import ItemListingAddView from '../views/item/ItemListingAddView.vue'
-import ItemWishListAddView from '../views/item/ItemWishListAddView.vue'
-import ItemUploadPhotoView from '../views/item/ItemUploadPhotoView.vue'
+import ItemListingEditingView from '../views/item/ItemListingEditingView.vue'
 
+import ItemUploadPhotoView from '../views/item/ItemUploadPhotoView.vue'
+import ItemDeletePhotoView from '../views/item/ItemDeletePhotoView.vue'
 
 import LoginView from '../views/userAdmin/LoginView.vue'
 import RegisterView from '../views/userAdmin/RegisterView.vue'
 import ForgotPasswordView from '../views/userAdmin/ForgotPasswordView.vue'
 import OTPView from '../views/userAdmin/OTPView.vue'
+import SetBusStop from '../views/userAdmin/SetBusStop.vue'
+import UserPhotoUpdateView from '../views/user/UserPhotoUpdateView.vue'
+import AccountSettingsView from '../views/user/AccountSettingsView.vue'
 
 import UserMarketplaceView from '../views/item/UserMarketplaceView.vue'
 import GuestMarketplaceView from '../views/item/GuestMarketplaceView.vue'
 
 import HomeGuestView from '../views/HomeGuestView.vue'
-import SetBusStop from '../views/userAdmin/SetBusStop.vue'
-
-import NotFoundView from '../views/NotFoundView.vue'
-
-import UserPhotoUpdateView from '../views/user/UserPhotoUpdateView.vue'
-
-import AccountSettingsView from '../views/user/AccountSettingsView.vue'
 
 import ChatView from '../views/chat/ChatView.vue'
 
 import MapView from '../views/item/MapView.vue'
 
-import ItemDeletePhotoView from '../views/item/ItemDeletePhotoView.vue'
-import { useLoadStore } from '../store/InitialLoadStore'
-
 import RewardView from '../views/RewardView.vue'
 import ReviewView from '../views/ReviewView.vue'
 
+import NotFoundView from '../views/NotFoundView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -89,23 +81,6 @@ const router = createRouter({
     },
 
     // B. ONE Item related views
-    // {
-    //   path: '/guestitem/:itemId',
-    //   name: 'guest item listing',
-    //   component: GuestItemListingView,
-    //   meta : {
-    //     needAuth :false,
-    //   }
-    // },
-
-    // {
-    //   path: '/otheruseritem/:itemId',
-    //   name: 'other user item',
-    //   component: OtherUserItemListingView,
-    //   meta : {
-    //     needAuth :true,
-    //   }
-    // },
     {
       path: '/item/:itemId/addPhoto',
       name: 'item add photo',
