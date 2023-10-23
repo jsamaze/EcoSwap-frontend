@@ -7,8 +7,6 @@
     font-family: 'Poppins';
 }
 
-
-
 section.parallax {
     overflow: hidden;
     position: relative;
@@ -59,60 +57,94 @@ section.parallax {
     margin-top: 40px;
 }
 
-.skill-item {
-    position: relative;
-    max-width: 250px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 60px;
-    color: #555;
+.circles {
+    display: center;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-.chart-container {
+.circle {
+    margin: 2em;
+    background: #d2e296;
+    border: 1px #555 solid;
+    border-radius: 50%;
     position: relative;
-    width: 100%;
-    height: 0;
-    padding-top: 100%;
-    margin-bottom: 27px;
-    border: 3px solid white;
-    border-radius: 50px;
-    background: white;
+    width: 14.2em;
+    height: 14.2em;
+    color: #fff;
+    box-shadow: 0 0 1.5em rgba(0,0,0,.6);
 }
 
-.skill-item .chart,
-.skill-item .chart canvas{
+.circle-inner {
+    background: #282c30;
+    border-radius: inherit;
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
+    top: 50%;
+    left: 50%;
+    transform: (-50%, -50%);
+    width: 10.5em;
+    height: 10.5em;
+    box-shadow: 0 0 1.5em rgba(0,0,0,.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
-.skill-item .chart:before {
-    content: "";
-    width: 0;
-    height: 100%;
+.circle-inner::before {
+    content: '';
+    background: linear-gradient(
+        120deg,
+        #201c21,
+        #2f343a
+    );
+    box-shadow: 0 0.5em 0.5em rgba(0,0,0,.3);
+    border-radius: inherit;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 9.5em;
+    height: 9.5em;
+    z-index: -1;
 }
 
-.skill-item .chart:before,
-.skill-item .percent {
-    display: inline-block;
-    vertical-align: middle;
+.circle h1 {
+    font-size: 2.6em;
 }
 
-.skill-item .percent {
-    position: relative;
-    line-height: 1;
-    font-size: 70px;
-    color: #333;
-    font-weight: 400;
-    z-index: 2;
+.circle svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.skill-item .percent:after {
-    content: attr(data-after);
-    font-size: 20px;
+.track {
+    fill: none;
+}
+
+.progress {
+    fill: none;
+    stroke: #17c9d2;
+    stroke-width: 22;
+    stroke-linecap: round;
+    stroke-dasharray: 630;
+    stroke-dashoffset: 630;
+    transition: 1s ease-in-out;
+}
+
+.circle:nth-child(2) .progress {
+    stroke: #ff2b1c;
+}
+
+.circle:nth-child(3) .progress {
+    stroke: #ffb71c;
+}
+
+.circle:nth-child(4) .progress {
+    stroke: #1c443e;
 }
 
 .sec2 {
