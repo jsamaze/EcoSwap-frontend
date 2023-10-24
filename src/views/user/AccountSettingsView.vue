@@ -66,11 +66,20 @@ import { placeholder } from '../../assets/assets';
           Email (If you change your email, you will need to receive OTP)
         </TextInput>
 
+        
+
+          <TextInput name="about" as="textarea">
+                About
+          </TextInput>
+
+        
+        <GreenSubmitBtn>Save changes</GreenSubmitBtn>
+        <br>
         <div class="text-center">
           <h6 v-if="busStop">Current bus stop is : {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h6>
           <h4 v-else>You are yet to choose a preferred bus stop!</h4>
           <GreenBtn @click="$router.push('/user/busStop')">
-          Change your preferred bus stop
+          Click here to change your preferred bus stop
           </GreenBtn>
         </div>
 
@@ -81,13 +90,6 @@ import { placeholder } from '../../assets/assets';
           <GreenBtn @click="changePassword">Click here to change password</GreenBtn>
 
          
-
-          <TextInput name="about" as="textarea">
-                About
-          </TextInput>
-
-        
-        <GreenSubmitBtn>Save changes</GreenSubmitBtn>
     </form>
     </VeeForm>
 

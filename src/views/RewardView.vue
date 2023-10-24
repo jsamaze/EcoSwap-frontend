@@ -26,13 +26,16 @@ import moment from "moment";
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item " v-for="item in choices">
+                  <li class="list-group-item"> <b>List Item </b>+2 points </li>
+                  <li class="list-group-item"> <b>Remove Listed Item </b>-2 points </li>
+                  <li class="list-group-item"> <b>Successful Trade </b>+5 points </li>
+                    <!-- <li class="list-group-item " v-for="item in choices">
                         <b>{{ item.rewardName }}</b>
                         {{ (item.points > 0 ? "+" : "")+  item.points }} points
-                    </li>
+                    </li> -->
                 </ul>
                 </div>
-
+                <br>
                 <h3>Rewards</h3>
                 
                 <div class="card" style="width: 100%; height: auto;">
@@ -62,10 +65,9 @@ import moment from "moment";
         <div class='col  justify-content-center overflow-auto' style="height: 60vh;">
           <div class="white p-3">
 
-            You have accumulated {{ accPoints }} points so far
-            (before spending)
-
-            <br> Your are tier {{ tier }}
+            <H3>Accumulated Points: {{ accPoints }}</H3>
+            <H3>Total Net Points: {{ netPoints }}</H3>
+            <h3>Current Tier: {{ tier }}</h3>
 
             <table class="table table-striped">
               <tr>
@@ -90,8 +92,8 @@ import moment from "moment";
               </tr>
             </table>
 
-            You have {{ netPoints }} points to spend
 
+           
             <h3>Transactions</h3>
 
             <div class="card" style="width: 100%; height: auto;">

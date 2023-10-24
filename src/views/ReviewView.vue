@@ -88,7 +88,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item" v-for="review in uncompletedReviews">
                         For user: {{ review.for.username}}
-                        <br>Date of transaction:{{ moment(review.chat.createdAt).format("DD/MM/YYYY") }}
+                        <br>Date of transaction: {{ moment(review.chat.createdAt).format("DD/MM/YYYY") }}
 
                         <br> 
                         <GreenBtn data-bs-toggle="modal" data-bs-target="#exampleModal" @click="selectedReview=review">Write review</GreenBtn>
@@ -132,7 +132,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
       <div class="modal-body">
         For user: {{ selectedReview.for.username}}
-      <br>Date of transaction:{{ moment(selectedReview.chat.createdAt).format("DD/MM/YYYY") }}
+      <br>Date of transaction: {{ moment(selectedReview.chat.createdAt).format("DD/MM/YYYY") }}
 
 
           <TextInput as="textarea" name="textContent">
