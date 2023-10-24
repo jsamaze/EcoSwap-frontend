@@ -37,6 +37,8 @@ import ReviewView from '../views/ReviewView.vue'
 
 import NotFoundView from '../views/NotFoundView.vue'
 
+import GuestMap from '../views/GuestMap.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
 
@@ -176,6 +178,15 @@ const router = createRouter({
       alias:'/',
       name: 'Guest Homepage',
       component: HomeGuestView,
+      meta : {
+        needAuth : false,
+      }
+    },
+
+    {
+      path : '/guest/map',
+      name : 'Guest Map',
+      component : GuestMap,
       meta : {
         needAuth : false,
       }

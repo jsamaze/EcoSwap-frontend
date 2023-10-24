@@ -12,7 +12,7 @@
       <router-link  to="/login" class="nav-item nav-link">Guest</router-link>
       <router-link   class="nav-item nav-link"  to="/">Home</router-link>
       <router-link class="nav-item nav-link" to="/marketplace">Marketplace</router-link>
-      <router-link  class="nav-item nav-link" to="/map">Map</router-link>
+      <router-link  class="nav-item nav-link" to="/guest/map">Map</router-link>
     </div>
     <div class="navbar-nav" v-if="userStore.username">
       <router-link  class="nav-item nav-link" to="/user/settings" >Hi, {{ userStore.username }}</router-link>
