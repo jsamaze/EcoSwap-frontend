@@ -154,7 +154,47 @@ export default {
     }
   },
   computed : {
-    ...mapStores(useUserStore, useLoadStore, useNotificationStore, useChatStore)
+    ...mapStores(useUserStore, useLoadStore, useNotificationStore, useChatStore),
+     notificationMap(){
+      return {
+        "connect" : {
+          toastType : "success",
+          message : "You can now receive real time notifications!"
+        },
+        "disconnected" : {
+          toastType : "warning",
+          message : "You can no longer receive real time notification. Please refresh to reconnect"
+        },
+        "connect_error" : {
+          toastType : "error",
+          message : "Failed to connect to server for real time notification. Please try refreshing"
+        },
+        "message" : {
+          toastType : "info",
+          message : `${this.chatStore.sender} said ${this.chatStore.textContent}`,
+          click : `/chat/${this.chatStore.sender}`
+        }, 
+         "newChat":{
+          toastType : 'info',
+          message : `${this.notificationStore.usernameFrom} started a chat with you!`,
+          click : `/chat/${this.notificationStore.usernameFrom}`
+         },
+         "endChatSuccess":{
+          toastType : "success",
+          message : `${this.notificationStore.usernameFrom} has agreed to close the trade. The chat will now be archived along with the items marked`
+         },
+         "requestEndChatSuccess" : {
+          toastType : "warning", 
+          message : `${this.notificationStore.usernameFrom} has requested to close the trade`,
+          click : `/chat/${this.notificationStore.usernameFrom}`
+         } ,
+         "resetEndChatSuccess" : {
+          toastType : "warning",
+          message :  `${this.notificationStore.usernameFrom} has rejected your request to close the trade`,
+          click : `/chat/${this.notificationStore.usernameFrom}`
+         }
+      }
+     }
   },
   methods: {
     printHeight(e){
@@ -172,45 +212,16 @@ export default {
 
 
     this.$watch( ()=> this.notificationStore.time, function (notification) {
-      const notificationMap =  {
-        "connect" : {
-          toastType : "success",
-          message : "You can now receive real time notifications!"
-        },
-        "disconnected" : {
-          toastType : "warning",
-          message : "You can no longer receive real time notification. Please refresh to reconnect"
-        },
-        "connect_error" : {
-          toastType : "error",
-          message : "Failed to connect to server for real time notification. Please try refreshing"
-        },
-        "message" : {
-          toastType : "info",
-          message : `${this.chatStore.sender} said ${this.chatStore.textContent}`
-        }, 
-         "newChat":{
-          toastType : 'info',
-          message : `${this.notificationStore.usernameFrom} started a chat with you!`
-         },
-         "endChatSuccess":{
-          toastType : "success",
-          message : `${this.notificationStore.usernameFrom} has agreed to close the trade
-                  The chat will now be archived along with the items marked`
-         },
-         "requestEndChatSuccess" : {
-          toastType : "warning", 
-          message : `${this.notificationStore.usernameFrom} has requested to close the trade`
-         } ,
-         "resetEndChatSuccess" : {
-          toastType : "warning",
-          message :  `${this.notificationStore.usernameFrom} has rejected your request to close the trade`
-         }
-      }
-      if (notificationMap.hasOwnProperty(this.notificationStore.event) && 
+
+      if (this.notificationMap.hasOwnProperty(this.notificationStore.event) && 
       !( this.notificationStore.event == 'message' && this.$route.fullPath.includes(`chat/${this.notificationStore.usernameFrom.sender}`))){
-        this.$toast[notificationMap[this.notificationStore.event].toastType](
-        notificationMap[this.notificationStore.event].message
+        let options = {}
+        if (this.notificationMap[this.notificationStore.event].click){
+          var vm = this
+          options.onClick = ()=> {vm.$router.push(this.notificationMap[this.notificationStore.event].click)}
+        }
+        this.$toast[this.notificationMap[this.notificationStore.event].toastType](
+        this.notificationMap[this.notificationStore.event].message, options
       )
       }
 
