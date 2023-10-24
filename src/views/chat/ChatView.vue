@@ -269,18 +269,7 @@ export default {
         this.$refs.msgs[this.$refs.msgs.length-1].$el.scrollIntoView({
         behavior : 'smooth'
       })
-
       )
-    },
-    sendMessage(){
-      if (this.textContent){
-        this.currentMessages = [...this.currentMessages, {
-        sender : this.myRole,
-        textContent :this.textContent,
-        createdAt : new Date().toISOString()
-      }]
-      this.textContent=""
-      }
     },
     async checkParamsAndLoad(){
       if (this.usernamesChattingNow.includes(this.$route.params.username)){
@@ -366,7 +355,10 @@ export default {
             this.$toast.warning("Sucessfully reset closing chat")
             this.endChatSuccessState=null
           }
+          this.sendMessage(`I have rejected your offer to close trade`)
         })
+
+
     },
     requestEndChat(){
 
@@ -382,6 +374,7 @@ export default {
             case "requestEndChatSuccess":
               this.$toast.warning("Please wait for the other party")
               this.endChatSuccessState = 'waiting';
+              this.sendMessage(`I have proposed we close this deal.`)
               break;
             default:
               this.$toast.error(response.data.status)
@@ -447,7 +440,7 @@ export default {
       } else if (this.endChatSuccessState=='waiting'){
         return `Waiting for ${this.chattingWith}`
       } else {
-        return 'Agree to close the trade'
+        return 'Accept/Reject'
       }
     },
     ...mapStores(useUserStore,useLoadStore,useItemChatStore,useChatStore,useNotificationStore)
