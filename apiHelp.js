@@ -48,6 +48,14 @@ this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyListingsRecommende
     }
 })
 
+//get nearbyUsers
+this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,{
+    params : {
+        latitude:..., //optional otherwise use user pbs
+        longitude:..., //optional otherwise use user pbs
+        radiusInKm:..., //MUST GIVE
+    }
+})
 
 // API for searching items
 this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search/${seach_query}`,{
