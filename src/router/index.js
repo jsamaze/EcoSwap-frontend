@@ -161,8 +161,8 @@ const router = createRouter({
     },
 
     {
-      path: '/map',
-      name : 'map',
+      path: '/user/map',
+      name : 'Map',
       component: MapView,
       meta : {
         needAuth :true,

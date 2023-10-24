@@ -1,53 +1,53 @@
 <script setup>
   //import these to access GLOBAL state variables
   import '../../../node_modules/leaflet/dist/leaflet.css'
-  import L  from 'leaflet'
+  import L from 'leaflet'
   // //this is how you import external css files
   // import "../assets/base.css"
   import {pinPicture} from "../../assets/assets"
+  import {RouterLink} from "vue-router"
 
 </script>
 
 <template>
   <!-- type your HTML here -->
   <main>
-
     <div class="container-fluid">
+
       <div class="row">
-        <div class="accordion" id="accordionExample">
-        <!-- Creating an accordion for each item with a loop -->
-        <div class="col-2">
-          <div class="accordion" id="accordionExample" style="margin-top: 10px">
-            <div class="accordion-item" v-for="({listedItem,wishListItemMatch},idx) in nearbyUserArr">
-              <h2 class="accordion-header">
-                <button class="accordion-button" :class="{ collapsed: idx >0}" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#collapse'+idx">
-                  {{listedItem.itemName}}
-                </button>
-              </h2>
-              <div :id="`collapse${idx}`" class="accordion-collapse collapse" :class="{show: idx === 0}" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <ul>
-                    <li v-for="item in wishListItemMatch">{{item.itemName}}</li>
-                  </ul>
+        <div class="col-3">
+          <div class="accordion" id="accordionExample">
+
+          <!-- Creating an accordion for each item with a loop -->
+            <div class="accordion" id="accordionExample" style="margin-top: 10px">
+              <div class="accordion-item" v-for="({listedItem,wishListItemMatch},idx) in nearbyUserArr">
+                <h2 class="accordion-header">
+                  <button class="accordion-button" :class="{ collapsed: idx >0}" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#collapse'+idx" @click="findItemOwner(listedItem)">
+                    <!-- later remove the link, use event listener to move to point on map where item Owner is -->
+                    <div>{{listedItem.itemName}}</div>
+                    <div>{{ listedItem.description }}</div>
+                  </button>
+                </h2>
+                <div :id="`collapse${idx}`" class="accordion-collapse collapse" :class="{show: idx === 0}" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <ul>
+                      <h5>We found this item to match the following items in your Wishlist</h5>
+                      <li v-for="item in wishListItemMatch">{{item.itemName}}</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="col-10">
+        //<RouterLink :to="`/item/${listedItem._id}`"></RouterLink>
+        <div class="col-9">
           <div id="map"></div>
-          <!-- Get location of user -->
-          <div>
-            <button v-on:click="getLocation()">
-                Your location
-            </button>
-            {{ latitude }}, {{ longitude }}
-          </div>
+          <!-- Get location of user fly to it-->
+          <span @load="getLocation"></span>
         </div>
 
       </div>
-    </div>
     </div>
   </main>
 
@@ -70,11 +70,32 @@ export default {
       marker: undefined,
       pointsArr: [],
       emoji: undefined,
-      nearbyUserArr: []
+      nearbyUserArr: [],
+      nearbyUsersIDs: undefined,
     }
   },
 
   methods: {
+    findItemOwner(item){
+      console.log(item._id);
+      console.log(item.user._id);
+      // retrieve ListedItemOwner ID and Coordinates
+      let ownerID = item.user._id;
+      let ownerCoords = this.nearbyUsersIDs[ownerID].loc.coordinates;
+      let ownerLat = ownerCoords[1];
+      let ownerLon = ownerCoords[0];
+      console.log(ownerLat,ownerLon);
+      // move current pin to ListedItemOwner and fly to it
+      if (this.marker) {
+        this.marker.setLatLng([ownerLat,ownerLon]);
+        this.map.flyTo([ownerLat,ownerLon],16);
+      }
+      else {
+        this.marker = L.marker([ownerLat,ownerLon]).addTo(this.map);
+        this.map.flyTo([ownerLat,ownerLon],16);
+      }
+    },
+
     getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(this.showPosition);
@@ -122,11 +143,21 @@ export default {
     //get nearby user data
     this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyListingsRecommended`,{
     params : {
-        radiusInKm:5, //MUST GIVE
+      radiusInKm:5, //MUST GIVE
     }
     }).then(response=>{
-      console.log(response);
+      console.log(response,"nearbyUserArr array");
       this.nearbyUserArr = response.data
+    }),
+
+
+    this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,{
+    params : {
+        radiusInKm:5, //MUST GIVE
+      }
+    }).then(response=>{
+      console.log(response,"nearbyUsersIDs object");
+      this.nearbyUsersIDs = response.data
     })
 
   },
@@ -148,62 +179,6 @@ export default {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         //dont forget to add this in front of map
     }).addTo(this.map);
-
-
-    // Creates a pointer at specified location (x,y)
-    this.marker = L.marker([1.4068217418583884, 103.89997409411617]).addTo(this.map);
-
-    // Creates a circle at specified location (x,y), can be edited
-    var circle = L.circle([1.3950128243658293, 103.89281796062534], {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5,
-    radius: 500
-    }).addTo(this.map);
-
-    // Creates a polygon at multiple specified locations [(x,y),(x,y)...]
-    var polygon = L.polygon([
-    [1.4068217418583884, 103.89997409411617],
-    [1.3950128243658293, 103.89281796062534],
-    [1.4015769166420673, 103.91617463620193],
-    [1.3371686592044003, 103.78213928798633]
-    ]).addTo(this.map);
-
-    // Create popups binded to variables that appear when hovered over
-    this.marker.bindPopup("<b>Hello world!</b><br>I am the Church of Transfiguration.").openPopup();
-    circle.bindPopup("I am a circle in Punggol.");
-    polygon.bindPopup("I am a polygon.");
-
-    // Create a popup that is constantly displayed
-    var popup = L.popup()
-    .setLatLng([1.3860354329444173, 103.90187309806764])
-    .setContent("I am a standalone popup.")
-    .openOn(this.map);
-
-
-    //Supposed to have an event occur when map is clicked, however it is not working
-    function onMapClick(e) {
-      console.log(e)
-    alert("You clicked the map at " + e.latlng);
-    }
-
-    this.map.on('click', onMapClick);
-
-    // Supposed to show the latitude and longitude when map is clicked, however it is not working
-    var popup = L.popup();
-
-    function onMapClick(e) {
-        popup
-            .setLatLng(e.latlng)
-            .setContent("You clicked the map at " + e.latlng.toString())
-            .openOn(this.map);
-    }
-
-    this.map.on('click', onMapClick);
-
-
-    // Obtain the current location of user
-
 
   }
 
