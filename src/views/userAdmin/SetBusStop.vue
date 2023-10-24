@@ -12,7 +12,7 @@ import { mapStores } from 'pinia';
 <template>
   <!-- type your HTML here -->
   <MiddleCardForListing>
-    <h2>Set your bus stop location</h2>
+    <h2>Set your bus stop location: 1 kilometer away</h2>
     <button class="btn btn-success" v-on:click="getLocation()">
           Use your location
       </button>
@@ -124,12 +124,20 @@ export default {
 
     showPosition(position){
 
+      this.busStopObj = {}
+      this.map.eachLayer((layer) => {
+        if (layer instanceof L.Marker) {
+          layer.remove();
+        }
+      });
+      this.pointsArr = []
+
       // bus stop within radius from a pt
       this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/radius`,{
           params : {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
-              radiusInKm: 0.5,
+              radiusInKm: 1,
           }
       })
       .then(resp=>{
@@ -157,7 +165,7 @@ export default {
 
           this.busStopObj[item.BusStopCode] = item
         });
-        this.map.flyTo([position.coords.latitude,position.coords.longitude],16)
+        this.map.flyTo([position.coords.latitude,position.coords.longitude],15)
         this.$toast.info("Click on the markers to choose",{
           timeout : 5000
         })

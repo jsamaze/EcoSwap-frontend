@@ -152,8 +152,11 @@ export default {
       this.user = response.data.data
     }).catch(error=>{
       this.$toast.error("There is an error in fetching user data");
+      
       this.$router.go(-1)
-    })
+    }).finally(
+      ()=> {loader.hide()}
+    )
 
     this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
     params : { 
