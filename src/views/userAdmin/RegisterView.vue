@@ -14,7 +14,7 @@ import * as yup from 'yup'
     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
       <form @submit="handleSubmit($event, register)">
       <div class="titleBold">
-        <h1 class="titleBold text-center mb-5 display-5">Register</h1>
+        <h1 class="title text-center mb-5 display-5">Register</h1>
         <TextInput  name="username"></TextInput>
         <TextInput  name="fullName">
           Full name
