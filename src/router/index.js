@@ -97,21 +97,13 @@ const router = createRouter({
         needAuth :true,
       }
     },
-    {
-      path: '/item/:itemId/removePhoto',
-      name: 'item remove photo',
-      component: ItemListingView,
-      meta : {
-        needAuth :true,
-      }
-    },
 
     {
       path: '/item/:itemId',
       name: 'item listing',
       component: ItemListingView,
       meta : {
-        needAuth :false,
+        needAuth :null,
       }
     },
     {
@@ -147,35 +139,7 @@ const router = createRouter({
         needAuth :true,
       }
     },
-
-    
-    // {
-    //   path: '/wishlistitem/:itemId',
-    //   name: 'item wish list',
-    //   component: ItemWishListView,
-    //   meta : {
-    //     needAuth :true,
-    //   }
-    // },
-    // {
-    //   path: '/wishlistitem/add',
-    //   name: 'item wish list add',
-    //   component: ItemWishListAddView,
-    //   meta : {
-    //     needAuth :true,
-    //   }
-    // },
-
-    // {
-    //   path: '/wishlistitem/edit/:itemId',
-    //   name: 'item wish list edit',
-    //   component: ItemWishListEditingView,
-    //   meta : {
-    //     needAuth :true,
-    //   }
-    // },
-    
-    
+      
     // C. Marketplace
 
     {
@@ -340,13 +304,3 @@ router.beforeEach(async (to,from)=>{
   }
 )
 
-
-//IGNORE
-// {
-//   path: '/randomItems', //match
-//   name: 'randomItems',
-//   component: RandomItems, //then put
-//   meta : {
-//     needAuth :true,
-//   }
-// },
