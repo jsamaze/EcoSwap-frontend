@@ -70,9 +70,7 @@ export default {
         this.$router.push(`/user/marketplace`)
       }).catch((error)=>{
         loader.hide()
-        console.log(error)
-        console.log(error.response.data.status)
-        this.$toast.error(error.response.data.status)
+        this.$toast.error(error.response.data.problem)
         this.$refs.form.resetForm();
 
       })
