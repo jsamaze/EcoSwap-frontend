@@ -15,17 +15,19 @@
     <div class="container-fluid">
 
       <div class="row">
-        <div class="col-3">
-          <div class="accordion" id="accordionExample">
+        <div class="col-3 overflow-auto" style="height: 100vh">
 
           <!-- Creating an accordion for each item with a loop -->
+          <div class="accordion" id="accordionExample">
             <div class="accordion" id="accordionExample" style="margin-top: 10px">
               <div class="accordion-item" v-for="({listedItem,wishListItemMatch},idx) in nearbyUserArr">
                 <h2 class="accordion-header">
                   <button class="accordion-button" :class="{ collapsed: idx >0}" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#collapse'+idx" @click="findItemOwner(listedItem)">
                     <!-- later remove the link, use event listener to move to point on map where item Owner is -->
-                    <div>{{listedItem.itemName}}</div>
-                    <div>{{ listedItem.description }}</div>
+                    <div class="row">
+                      <div><h4>Listed Item: {{listedItem.itemName}}</h4></div>
+                      <div>{{ listedItem.description }}</div>
+                    </div>
                   </button>
                 </h2>
                 <div :id="`collapse${idx}`" class="accordion-collapse collapse" :class="{show: idx === 0}" data-bs-parent="#accordionExample">
@@ -40,7 +42,7 @@
             </div>
           </div>
         </div>
-        //<RouterLink :to="`/item/${listedItem._id}`"></RouterLink>
+        <!--<RouterLink :to="`/item/${listedItem._id}`"></RouterLink>-->
         <div class="col-9">
           <div id="map"></div>
           <!-- Get location of user fly to it-->
@@ -77,22 +79,33 @@ export default {
 
   methods: {
     findItemOwner(item){
-      console.log(item._id);
-      console.log(item.user._id);
       // retrieve ListedItemOwner ID and Coordinates
       let ownerID = item.user._id;
       let ownerCoords = this.nearbyUsersIDs[ownerID].loc.coordinates;
       let ownerLat = ownerCoords[1];
       let ownerLon = ownerCoords[0];
+      let ownerPBS = this.nearbyUsersIDs[ownerID].busStopName;
       console.log(ownerLat,ownerLon);
       // move current pin to ListedItemOwner and fly to it
       if (this.marker) {
         this.marker.setLatLng([ownerLat,ownerLon]);
         this.map.flyTo([ownerLat,ownerLon],16);
+        this.marker.bindPopup("The owner of "+item.itemName+" would prefer to meet at "+ownerPBS+"!").openPopup();
+        var vm = this;
+        let itemID = item._id;
+        this.marker.on('click', function(){
+          vm.$router.push("/item/"+itemID);
+        })
       }
       else {
         this.marker = L.marker([ownerLat,ownerLon]).addTo(this.map);
         this.map.flyTo([ownerLat,ownerLon],16);
+        this.marker.bindPopup("The owner of "+item.itemName+" would prefer to meet at "+ownerPBS+"!").openPopup();
+        var vm = this;
+        let itemID = item._id;
+        this.marker.on('click', function(){
+          vm.$router.push("/item/"+itemID);
+        })
       }
     },
 
