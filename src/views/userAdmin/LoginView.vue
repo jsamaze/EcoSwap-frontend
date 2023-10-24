@@ -25,7 +25,7 @@ import * as yup from 'yup';
       </TextInput>
         
         <GreenSubmitBtn>Login!</GreenSubmitBtn>
-
+        <br>
         <p class="text-center text-muted mt-3 subtitle">Don't have an account? 
         <RouterLink to="/register" class="fw-bold text-body">Register here</RouterLink>
       </p>

@@ -73,7 +73,9 @@ import GreenBtn from '../components/GreenBtn.vue';
               </div>
             </div>
           </section>
+          <br><br><br>
         </div>
+        
 
       <div class="sec2 container-fluid">
         <!-- about -->
@@ -106,7 +108,7 @@ import GreenBtn from '../components/GreenBtn.vue';
           </div>
         </div>
         <!-- praises from user -->
-        
+        <br>
         <div class="row text-center p-5 ">
           <h1 class="title subtitleBold">Praises from our users…</h1>
         </div>
@@ -140,6 +142,7 @@ import GreenBtn from '../components/GreenBtn.vue';
           <div class="col-2">
           </div>
         </div>
+        <br><br>
       </div>
 
     </div>
