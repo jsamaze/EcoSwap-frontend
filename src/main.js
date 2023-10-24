@@ -29,6 +29,8 @@ import { useSocketStore } from './store/SocketStore';
 axios.defaults.withCredentials=true;
 
 const app = Vue.createApp(App)
+app.use(ToastPlugin)
+
 app.use(VueAxios, axios)
 
 const pinia = createPinia()
@@ -40,7 +42,6 @@ export const chatStore = useChatStore()
 export const itemChatStore = useItemChatStore()
 export const socketStore = useSocketStore()
 
-app.use(ToastPlugin)
 
 app.use(router)
 
@@ -62,10 +63,15 @@ axios.interceptors.response.use(function (response) {
     if (error.response.status == 401){
 
         console.log("intercept")
-        userStore.username = undefined;
-        userStore.userId = undefined;
-        let instance = app.$toast.error('Your session has expired! Please log in again');
-        router.push("/")
+        if(userStore.username){
+          userStore.username = undefined;
+          userStore.userId = undefined;
+          notificationStore.event ='expiredSession'
+          notificationStore.time = new Date()
+          router.push("/")
+        }
+        
+
     }
     return Promise.reject(error);
   });

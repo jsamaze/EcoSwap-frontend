@@ -70,6 +70,7 @@ export default {
         this.$router.push(`/user/marketplace`)
       }).catch((error)=>{
         loader.hide()
+        console.log(error)
         this.$toast.error(error.response.data.problem)
         this.$refs.form.resetForm();
 
@@ -77,6 +78,7 @@ export default {
     }
   },
   created() {
+    console.log(this)
   },
   computed: {
     ...mapStores(useUserStore)

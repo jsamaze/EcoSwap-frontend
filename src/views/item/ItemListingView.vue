@@ -213,6 +213,7 @@ export default {
           this.$toast.success(`Successfully started chat with ${this.username}`)
         }).catch(
           error =>{
+            console.log(error)
             this.$toast.warning(error.response.data.problem)
           }
         ).finally(

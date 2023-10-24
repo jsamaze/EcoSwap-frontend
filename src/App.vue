@@ -192,6 +192,10 @@ export default {
           toastType : "warning",
           message :  `${this.notificationStore.usernameFrom} has rejected your request to close the trade`,
           click : `/chat/${this.notificationStore.usernameFrom}`
+         },
+         "expiredSession" : {
+          toastType : "error",
+          message : "Your session has expired, please login again"
          }
       }
      }
