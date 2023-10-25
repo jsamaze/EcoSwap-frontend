@@ -123,7 +123,7 @@ import bsModal from 'bootstrap/js/src/modal'
 
     <!-- input text or text area? -->
     <form @submit.prevent="submitMsg">
-      <button class="btn p-1" style="background-color: #8a9f53;" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-show="chattingWith">
+      <button @click.prevent class="btn p-1" style="background-color: #8a9f53;" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-show="chattingWith">
       <img src="../../assets/images/trade.png" style="height:100%">
     </button>
       <input type="text" class="form-control" v-model="textContent" :disabled="!$route.params.username">
