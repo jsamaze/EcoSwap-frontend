@@ -289,7 +289,7 @@ router.beforeEach(async (to,from)=>{
           // backend is not on
           return {name : "NotFound"}
         }
-        if (error.response.status == 301) {
+        if (error.response.status == 401) {
           console.error(error);
           isLoggedIn=true
           //lets restore the piniaStore

@@ -141,11 +141,11 @@ export default {
     showPosition(position){
 
       this.busStopObj = {}
-      this.map.eachLayer((layer) => {
-        if (layer instanceof L.Marker && layer.icon) {
-          layer.remove();
+      this.pointsArr.forEach(
+        e => {
+          e.remove()
         }
-      });
+      )
       this.pointsArr = []
 
       // bus stop within radius from a pt
@@ -204,7 +204,11 @@ export default {
       if(this.userPin){
         this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
       } else {
-        this.userPin = L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.map)
+        this.userPin = L.marker([position.coords.latitude, position.coords.longitude],{
+          options : {
+            dontDelete : true
+          }
+        }).addTo(this.map)
         this.userPin.bindPopup("You are here!")
         this.userPin.openPopup()
       }

@@ -140,11 +140,11 @@ export default {
     showPosition(position){
 
       this.busStopObj = new Map()
-      this.map.eachLayer((layer) => {
-        if (layer instanceof L.Marker && layer.icon) {
-          layer.remove();
+      this.pointsArr.forEach(
+        e => {
+          e.remove()
         }
-      });
+      )
       this.pointsArr = []
 
 

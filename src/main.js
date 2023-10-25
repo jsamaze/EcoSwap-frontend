@@ -78,3 +78,21 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
   });
 
+
+
+  import {Marker} from 'leaflet'
+  import { iconUrl, iconRetinaUrl, shadowUrl } from './assets/assets';
+  console.log(iconUrl)
+
+
+  const iconDefault = icon({
+    iconRetinaUrl,
+    iconUrl,
+    shadowUrl,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    tooltipAnchor: [16, -28],
+    shadowSize: [41, 41]
+  });
+  Marker.prototype.options.icon = iconDefault;
