@@ -79,7 +79,7 @@ import * as bootstrap from 'bootstrap'
                               <span>
 
                                 <button  v-if="userStore.username" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
-                                  <img v-if="!youLike" style="height : 3rem;" src="../../assets/images/like default.png">
+                                  <img v-if="!youLike" style="height : 3rem;" src="../../assets/images/like.png">
                                   <img v-else style="height : 3rem;" src="../../assets/images/unlike.png">
                                 </button>
 
