@@ -46,7 +46,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
                     <!-- end carousel -->
 
-                    <RouterLink :to='`/item/${this.$route.params.itemId}/deletePhoto`'>
+                    <RouterLink :to='`/item/${$route.params.itemId}/deletePhoto`'>
                     <GreenBtn v-if="images[0] != placeholder">
                       Delete photos
                     </GreenBtn>
@@ -81,7 +81,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
         Upload another photo
       </GreenBtn >
 
-      <RouterLink :to='`/item/${this.$route.params.itemId}/edit`'>
+      <RouterLink :to='`/item/${$route.params.itemId}/edit`'>
         <GreenBtn>
         Edit other parts of listing
       </GreenBtn>
