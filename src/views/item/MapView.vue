@@ -4,7 +4,7 @@
   import L from 'leaflet'
   // //this is how you import external css files
   // import "../assets/base.css"
-  import {pinPicture} from "../../assets/assets"
+  import {pinPicture, redPin} from "../../assets/assets"
   import {RouterLink} from "vue-router"
   import { useLoadStore } from '../../store/InitialLoadStore'
   import { mapStores } from 'pinia'
@@ -98,7 +98,16 @@ export default {
         iconSize: [38,55],
         iconAnchor: [19,55],
         popupAnchor:  [0, -55] 
-      }),      nearbyUserArr: [],
+      }),
+
+      red: L.icon({
+        iconUrl: redPin,
+        iconSize: [40,59],
+        iconAnchor: [20,59],
+        popupAnchor:  [0, -59] 
+
+      }), 
+      nearbyUserArr: [],
       nearbyUsersIDs: undefined,
       radiusInKm : 5,
 
@@ -112,7 +121,7 @@ export default {
       if(this.userPin){
         this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
       } else {
-        this.userPin = L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.map)
+        this.userPin = L.marker([position.coords.latitude, position.coords.longitude], {icon : this.red}).addTo(this.map)
         this.userPin.bindPopup("You are here!")
         this.userPin.openPopup()
       }

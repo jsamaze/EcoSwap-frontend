@@ -5,6 +5,6 @@ import iconRetinaUrl from  '../../node_modules/leaflet/dist/images/marker-icon-2
 import iconUrl from '../../node_modules/leaflet/dist/images/marker-icon.png'
 import shadowUrl from '../../node_modules/leaflet/dist/images/marker-shadow.png'
 
+import redPin from './images/mapPin.png'
 
-console.log(iconUrl)
-export {placeholder,pinPicture,iconRetinaUrl,iconUrl,shadowUrl}
+export {placeholder,pinPicture,iconRetinaUrl,iconUrl,shadowUrl,redPin}

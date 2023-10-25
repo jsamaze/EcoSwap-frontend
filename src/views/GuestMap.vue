@@ -1,7 +1,7 @@
 <script setup>
   import '../../node_modules/leaflet/dist/leaflet.css'
   import L  from 'leaflet'
-  import {pinPicture} from "../assets/assets"
+  import {pinPicture, redPin} from "../assets/assets"
 import MiddleCardForListing from '../components/MiddleCardForListing.vue';
 import * as bootstrap from 'bootstrap'
 import { useLoadStore } from '../store/InitialLoadStore';
@@ -58,6 +58,15 @@ export default {
         iconAnchor: [19,55],
         popupAnchor:  [0, -55] 
       }),
+
+      red: L.icon({
+        iconUrl: redPin,
+        iconSize: [40,59],
+        iconAnchor: [20,59],
+        popupAnchor:  [0, -59] 
+
+      }), 
+      
       myModal : null,
       selectedBusStop : null,
       popupOpen : false,
@@ -79,7 +88,7 @@ export default {
       if(this.userPin){
         this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
       } else {
-        this.userPin = L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.map)
+        this.userPin = L.marker([position.coords.latitude, position.coords.longitude],{icon:this.red}).addTo(this.map)
         this.userPin.bindPopup("You are here!")
         this.userPin.openPopup()
       }
