@@ -10,39 +10,6 @@ import ItemCard from '../../components/ItemCard.vue';
 <template>
   <!-- type your HTML here -->
 
-  <!-- search bar + filter -->
-
-  <nav class="navbar bg-light sticky-top">
-    <div class="container-fluid">
-      <form class="d-flex" role="search">
-        <input class="form-control me-2 title" type="search" placeholder="Search for..." aria-label="Search">
-        <button class="btn btn-outline-success titleBold" type="submit">Search</button>
-      </form>
-      <div class="dropdown">
-      <button class="btn dropdown-toggle titleBold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Filter
-      </button>
-      <ul class="dropdown-menu">
-        <li class="titleBold">Categories</li>
-        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-          <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck1">Checkbox 1</label>
-
-          <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck2">Checkbox 2</label>
-
-          <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck3">Checkbox 3</label>
-        </div>
-        <li class="titleBold">Tags</li>
-        <li class="dropdown-item subtitle">Action</li>
-        <li class="dropdown-item subtitle">Action</li>
-        <li class="dropdown-item subtitle">Action</li>
-      </ul>
-    </div>
-    </div>
-  </nav>
-
   <!-- promotion carousel -->
   <main>
     <div id="marketplaceCarousel" class="container-fluid carousel slide" data-bs-ride="carousel">
@@ -76,7 +43,7 @@ import ItemCard from '../../components/ItemCard.vue';
     <!-- trending section -->
 
     <div class="container-fluid">
-      <h1 class="titleBold mt-5">Trending</h1>
+      <h1 class="titleBold mt-5">Trending... and more if you log in!</h1>
       <div class="row container-fluid flex-row mt-4 pb-4 pt-2">
         <div class="col-lg-3 col-md-4 col-sm-6 mb-5" v-for="item in items">
           <ItemCard :item="item">
