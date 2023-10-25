@@ -132,8 +132,13 @@ export default {
     getLocation() {
       this.loadStore.loading=true
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(this.load);
-        navigator.geolocation.getCurrentPosition(this.putUserMarker);
+        navigator.geolocation.getCurrentPosition((data) => {
+          this.putUserMarker(data)
+          this.showPosition(data)
+        },(e) =>{
+          this.loadStore.loading=false
+          this.$toast.warning("You have disabled sharing your location")
+        });
       } else { 
         this.$toast.warning("You have disabled sharing your location")
         this.loadStore.loading= false

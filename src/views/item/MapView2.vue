@@ -56,8 +56,12 @@ data() {
 methods: {
   getLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.showPosition);
-    } else { 
+      navigator.geolocation.getCurrentPosition((data)=>{
+          this.showPosition(data)
+        },(e)=>{
+          this.loadStore.loading=false
+          this.$toast.warning("You have disabled sharing your location")
+        });    } else { 
     }
   },
 
