@@ -76,9 +76,17 @@ import * as bootstrap from 'bootstrap'
 
                             <div class="row">
                               <p>No of views : {{ views }}</p>
-                              <span><button class="btn btn-warning" @click="likeOrDislike" v-if="userStore.username">
-                                        {{ youLike ? "dislike" : "like" }}
-                                     </button>  <span v-else>Number of likes</span> {{ likes }}</span> 
+                              <span>
+
+                                <button  v-if="userStore.username" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
+                                  <img v-if="!youLike" style="height : 3rem;" src="../../assets/images/like default.png">
+                                  <img v-else style="height : 3rem;" src="../../assets/images/unlike.png">
+                                </button>
+
+                                <span v-else>Number of likes</span> {{ likes }} 
+                                
+                                    
+                              </span> 
                             </div>
 
                             
