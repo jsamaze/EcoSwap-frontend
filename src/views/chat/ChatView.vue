@@ -75,6 +75,8 @@ import bsModal from 'bootstrap/js/src/modal'
 <!-- modal end -->
 
 
+<!-- massive credit to https://catalincodes.com/posts/responsive-chat-with-css-grid -->
+
   <section ref="chatContainer" :class="chatContainerClasses" :style="{'height': chatHeight }">
 
 
@@ -123,12 +125,12 @@ import bsModal from 'bootstrap/js/src/modal'
 
     <!-- input text or text area? -->
     <form @submit.prevent="submitMsg">
-      <button @click.prevent class="btn p-1" style="background-color: #8a9f53;" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-show="chattingWith">
+      <button type="button" class="btn p-1" style="background-color: #8a9f53;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  :disabled="!$route.params.username">
       <img src="../../assets/images/trade.png" style="height:100%">
     </button>
       <input type="text" class="form-control" v-model="textContent" :disabled="!$route.params.username">
     
-      <input type="submit" class="btn btn-success" value="Send!" >
+      <input type="submit" class="btn btn-success" value="Send!" :disabled="!$route.params.username" >
     </form>
   </footer>
 
@@ -331,7 +333,7 @@ export default {
       })
     },
     submitMsg(){
-      if(this.$route.params.username){
+      if(this.$route.params.username && this.textContent.trim().length > 0){
         this.sendMessage(this.textContent)
         this.textContent=""
       }
