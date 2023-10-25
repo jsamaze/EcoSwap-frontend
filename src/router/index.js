@@ -184,6 +184,15 @@ const router = createRouter({
     },
 
     {
+      path: '/user/landing',
+      name: 'User Homepage',
+      component: HomeUserView,
+      meta : {
+        needAuth : true,
+      }
+    },
+
+    {
       path : '/guest/map',
       name : 'Guest Map',
       component : GuestMap,
