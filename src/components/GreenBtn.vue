@@ -1,12 +1,10 @@
 
 
 <template>
-<div ref="btn" data-bs-placement="top" class="d-flex justify-content-center py-3" data-bs-toggle="popover" data-bs-trigger="hover focus" 
-    :data-bs-content="disabled && disabledPopover" tabindex="0">
-    <button :disabled="disabled"  class="btn btn-success  btn-lg gradient-custom-4 text-white subtitle" >
+
+    <button :disabled="disabled"  class="my-3 btn btn-success  btn-lg gradient-custom-4 text-white subtitle" >
         <slot></slot>
     </button>
-</div>
 </template>
 
 <script>
@@ -20,7 +18,7 @@ export default {
         }
     },
     mounted(){
-        this.btn = new bootstrap.Popover(this.$refs.btn)
+        // this.btn = new bootstrap.Popover(this.$refs.btn)
     }
 }
 </script>
