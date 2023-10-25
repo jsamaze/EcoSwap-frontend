@@ -145,6 +145,12 @@ header {
 }
   }
 
+  img {
+    height: auto;
+    max-width: 100%;
+    display : inline-block;
+    object-fit: cover;
+}
 </style>
 
 <script>
