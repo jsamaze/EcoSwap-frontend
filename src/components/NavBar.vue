@@ -9,7 +9,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav" v-if="!userStore.username">
-      <router-link  to="/login" class="nav-item nav-link">Guest</router-link>
+      <router-link  to="/login" class="nav-item nav-link">Login</router-link>
       <router-link   class="nav-item nav-link"  to="/">Home</router-link>
       <router-link class="nav-item nav-link" to="/marketplace">Marketplace</router-link>
       <router-link  class="nav-item nav-link" to="/guest/map">Map</router-link>
