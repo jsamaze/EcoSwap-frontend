@@ -29,7 +29,9 @@ import { useSocketStore } from './store/SocketStore';
 axios.defaults.withCredentials=true;
 
 const app = Vue.createApp(App)
-app.use(ToastPlugin)
+app.use(ToastPlugin,{
+  position : 'top'
+})
 
 app.use(VueAxios, axios)
 
