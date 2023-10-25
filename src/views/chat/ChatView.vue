@@ -83,6 +83,11 @@ import bsModal from 'bootstrap/js/src/modal'
     <Conversation :id='chat._id' v-for="chat,idx in currentChats" :username="userStore.username" :chat="chat" :chosen="chattingWith && idx ==0"
     @click="swapScreenToChatting"
      ></Conversation>
+
+     <div class="m-auto p-3 text-center" v-if="currentChats.length ==0">
+        You have yet to start a chat
+        <br> Browse through our marketplace to start trading!
+     </div>
   </div>
 
 
@@ -93,9 +98,7 @@ import bsModal from 'bootstrap/js/src/modal'
       <!-- to limit the length of full name max 14-->
 
     <!-- Hide this button when no chat is displayed -->
-    <button class="btn btn-light p-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-show="chattingWith">
-      🛒 🤝
-    </button>
+
   </header>
 
 
@@ -120,7 +123,10 @@ import bsModal from 'bootstrap/js/src/modal'
 
     <!-- input text or text area? -->
     <form @submit.prevent="submitMsg">
-      <input type="text" class="form-control" v-model="textContent">
+      <button class="btn p-1" style="background-color: #8a9f53;" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-show="chattingWith">
+      <img src="../../assets/images/trade.png" style="height:100%">
+    </button>
+      <input type="text" class="form-control" v-model="textContent" :disabled="!$route.params.username">
     
       <input type="submit" class="btn btn-success" value="Send!" >
     </form>
@@ -325,8 +331,11 @@ export default {
       })
     },
     submitMsg(){
-      this.sendMessage(this.textContent)
-      this.textContent=""
+      if(this.$route.params.username){
+        this.sendMessage(this.textContent)
+        this.textContent=""
+      }
+
     },
 
     updateMyItems(){
@@ -430,8 +439,8 @@ export default {
       return (this.height-80) -(this.height*0.21) +'px'
     },
     truncatedChattingWith(){
-      var subStr = this.chattingWithFullName?.substr(0,14) ?? ""
-      return subStr + (subStr.length == 14 ?  "..." : "")
+      var subStr = this.chattingWithFullName?.substr(0,18) ?? ""
+      return subStr + (subStr.length == 18 ?  "..." : "")
 
     },
     secondButton(){
