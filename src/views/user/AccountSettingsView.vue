@@ -153,6 +153,7 @@ export default {
             this.$toast.success("Success!")
 
             // this.$router.go(0) //replace later
+            loader.hide()
           }
         }
       ).catch (
