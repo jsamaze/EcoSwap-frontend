@@ -75,6 +75,7 @@ export default {
 
     putUserMarker(position){
       console.log(position)
+
       if(this.userPin){
         this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
       } else {
@@ -88,6 +89,7 @@ export default {
 
     getLocation() {
       this.loadStore.loading=true
+      navigator.permissions.query({ name: 'geolocation' }).then(console.log)
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(this.showPosition);
         navigator.geolocation.getCurrentPosition(this.putUserMarker)
