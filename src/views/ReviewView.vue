@@ -80,7 +80,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
       </div>
         <!-- hide this column if its not my reviews -->
-        <div class='col  justify-content-center' v-if="userStore.username == $route.params.username">
+        <div class='col  justify-content-center' v-if="userStore.username == $route.params.username || userStore.username == username">
           <div class="white p-3">
             <h3>Uncompleted Reviews</h3>
 
@@ -159,6 +159,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
 <script>
 export default {
+  props : ['username'],
   data(){
     return {
       uncompletedReviews :[],
@@ -210,7 +211,7 @@ export default {
           var ajax1 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/chatReview`)
           this.uncompletedReviews = ajax1.data.data
         }
-        var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.$route.params.username}`)
+        var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${ this.username||this.$route.params.username}`)
         this.reviews = ajax2.data.data.reviewsReceived
         this.completedReviews = ajax2.data.data.reviewsWritten
       } catch (error) {
