@@ -1,7 +1,9 @@
 <script setup>
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
-import GreenBtn from '../components/GreenBtn.vue';
+  import GreenBtn from '../components/GreenBtn.vue';
+  import {mapStores} from 'pinia'
+  import { useUserStore } from '../store/UserStore';
 
 </script>
 
@@ -163,6 +165,10 @@ export default {
   data() {
     return {
     }
+  },
+
+  computed :{
+    ...mapStores(useUserStore)
   },
 
   methods: {
