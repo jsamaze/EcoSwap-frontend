@@ -13,6 +13,7 @@ import { mapStores } from 'pinia';
   <!-- type your HTML here -->
   <MiddleCardForListing>
     <h2>See other users near you!</h2>
+
     <button class="btn btn-success" v-on:click="getLocation()">
           Use your location
       </button>
@@ -22,6 +23,9 @@ import { mapStores } from 'pinia';
         <input type="text" class="form-control" v-model="query" placeholder="123 Ecoswap Avenue">
         <button class="btn btn-primary">Search</button>
       </form>
+
+      <label for="customRange2" class="form-label">distance from you : {{ radiusInKm }} km</label>
+      <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
 
 
     </div>
@@ -58,16 +62,35 @@ export default {
       selectedBusStop : null,
       popupOpen : false,
 
+      radiusInKm : 2,
+
       //query
-      query : ''
+      query : '',
+
+      userPin : null,
     }
   },
 
   methods: {
+
+    putUserMarker(position){
+      console.log(position)
+      if(this.userPin){
+        this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
+      } else {
+        this.userPin = L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.map)
+        this.userPin.bindPopup("You are here!")
+        this.userPin.openPopup()
+      }
+      this.map.flyTo([position.coords.latitude, position.coords.longitude],16);
+
+    },
+
     getLocation() {
       this.loadStore.loading=true
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(this.showPosition);
+        navigator.geolocation.getCurrentPosition(this.putUserMarker)
       } else { 
         this.$toast.warning("You have disabled sharing your location")
         this.loadStore.loading= false
@@ -94,6 +117,13 @@ export default {
             longitude : response.data[0].lon
           }
         })
+
+        this.putUserMarker({
+          coords : {
+            latitude : response.data[0].lat,
+            longitude : response.data[0].lon
+          }
+        })
         } else {
           this.$toast.error("Did not find any location matching your query")
           this.loadStore.loading=false
@@ -109,7 +139,7 @@ export default {
 
       this.busStopObj = new Map()
       this.map.eachLayer((layer) => {
-        if (layer instanceof L.Marker) {
+        if (layer instanceof L.Marker && layer.icon) {
           layer.remove();
         }
       });
@@ -121,7 +151,7 @@ export default {
           params : {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
-              radiusInKm: 5,
+              radiusInKm: this.radiusInKm,
           }
       })
       .then(resp=>{

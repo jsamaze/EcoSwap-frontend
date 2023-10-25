@@ -12,7 +12,7 @@ import { mapStores } from 'pinia';
 <template>
   <!-- type your HTML here -->
   <MiddleCardForListing>
-    <h2>Set your bus stop location: 1 kilometer away</h2>
+    <h2>Set your bus stop location:</h2>
     <button class="btn btn-success" v-on:click="getLocation()">
           Use your location
       </button>
@@ -22,6 +22,10 @@ import { mapStores } from 'pinia';
         <input type="text" class="form-control" v-model="query" placeholder="123 Ecoswap Avenue">
         <button class="btn btn-primary">Search</button>
       </form>
+      
+      <label for="customRange2" class="form-label">distance from you : {{ radiusInKm }} km</label>
+      <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
+
 
 
     </div>
@@ -76,7 +80,11 @@ export default {
       selectedBusStop : null,
 
       //query
-      query : ''
+      query : '',
+
+      radiusInKm : 2,
+
+      userPin:null,
     }
   },
 
@@ -85,6 +93,7 @@ export default {
       this.loadStore.loading=true
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(this.showPosition);
+        navigator.geolocation.getCurrentPosition(this.putUserMarker)
       } else { 
         this.$toast.warning("You have disabled sharing your location")
         this.loadStore.loading= false
@@ -111,6 +120,13 @@ export default {
             longitude : response.data[0].lon
           }
         })
+
+        this.putUserMarker({
+          coords : {
+            latitude : response.data[0].lat,
+            longitude : response.data[0].lon
+          }
+        })
         } else {
           this.$toast.error("Did not find any location matching your query")
           this.loadStore.loading=false
@@ -126,7 +142,7 @@ export default {
 
       this.busStopObj = {}
       this.map.eachLayer((layer) => {
-        if (layer instanceof L.Marker) {
+        if (layer instanceof L.Marker && layer.icon) {
           layer.remove();
         }
       });
@@ -137,7 +153,7 @@ export default {
           params : {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
-              radiusInKm: 1,
+              radiusInKm: this.radiusInKm,
           }
       })
       .then(resp=>{
@@ -183,6 +199,19 @@ export default {
 
 
     },
+
+    putUserMarker(position){
+      if(this.userPin){
+        this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
+      } else {
+        this.userPin = L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.map)
+        this.userPin.bindPopup("You are here!")
+        this.userPin.openPopup()
+      }
+      this.map.flyTo([position.coords.latitude, position.coords.longitude],16);
+
+    },
+
     async update() {
       // you need to use this in the methods
 

@@ -6,6 +6,9 @@
   // import "../assets/base.css"
   import {pinPicture} from "../../assets/assets"
   import {RouterLink} from "vue-router"
+  import { useLoadStore } from '../../store/InitialLoadStore'
+  import { mapStores } from 'pinia'
+import { useUserStore } from '../../store/UserStore'
 
 </script>
 
@@ -13,6 +16,25 @@
   <!-- type your HTML here -->
   <main>
     <div class="container-fluid">
+
+
+      <div class="row">
+        <h3>        Find items near you - we help u find listed items that match the wish list Items 
+          Click on the item in the list
+</h3>
+            <button class="btn btn-success" v-on:click="getLocation()">
+          Use your location
+      </button>
+      <form class="mb-3" @submit.prevent="getLocationAddress()">
+        <label for="exampleFormControlInput1" class="form-label">Enter an address to find bus stops within 5km</label>
+        <input type="text" class="form-control" v-model="query" placeholder="123 Ecoswap Avenue">
+        <button class="btn btn-primary">Search</button>
+      </form>
+      
+      <label for="customRange2" class="form-label">distance from you : {{ radiusInKm }} km</label>
+      <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
+
+      </div>
 
       <div class="row">
         <div class="col-3 overflow-auto" style="height: 100vh">
@@ -71,13 +93,81 @@ export default {
       longitutde: undefined,
       marker: undefined,
       pointsArr: [],
-      emoji: undefined,
-      nearbyUserArr: [],
+      emoji: L.icon({
+        iconUrl: pinPicture,
+        iconSize: [38,55],
+        iconAnchor: [19,55],
+        popupAnchor:  [0, -55] 
+      }),      nearbyUserArr: [],
       nearbyUsersIDs: undefined,
+      radiusInKm : 5,
+
+      userPin : null,
     }
   },
 
   methods: {
+
+    putUserMarker(position){
+      if(this.userPin){
+        this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
+      } else {
+        this.userPin = L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.map)
+        this.userPin.bindPopup("You are here!")
+        this.userPin.openPopup()
+      }
+      this.map.flyTo([position.coords.latitude, position.coords.longitude],16);
+
+    },
+
+    getLocation() {
+      this.loadStore.loading=true
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(this.load);
+        navigator.geolocation.getCurrentPosition(this.putUserMarker);
+      } else { 
+        this.$toast.warning("You have disabled sharing your location")
+        this.loadStore.loading= false
+      }
+    },
+
+    async getLocationAddress(){
+      try {
+        this.loadStore.loading=true
+        var response = await this.axios.get('https://nominatim.openstreetmap.org/search',{
+          params : {
+            format : 'json',
+            countrycodes : 'SG',
+            q : this.query
+          },
+          withCredentials : false
+        })
+
+        if (response.data.length > 0){
+          this.query=response.data[0].display_name
+          this.load({
+          coords : {
+            latitude : response.data[0].lat,
+            longitude : response.data[0].lon
+          }
+        })
+          this.putUserMarker({
+          coords : {
+            latitude : response.data[0].lat,
+            longitude : response.data[0].lon
+          }
+        })
+        } else {
+          this.$toast.error("Did not find any location matching your query")
+          this.loadStore.loading=false
+        }
+
+      } catch(e){
+        this.$toast.error("Error with fetching location data")
+        this.loadStore.loading=false
+      }
+    },
+
     findItemOwner(item){
       // retrieve ListedItemOwner ID and Coordinates
       let ownerID = item.user._id;
@@ -98,7 +188,7 @@ export default {
         })
       }
       else {
-        this.marker = L.marker([ownerLat,ownerLon]).addTo(this.map);
+        this.marker = L.marker([ownerLat,ownerLon], {icon : this.emoji}).addTo(this.map);
         this.map.flyTo([ownerLat,ownerLon],16);
         this.marker.bindPopup("The owner of "+item.itemName+" would prefer to meet at "+ownerPBS+"!").openPopup();
         var vm = this;
@@ -109,80 +199,73 @@ export default {
       }
     },
 
-    getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(this.showPosition);
-      } else { 
+    load(position){
+      this.loadStore.loading=true
+
+      var options = {
+        params : {
+          radiusInKm : this.radiusInKm
+        }
       }
-    },
 
-    showPosition(position){
+      if(position){
+        options.params.longitude = position.coords.longitude
+        options.params.latitude = position.coords.latitude
+      }
 
-      // bus stop within radius from a pt
-      this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/radius`,{
-          params : {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              radiusInKm: 0.5,
-          }
-      })
-      .then(resp=>{
-        console.log(resp);
-        resp.data.forEach(item => {
-          var temp = L.marker([item.loc.coordinates[1],item.loc.coordinates[0]],{icon: this.emoji}).addTo(this.map)
-          this.pointsArr.push(temp)
-          temp.bindPopup(item.Description)
-          temp.on('mouseover',function(e){
-              this.openPopup()
-          }),
-          temp.on('mouseout', function(e){
-            this.closePopup()
-          })
-          
-        });
-        this.map.flyTo([position.coords.latitude,position.coords.longitude],16)
-      
-      })
+//get nearby user data
+this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyListingsRecommended`, options).then(response=>{
+  this.loadStore.loading=false
+  console.log(response,"nearbyUserArr array");
+  this.nearbyUserArr = response.data
+}).catch(
+  e => {
+    this.$toast.error("Issue with fetching data")
+    console.log(e)
+    this.$router.push("/")
+  }
+),
 
 
-
-
+this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,options).then(response=>{
+  console.log(response,"nearbyUsersIDs object");
+  this.nearbyUsersIDs = response.data
+})
     }
 
+
+
+  },
+
+  computed : {
+    ...mapStores(useLoadStore,useUserStore)
   },
 
   created() {
 
-    //get nearby user data
-    this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyListingsRecommended`,{
-    params : {
-      radiusInKm:5, //MUST GIVE
-    }
-    }).then(response=>{
-      console.log(response,"nearbyUserArr array");
-      this.nearbyUserArr = response.data
-    }),
 
+    this.load()
 
-    this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,{
-    params : {
-        radiusInKm:5, //MUST GIVE
+    this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`).then(
+      response => {
+        if(response.data.data.busStop){
+          this.putUserMarker({
+          coords : {
+            latitude : response.data.data.busStop.loc.coordinates[1],
+            longitude : response.data.data.busStop.loc.coordinates[0]
+          }
+        })
+        } else {
+          this.$toast.warning("Please choose a preferred bus stop")
+          this.$router.push("/user/busStop")
+        }
       }
-    }).then(response=>{
-      console.log(response,"nearbyUsersIDs object");
-      this.nearbyUsersIDs = response.data
-    })
-
+    )
   },
 
   //any ajax call to start is executed here
   mounted() {
     // create an icon 
-    this.emoji = L.icon({
-      iconUrl: pinPicture,
-      iconSize: [38,55],
-      iconAnchor: [19,0]
-    })
 
 
     //put the javascript inside here
