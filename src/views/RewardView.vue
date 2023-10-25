@@ -43,6 +43,7 @@ import moment from "moment";
                     <li class="list-group-item " v-for="item in rewards">
                         <b>{{ item.prizeTitle }}</b>
                         <p>{{ item.prizeDescription }}</p>
+                        <p> Only for first {{ item.max }} redeemers. While stocks last</p>
                         {{ Math.abs( item.points) }} points
                         <GreenBtn @click="(Math.abs(item.points) <= netPoints) && redeem(item.rewardName)" :disabled="Math.abs(item.points) > netPoints" disabledPopover="Not enough points">Redeem</GreenBtn>
                     </li>
