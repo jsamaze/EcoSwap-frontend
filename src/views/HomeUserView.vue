@@ -18,12 +18,7 @@ import GreenBtn from '../components/GreenBtn.vue';
           <img src="../assets/images/hill5.png" id="hill5">
           <img src="../assets/images/tree.png" id="tree">
           <img src="../assets/images/leaf.png" id="leaf">
-          <h1 class="titleBold text-center" id="text">Start your journey<br>with EcoSwap today!
-            <!-- sign up button -->
-            <RouterLink to="/register">
-              <GreenBtn class="button title">Sign Up Now!</GreenBtn>
-            </RouterLink>
-          </h1>
+          <h1 class="titleBold text-center" id="text">Welcome back to<br>EcoSwap {username}!</h1>
           <img src="../assets/images/plant.png" id="plant">
       </section>
 
@@ -170,7 +165,6 @@ export default {
 
     //dont forget to use this keyword
     // this is a reference to the backend URL in .env.local file
-        let text = document.getElementById('text');
         let leaf = document.getElementById('leaf');
         let hill1 = document.getElementById('hill1');
         let hill4 = document.getElementById('hill4');

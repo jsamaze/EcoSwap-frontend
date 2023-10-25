@@ -27,6 +27,7 @@ import UserMarketplaceView from '../views/item/UserMarketplaceView.vue'
 import GuestMarketplaceView from '../views/item/GuestMarketplaceView.vue'
 
 import HomeGuestView from '../views/HomeGuestView.vue'
+import HomeUserView from '../views/HomeUserView.vue'
 
 import ChatView from '../views/chat/ChatView.vue'
 
