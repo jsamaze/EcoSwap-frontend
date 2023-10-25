@@ -160,7 +160,7 @@ export default {
       }).then(
         response => {
           this.$toast.success("Create new item")
-          this.$router.push(`/item/${response.data.id}/addPhoto`)
+          this.$router.push(`/item/${response.data.data.id}/addPhoto`)
         }
       ).catch(
         response => {
