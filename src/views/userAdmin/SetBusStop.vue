@@ -1,6 +1,6 @@
 <script setup>
   import '../../../node_modules/leaflet/dist/leaflet.css'
-  import L  from 'leaflet'
+  import L, { layerGroup }  from 'leaflet'
   import {pinPicture, redPin} from "../../assets/assets"
 import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 import * as bootstrap from 'bootstrap'
@@ -84,6 +84,8 @@ export default {
         popupAnchor:  [0, -59] 
 
       }), 
+
+      busStopLayer : null,
       
 
       myModal : null,
@@ -100,12 +102,13 @@ export default {
 
   methods: {
     getLocation() {
+      this.createMap()
       this.loadStore.loading=true
       
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((data) => {
-          this.putUserMarker(data)
           this.showPosition(data)
+          this.putUserMarker(data)
         },(e) =>{
           this.loadStore.loading=false
           this.$toast.warning("You have disabled sharing your location")
@@ -117,6 +120,7 @@ export default {
     },
 
     async getLocationAddress(){
+      this.createMap()
       try {
         this.loadStore.loading=true
         var response = await this.axios.get('https://nominatim.openstreetmap.org/search',{
@@ -156,13 +160,24 @@ export default {
 
     showPosition(position){
 
+      
+
       this.busStopObj = {}
-      this.pointsArr.forEach(
-        e => {
-          e.remove()
-        }
-      )
+      // this.pointsArr.forEach(
+      //   e => {
+      //     if (this.map.hasLayer(e)) {
+      //         this.map.removeLayer(e);
+      //     }
+      //   }
+      // )
+
+      // if(this.busStopLayer){
+      //   this.busStopLayer.clearLayers();
+      // }
       this.pointsArr = []
+
+      this.busStopLayer = L.layerGroup().addTo(this.map);
+
 
       // bus stop within radius from a pt
       this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/radius`,{
@@ -178,7 +193,7 @@ export default {
           var temp = L.marker([item.loc.coordinates[1],item.loc.coordinates[0]],{
             icon: this.emoji,
             busStopCode: item.BusStopCode
-          }).addTo(this.map)
+          }).addTo(this.busStopLayer)
           this.pointsArr.push(temp)
           var vm = this;
           temp.bindPopup(item.Description)
@@ -217,14 +232,11 @@ export default {
     },
 
     putUserMarker(position){
-      if(this.userPin){
-        this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
-      } else {
+
         this.userPin = L.marker([position.coords.latitude, position.coords.longitude], {icon : this.red}
         ).addTo(this.map)
         this.userPin.bindPopup("You are here!")
         this.userPin.openPopup()
-      }
       this.map.flyTo([position.coords.latitude, position.coords.longitude],16);
 
     },
@@ -252,18 +264,26 @@ export default {
       )
     },
 
+    createMap(){
+      if(this.map){
+        this.map.off()
+        this.map.remove()
+      }
+      this.map = L.map('map').setView([1.366667,103.85], 11);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(this.map);
+    }
+
   },
 
 
   //any ajax call to start is executed here
   mounted() {
     this. myModal = new bootstrap.Modal(this.$refs.myModal)
+    this.createMap()
 
-    this.map = L.map('map',{tap:false}).setView([1.366667,103.85], 11);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(this.map);
   },
 
   computed :{

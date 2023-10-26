@@ -82,21 +82,29 @@ export default {
 
   methods: {
 
-    putUserMarker(position){
-      console.log(position)
+    createMap(){
+      if(this.map){
+        this.map.off()
+        this.map.remove()
+      }
+      this.map = L.map('map').setView([1.366667,103.85], 11);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(this.map);
+    },
 
-      if(this.userPin){
-        this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
-      } else {
-        this.userPin = L.marker([position.coords.latitude, position.coords.longitude],{icon:this.red}).addTo(this.map)
+    putUserMarker(position){
+      this.userPin = L.marker([position.coords.latitude, position.coords.longitude], {icon : this.red}
+        ).addTo(this.map)
         this.userPin.bindPopup("You are here!")
         this.userPin.openPopup()
-      }
       this.map.flyTo([position.coords.latitude, position.coords.longitude],16);
 
     },
 
     getLocation() {
+      this.createMap()
       this.loadStore.loading=true
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((data) => {
@@ -113,6 +121,7 @@ export default {
     },
 
     async getLocationAddress(){
+      this.createMap()
       try {
         this.loadStore.loading=true
         var response = await this.axios.get('https://nominatim.openstreetmap.org/search',{
@@ -153,11 +162,6 @@ export default {
     showPosition(position){
 
       this.busStopObj = new Map()
-      this.pointsArr.forEach(
-        e => {
-          e.remove()
-        }
-      )
       this.pointsArr = []
 
 
@@ -249,12 +253,7 @@ export default {
 
   //any ajax call to start is executed here
   mounted() {
-
-    this.map = L.map('map',{tap:false}).setView([1.366667,103.85], 11);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(this.map);
+    this.createMap()
   },
 
   computed :{
