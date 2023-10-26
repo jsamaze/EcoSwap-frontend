@@ -153,11 +153,21 @@
 
 <style>
 /* you can also import css files */
-@import "../assets/homepage.css"
+@import "../assets/homepage.css";
 
 </style>
 
 <script>
+const fn =  () => {
+        let value = window.scrollY;
+
+        leaf.style.top = Math.min(value * -1.5, leaf.height) + 'px';
+        leaf.style.left = value * 1.5 + 'px';
+        hill5.style.left = value * 1.5 + 'px';
+        hill4.style.left = value * -1.5 + 'px';
+        hill1.style.top = Math.min(value * 1,hill1.height) + 'px';
+    }
+
 
 export default {
   // this is data, website will reload if this change
@@ -176,6 +186,9 @@ export default {
     }
   },
 
+  beforeRouteLeave(){
+    window.removeEventListener('scroll', fn);
+  },
 
   //any ajax call to start is executed here
   mounted() {
@@ -185,15 +198,7 @@ export default {
     let hill4 = document.getElementById('hill4');
     let hill5 = document.getElementById('hill5');
 
-    window.addEventListener('scroll', () => {
-        let value = window.scrollY;
-
-        leaf.style.top = Math.min(value * -1.5, leaf.height) + 'px';
-        leaf.style.left = value * 1.5 + 'px';
-        hill5.style.left = value * 1.5 + 'px';
-        hill4.style.left = value * -1.5 + 'px';
-        hill1.style.top = Math.min(value * 1,hill1.height) + 'px';
-    });
+    window.addEventListener('scroll', fn);
   }
 }
 </script>

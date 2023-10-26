@@ -53,7 +53,10 @@
 
 <script>
 let interval = 500000; 
+
+let controller = new AbortController()
 export default {
+
 
   // this is data, website will reload if this change
   data() {
@@ -71,16 +74,37 @@ export default {
       pointsShown:0,
       pointsVisible : false,
       counter :null,
+
+      controller : null,
+      signal : null,
+
     }
   },
 
   async created () {
     await this.load()
-    window.addEventListener('scroll', this.handleScroll);
+    const { signal } = controller;
+    window.addEventListener('scroll', this.handleScroll,{signal});
   },
   unmounted () {
     window.removeEventListener('scroll', this.handleScroll);
+    console.log('apple :>> ');
+    clearInterval(this.counter)
   },
+
+  watch:{
+    $route (to, from){
+      window.removeEventListener('scroll', this.handleScroll);
+    }
+} ,
+
+beforeRouteLeave(to, from) {
+        // called when the route that renders this component is about to be navigated away from.
+        // As with `beforeRouteUpdate`, it has access to `this` component instance.
+        console.log(this)
+        console.log("leave", this.handleScroll)
+        controller.abort()
+      },
 
   computed : {
     ...mapStores(useUserStore)
@@ -93,8 +117,8 @@ export default {
       var element = this.$refs.points;
 	    var position = element.getBoundingClientRect();
 
-      // checking whether fully visible
-      if(position.top >= 0 && position.bottom <= window.innerHeight) {
+      // checking whether partially visible
+      if(position.top < window.innerHeight && position.bottom >= 0) {
         // console.log('Element is fully visible in screen');
         if (!this.pointsVisible){
           // console.log("app")
