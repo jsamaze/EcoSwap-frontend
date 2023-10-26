@@ -33,7 +33,7 @@ import { placeholder } from '../../assets/assets';
         <div class='col-lg-4 col-sm-12 justify-content-center'>
           <img :src="src" style="width: 400px; display: flex; margin-left: auto; margin-right: auto;">
           <RouterLink to="/user/photo">
-            <GreenBtn style="display: block; text-decoration: none;">
+            <GreenBtn>
               Change photo
             </GreenBtn>
           </RouterLink>
