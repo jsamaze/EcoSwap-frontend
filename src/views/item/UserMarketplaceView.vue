@@ -4,6 +4,9 @@
 import ItemCard from '../../components/ItemCard.vue';
   // this is how you import external css files
   // import "../assets/body.css"
+
+  import Vue3TagsInput from 'vue3-tags-input';
+
 </script>
 
 <template>
@@ -11,7 +14,7 @@ import ItemCard from '../../components/ItemCard.vue';
 
   <!-- search bar + filter -->
 
-  <nav class="navbar bg-light">
+  <!-- <nav class="navbar bg-light">
     <div class="container-fluid p-3">
       <form class="d-flex" role="search">
         <input class="form-control me-2 title" type="search" placeholder="Search for..." aria-label="Search">
@@ -40,7 +43,7 @@ import ItemCard from '../../components/ItemCard.vue';
       </ul>
     </div>
     </div>
-  </nav>
+  </nav> -->
 
   <!-- promotion carousel -->
   <main>
@@ -95,7 +98,7 @@ import ItemCard from '../../components/ItemCard.vue';
           Filter
         </button>
         <input type="text" class="form-control" placeholder="search for items" v-model="searchQuery">
-        <button class="btn btn-primary">Search</button>
+        <input type="submit" class="btn btn-primary" value="Search" @click="search">
       </form>
 
 
@@ -103,7 +106,7 @@ import ItemCard from '../../components/ItemCard.vue';
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-4 col-md-5 col-sm-7" v-for="item in searchResults">
+        <div class="col-lg-4 col-md-5 col-sm-7" v-for="item in searchResults.slice((page-1)*MAX_PER_PAGE,(page)*MAX_PER_PAGE)">
           <ItemCard :item="item">
 
           </ItemCard>
@@ -112,12 +115,12 @@ import ItemCard from '../../components/ItemCard.vue';
       <div class="row">
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-              <a class="page-link">Previous</a>
+            <li class="page-item" :class="{disabled: page==1}">
+              <a class="page-link"  @click="page-=1">Previous</a>
             </li>
-            <li class="page-item" v-for="n in 5"><a class="page-link" :class="{active : n ==1}" >{{ n }}</a></li>
+            <li class="page-item" v-for="n in noOfPages"><a class="page-link" :class="{active : n == page}" @click="page = n">{{ n }}</a></li>
             <li class="page-item">
-              <a class="page-link" >Next</a>
+              <a class="page-link" :class="{disabled: page==noOfPages}" @click="page+=1" >Next</a>
             </li>
           </ul>
        </nav>
@@ -134,11 +137,11 @@ import ItemCard from '../../components/ItemCard.vue';
   <div class="offcanvas-body">
     <div>
 
-      By category
+      <h2>By category</h2>
 
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="category" :id="null" checked v-model="searchFilter.category" :value="null">
-        <label class="form-check-label" :for="null">
+        <input class="form-check-input" type="radio" name="category" id="null1" checked v-model="searchFilter.category" :value="null">
+        <label class="form-check-label" for="null1">
           No filter applied
         </label>
       </div>
@@ -149,35 +152,55 @@ import ItemCard from '../../components/ItemCard.vue';
         </label>
       </div>
 
-      By condition
+      <h2>By condition</h2>
 
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="category" :id="null" checked v-model="searchFilter.condition" :value="null">
-        <label class="form-check-label" :for="null">
+        <input class="form-check-input" type="radio" name="condition" id="null2" checked v-model="searchFilter.condition" :value="null">
+        <label class="form-check-label" for="null2">
           No filter applied
         </label>
       </div>
-      <div class="form-check" v-for="cat in conditions">
-        <input class="form-check-input" type="radio" name="category" v-model="searchFilter.condition"  :value="cat" :id="cat">
-        <label class="form-check-label" :for="cat">
-          {{ cat }}
+
+      
+      <div class="form-check" v-for="cond in condition">
+        <input class="form-check-input" type="radio" name="condition" :id="cond" v-model="searchFilter.condition" :value="cond">
+        <label class="form-check-label" :for="cond">
+          {{ cond}}
         </label>
       </div>
 
+      <h2>By item type</h2>
+
+
+      <div class="form-check" v-for="cond in itemType">
+        <input class="form-check-input" type="radio" name="itemType" :id="cond" v-model="searchFilter.itemType" :value="cond">
+        <label class="form-check-label" :for="cond">
+          {{ cond}}
+        </label>
+      </div>
+      <h2>By username</h2>
+
 
       <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Filter by username</label>
-        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="enter username if you want to filter">
+        <label for="exampleFormControlInput1" class="form-label">Username</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" v-model="searchFilter.username" placeholder="enter username if you want to filter">
       </div>
 
+      <h2> By trade status</h2>
+
       <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="searchFilter.traded">
         <label class="form-check-label" for="flexSwitchCheckDefault">Item has been traded</label>
       </div>
 
 
 
-      By tags
+      <h2> By tags</h2>
+
+      <vue3-tags-input :tags="searchFilter.tags"
+                   placeholder="enter some tags"
+                   @on-tags-changed="handleChangeTag"
+                   />
 
 
 
@@ -227,21 +250,32 @@ import ItemCard from '../../components/ItemCard.vue';
 
 export default {
 
+  watch :{
+    searchResults(){
+      this.noOfPages = Math.ceil(this.searchResults.length / this.MAX_PER_PAGE)
+
+    }
+  },
+
   // this is data, website will reload if this change
   data() {
     return {
       items : [],
       searchResults : [],
+      neverSearch: false,
 
       page : 1,
+      noOfPages : 0,
+      MAX_PER_PAGE : 4,
 
-      searchQuery : null,
+      searchQuery : "",
       searchFilter : {
-        tags : null,
         category : null,
         condition : null,
-        username : null,
-        traded : null,
+        username : "",
+        traded : false,
+        itemType : "Listed",
+        tags: [],
       },
 
       categories : [
@@ -249,29 +283,48 @@ export default {
                "Furniture",
               "Electronics",
               "Fashion"
+      ],
+      condition : [
+        "old", 'new'
+      ],
+      itemType : [
+        'WishList', 'Listed'
       ]
 
     }
   },
 
   methods: {
-    search(){
+
+    handleChangeTag(tags) {
+      this.searchFilter.tags = tags;
+    },
+    search(e){
+      if (this.searchFilter.tags.length ==0){
+        this.searchFilter.tags = null
+      } 
+      if (this.searchFilter.username.length ==0){
+        this.searchFilter.username = null
+      } 
       let l = this.$loading.show()
       this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search/${this.searchQuery}`,{
-      params : {
-          tags : this.tags, // array of tags
-          category : this.category, // Electronics/Fashion/Furniture/Kitchenware
-          condition : this.condition, // old new
-          itemType : 'Listed', // Listed or WishList (DEFAULT to listed)
-          username : this.username,
-          traded : this.traded,
-          includeOwn : false //IF LOGGED IN choose to exclude self or not
-      }
+      params : this.searchFilter
     }).then( response => {
       this.searchResults = response.data.data
     }).catch( response => {
       this.$toast.error("Failed to fetch search results")
-    }).finally (()=> l.hide())
+    }).finally (()=> {
+      this.searchFilter = {
+        category : null,
+        condition : null,
+        username : "",
+        traded : false,
+        itemType : "Listed",
+        tags: [],
+      },
+      l.hide()
+      this.neverSearch = false
+    })
     }
   },
 
