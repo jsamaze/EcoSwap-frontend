@@ -2,7 +2,6 @@
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
 import ItemCard from '../../components/ItemCard.vue';
-
   // this is how you import external css files
   // import "../assets/body.css"
 </script>
@@ -86,19 +85,108 @@ import ItemCard from '../../components/ItemCard.vue';
       </div>
     </div>
 
+    <!-- search bar -->
 
-    <!-- recommended for you carousel -->
-    
+
+    <div class="mb-3">
+
+      <form @submit.prevent="search">
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+          Filter
+        </button>
+        <input type="text" class="form-control" placeholder="search for items" v-model="searchQuery">
+        <button class="btn btn-primary">Search</button>
+      </form>
+
+
+    </div>
+
     <div class="container-fluid">
-      <h1 class="titleBold mt-5">Recommended for you</h1>
-      <div class="container-fluid scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
-        <div class="col-lg-4 col-md-5 col-sm-7" v-for="item in items">
+      <div class="row">
+        <div class="col-lg-4 col-md-5 col-sm-7" v-for="item in searchResults">
           <ItemCard :item="item">
 
           </ItemCard>
         </div>
       </div>
+      <div class="row">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link">Previous</a>
+            </li>
+            <li class="page-item" v-for="n in 5"><a class="page-link" :class="{active : n ==1}" >{{ n }}</a></li>
+            <li class="page-item">
+              <a class="page-link" >Next</a>
+            </li>
+          </ul>
+       </nav>
+      </div>
     </div>
+
+
+    <!-- offcanvas -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filter search result</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div>
+
+      By category
+
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="category" :id="null" checked v-model="searchFilter.category" :value="null">
+        <label class="form-check-label" :for="null">
+          No filter applied
+        </label>
+      </div>
+      <div class="form-check" v-for="cat in categories">
+        <input class="form-check-input" type="radio" name="category" v-model="searchFilter.category"  :value="cat" :id="cat">
+        <label class="form-check-label" :for="cat">
+          {{ cat }}
+        </label>
+      </div>
+
+      By condition
+
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="category" :id="null" checked v-model="searchFilter.condition" :value="null">
+        <label class="form-check-label" :for="null">
+          No filter applied
+        </label>
+      </div>
+      <div class="form-check" v-for="cat in conditions">
+        <input class="form-check-input" type="radio" name="category" v-model="searchFilter.condition"  :value="cat" :id="cat">
+        <label class="form-check-label" :for="cat">
+          {{ cat }}
+        </label>
+      </div>
+
+
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Filter by username</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="enter username if you want to filter">
+      </div>
+
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Item has been traded</label>
+      </div>
+
+
+
+      By tags
+
+
+
+      <!-- body of canvas -->
+    </div>
+  </div>
+</div>
+
+
 
 
   </main>
@@ -142,13 +230,48 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
-      items : []
+      items : [],
+      searchResults : [],
+
+      page : 1,
+
+      searchQuery : null,
+      searchFilter : {
+        tags : null,
+        category : null,
+        condition : null,
+        username : null,
+        traded : null,
+      },
+
+      categories : [
+      "Kitchenware",
+               "Furniture",
+              "Electronics",
+              "Fashion"
+      ]
+
     }
   },
 
   methods: {
-    test() {
-      // you need to use this in the methods
+    search(){
+      let l = this.$loading.show()
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search/${this.searchQuery}`,{
+      params : {
+          tags : this.tags, // array of tags
+          category : this.category, // Electronics/Fashion/Furniture/Kitchenware
+          condition : this.condition, // old new
+          itemType : 'Listed', // Listed or WishList (DEFAULT to listed)
+          username : this.username,
+          traded : this.traded,
+          includeOwn : false //IF LOGGED IN choose to exclude self or not
+      }
+    }).then( response => {
+      this.searchResults = response.data.data
+    }).catch( response => {
+      this.$toast.error("Failed to fetch search results")
+    }).finally (()=> l.hide())
     }
   },
 
