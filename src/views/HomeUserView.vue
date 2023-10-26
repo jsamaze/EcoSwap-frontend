@@ -4,22 +4,23 @@
   import {mapStores} from 'pinia'
   import { useUserStore } from '../store/UserStore';
   // import ReviewView from './ReviewView.vue';
-
+  import { useElementVisibility } from '@vueuse/core'
+  import { vElementVisibility } from '@vueuse/components'
 </script>
 
 <template>
   
   <!-- type your HTML here -->
-  <main>
+  <main @scroll="handleScroll">
     <div class="container-fluid bg px-0 mt-0">
       <section class="parallax z-1">
-          <img src="../assets/images/hill1.png" ref="hill1">
-          <img src="../assets/images/hill2.png" ref="hill2">
-          <img src="../assets/images/hill3.png" ref="hill3">
-          <img src="../assets/images/hill4.png" ref="hill4">
-          <img src="../assets/images/hill5.png" ref="hill5">
-          <img src="../assets/images/tree.png" ref="tree">
-          <img src="../assets/images/leaf.png" ref="leaf">
+          <img src="../assets/images/hill1.png" id="hill1">
+          <img src="../assets/images/hill2.png" id="hill2">
+          <img src="../assets/images/hill3.png" id="hill3">
+          <img src="../assets/images/hill4.png" id="hill4">
+          <img src="../assets/images/hill5.png" id="hill5">
+          <img src="../assets/images/tree.png" id="tree">
+          <img src="../assets/images/leaf.png" id="leaf">
           <h1 class="titleBold text-center" id="text">Welcome back to<br> EcoSwap, {{userStore.username}}!</h1>
           <img src="../assets/images/plant.png" id="plant">
       </section>
@@ -28,7 +29,7 @@
         <div class="row">
             <div class="col">
               <i class="fas fa-star"></i>
-              <span class="num" ref="points" @scroll="pointsShow" v-show="accPoints != null">{{ pointsShown }}</span>
+              <span class="num" ref="points" @scroll="pointsShow" v-show="accPoints != null" v-element-visibility="onElementVisibility">{{ pointsShown }}</span>
               <h3 class="title whitefont">Accumulated points</h3>
               <h3 class="title whitefont">{{ tier }} tier</h3>
               <button class="btn btn-primary" @click="$router.push('/reward')">Points</button>
@@ -51,12 +52,17 @@
 /* you can also import css files */
 
 <script>
-let interval = 500000; 
+const fn =  () => {
+        let value = window.scrollY;
 
-let controller = new AbortController()
+        leaf.style.top = Math.min(value * -1.5, leaf.height) + 'px';
+        leaf.style.left = value * 1.5 + 'px';
+        hill5.style.left = value * 1.5 + 'px';
+        hill4.style.left = value * -1.5 + 'px';
+        hill1.style.top = Math.min(value * 1,hill1.height) + 'px';
+    }
+
 export default {
-
-
   // this is data, website will reload if this change
   data() {
 
@@ -80,160 +86,74 @@ export default {
     }
   },
 
-  async created () {
-    await this.load()
-    const { signal } = controller;
-    window.addEventListener('scroll', this.handleScroll,{signal});
-  },
-  unmounted () {
-    window.removeEventListener('scroll', this.handleScroll);
-    console.log('apple :>> ');
-    clearInterval(this.counter)
-  },
+
 
   watch:{
     $route (to, from){
       window.removeEventListener('scroll', this.handleScroll);
     }
-} ,
+  } ,
 
-beforeRouteLeave(to, from) {
-        // called when the route that renders this component is about to be navigated away from.
-        // As with `beforeRouteUpdate`, it has access to `this` component instance.
-        console.log(this)
-        console.log("leave", this.handleScroll)
-        controller.abort()
-      },
 
   computed : {
     ...mapStores(useUserStore)
   },
 
   methods: {
-    handleScroll(e){
 
-
-      var element = this.$refs.points;
-	    var position = element.getBoundingClientRect();
-
-      // checking whether partially visible
-      if(position.top < window.innerHeight && position.bottom >= 0) {
-        // console.log('Element is fully visible in screen');
-        // if (!this.pointsVisible){
-        //   // console.log("app")
-        //   let duration = Math.floor(interval / this.accPoints);
-
-          var vm = this
+    onElementVisibility(state){
+      if(!this.pointsVisible && state){
+        // this.pointsShown=0
+        var vm = this
           this.counter = setInterval(function () {
-            // console.log(vm.pointsShown, vm.accPoints)
-            // console.log(vm.pointsShown >= vm.accPoints)
             if (vm.pointsShown >= vm.accPoints) {
-              console.log(vm.counter,"count")
               clearInterval(vm.counter);
             } else {
               vm.pointsShown += 1;
             }
           }, 1000/this.accPoints);
 
-          this.pointsVisible = true
-
-        // }
-      // } else {
-      //   // console.log('Element is NOT fully visible in screen');
-      //   if(this.pointsVisible){
-      //     this.pointsVisible = false
-      //     this.pointsShown = 0
-      //   }
-
-
       }
-      
-      console.log(this.$refs.leaf.style)
-
-      let value = window.scrollY;
-        this.$refs.leaf.style.top = Math.min(value * -1.5, this.$refs.leaf.height) + 'px';
-        this.$refs.leaf.style.left = value * 1.5 + 'px';
-        this.$refs.hill5.style.left = value * 1.5 + 'px';
-        this.$refs.hill4.style.left = value * -1.5 + 'px';
-        this.$refs.hill1.style.top = Math.min(value * 1,this.$refs.hill1.height) + 'px';
-
-
-
-
-
-      // checking for partial visibility
-      // if(position.top < window.innerHeight && position.bottom >= 0) {
-      //   console.log('Element is partially visible in screen');
-      // }
     },
     
-    async load (){
-      try {
-        var l = this.$loading.show({
-          lockScroll : true
-        })
-        // var ajax1 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/reward`)
-        // var ajax2 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/reward/transactions`)
-        var ajax3 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`)
-
-        // this.rewards = ajax1.data.rewards
-        // this.choices = ajax1.data.choices
-        // this.transactions = ajax2.data.data
-
-        // this.rewards_rewardName = this.rewards.map(e => {
-        //   return e.rewardName
-        // })
-
-        console.log(ajax3.data.data.accumulatedPoints)
-
-        this.netPoints = ajax3.data.data.netPoints
-        this.accPoints = ajax3.data.data.accumulatedPoints
-        // console.log(this.accPoints, "AP")
-        this.tier = ajax3.data.data.tier
-
-        l.hide()
+     load (){
+        var l = this.$loading.show()
         
+        this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`).then(
+          ajax3 =>{
+            console.log(ajax3.data.data.accumulatedPoints)
 
-      } catch (error) {
-        console.log(error)
-        this.$toast.error('Error with fetching data')
-        // this.$router.push("/")
-      }
+            this.netPoints = ajax3.data.data.netPoints
+            this.accPoints = ajax3.data.data.accumulatedPoints
+            // console.log(this.accPoints, "AP")
+            this.tier = ajax3.data.data.tier
+          }
+        ).catch(
+          error => {
+            console.log(error)
+            this.$toast.error('Error with fetching data')
+          }
+        ).finally(
+          () => l.hide()
+        )
     },
 
   },
+  beforeRouteLeave(){
+    window.removeEventListener('scroll', fn);
+  },
+
   //any ajax call to start is executed here
   mounted() {
+    this.load()
+    console.log("mount")
     // Parallax effect
     let leaf = document.getElementById('leaf');
     let hill1 = document.getElementById('hill1');
     let hill4 = document.getElementById('hill4');
     let hill5 = document.getElementById('hill5');
 
-    window.addEventListener('scroll', () => {
-        let value = window.scrollY;
-        leaf.style.top = Math.min(value * -1.5, leaf.height) + 'px';
-        leaf.style.left = value * 1.5 + 'px';
-        hill5.style.left = value * 1.5 + 'px';
-        hill4.style.left = value * -1.5 + 'px';
-        hill1.style.top = Math.min(value * 1,hill1.height) + 'px';
-    });
-    // Animated number counting
-    /* let valueDisplays = document.getElementsByClassName("num");
-    let interval = 500000; */
-
-    /* Array.from(valueDisplays).forEach(valueDisplay => {
-      let startValue = 0;
-      let endValue = parseInt(valueDisplay.getAttribute("data-val"));
-      let duration = Math.floor(interval / endValue);
-      let counter = setInterval(function () {
-        startValue += 1;
-        valueDisplay.textContent = startValue;
-        if (startValue == endValue) {
-          clearInterval(counter);
-        }
-      }, duration);
-    }); */
-  },
+    window.addEventListener('scroll', fn);
+  }
 }
 </script>
