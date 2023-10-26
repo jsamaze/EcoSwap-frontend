@@ -186,14 +186,14 @@ import ItemCard from '../../components/ItemCard.vue';
 
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Username</label>
-        <input type="email" class="form-control" id="exampleFormControlInput1" v-model="searchFilter.username" placeholder="enter username if you want to filter">
+        <input type="email" class="form-control" id="exampleFormControlInput1" v-model="searchFilter.username" placeholder="enter 1 username to filter with">
       </div>
 
       <h2> By trade status</h2>
 
       <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="searchFilter.traded">
-        <label class="form-check-label" for="flexSwitchCheckDefault">Item has been traded</label>
+        <label class="form-check-label" for="flexSwitchCheckDefault">Item has {{ searchFilter.traded ? "" : "NOT" }} been traded</label>
       </div>
 
 
@@ -326,6 +326,7 @@ export default {
         tags: [],
       },
       l.hide()
+      this.page=1
       this.neverSearch = false
     })
     }
