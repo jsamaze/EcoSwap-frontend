@@ -4,7 +4,7 @@
   import GreenBtn from '../components/GreenBtn.vue';
   import {mapStores} from 'pinia'
   import { useUserStore } from '../store/UserStore';
-import ReviewView from './ReviewView.vue';
+  import ReviewView from './ReviewView.vue';
 
 </script>
 
@@ -30,7 +30,14 @@ import ReviewView from './ReviewView.vue';
           <img src="../assets/images/plant.png" id="plant">
       </section>
 
-      <ReviewView :username="userStore.username"></ReviewView>
+      <div class="sec container-fluid">
+        
+      </div>
+
+      <div class="sec2 container-fluid">
+      
+      </div>
+
     </div>
   </main>
 </template>

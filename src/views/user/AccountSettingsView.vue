@@ -22,74 +22,57 @@ import { placeholder } from '../../assets/assets';
   <!-- type your HTML here -->
 
 
-   <MiddleCardForListing>
     <div class="container-fluid">
+      <div class="row mt-4 mb-2">
+        <div class="col">
+          <h1 class="titleBold text-center" style="font-size: xxx-large;">Account Settings</h1>
+        </div>
+      </div>
       <div class="row">
         
-        <div class='col justify-content-center'>
-            <br><br>
-            <img class="w-100 m-3" :src="src">
-            <br>
-            <br>
-            <RouterLink to="/user/photo">
-              <GreenBtn>
-                Change Photo
-              </GreenBtn>
-            </RouterLink>
-
+        <div class='col-lg-4 col-sm-12 justify-content-center'>
+          <img :src="src" style="width: 400px; display: flex; margin-left: auto; margin-right: auto;">
+          <RouterLink to="/user/photo">
+            <GreenBtn style="display: block; text-decoration: none;">
+              Change photo
+            </GreenBtn>
+          </RouterLink>
+          <h4 v-if="busStop">Preferred bus stop: {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h4>
+          <h4 v-else style="text-align: center;">You have not chosen a preferred bus stop!</h4>
+          <GreenBtn @click="$router.push('/user/busStop')">
+          Change preferred bus stop
+          </GreenBtn>
       </div>
 
-        <div class='col  justify-content-center'>
+        <div class='col justify-content-center'>
           <div class="white p-3">
      <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
       <form @submit="handleSubmit($event, update)" >
-
-        <h1 class="title text-center">Account Settings</h1>
-        Your email is {{ emailVerified ? "" : "not " }}verified
-              <div v-if="!emailVerified">
-                <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
-              </div>
-              <br><br>
-        You cannot change your username: 
-        <span class="text-center fw-bold">{{ userStore.username }}</span>
-
-       
-        <TextInput  name="fullName">
-          Full name
-        </TextInput>
-        
-        
-            
-              
-              
-        <TextInput  name="email">
-          Email (If you change your email, you will need to receive OTP)
-        </TextInput>
-
-        
-
+        <h4>Username: <span class="text-center fw-bold">{{ userStore.username }}</span></h4>
+        <br>
+        <h4>
+          <TextInput  name="fullName">
+            Full name
+          </TextInput>
+        </h4>
+        <h4>
+          <TextInput  name="email" style="margin-bottom: 0% !important;">
+            Email
+          </TextInput>
+        </h4>
+        Your email is <b>{{ emailVerified ? "" : "not " }}verified</b>
+        <div v-if="!emailVerified">
+          <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
+        </div>
+        <br><br>
+        <h4>
           <TextInput name="about" as="textarea">
                 About
           </TextInput>
+        </h4>
 
-        
-        <GreenSubmitBtn>Save changes</GreenSubmitBtn>
-        <br>
-        <div class="text-center">
-          <h6 v-if="busStop">Current bus stop is : {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h6>
-          <h4 v-else>You are yet to choose a preferred bus stop!</h4>
-          <GreenBtn @click="$router.push('/user/busStop')">
-          Click here to change your preferred bus stop
-          </GreenBtn>
-        </div>
-
-
-          
-          
-
-          <GreenBtn @click="changePassword">Click here to change password</GreenBtn>
-
-         
+        <GreenSubmitBtn style="display: inline !important; margin-right: 20px !important;">Save changes</GreenSubmitBtn>
+        <GreenBtn style="display: inline !important;" @click="changePassword">Change password</GreenBtn>
     </form>
     </VeeForm>
 
@@ -99,8 +82,6 @@ import { placeholder } from '../../assets/assets';
       </div>
     </div>
 </div>
-
-   </MiddleCardForListing>
 </template>
 
 <style scoped> 

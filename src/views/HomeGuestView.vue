@@ -29,7 +29,7 @@
           <img src="../assets/images/plant.png" id="plant">
       </section>
 
-      <div class="sec">
+      <div class="sec container-fluid">
           
           <!-- users have saved part -->
           <div class="row p-5">
@@ -148,6 +148,40 @@
       </div>
 
     </div>
+    // Basic Usage
+  <circle-progress :percent="40" />
+  
+  // Default Gradient
+  <circle-progress :is-gradient="true"  />
+
+  // Customize Gradient
+  <circle-progress
+      :is-gradient="true"
+      :gradient="{
+        angle: 90,
+        startColor: '#ff0000',
+        stopColor: '#ffff00'
+    }"
+  />
+
+  // Default Shadow
+  <circle-progress :is-bg-shadow="true" />
+
+  // Customize Shadow
+  <circle-progress
+      :is-bg-shadow="true"
+      :bg-shadow="{
+        inset: true,
+        vertical: 2,
+        horizontal: 2,
+        blur: 4,
+        opacity: .4,
+        color: '#000000'
+    }"
+      empty-color="#f7f7f7"
+      :border-width="6"
+      :border-bg-width="30"
+  />
   </main>
 </template>
 
@@ -158,9 +192,11 @@
 </style>
 
 <script>
+import "vue3-circle-progress/dist/circle-progress.css";
+import CircleProgress from "vue3-circle-progress";
 
 export default {
-
+  components: {CircleProgress},
   // this is data, website will reload if this change
   data() {
     return {
