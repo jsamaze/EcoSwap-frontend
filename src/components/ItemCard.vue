@@ -1,6 +1,7 @@
 <template>
   <div class="card card-block" @click="clickCard" style="cursor: pointer; width: 100%;">
-    <img v-lazy="item.photoURLs.length > 0 ? item.photoURLs[0] : placeholder" class="card-img-top w-100" alt="...">
+    <span class="badge text-bg-danger fs-3 position-absolute " style="top:25%; left: 35%;" v-if="item.done">Traded</span>
+    <img v-lazy="item.photoURLs.length > 0 ? item.photoURLs[0] : placeholder" class="card-img-top w-100 rounded">
     <h5 class="card-title subtitle fs-3 mx-3 mt-3">{{ item.itemName }}</h5>
     <p class="card-text subtitle mx-3 mb-3">
       <span class="subtitleBold">Category:</span> {{ item.category }}<br>
