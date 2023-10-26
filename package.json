@@ -10,6 +10,7 @@
     "start": "node ."
   },
   "dependencies": {
+    "@morev/vue-transitions": "^2.3.6",
     "@popperjs/core": "^2.11.8",
     "@vueuse/components": "^10.5.0",
     "@vueuse/core": "^10.5.0",
