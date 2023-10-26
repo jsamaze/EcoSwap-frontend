@@ -190,7 +190,9 @@ const router = createRouter({
       component: HomeUserView,
       meta : {
         needAuth : true,
-      }
+
+      },
+
     },
 
     {
@@ -262,7 +264,11 @@ const router = createRouter({
         needAuth :null,
       }
     },
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    // always scroll to top
+    return { top: 0 }
+  },
 })
 
 
