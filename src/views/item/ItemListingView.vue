@@ -27,10 +27,6 @@ import * as bootstrap from 'bootstrap'
               Back
             </Btn>
 
-            <button class="btn btn-danger ms-auto me-0">
-              Delete
-            </button>
-
               <br>
               <CustomCarousell v-if="images && images.length>0" :images=images>
 
