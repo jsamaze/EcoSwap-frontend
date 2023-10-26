@@ -1,7 +1,6 @@
 <script setup>
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
-  import GreenBtn from '../components/GreenBtn.vue';
   import {mapStores} from 'pinia'
   import { useUserStore } from '../store/UserStore';
   // import ReviewView from './ReviewView.vue';
@@ -29,7 +28,7 @@
         <div class="row">
             <div class="col">
               <i class="fas fa-star"></i>
-              <span class="num" ref="points" @scroll="pointsShow">{{ pointsShown }}</span>
+              <span class="num" ref="points" @scroll="pointsShow" v-show="accPoints != null">{{ pointsShown }}</span>
               <h3 class="title whitefont">Current points</h3>
               <h3 class="title whitefont">{{ tier }} tier</h3>
               <button class="btn btn-primary" @click="$router.push('/reward')">Points</button>
@@ -67,8 +66,8 @@ export default {
       transactions : [],
 
       netPoints:0,
-      accPoints:0,
-      tier:0,
+      accPoints:null,
+      tier:null,
       rewards_rewardName: [],
 
       pointsShown:0,
@@ -120,9 +119,9 @@ beforeRouteLeave(to, from) {
       // checking whether partially visible
       if(position.top < window.innerHeight && position.bottom >= 0) {
         // console.log('Element is fully visible in screen');
-        if (!this.pointsVisible){
-          // console.log("app")
-          let duration = Math.floor(interval / this.accPoints);
+        // if (!this.pointsVisible){
+        //   // console.log("app")
+        //   let duration = Math.floor(interval / this.accPoints);
 
           var vm = this
           this.counter = setInterval(function () {
@@ -138,13 +137,13 @@ beforeRouteLeave(to, from) {
 
           this.pointsVisible = true
 
-        }
-      } else {
-        // console.log('Element is NOT fully visible in screen');
-        if(this.pointsVisible){
-          this.pointsVisible = false
-          this.pointsShown = 0
-        }
+        // }
+      // } else {
+      //   // console.log('Element is NOT fully visible in screen');
+      //   if(this.pointsVisible){
+      //     this.pointsVisible = false
+      //     this.pointsShown = 0
+      //   }
 
 
       }
@@ -170,7 +169,9 @@ beforeRouteLeave(to, from) {
     
     async load (){
       try {
-        var l = this.$loading.show()
+        var l = this.$loading.show({
+          lockScroll : true
+        })
         // var ajax1 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/reward`)
         // var ajax2 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/reward/transactions`)
         var ajax3 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`)

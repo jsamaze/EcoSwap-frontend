@@ -76,15 +76,13 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
     </div>
 
-    <div v-show="optionsShow">
-        <GreenBtn @click="$router.go(0)">
+    <div v-show="optionsShow" class="btn-group">
+      <GreenBtn @click="$router.go(0)">
         Upload another photo
       </GreenBtn >
 
-      <RouterLink :to='`/item/${$route.params.itemId}/edit`'>
-        <GreenBtn>
+      <RouterLink :to='`/item/${$route.params.itemId}/edit`' class="my-3 btn btn-primary  btn-lg gradient-custom-4 text-white subtitle">
         Edit other parts of listing
-      </GreenBtn>
       </RouterLink>
 
     </div>

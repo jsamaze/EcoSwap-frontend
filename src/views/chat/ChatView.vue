@@ -393,7 +393,7 @@ export default {
           }
         }
       ).catch(error => {
-        alert(error.response.data.status)
+        this.$toast.error(error.response.data.status)
       })
 
     },

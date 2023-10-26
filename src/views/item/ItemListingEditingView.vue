@@ -30,8 +30,8 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
         <div class="row">
                       <div class="col-sm-6">
                   
-                  <Btn @click="$router.go(-1)">
-                    Back
+                  <Btn @click="$router.push(`/item/${this.$route.params.itemId}`)">
+                    Back to Listing Page
                   </Btn>
 
                     <!-- carousel -->
@@ -41,17 +41,27 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     </CustomCarousell>
 
                     <!-- end carousel -->
-                    <RouterLink v-if="images.length < 5" :to='`/item/${$route.params.itemId}/addPhoto`'>
-                      <GreenBtn>
+
+
+                    <div class="row mt-3">
+                      <div class="btn-group " role="group" aria-label="Basic mixed styles example">
+                      <RouterLink v-if="images.length < 5" :to='`/item/${$route.params.itemId}/addPhoto`' class="btn btn-success btn-lg">
                       Add photos
-                      </GreenBtn>
                     </RouterLink>
 
-                    <RouterLink :to='`/item/${$route.params.itemId}/deletePhoto`'>
-                    <GreenBtn v-if="images[0] != placeholder">
+                    <RouterLink  v-if="images[0] != placeholder" class="btn btn-warning btn-lg" :to='`/item/${$route.params.itemId}/deletePhoto`'>
                       Delete photos
-                    </GreenBtn>
                     </RouterLink>
+                            </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                      <button type="button" class=" text-center btn btn-danger btn-lg gradient-custom-4 text-white subtitle my-3"
+                      data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Delete Listing!
+                      </button>
+                    </div>
+
+
                 </div>
                         <div class="col-sm-6">
 
@@ -115,6 +125,26 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     </div>
       </MiddleCardForListing>
 
+
+<!-- modal -->
+<div class="modal fade" id="exampleModal" tabindex="0" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Item Confirmation</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this item?
+        This action will be permanent!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="test">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <style>
@@ -147,10 +177,14 @@ export default {
 
       category : null,
       condition : null,
+      itemType:"",
     }
   },
 
   methods: {
+    // test(){
+    //   console.log("EEE")
+    // },
     handleChangeTag(tags) {
       this.tags = tags;
     },
@@ -176,6 +210,22 @@ export default {
         
         () => {this.load()
           loader.hide()}
+      )
+    },
+    test(){
+      console.log('"all" :>> ', "all");
+      var l = this.$loading.show()
+      this.axios.delete(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}`).then(
+        resp =>{
+          this.$toast.success("Successfully deleted item!")
+          this.$router.push("/user/marketplace")
+        }
+      ).catch(
+        e =>{
+          console.log(e)
+          this.$toast.success("Failed to delete item!")
+          this.$router.go(0)
+        }
       )
     },
     load(){
