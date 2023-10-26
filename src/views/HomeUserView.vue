@@ -29,10 +29,10 @@
         <div class="row">
             <div class="col">
               <i class="fas fa-star"></i>
-              <span class="num" data-val="{{ accPoints }}">{{ accPoints }}</span>
+              <span class="num" ref="points" @scroll="pointsShow">{{ pointsShown }}</span>
               <h3 class="title whitefont">Current points</h3>
               <h3 class="title whitefont">{{ tier }} tier</h3>
-              <button class="btn btn-primary" @click="$router.push('/reward')" v-if="userStore.username==$route.params.username">Points</button>
+              <button class="btn btn-primary" @click="$router.push('/reward')">Points</button>
             </div>
         </div>
       </div>
@@ -45,19 +45,17 @@
   </main>
 </template>
 
-<style>
-/* you can also import css files */
-@import "../assets/homepage.css"
 
+<style>
+@import '@/assets/homepage.css';
 </style>
+/* you can also import css files */
 
 <script>
+let interval = 500000; 
 export default {
 
   // this is data, website will reload if this change
-  computed : {
-    ...mapStores(useUserStore)
-  },
   data() {
 
     return {
@@ -69,10 +67,67 @@ export default {
       accPoints:0,
       tier:0,
       rewards_rewardName: [],
+
+      pointsShown:0,
+      pointsVisible : false,
+      counter :null,
     }
   },
 
+  async created () {
+    await this.load()
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  unmounted () {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+
+  computed : {
+    ...mapStores(useUserStore)
+  },
+
   methods: {
+    handleScroll(e){
+      var element = this.$refs.points;
+	    var position = element.getBoundingClientRect();
+
+      // checking whether fully visible
+      if(position.top >= 0 && position.bottom <= window.innerHeight) {
+        // console.log('Element is fully visible in screen');
+        if (!this.pointsVisible){
+          // console.log("app")
+          let duration = Math.floor(interval / this.accPoints);
+
+          var vm = this
+          this.counter = setInterval(function () {
+            // console.log(vm.pointsShown, vm.accPoints)
+            // console.log(vm.pointsShown >= vm.accPoints)
+            if (vm.pointsShown >= vm.accPoints) {
+              console.log(vm.counter,"count")
+              clearInterval(vm.counter);
+            }
+            vm.pointsShown += 1;
+          }, 5000/this.accPoints);
+
+          this.pointsVisible = true
+
+        }
+      } else {
+        // console.log('Element is NOT fully visible in screen');
+        if(this.pointsVisible){
+          this.pointsVisible = false
+          this.pointsShown = 0
+        }
+
+
+      }
+
+      // checking for partial visibility
+      // if(position.top < window.innerHeight && position.bottom >= 0) {
+      //   console.log('Element is partially visible in screen');
+      // }
+    },
+    
     async load (){
       try {
         var l = this.$loading.show()
@@ -88,8 +143,11 @@ export default {
           return e.rewardName
         })
 
+        console.log(ajax3.data.data.accumulatedPoints)
+
         this.netPoints = ajax3.data.data.netPoints
         this.accPoints = ajax3.data.data.accumulatedPoints
+        console.log(this.accPoints, "AP")
         this.tier = ajax3.data.data.tier
 
         l.hide()
@@ -97,32 +155,14 @@ export default {
 
       } catch (error) {
         console.log(error)
-        this.$router.push("/")
+        this.$toast.error('Error with fetching data')
+        // this.$router.push("/")
       }
     },
-    redeem(rewardName){
-      var load = this.$loading.show()
 
-      this.axios.post(`${import.meta.env.VITE_BACKEND}/reward/${rewardName}/`).then(
-        response => {
-          this.$toast.success("Success redeeming. Please check your email")
-          load.hide()
-          this.load()
-        }
-      ).catch(
-        e => {
-          console.log(e)
-          this.$toast.error("Error: " + e.response.data.problem)
-          load.hide()
-        }
-      )
-
-    }
   },
   //any ajax call to start is executed here
   mounted() {
-    this.load()
-
     // Parallax effect
     let leaf = document.getElementById('leaf');
     let hill1 = document.getElementById('hill1');
@@ -139,21 +179,21 @@ export default {
         hill1.style.top = Math.min(value * 1,hill1.height) + 'px';
     });
     // Animated number counting
-    let valueDisplays = document.getElementsByClassName("num");
-    let interval = 500000;
+    /* let valueDisplays = document.getElementsByClassName("num");
+    let interval = 500000; */
 
-    Array.from(valueDisplays).forEach ;{
+    /* Array.from(valueDisplays).forEach(valueDisplay => {
       let startValue = 0;
-      let endValue = parseInt(valueDisplays.getAttribute("data-val"));
+      let endValue = parseInt(valueDisplay.getAttribute("data-val"));
       let duration = Math.floor(interval / endValue);
       let counter = setInterval(function () {
         startValue += 1;
-        valueDisplays.textContent = startValue;
+        valueDisplay.textContent = startValue;
         if (startValue == endValue) {
           clearInterval(counter);
         }
       }, duration);
-    };
+    }); */
   },
 }
 </script>
