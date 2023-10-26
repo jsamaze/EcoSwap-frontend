@@ -14,7 +14,6 @@ import { useUserStore } from '../../store/UserStore'
 
 <template>
   <!-- type your HTML here -->
-  <main>
     <div class="container-fluid">
 
 
@@ -34,11 +33,29 @@ import { useUserStore } from '../../store/UserStore'
       <label for="customRange2" class="form-label">distance from you : {{ radiusInKm }} km</label>
       <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
 
+      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+        See items for you
+      </button>
       </div>
 
-      <div class="row">
-        <div class="col-3 overflow-auto" style="height: 100vh">
 
+      <div class="row">
+        <!--<RouterLink :to="`/item/${listedItem._id}`"></RouterLink>-->
+        <div class="col">
+          <div id="map"></div>
+          <!-- Get location of user fly to it-->
+        </div>
+
+      </div>
+    </div>
+
+    <!-- offcanvas -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Reccomended Items for you<br>Click and close this canvas to see item owner's location</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
           <!-- Creating an accordion for each item with a loop -->
           <div class="accordion" id="accordionExample">
             <div class="accordion" id="accordionExample" style="margin-top: 10px">
@@ -63,18 +80,9 @@ import { useUserStore } from '../../store/UserStore'
               </div>
             </div>
           </div>
-        </div>
-        <!--<RouterLink :to="`/item/${listedItem._id}`"></RouterLink>-->
-        <div class="col-9">
-          <div id="map"></div>
-          <!-- Get location of user fly to it-->
-          <span @load="getLocation"></span>
-        </div>
 
-      </div>
-    </div>
-  </main>
-
+  </div>
+</div>
 </template>
 
 <style scoped>
