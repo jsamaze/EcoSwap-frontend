@@ -29,7 +29,7 @@
             <div class="col">
               <i class="fas fa-star"></i>
               <span class="num" ref="points" @scroll="pointsShow" v-show="accPoints != null">{{ pointsShown }}</span>
-              <h3 class="title whitefont">Current points</h3>
+              <h3 class="title whitefont">Accumulated points</h3>
               <h3 class="title whitefont">{{ tier }} tier</h3>
               <button class="btn btn-primary" @click="$router.push('/reward')">Points</button>
             </div>
