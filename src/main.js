@@ -12,6 +12,9 @@ import axios from 'axios'
 import {createPinia} from 'pinia'
 import router from './router'
 
+import VueLazyLoad from 'vue3-lazyload'
+
+
 import ToastPlugin from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
 
@@ -51,6 +54,7 @@ app.use(LoadingPlugin, {
     opacity : 0.1,
 },{
 })
+app.use(VueLazyLoad)
 
 app.mount('#app')
 

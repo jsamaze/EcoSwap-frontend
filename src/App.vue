@@ -27,9 +27,9 @@ import { useChatStore } from './store/ChatStore';
 
 
   <!-- Replaced by component in /router/index.js -->
-  <main class="" >
-  <RouterView />
-  </main>
+  <main class="" >  
+    <RouterView></RouterView>
+</main>
   <img class="d-none" src="./assets/images/scott-lord-uX1QIBXbkMA-unsplash.jpg"/>
 
   <footer v-if="!$route.fullPath.includes('chat')" class="background text-center text-lg-start mt-auto">
