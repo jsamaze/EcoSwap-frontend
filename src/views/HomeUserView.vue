@@ -105,9 +105,10 @@ export default {
             if (vm.pointsShown >= vm.accPoints) {
               console.log(vm.counter,"count")
               clearInterval(vm.counter);
+            } else {
+              vm.pointsShown += 1;
             }
-            vm.pointsShown += 1;
-          }, 5000/this.accPoints);
+          }, 1000/this.accPoints);
 
           this.pointsVisible = true
 
@@ -131,23 +132,23 @@ export default {
     async load (){
       try {
         var l = this.$loading.show()
-        var ajax1 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/reward`)
-        var ajax2 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/reward/transactions`)
+        // var ajax1 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/reward`)
+        // var ajax2 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/reward/transactions`)
         var ajax3 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`)
 
-        this.rewards = ajax1.data.rewards
-        this.choices = ajax1.data.choices
-        this.transactions = ajax2.data.data
+        // this.rewards = ajax1.data.rewards
+        // this.choices = ajax1.data.choices
+        // this.transactions = ajax2.data.data
 
-        this.rewards_rewardName = this.rewards.map(e => {
-          return e.rewardName
-        })
+        // this.rewards_rewardName = this.rewards.map(e => {
+        //   return e.rewardName
+        // })
 
         console.log(ajax3.data.data.accumulatedPoints)
 
         this.netPoints = ajax3.data.data.netPoints
         this.accPoints = ajax3.data.data.accumulatedPoints
-        console.log(this.accPoints, "AP")
+        // console.log(this.accPoints, "AP")
         this.tier = ajax3.data.data.tier
 
         l.hide()
