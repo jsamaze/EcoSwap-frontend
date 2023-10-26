@@ -27,7 +27,8 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
 
    <MiddleCardForListing>
-    
+ 
+
     <div class="container-fluid">
       <div class="row m-5">
 
@@ -49,8 +50,8 @@ import { useLoadStore } from '../store/InitialLoadStore';
           <option value="incomplete">Review incomplete</option>
         </select>
         
-        
-        <div class='col justify-content-center' v-if="selectedOption =='received'">
+      <transition-slide>
+        <div class='col-12 justify-content-center' v-if="selectedOption =='received'">
             <div class="white py-3">
                 <h3>Reviews {{ $route.params.username }} received</h3>
                 
@@ -73,8 +74,10 @@ import { useLoadStore } from '../store/InitialLoadStore';
             </div>
 
       </div>
+    </transition-slide>
 
-      <div class="col justify-content-center"  v-if="selectedOption =='given'">
+      <transition-slide>
+      <div class="col-12 justify-content-center"  v-if="selectedOption =='given'">
         <div class="white py-3">
 
         <h3>Reviews {{ $route.params.username }} wrote</h3>
@@ -95,9 +98,13 @@ import { useLoadStore } from '../store/InitialLoadStore';
                 </ul>
              </div>
       </div>
+
       </div>
+    </transition-slide>
         <!-- hide this column if its not my reviews -->
-        <div class='col  justify-content-center' v-if="(userStore.username == $route.params.username || userStore.username == username) && selectedOption =='incomplete'">
+        <transition-slide>
+
+        <div class='col-12  justify-content-center' v-if="(userStore.username == $route.params.username || userStore.username == username) && selectedOption =='incomplete'">
           <div class="white py-3">
             <h3>Uncompleted Reviews</h3>
 
@@ -123,7 +130,10 @@ import { useLoadStore } from '../store/InitialLoadStore';
         </div>
         
       </div>
+    </transition-slide>
+
     </div>
+
 </div>
 
    </MiddleCardForListing>

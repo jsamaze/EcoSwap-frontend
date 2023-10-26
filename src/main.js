@@ -21,12 +21,16 @@ import 'vue-toast-notification/dist/theme-sugar.css'
 import {LoadingPlugin} from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 
+import VueTransitions from '@morev/vue-transitions'
+import '@morev/vue-transitions/styles'
+
 import {useUserStore} from './store/UserStore'
 import { useLoadStore } from './store/InitialLoadStore';
 import { useNotificationStore } from './store/NotificationStore';
 import { useChatStore } from './store/ChatStore';
 import { useItemChatStore } from './store/ItemChatStore';
 import { useSocketStore } from './store/SocketStore';
+import vueTransitions from '@morev/vue-transitions';
 
 
 axios.defaults.withCredentials=true;
@@ -37,6 +41,8 @@ app.use(ToastPlugin,{
 })
 
 app.use(VueAxios, axios)
+
+app.use(vueTransitions)
 
 const pinia = createPinia()
 app.use(pinia)
