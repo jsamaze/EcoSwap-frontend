@@ -101,9 +101,6 @@ export default {
       initialValues: null,
       schema : yup.object().shape({
         fullName : yup.string().required(),
-        preferredBusStop : yup.string().max(5)
-        .test('Digits only', 'The field should have digits only', (value) =>  value.toString().length==0||/^\d+$/.test(value))
-        .label("Preferred Bus Stop"),
 
                 email : yup.string().required().email(),
       }),
