@@ -40,7 +40,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
         </p>
 
         <h5 v-if="uncompletedReviews.length > 0">
-          There are {{ uncompletedReviews.length }} review{{ uncompletedReviews.length == 1 ?'s' :'' }} to be completed
+          There are {{ uncompletedReviews.length }} review{{ uncompletedReviews.length > 1 ?'s' :'' }} to be completed
         </h5>
 
         <select v-model="selectedOption">
@@ -51,7 +51,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
         
         
         <div class='col justify-content-center' v-if="selectedOption =='received'">
-            <div class="white p-3">
+            <div class="white py-3">
                 <h3>Reviews {{ $route.params.username }} received</h3>
                 
                 <div class="card" style="width: 100%; height: auto;">
@@ -75,6 +75,8 @@ import { useLoadStore } from '../store/InitialLoadStore';
       </div>
 
       <div class="col justify-content-center"  v-if="selectedOption =='given'">
+        <div class="white py-3">
+
         <h3>Reviews {{ $route.params.username }} wrote</h3>
                 
                 <div class="card" style="width: 100%; height: auto;">
@@ -87,15 +89,16 @@ import { useLoadStore } from '../store/InitialLoadStore';
                         <br>Rating: {{ review.rating }} out of 5
                         <br>Comment: "{{ review.textContent }}"
                     </li>
-                    <li class="list-group-item" :disabled="completedReviews.length == 0">
+                    <li class="list-group-item" v-if="completedReviews.length == 0">
                       Empty
                     </li>
                 </ul>
              </div>
       </div>
+      </div>
         <!-- hide this column if its not my reviews -->
         <div class='col  justify-content-center' v-if="(userStore.username == $route.params.username || userStore.username == username) && selectedOption =='incomplete'">
-          <div class="white p-3">
+          <div class="white py-3">
             <h3>Uncompleted Reviews</h3>
 
             <div class="card" style="width: 100%; height: auto;">
@@ -156,7 +159,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
       </div>
       <div class="modal-footer">
         <button type="button" @click.prevent class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-success" value="Save changes" v-if="values.textContent" data-bs-dismiss="modal"/>
+        <input type="submit" class="btn btn-success" value="Save changes" :disabled="!values.textContent" data-bs-dismiss="modal"/>
       </div>
     </form>
       </VeeForm>
