@@ -14,13 +14,13 @@
   <main>
     <div class="container-fluid bg px-0 mt-0">
       <section class="parallax z-1">
-          <img src="../assets/images/hill1.png" id="hill1">
-          <img src="../assets/images/hill2.png" id="hill2">
-          <img src="../assets/images/hill3.png" id="hill3">
-          <img src="../assets/images/hill4.png" id="hill4">
-          <img src="../assets/images/hill5.png" id="hill5">
-          <img src="../assets/images/tree.png" id="tree">
-          <img src="../assets/images/leaf.png" id="leaf">
+          <img src="../assets/images/hill1.png" ref="hill1">
+          <img src="../assets/images/hill2.png" ref="hill2">
+          <img src="../assets/images/hill3.png" ref="hill3">
+          <img src="../assets/images/hill4.png" ref="hill4">
+          <img src="../assets/images/hill5.png" ref="hill5">
+          <img src="../assets/images/tree.png" ref="tree">
+          <img src="../assets/images/leaf.png" ref="leaf">
           <h1 class="titleBold text-center" id="text">Welcome back to<br> EcoSwap, {{userStore.username}}!</h1>
           <img src="../assets/images/plant.png" id="plant">
       </section>
@@ -88,6 +88,8 @@ export default {
 
   methods: {
     handleScroll(e){
+
+
       var element = this.$refs.points;
 	    var position = element.getBoundingClientRect();
 
@@ -122,6 +124,19 @@ export default {
 
 
       }
+      
+      console.log(this.$refs.leaf.style)
+
+      let value = window.scrollY;
+        this.$refs.leaf.style.top = Math.min(value * -1.5, this.$refs.leaf.height) + 'px';
+        this.$refs.leaf.style.left = value * 1.5 + 'px';
+        this.$refs.hill5.style.left = value * 1.5 + 'px';
+        this.$refs.hill4.style.left = value * -1.5 + 'px';
+        this.$refs.hill1.style.top = Math.min(value * 1,this.$refs.hill1.height) + 'px';
+
+
+
+
 
       // checking for partial visibility
       // if(position.top < window.innerHeight && position.bottom >= 0) {
@@ -172,7 +187,6 @@ export default {
 
     window.addEventListener('scroll', () => {
         let value = window.scrollY;
-
         leaf.style.top = Math.min(value * -1.5, leaf.height) + 'px';
         leaf.style.left = value * 1.5 + 'px';
         hill5.style.left = value * 1.5 + 'px';
