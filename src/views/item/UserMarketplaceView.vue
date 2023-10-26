@@ -111,8 +111,11 @@ import ItemCard from '../../components/ItemCard.vue';
 
           </ItemCard>
         </div>
+        <div class="row" v-if="searchResults.length ==0 ">
+          {{ neverSearch ? "Start searching for items" : "No items found" }}
+        </div>
       </div>
-      <div class="row">
+      <div class="row" v-if="searchResults.length > 0">
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
             <li class="page-item" :class="{disabled: page==1}">
@@ -262,7 +265,7 @@ export default {
     return {
       items : [],
       searchResults : [],
-      neverSearch: false,
+      neverSearch: true,
 
       page : 1,
       noOfPages : 0,
