@@ -9,7 +9,7 @@ import { Form as VeeForm } from 'vee-validate'
 
 import * as yup from 'yup'
 
-import { mapStores } from 'pinia';
+import { getActivePinia, mapStores } from 'pinia';
 import { useUserStore } from '../store/UserStore';
 import MiddleCardForListing from '../components/MiddleCardForListing.vue';
 import { placeholder } from '../assets/assets';
@@ -30,11 +30,29 @@ import { useLoadStore } from '../store/InitialLoadStore';
     
     <div class="container-fluid">
       <div class="row m-5">
+
+        <h3>
+          {{ $route.params.username }} average rating is {{ avgRating }}
+        </h3>
+
+        <p>
+          When you complete a trade, a review will be generated. Fill it up to help improve our community
+        </p>
+
+        <h5 v-if="uncompletedReviews.length > 0">
+          There are {{ uncompletedReviews.length }} review{{ uncompletedReviews.length == 1 ?'s' :'' }} to be completed
+        </h5>
+
+        <select v-model="selectedOption">
+          <option value="received">Reviews received</option>
+          <option value="given">Review given</option>
+          <option value="incomplete">Review incomplete</option>
+        </select>
         
         
-        <div class='col justify-content-center'>
+        <div class='col justify-content-center' v-if="selectedOption =='received'">
             <div class="white p-3">
-                <h3>Reviews {{ $route.params.username }} got</h3>
+                <h3>Reviews {{ $route.params.username }} received</h3>
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
@@ -54,7 +72,10 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
             </div>
 
-            <h3>Reviews {{ $route.params.username }} wrote</h3>
+      </div>
+
+      <div class="col justify-content-center"  v-if="selectedOption =='given'">
+        <h3>Reviews {{ $route.params.username }} wrote</h3>
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
@@ -66,21 +87,14 @@ import { useLoadStore } from '../store/InitialLoadStore';
                         <br>Rating: {{ review.rating }} out of 5
                         <br>Comment: "{{ review.textContent }}"
                     </li>
-                    <li class="list-group-item" v-if="completedReviews.length == 0">
+                    <li class="list-group-item" :disabled="completedReviews.length == 0">
                       Empty
                     </li>
                 </ul>
-                </div>
-            
-            
-                
-            
-            
-            
-
+             </div>
       </div>
         <!-- hide this column if its not my reviews -->
-        <div class='col  justify-content-center' v-if="userStore.username == $route.params.username || userStore.username == username">
+        <div class='col  justify-content-center' v-if="(userStore.username == $route.params.username || userStore.username == username) && selectedOption =='incomplete'">
           <div class="white p-3">
             <h3>Uncompleted Reviews</h3>
 
@@ -162,10 +176,13 @@ export default {
   props : ['username'],
   data(){
     return {
+      selectedOption: "received",
+
       uncompletedReviews :[],
       completedReviews : [],
 
       reviews : [],
+      avgRating : 0,
 
       selectedReview : {
         chat : { createdAt : 0},
@@ -214,6 +231,7 @@ export default {
         var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${ this.username||this.$route.params.username}`)
         this.reviews = ajax2.data.data.reviewsReceived
         this.completedReviews = ajax2.data.data.reviewsWritten
+        this.avgRating = ajax2.data.data.avgRating
       } catch (error) {
         console.log(error)
         this.$router.push("/")
