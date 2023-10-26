@@ -72,7 +72,6 @@ main {
   background-color: aqua;
 }
 
-
 .parent {
   display: flex;
   justify-content: center;

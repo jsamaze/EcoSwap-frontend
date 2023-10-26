@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css");
 
 * {
     margin: 0;
@@ -145,6 +146,28 @@ section.parallax {
 
 .circle:nth-child(4) .progress {
     stroke: #1c443e;
+}
+
+.wrapper {
+position: relative;
+width: 80vw;
+transform: translate(-50%, -50%);
+top: 50%;
+left: 50%;
+display: block;
+justify-content: space-around;
+}
+i {
+color: #18f98f;
+font-size: 3em;
+text-align: center;
+}
+span.num {
+color: #ffffff;
+display: grid;
+place-items: center;
+font-weight: 600;
+font-size: 5em;
 }
 
 .sec2 {

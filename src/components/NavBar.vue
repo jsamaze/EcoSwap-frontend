@@ -15,8 +15,8 @@
       <router-link  class="nav-item nav-link" to="/guest/map">Map</router-link>
     </div>
     <div class="navbar-nav" v-if="userStore.username">
-      <router-link  class="nav-item nav-link" to="/user/settings" >Hi, {{ userStore.username }}</router-link>
-      <router-link class="nav-item nav-link" :to="`/user/${userStore.username}`">Home</router-link>
+      <router-link  class="nav-item nav-link" to="/user/settings" >Settings</router-link>
+      <router-link class="nav-item nav-link" :to="`/user/landing`">Home</router-link>
       <router-link class="nav-item nav-link" to="/user/marketplace">Marketplace</router-link>
       <router-link class="nav-item nav-link" to="/user/map">Map</router-link>
       <router-link class="nav-item nav-link" to="/chat">Chat</router-link>

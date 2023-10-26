@@ -148,40 +148,6 @@
       </div>
 
     </div>
-    // Basic Usage
-  <circle-progress :percent="40" />
-  
-  // Default Gradient
-  <circle-progress :is-gradient="true"  />
-
-  // Customize Gradient
-  <circle-progress
-      :is-gradient="true"
-      :gradient="{
-        angle: 90,
-        startColor: '#ff0000',
-        stopColor: '#ffff00'
-    }"
-  />
-
-  // Default Shadow
-  <circle-progress :is-bg-shadow="true" />
-
-  // Customize Shadow
-  <circle-progress
-      :is-bg-shadow="true"
-      :bg-shadow="{
-        inset: true,
-        vertical: 2,
-        horizontal: 2,
-        blur: 4,
-        opacity: .4,
-        color: '#000000'
-    }"
-      empty-color="#f7f7f7"
-      :border-width="6"
-      :border-bg-width="30"
-  />
   </main>
 </template>
 
@@ -192,11 +158,8 @@
 </style>
 
 <script>
-import "vue3-circle-progress/dist/circle-progress.css";
-import CircleProgress from "vue3-circle-progress";
 
 export default {
-  components: {CircleProgress},
   // this is data, website will reload if this change
   data() {
     return {
@@ -216,26 +179,21 @@ export default {
 
   //any ajax call to start is executed here
   mounted() {
-    //this happens when u load website
-    // dont forget to put the word this
+    // Parallax effect
+    let leaf = document.getElementById('leaf');
+    let hill1 = document.getElementById('hill1');
+    let hill4 = document.getElementById('hill4');
+    let hill5 = document.getElementById('hill5');
 
-    //dont forget to use this keyword
-    // this is a reference to the backend URL in .env.local file
-        let text = document.getElementById('text');
-        let leaf = document.getElementById('leaf');
-        let hill1 = document.getElementById('hill1');
-        let hill4 = document.getElementById('hill4');
-        let hill5 = document.getElementById('hill5');
+    window.addEventListener('scroll', () => {
+        let value = window.scrollY;
 
-        window.addEventListener('scroll', () => {
-            let value = window.scrollY;
-
-            leaf.style.top = Math.min(value * -1.5, leaf.height) + 'px';
-            leaf.style.left = value * 1.5 + 'px';
-            hill5.style.left = value * 1.5 + 'px';
-            hill4.style.left = value * -1.5 + 'px';
-            hill1.style.top = Math.min(value * 1,hill1.height) + 'px';
-        });
+        leaf.style.top = Math.min(value * -1.5, leaf.height) + 'px';
+        leaf.style.left = value * 1.5 + 'px';
+        hill5.style.left = value * 1.5 + 'px';
+        hill4.style.left = value * -1.5 + 'px';
+        hill1.style.top = Math.min(value * 1,hill1.height) + 'px';
+    });
   }
 }
 </script>
