@@ -320,7 +320,7 @@ router.beforeEach(async (to,from)=>{
   if (needAuth && !isLoggedIn){
       return { name :'Guest Homepage'}
   } else if (isLoggedIn && !needAuth)  {
-    return {name :'User Marketplace'}
+    return {name :'User Homepage'}
     }
   }
 )
