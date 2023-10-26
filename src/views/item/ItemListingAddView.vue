@@ -41,7 +41,9 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     </CustomCarousell>
 
                     <!-- end carousel -->
-                    You can add photos after this
+                    <h5 class="mt-3 text-center">
+                      You can add photos after this
+                    </h5>
                 </div>
                         <div class="col-sm-6">
 

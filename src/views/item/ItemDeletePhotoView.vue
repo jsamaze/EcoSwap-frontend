@@ -32,21 +32,26 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 
   <MiddleCardForListing>
-    <h1 class="title text-center">Delete Photo from Listing</h1>
+
+    <div class="row">
+      <h1 class="title text-center">Delete Photo from Listing</h1>
+    </div>
+
     <div class="row justify-content-center">
 
         <div class="col-sm-4 p-0 position-relative "  v-for="img, idx in images">
-            <button class="btn btn-danger position-absolute top-0 end-0" @click="deletePhoto(idx)" >x</button>
+            <button class="btn-close position-absolute top-0 end-0" @click="deletePhoto(idx)" ></button>
             <img :src="img" class="w-100" style="min-width: 100%;">
         </div>
 
     </div>
 
-    <RouterLink :to="`/item/${$route.params.itemId}/edit`">
+    <RouterLink :to="`/item/${$route.params.itemId}/edit`" class="row text-decoration-none px-5">
         <GreenBtn>
         Go back to editing listing
         </GreenBtn>
     </RouterLink>
+
 
     
     
@@ -85,13 +90,14 @@ export default {
             response => {
                 if (this.images.length == 0 ){
                     this.$toast.info("This listing no longer has photos")
-                    this.$route.push(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}/edit`)
+                    this.$router.push(`/item/${this.$route.params.itemId}/edit`)
                 }
             }
         ).catch(
             e =>{
                 this.$toast.error("Failed to delete photo!")
                 this.load(load)
+                console.log(e)
             }
         ). finally(
             load.hide()
