@@ -7,6 +7,7 @@
   import { useElementVisibility } from '@vueuse/core'
   import { vElementVisibility } from '@vueuse/components'
   import { placeholder } from '../assets/assets'
+  import ItemCard from '../components/ItemCard.vue';
 
 </script>
 
@@ -33,11 +34,10 @@
         <div class="col">
           <i class="fas fa-star"></i>
           <span class="num" ref="points" @scroll="pointsShow" v-show="accPoints != null" v-element-visibility="onElementVisibility">{{ pointsShown }}</span>
-          <h3 class="title whitefont">Accumulated points</h3>
-          <h4 class="title whitefont">
-            <span :style="{color: user.tier}">{{ tier }}</span> tier</h4>
+          <h2 class="title whitefont">Points</h2>
+          <h3 class="title whitefont"><span :style="{color: user.tier}">{{ tier }}</span> tier</h3>
           <br>
-          <button class="btn btn-success" @click="$router.push('/reward')">Redeem rewards!</button>
+          <button class="btn btn-lg btn-success mb-4" @click="$router.push('/reward')">Redeem rewards!</button>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
               <img class="big center" :src="(user.imageURL && user.imageURL.length) == 0 ? placeholder : user.imageURL" id="imgHere">
               <h3 class="center" id="Username">{{ user.fullName }}</h3>
               <p class="center" id="PreferredBusStop">Preferred Bus Stop: {{user.preferredBusStop}}</p>
-              <p class="center" id="UserRating">User Rating: {{user.avgRating ?? "NIL"}}</p>
+              <p class="center" id="UserRating">User Rating: {{user.avgRating ?? "-"}}</p>
               <p class="center" id="Tier">Tier: <span :style="{color: user.tier}">{{user.tier}}</span></p>
               <button class="btn btn-primary" @click="$router.push('/reward')" v-if="userStore.username==user.username">Points</button>
               <button class="btn btn-primary" @click="$router.push(`/review/${user.username}`)" >See reviews</button>
@@ -63,7 +63,7 @@
         <div class="col-9">
           <!--Listed Items-->
           <div class="row bg-success mh-50 fit">
-            <h5>My Listed Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==$route.params.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h5>
+            <h5>My Listed Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h5>
             <br>
             <!-- Card for Listed Items, currently only uses Trending Items-->
             <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
@@ -77,7 +77,7 @@
 
           <!--Wishlist Items-->
           <div class="row bg-success mh-50">
-            <h5>My Wishlist Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==$route.params.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h5>
+            <h5>My Wishlist Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h5>
             <br>
             <!-- Card for Wishlist Items, currently only uses Trending Items-->
             <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
