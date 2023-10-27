@@ -83,15 +83,16 @@ export default {
     deletePhoto(key){
         var load = this.$loading.show()
         console.log(key)
-        this.images.splice(key,1)
         this.axios.delete(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}/photo`,{
             params: {index : key}
         }).then(
             response => {
+              this.images.splice(key,1)
                 if (this.images.length == 0 ){
                     this.$toast.info("This listing no longer has photos")
                     this.$router.push(`/item/${this.$route.params.itemId}/edit`)
                 }
+                this.$toast.success("Deleted the photo")
             }
         ).catch(
             e =>{
@@ -100,7 +101,7 @@ export default {
                 console.log(e)
             }
         ). finally(
-            load.hide()
+            () => {load.hide()}
         )
     },
 
