@@ -6,7 +6,7 @@
   // import ReviewView from './ReviewView.vue';
   import { useElementVisibility } from '@vueuse/core'
   import { vElementVisibility } from '@vueuse/components'
-  import { placeholder } from '../assets/assets'
+  import { placeholder, userPlaceholder } from '../assets/assets'
   import ItemCard from '../components/ItemCard.vue';
   import GreenBtn from '../components/GreenBtn.vue';
 

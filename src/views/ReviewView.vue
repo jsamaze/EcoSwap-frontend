@@ -43,6 +43,8 @@ import { useLoadStore } from '../store/InitialLoadStore';
         <!-- <h5 v-if="uncompletedReviews.length > 0">
           There are {{ uncompletedReviews.length }} review{{ uncompletedReviews.length > 1 ?'s' :'' }} to be completed
         </h5> -->
+
+    <div v-if="userStore.username==$route.params.username||userStore.username == username">
         <h5 v-if="uncompletedReviews.length == 1">
           You have 1 incomplete review!
         </h5>
@@ -54,23 +56,32 @@ import { useLoadStore } from '../store/InitialLoadStore';
         <h5 v-else>
           You have {{ uncompletedReviews.length }} incompleted reviews!
         </h5>
+</div>
 
-        <div class="review">
-          <div class="heading" v-if="selectedOption =='received'">
-          <h3>Reviews {{ $route.params.username }} received</h3>
+        <div class=" review">
+
+          <div class="col-md-4 ">
+              <div class="heading" v-if="selectedOption =='received'">
+              <h3>Reviews {{ $route.params.username }} received</h3>
+              </div>
+              <div class="heading" v-else-if="selectedOption =='given'">
+                <h3>Reviews {{ $route.params.username }} wrote</h3>
+              </div>
+              <div class="heading" v-else>
+                <h3>Uncompleted Reviews</h3>
+              </div>
+
           </div>
-          <div class="heading" v-else-if="selectedOption =='given'">
-            <h3>Reviews {{ $route.params.username }} wrote</h3>
+
+          <div class="col-md-6">
+            <select v-model="selectedOption" class="p-2 select btn btn-lg d-md-inline d-md-block" >
+              <option value="received">Reviews received</option>
+              <option value="given">Review given</option>
+              <option value="incomplete" v-if="userStore.username==$route.params.username||userStore.username == username">Review incomplete</option>
+            </select>
+
           </div>
-          <div class="heading" v-else>
-            <h3>Uncompleted Reviews</h3>
-          </div>
-          <select v-model="selectedOption" class="p-2 select">
-            <option value="received">Reviews received</option>
-            <option value="given">Review given</option>
-            <option value="incomplete" v-if="userStore.username==$route.params.username">Review incomplete</option>
-          </select>
-        
+
 
 
         </div>
@@ -211,7 +222,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
 <style scoped> 
 .select{
   background-color: #d2e296;
-  width: 20%;
+  /* width: 100%; */
 }
 
 .normal {
@@ -289,7 +300,7 @@ export default {
         var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${ this.username||this.$route.params.username}`)
         this.reviews = ajax2.data.data.reviewsReceived
         this.completedReviews = ajax2.data.data.reviewsWritten
-        this.avgRating = ajax2.data.data.avgRating
+        this.avgRating = ajax2.data.data.avgRating ?? 0
       } catch (error) {
         console.log(error)
         this.$router.push("/")
