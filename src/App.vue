@@ -30,11 +30,10 @@ import { useChatStore } from './store/ChatStore';
   <main class="" >  
     <RouterView></RouterView>
 </main>
-  <img class="d-none" src="./assets/images/scott-lord-uX1QIBXbkMA-unsplash.jpg"/>
 
-  <footer v-if="!$route.fullPath.includes('chat')" class="background text-center text-lg-start mt-auto">
+  <footer v-if="!$route.fullPath.includes('chat')" class="text-center text-lg-start mt-auto" style="background-color: #758467;">
   <!-- Copyright -->
-  <div class="text-center p-3 w-100 subtitle" style="background-color: rgba(0, 0, 0, 0.2);"> 
+  <div class="text-center p-3 w-100 subtitle whitefont"> 
     © 2023 EcoSwap
   </div>
   

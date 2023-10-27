@@ -7,6 +7,7 @@
   import { vElementVisibility } from '@vueuse/components'
   import { placeholder, userPlaceholder } from '../assets/assets'
   import ItemCard from '../components/ItemCard.vue';
+  import GreenBtn from '../components/GreenBtn.vue';
 
 </script>
 
@@ -36,37 +37,39 @@
           <h2 class="title whitefont">Points</h2>
           <h3 class="title whitefont"><span :style="{color: user.tier}">{{ tier }}</span> tier</h3>
           <br>
-          <button class="btn btn-lg btn-success mb-4" @click="$router.push('/reward')">Redeem rewards!</button>
+          <button class="btn btn-lg btn-success mb-5" @click="$router.push('/reward')">Redeem rewards!</button>
         </div>
       </div>
     </div>
 
-    <div class="sec2 container-fluid pt-3 ps-4">
-      <div class="row">
+    <div class="container-fluid">
+      <div class="row" style="align-items: normal !important;">
         <!-- Left column with profile pic and username, values should be dynamic-->
-        <div class="parent col-3 bg-info">
-          <div class="row">
-              <img class="big center" :src="(user.imageURL && user.imageURL.length) == 0 ? userPlaceholder : user.imageURL" id="imgHere">
-              <h3 class="center" id="Username">{{ user.fullName }}</h3>
-              <p class="center" id="PreferredBusStop">Preferred Bus Stop: {{user.preferredBusStop}}</p>
-              <p class="center" id="UserRating">User Rating: {{user.avgRating ?? "-"}}</p>
-              <p class="center" id="Tier">Tier: <span :style="{color: user.tier}">{{user.tier}}</span></p>
-              <button class="btn btn-primary" @click="$router.push('/reward')" v-if="userStore.username==user.username">Points</button>
-              <button class="btn btn-primary" @click="$router.push(`/review/${user.username}`)" >See reviews</button>
-              <button class="btn btn-primary" @click="$router.push('/user/settings')" v-if="userStore.username==user.username">Edit my profile</button>
-
-          </div>
+        <div class='col-lg-4 col-sm-12 text-center pt-5 p-3'>
+              <img :src="(user.imageURL && user.imageURL.length) == 0 ? placeholder : user.imageURL" id="imgHere" style="width: 350px; display: flex; margin-left: auto; margin-right: auto;">
+              <h1 class="mt-4" id="Username">{{ user.fullName }}</h1>
+              <br>
+              <h4 id="PreferredBusStop"><span class="titleBold">Preferred Bus Stop:</span> {{user.preferredBusStop}}</h4>
+              <h4 id="UserRating"><span class="titleBold">User Rating:</span> {{user.avgRating + " out of 5" ?? "-"}}</h4>
+              <h4 id="Tier"><span class="titleBold">Tier:</span> <span :style="{color: user.tier}">{{user.tier}}</span></h4>
+              
+              <div class="d-block">
+                <GreenBtn @click="$router.push('/reward')" v-if="userStore.username==user.username">Rewards</GreenBtn>
+              </div>
+              <div class="d-block">
+                <GreenBtn @click="$router.push(`/review/${user.username}`)">Reviews</GreenBtn>
+              </div>
+              <button class="btn btn-lg btn-success my-3" @click="$router.push('/user/settings')" v-if="userStore.username==user.username">Edit my profile</button>
         </div>
 
         <!-- Right column with Listed Items and Wishlist Items-->
-        <div class="col-9">
+        <div class="col pt-5 px-5" style="background-color: #cbd5c0;">
           <!--Listed Items-->
-          <div class="row bg-success mh-50 fit">
-            <h5>My Listed Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h5>
-            <br>
-            <!-- Card for Listed Items, currently only uses Trending Items-->
+          <div class="row mb-3">
+            <h2>My Listed Items <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h2>
+            <!-- Card for Listed Items-->
             <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
-              <div class="col-lg-3" v-for="itemL in listedItems">
+              <div class="col-4" v-for="itemL in listedItems">
                 <ItemCard :item="itemL">
 
                 </ItemCard>
@@ -75,18 +78,31 @@
           </div>
 
           <!--Wishlist Items-->
-          <div class="row bg-success mh-50">
-            <h5>My Wishlist Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h5>
-            <br>
-            <!-- Card for Wishlist Items, currently only uses Trending Items-->
+          <div class="row mb-3">
+            <h2>My Wishlist Items  <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h2>
+            <!-- Card for Wishlist Items -->
             <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
-              <div class="col-lg-3" v-for="itemW in wishlistItems">
+              <div class="col-4" v-for="itemW in wishlistItems">
                 <ItemCard :item="itemW">
 
                 </ItemCard>
               </div>
             </div>
           </div>
+
+          <!--Wishlist Items-->
+          <div class="row mb-3">
+            <h2>My Favourited Items</h2>
+            <!-- Card for Wishlist Items -->
+            <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
+              <div class="col-4" v-for="itemW in wishlistItems">
+                <ItemCard :item="itemW">
+
+                </ItemCard>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -192,7 +208,7 @@ export default {
       this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
       params : { 
           itemType : 'Listed', // Listed or WishList (DEFAULT to listed)
-          username : this.user.username,
+          username : this.userStore.username,
           traded : false,
       }
       }).then(response=>{

@@ -170,34 +170,6 @@ font-weight: 600;
 font-size: 5em;
 }
 
-.sec2 {
-    position: relative;
-    background: #d2e296;
-    padding-bottom: 50px;
-    width: 100%;
-}
-
-
-.parent {
-display: flex;
-justify-content: center;
-align-items: center;
-}
-
-h5{
-padding-top: 10px;
-}
-
-.center {
-margin-left: auto;
-margin-right: auto;
-text-align: center;
-}
-.big{
-height: 250px;
-width: 250px;
-}
-
 .scrolling-wrapper{
 overflow-x:auto;
 }

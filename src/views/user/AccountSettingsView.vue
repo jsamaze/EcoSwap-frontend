@@ -47,40 +47,38 @@ import { placeholder } from '../../assets/assets';
           </div>
         </div>
 
-        <div class='col justify-content-center'>
+        <div class='col'>
           <div class="white p-3">
-      <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
-      <form @submit="handleSubmit($event, update)" >
-        <h4><span class="titleBold">Username:</span> {{ userStore.username }}</h4>
-        <br>
-        <h4 class="titleBold">
-          <TextInput  name="fullName">
-            Full name
-          </TextInput>
-        </h4>
-        <h4 class="titleBold">
-          <TextInput  name="email" style="margin-bottom: 0% !important;">
-            Email
-          </TextInput>
-        </h4>
-        Your email is <b>{{ emailVerified ? "" : "not " }}verified</b>
-        <div v-if="!emailVerified">
-          <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
-        </div>
-        <br><br>
-        <h4 class="titleBold">
-          <TextInput name="about" as="textarea">
-                About
-          </TextInput>
-        </h4>
+            <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
+            <form @submit="handleSubmit($event, update)" >
+              <h4><span class="titleBold">Username:</span> {{ userStore.username }}</h4>
+              <br>
+              <h4 class="titleBold">
+                <TextInput  name="fullName">
+                  Full name
+                </TextInput>
+              </h4>
+              <h4 class="titleBold">
+                <TextInput  name="email" style="margin-bottom: 0% !important;">
+                  Email
+                </TextInput>
+              </h4>
+              Your email is <b>{{ emailVerified ? "" : "not " }}verified</b>
+              <div v-if="!emailVerified">
+                <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
+              </div>
+              <br><br>
+              <h4 class="titleBold">
+                <TextInput name="about" as="textarea">
+                      About
+                </TextInput>
+              </h4>
 
-        <GreenBtn style="display: inline !important;" @click="changePassword">Change password</GreenBtn>
+              <GreenBtn style="display: inline !important;" @click="changePassword">Change password</GreenBtn>
 
-        <GreenSubmitBtn style="margin-top: 70px !important;">Save changes</GreenSubmitBtn>
-    </form>
-    </VeeForm>
-
-    
+              <GreenSubmitBtn style="margin-top: 70px !important;">Save changes</GreenSubmitBtn>
+          </form>
+          </VeeForm>
         </div>
         
       </div>
