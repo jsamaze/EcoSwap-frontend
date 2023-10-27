@@ -19,15 +19,15 @@ import { placeholder } from '../../assets/assets';
   <div class="container-fluid">
     <div class="row">
       <!-- Left column with profile pic and username, values should be dynamic-->
-      <div class="parent col-3 bg-info">
+      <div class="parent col-3">
         <div class="row">
             <img class="big center" :src="user.imageURL && user.imageURL.length == 0 ? placeholder : user.imageURL" id="imgHere">
             <h3 class="center" id="Username">{{ user.fullName }}</h3>
             <p class="center" id="PreferredBusStop">Preferred Bus Stop: {{user.preferredBusStop}}</p>
             <p class="center" id="UserRating">User Rating: {{user.avgRating ?? "NIL"}}</p>
             <p class="center" id="Tier">Tier: <span :style="{color: user.tier}">{{user.tier}}</span></p>
-            <button class="btn btn-primary" @click="$router.push('/reward')" v-if="userStore.username==$route.params.username">Points</button>
-            <button class="btn btn-primary" @click="$router.push(`/review/${$route.params.username}`)" >See reviews</button>
+            <button type="button" class="btn btn-success btn-md" @click="$router.push('/reward')" v-if="userStore.username==$route.params.username">Points</button>
+            <button class="btn btn-success btn-md" @click="$router.push(`/review/${$route.params.username}`)" >See reviews</button>
 
         </div>
       </div>
@@ -35,7 +35,7 @@ import { placeholder } from '../../assets/assets';
       <!-- Right column with Listed Items and Wishlist Items-->
       <div class="col-9">
         <!--Listed Items-->
-        <div class="row bg-success mh-50 fit">
+        <div class="row mh-50 fit">
           <h5>My Listed Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==$route.params.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h5>
           <br>
           <!-- Card for Listed Items, currently only uses Trending Items-->
@@ -49,7 +49,7 @@ import { placeholder } from '../../assets/assets';
         </div>
 
         <!--Wishlist Items-->
-        <div class="row bg-success mh-50">
+        <div class="row mh-50">
           <h5>My Wishlist Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==$route.params.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h5>
           <br>
           <!-- Card for Wishlist Items, currently only uses Trending Items-->

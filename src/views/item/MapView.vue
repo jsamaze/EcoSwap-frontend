@@ -41,12 +41,22 @@
               </div>
             </div>
           </div>
+
+          <!-- must check for items in User Wishlist then ask them if they want to add-->
+          <div v-if="nearbyUserArr.length==0">
+            <h5> Sorry, we don't have any recommendations for you at the moment. <br>
+            Add more Wishlist Items so that we can better find matches for you.</h5>
+            <button type="button" class="btn btn-success">
+              Add Wishlist Items
+            </button>
+          </div>
+
+
         </div>
         <!--<RouterLink :to="`/item/${listedItem._id}`"></RouterLink>-->
         <div class="col-9">
           <div id="map"></div>
           <!-- Get location of user fly to it-->
-          <span @load="getLocation"></span>
         </div>
 
       </div>
@@ -58,6 +68,7 @@
 <style scoped>
 /* you can also import css files */
 #map { height: 100vh; }
+h5{text-align: left;}
 </style>
 
 <script>
@@ -74,6 +85,7 @@ export default {
       emoji: undefined,
       nearbyUserArr: [],
       nearbyUsersIDs: undefined,
+      wishlistItems: []
     }
   },
 
@@ -152,6 +164,8 @@ export default {
   },
 
   created() {
+    //loading screen
+    //var load = this.$loading.show();
 
     //get nearby user data
     this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyListingsRecommended`,{
@@ -159,6 +173,7 @@ export default {
       radiusInKm:5, //MUST GIVE
     }
     }).then(response=>{
+      //load.hide();
       console.log(response,"nearbyUserArr array");
       this.nearbyUserArr = response.data
     }),
@@ -171,7 +186,17 @@ export default {
     }).then(response=>{
       console.log(response,"nearbyUsersIDs object");
       this.nearbyUsersIDs = response.data
-    })
+    }),
+
+    this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
+    params : { 
+        itemType : 'WishList', // Listed or WishList (DEFAULT to listed)
+        username : this.$route.params.username,
+    }
+    }).then(response=>{
+      console.log(response);
+      this.wishlistItems = response.data.data
+      })
 
   },
 
