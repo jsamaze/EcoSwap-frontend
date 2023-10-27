@@ -68,19 +68,29 @@ export default {
             this.showCanvas=true;
 
             console.log(imageElement)
-            imageElement.src = URL.createObjectURL(fileInput.files[0]);
-            imageElement.onload = () => {
-                URL.revokeObjectURL(imageElement.src);
-            };
-            this.cropper = await new Cropper(imageElement,{
-                aspectRatio: 1, //you can change aspect ratio of cropper here
-            });
 
-            this.showFileInput=false;
+            var fr = new FileReader();
 
-            this.$toast.info("Please crop your photo",{
-              duration: 30000
-            })
+            var vm = this
+
+            fr.onload = async function () {
+              imageElement.src = fr.result;
+              if (vm.cropper){
+                vm.cropper.destroy()
+              }
+              vm.cropper = await new Cropper(imageElement,{
+                  aspectRatio: 1, //you can change aspect ratio of cropper here
+              });
+
+              // vm.showFileInput=false;
+
+              vm.$toast.info("Please crop your photo",{
+              })
+            }
+
+            await fr.readAsDataURL(fileInput.files[0]);
+
+
 
         }
 

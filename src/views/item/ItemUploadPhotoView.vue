@@ -31,7 +31,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 
   <MiddleCardForListing>
-    <div class="row">
+    <div class="row align-items-start">
                       <div class="col-sm-6">
                   
                   <Btn @click="$router.go(-1)">
@@ -67,7 +67,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
       <div id="cropper" :style="{display:cropperDisplay}">
             <!--  Component 2 of this page the part where you crop - the cropper is put on this img element -->
             <!-- dont use v-if -->
-            <img ref="imageCrop" src="" class="img-fluid" alt="Picture" v-show="showCanvas" :style="{display:'block', maxWidth:'100%'}">
+            <img ref="imageCrop" class="img-fluid" alt="Picture" v-show="showCanvas" :style="{display:'block', maxWidth:'100%'}">
       </div>
 
       <GreenBtn @click="send" id="SendButton" v-if="sendButtonDisplay">
@@ -124,6 +124,7 @@ export default {
       cropper:null,
       category : null,
       condition : null,
+      optionsShow:false,
     }
   },
 
@@ -135,7 +136,7 @@ export default {
       var imageElement = this.$refs.imageCrop;
       //pls pls dont rearrange this code it is working already
       // if the cropper is hidden while configured, it may not display properly
-      console.log(imageElement)
+      // console.log(imageElement)
 
         //if someone submit a file
         if (fileInput.files.length){
@@ -146,18 +147,27 @@ export default {
             this.showCanvas=true;
 
             console.log(imageElement)
-            imageElement.src = URL.createObjectURL(fileInput.files[0]);
-            imageElement.onload = () => {
-                URL.revokeObjectURL(imageElement.src);
-            };
-            this.cropper = await new Cropper(imageElement,{
-                aspectRatio: 1, //you can change aspect ratio of cropper here
-            });
 
-            this.showFileInput=false;
+            var fr = new FileReader();
 
-            this.$toast.info("Please crop your photo",{
-            })
+            var vm = this
+
+            fr.onload = async function () {
+              imageElement.src = fr.result;
+              if (vm.cropper){
+                vm.cropper.destroy()
+              }
+              vm.cropper = await new Cropper(imageElement,{
+                  aspectRatio: 1, //you can change aspect ratio of cropper here
+              });
+
+              // vm.showFileInput=false;
+
+              vm.$toast.info("Please crop your photo",{
+              })
+            }
+
+            await fr.readAsDataURL(fileInput.files[0]);
 
         }
 
@@ -165,7 +175,7 @@ export default {
         },
         send (){
           var loader = this.$loading.show()
-            this.showFileInput=false
+            // this.showFileInput=false
             console.log(toRaw(this.cropper));
             var vm = this; 
             toRaw(this.cropper).getCroppedCanvas().toBlob((blob) => {
@@ -183,12 +193,31 @@ export default {
               vm.$toast.error("Picture failed to be uploaded")
             }).finally(
               ()=>{
-                this.optionsShow = true
+                // this.optionsShow = true
+                this.cropper.destroy()
+                this.$refs.imageCrop.src = null
+                this.showCanvas=false
                 this.load()
+                this.clearInputFile(this.$refs.fileInput)
               }
             );
             })
         },
+        // https://stackoverflow.com/questions/1703228/how-can-i-clear-an-html-file-input-with-javascript
+         clearInputFile(f){
+    if(f.value){
+        try{
+            f.value = ''; //for IE11, latest Chrome/Firefox/Opera...
+        }catch(err){ }
+        if(f.value){ //for IE5 ~ IE10
+            var form = document.createElement('form'),
+                parentNode = f.parentNode, ref = f.nextSibling;
+            form.appendChild(f);
+            form.reset();
+            parentNode.insertBefore(f,ref);
+        }
+    }
+},
     load(){
       var loader = this.$loading.show()
 
