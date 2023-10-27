@@ -62,6 +62,10 @@ app.use(LoadingPlugin, {
 })
 app.use(VueLazyLoad)
 
+import veProgress from "vue-ellipse-progress";
+app.use(veProgress);
+
+
 app.mount('#app')
 
 axios.interceptors.response.use(function (response) {
