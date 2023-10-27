@@ -44,7 +44,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
           There are {{ uncompletedReviews.length }} review{{ uncompletedReviews.length > 1 ?'s' :'' }} to be completed
         </h5>
 
-        <select v-model="selectedOption" class="p-2">
+        <select v-model="selectedOption" class="p-2 select">
           <option value="received">Reviews received</option>
           <option value="given">Review given</option>
           <option value="incomplete">Review incomplete</option>
@@ -179,7 +179,9 @@ import { useLoadStore } from '../store/InitialLoadStore';
 </template>
 
 <style scoped> 
-
+.select{
+  background-color: #d2e296;
+}
 
 
 </style>
