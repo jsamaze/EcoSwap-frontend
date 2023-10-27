@@ -24,22 +24,31 @@ import moment from "moment";
         
         </div>
         <div class="row">
-        <div class='col justify-content-center overflow-auto' style="height: 60vh;">
+        <div class='col-lg-6 justify-content-center overflow-auto' style="height: 60vh;">
             <div class="white p-3">
               <H4>Total Points: {{ netPoints }} | Current Tier: {{ tier }}</H4>
               <h4>Points Information</h4>
                 
-                <div class="card" style="width: 100%; height: auto;">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"> <b>List Item </b>+2 points </li>
-                  <li class="list-group-item"> <b>Remove Listed Item </b>-2 points </li>
-                  <li class="list-group-item"> <b>Successful Trade </b>+5 points </li>
-                    <!-- <li class="list-group-item " v-for="item in choices">
-                        <b>{{ item.rewardName }}</b>
-                        {{ (item.points > 0 ? "+" : "")+  item.points }} points
-                    </li> -->
-                </ul>
-                </div>
+               
+                <table class="table" style=" text-align: center; border: 1px solid rgb(192, 192, 192);">
+                  <tr style="border: 1px solid rgb(192, 192, 192);">
+                    <th style="padding: 10px;">Action</th>
+                    <th>Points Range</th>
+                  </tr>
+                  <tr style="border: 1px solid rgb(192, 192, 192);">
+                    <td style="padding: 10px;">List Item</td>
+                    <td>+2 Points</td>
+                  </tr>
+                  <tr style="border: 1px solid rgb(192, 192, 192);">
+                    <td style="padding: 10px;">Remove Item</td>
+                    <td>-2 Points</td>
+                  </tr>
+                  <tr style="border: 1px solid rgb(192, 192, 192);">
+                    <td style="padding: 10px;">Trade</td>
+                    <td>+5 Points</td>
+                  </tr>
+                  
+              </table>
                 <br><h4>Tier Information</h4>
                 <table class="table" style=" text-align: center; border: 1px solid rgb(192, 192, 192);">
               <tr style="border: 1px solid rgb(192, 192, 192);">
