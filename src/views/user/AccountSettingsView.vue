@@ -30,18 +30,20 @@ import { placeholder } from '../../assets/assets';
       </div>
       <div class="row">
         
-        <div class='col-lg-4 col-sm-12 justify-content-center'>
+        <div class='col-lg-4 col-sm-12 justify-content-center text-center'>
           <img :src="src" style="width: 400px; display: flex; margin-left: auto; margin-right: auto;">
           <RouterLink to="/user/photo">
             <GreenBtn>
               Change photo
             </GreenBtn>
           </RouterLink>
-          <h4 v-if="busStop">Preferred bus stop: {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h4>
-          <h4 v-else style="text-align: center;">You have not chosen a preferred bus stop!</h4>
-          <GreenBtn @click="$router.push('/user/busStop')">
-          Change preferred bus stop
-          </GreenBtn>
+          <div class="mt-4">
+            <h4 v-if="busStop">Preferred bus stop: {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h4>
+            <h4 v-else style="text-align: center;">You have not chosen a preferred bus stop!</h4>
+            <GreenBtn @click="$router.push('/user/busStop')">
+            Change preferred bus stop
+            </GreenBtn>
+          </div>
       </div>
 
         <div class='col justify-content-center'>
@@ -71,8 +73,9 @@ import { placeholder } from '../../assets/assets';
           </TextInput>
         </h4>
 
-        <GreenSubmitBtn style="display: inline !important; margin-right: 20px !important;">Save changes</GreenSubmitBtn>
         <GreenBtn style="display: inline !important;" @click="changePassword">Change password</GreenBtn>
+
+        <GreenSubmitBtn style="margin-top: 70px !important;">Save changes</GreenSubmitBtn>
     </form>
     </VeeForm>
 

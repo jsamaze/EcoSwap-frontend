@@ -28,6 +28,7 @@ import { placeholder } from '../../assets/assets';
             <p class="center" id="Tier">Tier: <span :style="{color: user.tier}">{{user.tier}}</span></p>
             <button class="btn btn-primary" @click="$router.push('/reward')" v-if="userStore.username==$route.params.username">Points</button>
             <button class="btn btn-primary" @click="$router.push(`/review/${$route.params.username}`)" >See reviews</button>
+            <button class="btn btn-primary" @click="$router.push('/user/settings')" v-if="userStore.username==$route.params.username">Edit my profile</button>
 
         </div>
       </div>
