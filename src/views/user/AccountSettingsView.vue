@@ -32,7 +32,7 @@ import { placeholder } from '../../assets/assets';
       <div class="row" style="align-items: normal !important;">
 
         <div class='col-lg-4 col-sm-12 text-center p-3'>
-          <img :src="src" style="width: 400px; display: flex; margin-left: auto; margin-right: auto;">
+          <img :src="src" style="width: 350px; display: flex; margin-left: auto; margin-right: auto;">
           <RouterLink to="/user/photo">
             <GreenBtn>
               Change photo
@@ -65,7 +65,7 @@ import { placeholder } from '../../assets/assets';
               </h4>
               Your email is <b>{{ emailVerified ? "" : "not " }}verified</b>
               <div v-if="!emailVerified">
-                <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
+                <GreenBtn @click="verifyEmail">Verify email</GreenBtn>
               </div>
               <br><br>
               <h4 class="titleBold">

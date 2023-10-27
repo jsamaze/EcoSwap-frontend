@@ -96,8 +96,8 @@
             <h2>My Favourited Items</h2>
             <!-- Card for Wishlist Items -->
             <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
-              <div class="col-4" v-for="itemW in wishlistItems">
-                <ItemCard :item="itemW">
+              <div class="col-4" v-for="itemF in favouritedItems">
+                <ItemCard :item="itemF">
 
                 </ItemCard>
               </div>
@@ -151,6 +151,7 @@ export default {
 
       listedItems: [],
       wishlistItems: [],
+      favouritedItems: [],
       user: {}
 
     }
@@ -222,8 +223,14 @@ export default {
           username : this.userStore.username,
       }
       }).then(response=>{
-        console.log(response);
         this.wishlistItems = response.data.data
+      })
+
+      this.axios.get( `${import.meta.env.VITE_BACKEND}/items/liked`)
+      .then(response=>{
+        console.log(response)
+        this.favouritedItems = response.data.data
+        console.log(this.favouritedItems)
       })
     }
   },
