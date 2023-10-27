@@ -55,21 +55,31 @@ import { useLoadStore } from '../store/InitialLoadStore';
           You have {{ uncompletedReviews.length }} incompleted reviews!
         </h5>
 
-        <div class="review">
-          <div class="heading" v-if="selectedOption =='received'">
-          <h3>Reviews {{ $route.params.username }} received</h3>
+        <div class=" review">
+
+          <div class="col-md-4 ">
+              <div class="heading" v-if="selectedOption =='received'">
+              <h3>Reviews {{ $route.params.username }} received</h3>
+              </div>
+              <div class="heading" v-else-if="selectedOption =='given'">
+                <h3>Reviews {{ $route.params.username }} wrote</h3>
+              </div>
+              <div class="heading" v-else>
+                <h3>Uncompleted Reviews</h3>
+              </div>
+
           </div>
-          <div class="heading" v-else-if="selectedOption =='given'">
-            <h3>Reviews {{ $route.params.username }} wrote</h3>
+
+          <div class="col-md-6">
+            <select v-model="selectedOption" class="p-2 select btn btn-lg d-md-inline d-md-block" >
+              <option value="received">Reviews received</option>
+              <option value="given">Review given</option>
+              <option value="incomplete">Review incomplete</option>
+            </select>
+
           </div>
-          <div class="heading" v-else>
-            <h3>Uncompleted Reviews</h3>
-          </div>
-          <select v-model="selectedOption" class="p-2 select">
-            <option value="received">Reviews received</option>
-            <option value="given">Review given</option>
-            <option value="incomplete">Review incomplete</option>
-          </select>
+          
+          
         
 
 
@@ -211,7 +221,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
 <style scoped> 
 .select{
   background-color: #d2e296;
-  width: 20%;
+  /* width: 100%; */
 }
 
 .normal {
