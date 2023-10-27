@@ -10,43 +10,7 @@ import ItemCard from '../../components/ItemCard.vue';
 </script>
 
 <template>
-  <!-- type your HTML here -->
-
-  <!-- search bar + filter -->
-
-  <!-- <nav class="navbar bg-light">
-    <div class="container-fluid p-3">
-      <form class="d-flex" role="search">
-        <input class="form-control me-2 title" type="search" placeholder="Search for..." aria-label="Search">
-        <button class="btn btn-outline-success titleBold" type="submit">Search</button>
-      </form>
-      <div class="dropdown align-self-start">
-      <button class="nav-item btn dropdown-toggle titleBold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Filter
-      </button>
-      <ul class="dropdown-menu">
-        <li class="titleBold">Categories</li>
-        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-          <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck1">Checkbox 1</label>
-
-          <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck2">Checkbox 2</label>
-
-          <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck3">Checkbox 3</label>
-        </div>
-        <li class="titleBold">Tags</li>
-        <li class="dropdown-item subtitle">Action</li>
-        <li class="dropdown-item subtitle">Action</li>
-        <li class="dropdown-item subtitle">Action</li>
-      </ul>
-    </div>
-    </div>
-  </nav> -->
-
   <!-- promotion carousel -->
-  <main>
     <div id="marketplaceCarousel" class="container-fluid carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -90,57 +54,29 @@ import ItemCard from '../../components/ItemCard.vue';
 
     <!-- search bar -->
 
-
-    <div class="mb-3">
-
-      <form @submit.prevent="search">
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-          Filter
-        </button>
-        <input type="text" class="form-control" placeholder="search for items" v-model="searchQuery">
-        <input type="submit" class="btn btn-primary" value="Search" @click="search">
-      </form>
-
-
-    </div>
-
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-4 col-md-5 col-sm-7" v-for="item in searchResults.slice((page-1)*MAX_PER_PAGE,(page)*MAX_PER_PAGE)">
-          <ItemCard :item="item">
 
-          </ItemCard>
-        </div>
-        <div class="row" v-if="searchResults.length ==0 ">
-          {{ neverSearch ? "Start searching for items" : "No items found" }}
-        </div>
+      <div class="row text-center">
+        <h1 class="titleBold">Search</h1>
       </div>
-      <div class="row" v-if="searchResults.length > 0">
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-center">
-            <li class="page-item" :class="{disabled: page==1}">
-              <a class="page-link"  @click="page-=1">Previous</a>
-            </li>
-            <li class="page-item" v-for="n in noOfPages"><a class="page-link" :class="{active : n == page}" @click="page = n">{{ n }}</a></li>
-            <li class="page-item">
-              <a class="page-link" :class="{disabled: page==noOfPages}" @click="page+=1" >Next</a>
-            </li>
-          </ul>
-       </nav>
-      </div>
-    </div>
+
+      <div class="row justify-content-center">
+        <div class="col-11 align-self-center">
+          <form @submit.prevent="search">
+
+<div class="input-group bg-white">
 
 
-    <!-- offcanvas -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filter search result</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div>
 
-      <h2>By category</h2>
+  <input type="text" class="form-control" placeholder="Search for items" v-model="searchQuery">
+
+  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+      <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+    </svg>
+      </button>
+      <div class="dropdown-menu dropdown-menu-end p-3">
+      <h6>By category</h6>
 
       <div class="form-check">
         <input class="form-check-input" type="radio" name="category" id="null1" checked v-model="searchFilter.category" :value="null">
@@ -155,7 +91,9 @@ import ItemCard from '../../components/ItemCard.vue';
         </label>
       </div>
 
-      <h2>By condition</h2>
+      <div class="dropdown-divider"></div>
+
+      <h6>By condition</h6>
 
       <div class="form-check">
         <input class="form-check-input" type="radio" name="condition" id="null2" checked v-model="searchFilter.condition" :value="null">
@@ -164,7 +102,7 @@ import ItemCard from '../../components/ItemCard.vue';
         </label>
       </div>
 
-      
+
       <div class="form-check" v-for="cond in condition">
         <input class="form-check-input" type="radio" name="condition" :id="cond" v-model="searchFilter.condition" :value="cond">
         <label class="form-check-label" :for="cond">
@@ -172,7 +110,9 @@ import ItemCard from '../../components/ItemCard.vue';
         </label>
       </div>
 
-      <h2>By item type</h2>
+      <div class="dropdown-divider"></div>
+
+      <h6>By item type</h6>
 
 
       <div class="form-check" v-for="cond in itemType">
@@ -181,7 +121,10 @@ import ItemCard from '../../components/ItemCard.vue';
           {{ cond}}
         </label>
       </div>
-      <h2>By username</h2>
+
+      <div class="dropdown-divider"></div>
+
+      <h6>By username</h6>
 
 
       <div class="mb-3">
@@ -189,36 +132,84 @@ import ItemCard from '../../components/ItemCard.vue';
         <input type="email" class="form-control" id="exampleFormControlInput1" v-model="searchFilter.username" placeholder="enter 1 username to filter with">
       </div>
 
-      <h2> By trade status</h2>
+      <div class="dropdown-divider"></div>
+
+      <h6> By trade status</h6>
 
       <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="searchFilter.traded">
         <label class="form-check-label" for="flexSwitchCheckDefault">Item has {{ searchFilter.traded ? "" : "NOT" }} been traded</label>
       </div>
 
+      <div class="dropdown-divider"></div>
 
-
-      <h2> By tags</h2>
+      <h6> By tags</h6>
 
       <vue3-tags-input :tags="searchFilter.tags"
-                   placeholder="enter some tags"
-                   @on-tags-changed="handleChangeTag"
-                   />
+          placeholder="enter some tags"
+          @on-tags-changed="handleChangeTag"
+          />
+          </div>
 
 
+            <button class="btn btn-outline-secondary" type="button" @click="search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+            </button>
+          </div>
+          </form>
+        </div>
+      </div>
 
-      <!-- body of canvas -->
+      <div class="row fs-3" v-if="searchResults.length ==0" style="height:110vh">
+          <div class="m-auto text-center">
+            {{ neverSearch ? "Start searching for items" : "No items found" }}
+          </div> 
+      </div>
+
+
+      <div class="row mx-5" style="min-height:110vh" v-if="searchResults.length > 0">
+          <div class="col-3 p-3" v-for="item in searchResults.slice((page-1)*MAX_PER_PAGE,(page)*MAX_PER_PAGE)">
+            <ItemCard :item="item" :key="item._id">
+
+            </ItemCard>
+          </div>
+      </div>
+
+
+      <div class="row" v-if="searchResults.length > 0">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{disabled: page==1}">
+              <a class="page-link"  @click="page-=1">Previous</a>
+            </li>
+            <li class="page-item" v-for="n in noOfPages"><a class="page-link" :class="{active : n == page}" @click="page = n">{{ n }}</a></li>
+            <li class="page-item">
+              <a class="page-link" :class="{disabled: page==noOfPages}" @click="page+=1" >Next</a>
+            </li>
+          </ul>
+       </nav>
+      </div>
+
     </div>
-  </div>
-</div>
+
+    
 
 
 
 
-  </main>
+
+
 </template>
 
 <style>
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 /* you can also import css files */
 #marketplaceCarousel {
   height: auto;
@@ -255,7 +246,7 @@ export default {
 
   watch :{
     searchResults(){
-      this.noOfPages = Math.ceil(this.searchResults.length / this.MAX_PER_PAGE)
+      this.noOfPages = Math.max(Math.ceil(this.searchResults.length / this.MAX_PER_PAGE),0)
 
     }
   },
@@ -269,7 +260,7 @@ export default {
 
       page : 1,
       noOfPages : 0,
-      MAX_PER_PAGE : 4,
+      MAX_PER_PAGE : 8,
 
       searchQuery : "",
       searchFilter : {
@@ -303,32 +294,36 @@ export default {
       this.searchFilter.tags = tags;
     },
     search(e){
+
+      var sf = {...this.searchFilter}
       if (this.searchFilter.tags.length ==0){
-        this.searchFilter.tags = null
+        sf.tags = null
       } 
       if (this.searchFilter.username.length ==0){
-        this.searchFilter.username = null
+        sf.username = null
       } 
+
+      let vm = this
       let l = this.$loading.show()
       this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search/${this.searchQuery}`,{
-      params : this.searchFilter
-    }).then( response => {
-      this.searchResults = response.data.data
-    }).catch( response => {
-      this.$toast.error("Failed to fetch search results")
-    }).finally (()=> {
-      this.searchFilter = {
-        category : null,
-        condition : null,
-        username : "",
-        traded : false,
-        itemType : "Listed",
-        tags: [],
-      },
-      l.hide()
-      this.page=1
-      this.neverSearch = false
-    })
+      params : sf
+          }).then( response => {
+            vm.searchResults = response.data.data
+          }).catch( response => {
+            this.$toast.error("Failed to fetch search results")
+          }).finally (()=> {
+            this.searchFilter = {
+              category : null,
+              condition : null,
+              username : "",
+              traded : false,
+              itemType : "Listed",
+              tags: [],
+            }
+            l.hide()
+            this.page=1
+            this.neverSearch = false
+          })
     }
   },
 
