@@ -4,7 +4,6 @@
   import {mapStores} from 'pinia'
   import { useUserStore } from '../store/UserStore';
   // import ReviewView from './ReviewView.vue';
-  import { useElementVisibility } from '@vueuse/core'
   import { vElementVisibility } from '@vueuse/components'
   import { placeholder, userPlaceholder } from '../assets/assets'
   import ItemCard from '../components/ItemCard.vue';
@@ -157,7 +156,7 @@ export default {
 
     onElementVisibility(state){
       if(!this.pointsVisible && state){
-        // this.pointsShown=0
+        this.pointsShown=0
         var vm = this
           this.counter = setInterval(function () {
             if (vm.pointsShown >= vm.accPoints) {
