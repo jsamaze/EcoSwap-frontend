@@ -74,7 +74,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
             <select v-model="selectedOption" class="p-2 select btn btn-lg d-md-inline d-md-block" >
               <option value="received">Reviews received</option>
               <option value="given">Review given</option>
-              <option value="incomplete" v-if="userStore.username==$route.params.username">Review incomplete</option>
+              <option value="incomplete" v-if="userStore.username==$route.params.username||userStore.username == username">Review incomplete</option>
             </select>
 
           </div>
