@@ -99,7 +99,6 @@ import { useUserStore } from '../../store/UserStore'
         </div>
 
   </div>
-</div>
 </template>
 
 <style scoped>
