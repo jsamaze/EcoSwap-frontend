@@ -13,7 +13,7 @@ import GreenBtn from '../../components/GreenBtn.vue'
 
   // //this is how you import external css files
   // import "../assets/base.css"
-import { placeholder } from '../../assets/assets'
+import { placeholder, userPlaceholder } from '../../assets/assets'
 import * as bootstrap from 'bootstrap'
 </script>
 
@@ -111,7 +111,7 @@ import * as bootstrap from 'bootstrap'
                                 
                             </div>
 
-                            <div class="row justify-content-center text-center">
+                            <div class="row justify-content-center text-center" v-if="username == userStore.username">
                               <RouterLink :to="`/item/${$route.params.itemId}/edit`">
                                  <GreenBtn>Edit Listing</GreenBtn>
                                 </RouterLink>
@@ -200,7 +200,7 @@ export default {
       let load = l ?? this.$loading.show()
       this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.username}`).then(response =>{
         console.log(response)
-        this.userPhotoURL = response.data.data.imageURL.length > 0 ? response.data.data.imageURL : placeholder
+        this.userPhotoURL = response.data.data.imageURL.length > 0 ? response.data.data.imageURL : userPlaceholder
         this.preferredBusStop = response.data.data.busStop.Description ?? "not set yet"
       }).catch(error=>{
         console.log(error)
