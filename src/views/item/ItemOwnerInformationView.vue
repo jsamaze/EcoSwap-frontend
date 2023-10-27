@@ -3,7 +3,6 @@
   import {RouterLink} from 'vue-router'
   import {mapStores} from 'pinia'
   import { useUserStore } from '../../store/UserStore';
-  // import ReviewView from './ReviewView.vue';
   import { vElementVisibility } from '@vueuse/components'
   import { placeholder, userPlaceholder } from '../../assets/assets'
   import ItemCard from '../../components/ItemCard.vue';
@@ -18,7 +17,6 @@
 
 <template>
   <!-- type your HTML here -->
-  <!-- Page only accessible when logged in-->
   <div class="container-fluid">
     <div class="row" style="align-items: normal !important;">
       <!-- Left column with profile pic and username, values should be dynamic-->
@@ -31,19 +29,19 @@
             <h4 id="Tier"><span class="titleBold">Tier:</span> <span :style="{color: user.tier}">{{user.tier}}</span></h4>
             
             <div class="d-block">
-              <GreenBtn @click="$router.push('/reward')" v-if="userStore.username==user.username">Rewards</GreenBtn>
+              <GreenBtn @click="$router.push('/reward')" v-if="userStore.username==$route.params.username">Rewards</GreenBtn>
             </div>
             <div class="d-block">
               <GreenBtn @click="$router.push(`/review/${user.username}`)">Reviews</GreenBtn>
             </div>
-            <button class="btn btn-lg btn-success my-3" @click="$router.push('/user/settings')" v-if="userStore.username==user.username">Edit my profile</button>
+            <button class="btn btn-lg btn-success my-3" @click="$router.push('/user/settings')" v-if="userStore.username==$route.params.username">Edit my profile</button>
       </div>
 
       <!-- Right column with Listed Items and Wishlist Items-->
       <div class="col pt-5 px-5" style="background-color: #cbd5c0;">
         <!--Listed Items-->
         <div class="row mb-3">
-          <h2>Listed Items <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h2>
+          <h2>Listed Items <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==$route.params.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h2>
           <!-- Card for Listed Items-->
           <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
             <div class="col-md-4 col-6" v-for="itemL in listedItems">
@@ -70,7 +68,7 @@
         <!--Favourited Items-->
         <div class="row mb-3" v-if="userStore.username==user.username">
           <h2>Favourited Items</h2>
-          <!-- Card for Wishlist Items -->
+          <!-- Card for Favourited Items -->
           <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
             <div class="col-md-4 col-6" v-for="itemF in favouritedItems">
               <ItemCard :item="itemF">
@@ -120,15 +118,16 @@ export default {
     //don't forget to use this keyword
     // this is a reference to the backend URL in .env.local file
     var loader = this.$loading.show()
+
     this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.$route.params.username}`).then(response =>{
-          this.user = response.data.data
-          console.log(this.user)
-          this.netPoints = response.data.data.netPoints
-          this.accPoints = response.data.data.accumulatedPoints
-          this.tier = response.data.data.tier
-          this.busStopCode = response.data.data.busStop.BusStopCode
-          this.busStopDesc = response.data.data.busStop.Description
-        })
+      this.user = response.data.data
+      console.log(this.user)
+      this.netPoints = response.data.data.netPoints
+      this.accPoints = response.data.data.accumulatedPoints
+      this.tier = response.data.data.tier
+      this.busStopCode = response.data.data.busStop.BusStopCode
+      this.busStopDesc = response.data.data.busStop.Description
+      })
       .catch(error=>{
       this.$toast.error("There is an error in fetching user data");
       

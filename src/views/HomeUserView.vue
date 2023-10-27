@@ -3,7 +3,6 @@
   import {RouterLink} from 'vue-router'
   import {mapStores} from 'pinia'
   import { useUserStore } from '../store/UserStore';
-  // import ReviewView from './ReviewView.vue';
   import { vElementVisibility } from '@vueuse/components'
   import { placeholder, userPlaceholder } from '../assets/assets'
   import ItemCard from '../components/ItemCard.vue';
@@ -92,7 +91,7 @@
           <!--Favourited Items-->
           <div class="row mb-3">
             <h2>My Favourited Items</h2>
-            <!-- Card for Wishlist Items -->
+            <!-- Card for Favourited Items -->
             <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
               <div class="col-md-4 col-6" v-for="itemF in favouritedItems">
                 <ItemCard :item="itemF">
