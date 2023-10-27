@@ -33,15 +33,26 @@ import { useLoadStore } from '../store/InitialLoadStore';
       <div class="row m-5">
 
         <h3>
-          {{ $route.params.username }}'s average rating: {{ avgRating }}
+          {{ $route.params.username }}'s average rating: {{ avgRating }} out of 5
         </h3>
 
-        <p>
+        <!-- <p>
           When you complete a trade, a review will be generated. Fill it up to help improve our community!
-        </p>
+        </p> -->
 
-        <h5 v-if="uncompletedReviews.length > 0">
+        <!-- <h5 v-if="uncompletedReviews.length > 0">
           There are {{ uncompletedReviews.length }} review{{ uncompletedReviews.length > 1 ?'s' :'' }} to be completed
+        </h5> -->
+        <h5 v-if="uncompletedReviews.length == 1">
+          You have 1 incomplete review!
+        </h5>
+
+        <h5 v-else-if="uncompletedReviews.length == 0">
+          No incomplete reviews!
+        </h5>
+
+        <h5 v-else>
+          You have {{ uncompletedReviews.length }} incompleted reviews!
         </h5>
 
         <select v-model="selectedOption" class="p-2 select">
@@ -181,6 +192,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
 <style scoped> 
 .select{
   background-color: #d2e296;
+  width: 97%;
 }
 
 
