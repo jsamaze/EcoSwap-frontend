@@ -33,7 +33,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
       <div class="row m-5">
 
         <h3>
-          {{ $route.params.username }}'s average rating: {{ avgRating }} out of 5
+          {{ $route.params.username }}'s average rating: <span class="normal">{{ avgRating }} out of 5</span>
         </h3>
 
         <!-- <p>
@@ -55,16 +55,35 @@ import { useLoadStore } from '../store/InitialLoadStore';
           You have {{ uncompletedReviews.length }} incompleted reviews!
         </h5>
 
-        <select v-model="selectedOption" class="p-2 select">
-          <option value="received">Reviews received</option>
-          <option value="given">Review given</option>
-          <option value="incomplete">Review incomplete</option>
-        </select>
+        <div class="review">
+          <div class="heading" v-if="selectedOption =='received'">
+          <h3>Reviews {{ $route.params.username }} received</h3>
+          </div>
+          <div class="heading" v-else-if="selectedOption =='given'">
+            <h3>Reviews {{ $route.params.username }} wrote</h3>
+          </div>
+          <div class="heading" v-else>
+            <h3>Uncompleted Reviews</h3>
+          </div>
+          <select v-model="selectedOption" class="p-2 select">
+            <option value="received">Reviews received</option>
+            <option value="given">Review given</option>
+            <option value="incomplete">Review incomplete</option>
+          </select>
+        
+
+
+        </div>
+
+
         
       <transition-slide>
         <div class='col-12 justify-content-center' v-if="selectedOption =='received'">
             <div class="white py-3">
-                <h3>Reviews {{ $route.params.username }} received</h3>
+
+              
+                <!-- <h3>Reviews {{ $route.params.username }} received</h3> -->
+                
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
@@ -91,7 +110,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
       <div class="col-12 justify-content-center"  v-if="selectedOption =='given'">
         <div class="white py-3">
 
-        <h3>Reviews {{ $route.params.username }} wrote</h3>
+        <!-- <h3>Reviews {{ $route.params.username }} wrote</h3> -->
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
@@ -117,7 +136,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
         <div class='col-12  justify-content-center' v-if="(userStore.username == $route.params.username || userStore.username == username) && selectedOption =='incomplete'">
           <div class="white py-3">
-            <h3>Uncompleted Reviews</h3>
+            <!-- <h3>Uncompleted Reviews</h3> -->
 
             <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
@@ -192,9 +211,21 @@ import { useLoadStore } from '../store/InitialLoadStore';
 <style scoped> 
 .select{
   background-color: #d2e296;
-  width: 97%;
+  width: 20%;
 }
 
+.normal {
+    font-weight: normal; /* Set the font weight to normal to unbold the text */
+  }
+
+  .review{
+    display: flex;
+    align-items: center; 
+  }
+
+.heading{
+  padding-right: 50px;
+}
 
 </style>
 
