@@ -6,6 +6,9 @@
   // import ReviewView from './ReviewView.vue';
   import { useElementVisibility } from '@vueuse/core'
   import { vElementVisibility } from '@vueuse/components'
+  import { placeholder } from '../assets/assets'
+  import ItemCard from '../components/ItemCard.vue';
+
 </script>
 
 <template>
@@ -24,37 +27,71 @@
           <h1 class="titleBold text-center" id="text">Welcome back to<br> EcoSwap, {{userStore.username}}!</h1>
           <img src="../assets/images/plant.png" id="plant">
       </section>
+    </div>
 
-      <div class="sec container-fluid">
-        <div class="row">
-          <div class="col">
-            <i class="fas fa-star"></i>
-            <span class="num" ref="points" @scroll="pointsShow" v-show="accPoints != null" v-element-visibility="onElementVisibility">{{ pointsShown }}</span>
-            <h3 class="title whitefont">Accumulated points</h3>
-            <h4 class="title whitefont">
-              <span style="color: #18f98f">{{ tier }}</span> tier</h4>
+    <div class="sec container-fluid">
+      <div class="row">
+        <div class="col">
+          <i class="fas fa-star"></i>
+          <span class="num" ref="points" @scroll="pointsShow" v-show="accPoints != null" v-element-visibility="onElementVisibility">{{ pointsShown }}</span>
+          <h2 class="title whitefont">Points</h2>
+          <h3 class="title whitefont"><span :style="{color: user.tier}">{{ tier }}</span> tier</h3>
+          <br>
+          <button class="btn btn-lg btn-success mb-4" @click="$router.push('/reward')">Redeem rewards!</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec2 container-fluid pt-3 ps-4">
+      <div class="row">
+        <!-- Left column with profile pic and username, values should be dynamic-->
+        <div class="parent col-3 bg-info">
+          <div class="row">
+              <img class="big center" :src="(user.imageURL && user.imageURL.length) == 0 ? placeholder : user.imageURL" id="imgHere">
+              <h3 class="center" id="Username">{{ user.fullName }}</h3>
+              <p class="center" id="PreferredBusStop">Preferred Bus Stop: {{user.preferredBusStop}}</p>
+              <p class="center" id="UserRating">User Rating: {{user.avgRating ?? "-"}}</p>
+              <p class="center" id="Tier">Tier: <span :style="{color: user.tier}">{{user.tier}}</span></p>
+              <button class="btn btn-primary" @click="$router.push('/reward')" v-if="userStore.username==user.username">Points</button>
+              <button class="btn btn-primary" @click="$router.push(`/review/${user.username}`)" >See reviews</button>
+              <button class="btn btn-primary" @click="$router.push('/user/settings')" v-if="userStore.username==user.username">Edit my profile</button>
+
+          </div>
+        </div>
+
+        <!-- Right column with Listed Items and Wishlist Items-->
+        <div class="col-9">
+          <!--Listed Items-->
+          <div class="row bg-success mh-50 fit">
+            <h5>My Listed Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h5>
             <br>
-            <button class="btn btn-success" @click="$router.push('/reward')">Redeem rewards!</button>
+            <!-- Card for Listed Items, currently only uses Trending Items-->
+            <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
+              <div class="col-lg-3" v-for="itemL in listedItems">
+                <ItemCard :item="itemL">
+
+                </ItemCard>
+              </div>
+            </div>
+          </div>
+
+          <!--Wishlist Items-->
+          <div class="row bg-success mh-50">
+            <h5>My Wishlist Items  <button type="button" class="btn btn-success btn-md" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h5>
+            <br>
+            <!-- Card for Wishlist Items, currently only uses Trending Items-->
+            <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
+              <div class="col-lg-3" v-for="itemW in wishlistItems">
+                <ItemCard :item="itemW">
+
+                </ItemCard>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="sec2 container-fluid pt-3 ps-4">
-        <div class="row">
-          <h1 class="titleBold">Start swapping!</h1>
-        </div>
-        <div class="row pt-4">
-          <h3 class="title">My listed items</h3>
-        </div>
-        <div class="row pt-4">
-          <h3 class="title">My wishlist items</h3>
-        </div>
-        <div class="row pt-4">
-          <h3 class="title">My favourited items</h3>
-        </div>
-      </div>
-
     </div>
+    
   </main>
 </template>
 
@@ -96,6 +133,10 @@ export default {
       controller : null,
       signal : null,
 
+      listedItems: [],
+      wishlistItems: [],
+      user: {}
+
     }
   },
 
@@ -129,29 +170,48 @@ export default {
       }
     },
     
-     load (){
-        var l = this.$loading.show()
-        
-        this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`).then(
-          ajax3 =>{
-            console.log(ajax3.data.data.accumulatedPoints)
+    load (){
+      var l = this.$loading.show()
+      
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`).then(
+        response =>{
+          this.user = response.data.data
+          console.log(this.user)
+          this.netPoints = response.data.data.netPoints
+          this.accPoints = response.data.data.accumulatedPoints
+          this.tier = response.data.data.tier
+        }
+      ).catch(
+        error => {
+          console.log(error)
+          this.$toast.error('Error with fetching data')
+        }
+      ).finally(
+        () => l.hide()
+      )
 
-            this.netPoints = ajax3.data.data.netPoints
-            this.accPoints = ajax3.data.data.accumulatedPoints
-            // console.log(this.accPoints, "AP")
-            this.tier = ajax3.data.data.tier
-          }
-        ).catch(
-          error => {
-            console.log(error)
-            this.$toast.error('Error with fetching data')
-          }
-        ).finally(
-          () => l.hide()
-        )
-    },
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
+      params : { 
+          itemType : 'Listed', // Listed or WishList (DEFAULT to listed)
+          username : this.user.username,
+          traded : false,
+      }
+      }).then(response=>{
+        this.listedItems = response.data.data
+      })
 
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
+      params : { 
+          itemType : 'WishList', // Listed or WishList (DEFAULT to listed)
+          username : this.userStore.username,
+      }
+      }).then(response=>{
+        console.log(response);
+        this.wishlistItems = response.data.data
+      })
+    }
   },
+  
   beforeRouteLeave(){
     window.removeEventListener('scroll', fn);
   },

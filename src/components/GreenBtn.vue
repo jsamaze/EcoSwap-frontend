@@ -2,7 +2,7 @@
 
 <template>
 
-    <button :disabled="disabled"  class="my-3 btn btn-success  btn-lg gradient-custom-4 text-white subtitle" >
+    <button :disabled="disabled"  class="my-3 btn btn-dark  btn-lg gradient-custom-4 text-white subtitle" >
         <slot></slot>
     </button>
 </template>

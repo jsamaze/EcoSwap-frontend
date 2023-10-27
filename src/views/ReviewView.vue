@@ -33,27 +33,68 @@ import { useLoadStore } from '../store/InitialLoadStore';
       <div class="row m-5">
 
         <h3>
-          {{ $route.params.username }}'s average rating: {{ avgRating }}
+          {{ $route.params.username }}'s average rating: <span class="normal">{{ avgRating }} out of 5</span>
         </h3>
 
-        <p>
+        <!-- <p>
           When you complete a trade, a review will be generated. Fill it up to help improve our community!
-        </p>
+        </p> -->
 
-        <h5 v-if="uncompletedReviews.length > 0">
+        <!-- <h5 v-if="uncompletedReviews.length > 0">
           There are {{ uncompletedReviews.length }} review{{ uncompletedReviews.length > 1 ?'s' :'' }} to be completed
+        </h5> -->
+
+    <div v-if="userStore.username==$route.params.username||userStore.username == username">
+        <h5 v-if="uncompletedReviews.length == 1">
+          You have 1 incomplete review!
         </h5>
 
-        <select v-model="selectedOption" class="p-2">
-          <option value="received">Reviews received</option>
-          <option value="given">Review given</option>
-          <option value="incomplete">Review incomplete</option>
-        </select>
+        <h5 v-else-if="uncompletedReviews.length == 0">
+          No incomplete reviews!
+        </h5>
+
+        <h5 v-else>
+          You have {{ uncompletedReviews.length }} incompleted reviews!
+        </h5>
+</div>
+
+        <div class=" review">
+
+          <div class="col-md-4 ">
+              <div class="heading" v-if="selectedOption =='received'">
+              <h3>Reviews {{ $route.params.username }} received</h3>
+              </div>
+              <div class="heading" v-else-if="selectedOption =='given'">
+                <h3>Reviews {{ $route.params.username }} wrote</h3>
+              </div>
+              <div class="heading" v-else>
+                <h3>Uncompleted Reviews</h3>
+              </div>
+
+          </div>
+
+          <div class="col-md-6">
+            <select v-model="selectedOption" class="p-2 select btn btn-lg d-md-inline d-md-block" >
+              <option value="received">Reviews received</option>
+              <option value="given">Review given</option>
+              <option value="incomplete" v-if="userStore.username==$route.params.username||userStore.username == username">Review incomplete</option>
+            </select>
+
+          </div>
+
+
+
+        </div>
+
+
         
       <transition-slide>
         <div class='col-12 justify-content-center' v-if="selectedOption =='received'">
             <div class="white py-3">
-                <h3>Reviews {{ $route.params.username }} received</h3>
+
+              
+                <!-- <h3>Reviews {{ $route.params.username }} received</h3> -->
+                
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
@@ -80,7 +121,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
       <div class="col-12 justify-content-center"  v-if="selectedOption =='given'">
         <div class="white py-3">
 
-        <h3>Reviews {{ $route.params.username }} wrote</h3>
+        <!-- <h3>Reviews {{ $route.params.username }} wrote</h3> -->
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
@@ -106,7 +147,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
         <div class='col-12  justify-content-center' v-if="(userStore.username == $route.params.username || userStore.username == username) && selectedOption =='incomplete'">
           <div class="white py-3">
-            <h3>Uncompleted Reviews</h3>
+            <!-- <h3>Uncompleted Reviews</h3> -->
 
             <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
@@ -179,8 +220,23 @@ import { useLoadStore } from '../store/InitialLoadStore';
 </template>
 
 <style scoped> 
+.select{
+  background-color: #d2e296;
+  /* width: 100%; */
+}
 
+.normal {
+    font-weight: normal; /* Set the font weight to normal to unbold the text */
+  }
 
+  .review{
+    display: flex;
+    align-items: center; 
+  }
+
+.heading{
+  padding-right: 50px;
+}
 
 </style>
 
@@ -244,7 +300,7 @@ export default {
         var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${ this.username||this.$route.params.username}`)
         this.reviews = ajax2.data.data.reviewsReceived
         this.completedReviews = ajax2.data.data.reviewsWritten
-        this.avgRating = ajax2.data.data.avgRating
+        this.avgRating = ajax2.data.data.avgRating ?? 0
       } catch (error) {
         console.log(error)
         this.$router.push("/")
