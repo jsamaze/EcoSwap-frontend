@@ -28,9 +28,10 @@ import { placeholder } from '../../assets/assets';
           <h1 class="titleBold text-center" style="font-size: xxx-large;">Account Settings</h1>
         </div>
       </div>
-      <div class="row">
-        
-        <div class='col-lg-4 col-sm-12 justify-content-center text-center'>
+
+      <div class="row" style="align-items: normal !important;">
+
+        <div class='col-lg-4 col-sm-12 text-center p-3'>
           <img :src="src" style="width: 400px; display: flex; margin-left: auto; margin-right: auto;">
           <RouterLink to="/user/photo">
             <GreenBtn>
@@ -38,26 +39,26 @@ import { placeholder } from '../../assets/assets';
             </GreenBtn>
           </RouterLink>
           <div class="mt-4">
-            <h4 v-if="busStop">Preferred bus stop: {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h4>
-            <h4 v-else style="text-align: center;">You have not chosen a preferred bus stop!</h4>
+            <h4 v-if="busStop"><span class="titleBold">Preferred bus stop:</span> {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h4>
+            <h4 v-else>You have not chosen a preferred bus stop!</h4>
             <GreenBtn @click="$router.push('/user/busStop')">
             Change preferred bus stop
             </GreenBtn>
           </div>
-      </div>
+        </div>
 
         <div class='col justify-content-center'>
           <div class="white p-3">
-     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
+      <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
       <form @submit="handleSubmit($event, update)" >
-        <h4>Username: <span class="text-center fw-bold">{{ userStore.username }}</span></h4>
+        <h4><span class="titleBold">Username:</span> {{ userStore.username }}</h4>
         <br>
-        <h4>
+        <h4 class="titleBold">
           <TextInput  name="fullName">
             Full name
           </TextInput>
         </h4>
-        <h4>
+        <h4 class="titleBold">
           <TextInput  name="email" style="margin-bottom: 0% !important;">
             Email
           </TextInput>
@@ -67,7 +68,7 @@ import { placeholder } from '../../assets/assets';
           <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
         </div>
         <br><br>
-        <h4>
+        <h4 class="titleBold">
           <TextInput name="about" as="textarea">
                 About
           </TextInput>

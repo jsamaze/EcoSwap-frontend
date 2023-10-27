@@ -24,7 +24,7 @@ import { placeholder } from '../../assets/assets';
             <img class="big center" :src="(user.imageURL && user.imageURL.length) == 0 ? placeholder : user.imageURL" id="imgHere">
             <h3 class="center" id="Username">{{ user.fullName }}</h3>
             <p class="center" id="PreferredBusStop">Preferred Bus Stop: {{user.preferredBusStop}}</p>
-            <p class="center" id="UserRating">User Rating: {{user.avgRating ?? "NIL"}}</p>
+            <p class="center" id="UserRating">User Rating: {{user.avgRating ?? "-"}}</p>
             <p class="center" id="Tier">Tier: <span :style="{color: user.tier}">{{user.tier}}</span></p>
             <button class="btn btn-primary" @click="$router.push('/reward')" v-if="userStore.username==$route.params.username">Points</button>
             <button class="btn btn-primary" @click="$router.push(`/review/${$route.params.username}`)" >See reviews</button>
@@ -167,7 +167,7 @@ export default {
     }).then(response=>{
       // console.log(response);
       this.listedItems = response.data.data
-      })
+    })
 
     this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
     params : { 
@@ -177,7 +177,7 @@ export default {
     }).then(response=>{
       console.log(response);
       this.wishlistItems = response.data.data
-      })
+    })
 
 
   }
