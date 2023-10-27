@@ -300,7 +300,7 @@ export default {
         var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${ this.username||this.$route.params.username}`)
         this.reviews = ajax2.data.data.reviewsReceived
         this.completedReviews = ajax2.data.data.reviewsWritten
-        this.avgRating = ajax2.data.data.avgRating
+        this.avgRating = ajax2.data.data.avgRating ?? 0
       } catch (error) {
         console.log(error)
         this.$router.push("/")
