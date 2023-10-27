@@ -46,7 +46,7 @@
       <div class="row" style="align-items: normal !important;">
         <!-- Left column with profile pic and username, values should be dynamic-->
         <div class='col-lg-4 col-sm-12 text-center pt-5 p-3'>
-              <img :src="(user.imageURL && user.imageURL.length) == 0 ? placeholder : user.imageURL" id="imgHere" style="width: 350px; display: flex; margin-left: auto; margin-right: auto;">
+              <img :src="(user.imageURL && user.imageURL.length) == 0 ? userPlaceholder : user.imageURL" id="imgHere" style="width: 350px; display: flex; margin-left: auto; margin-right: auto;">
               <h1 class="mt-4" id="Username">{{ user.fullName }}</h1>
               <br>
               <h4 id="PreferredBusStop"><span class="titleBold">Preferred Bus Stop:</span> {{user.preferredBusStop}}</h4>
