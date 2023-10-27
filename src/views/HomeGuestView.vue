@@ -5,6 +5,10 @@
   import {mapStores} from 'pinia'
   import { useUserStore } from '../store/UserStore';
 
+
+  import { vElementVisibility } from '@vueuse/components'
+import CircularProgress from '../components/circularProgress.vue';
+
 </script>
 
 <template>
@@ -38,42 +42,13 @@
           
           <!-- users  part-->
           <section class="circles" style="display: flex;">
-            <div class="circle" data-prog="25">
-              <svg width="250" height="250">
-                <circle r="100" cx="125" cy="125" class="track"></circle>
-                <circle r="100" cx="125" cy="125" class="progress"></circle>
-              </svg>
-              <div class="circle-inner">
-                <h1>25%</h1>
-              </div>
-            </div>
-            <div class="circle" data-prog="70">
-              <svg width="250" height="250">
-                <circle r="100" cx="125" cy="125" class="track"></circle>
-                <circle r="100" cx="125" cy="125" class="progress"></circle>
-              </svg>
-              <div class="circle-inner">
-                <h1>70%</h1>
-              </div>
-            </div>
-            <div class="circle" data-prog="75">
-              <svg width="250" height="250">
-                <circle r="100" cx="125" cy="125" class="track"></circle>
-                <circle r="100" cx="125" cy="125" class="progress"></circle>
-              </svg>
-              <div class="circle-inner">
-                <h1>75%</h1>
-              </div>
-            </div>
-            <div class="circle" data-prog="63">
-              <svg width="250" height="250">
-                <circle r="100" cx="125" cy="125" class="track"></circle>
-                <circle r="100" cx="125" cy="125" class="progress"></circle>
-              </svg>
-              <div class="circle-inner">
-                <h1>63%</h1>
-              </div>
-            </div>
+
+
+            <CircularProgress v-for="percent  in circularFinalPercentage" :percent="percent">
+            </CircularProgress>
+            
+
+
           </section>
           <br><br><br>
         </div>
@@ -173,6 +148,7 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
+      circularFinalPercentage : [25,70,75,63],
     }
   },
 
@@ -181,9 +157,21 @@ export default {
   },
 
   methods: {
-    test() {
-      // you need to use this in the methods
-    }
+    animateCircle(state,a){
+      console.log(state)
+      // if(!this.pointsVisible && state){
+      //   // this.pointsShown=0
+      //   var vm = this
+      //     this.counter = setInterval(function () {
+      //       if (vm.pointsShown >= vm.accPoints) {
+      //         clearInterval(vm.counter);
+      //       } else {
+      //         vm.pointsShown += 1;
+      //       }
+      //     }, 1000/this.accPoints);
+
+      // }
+    },
   },
 
   beforeRouteLeave(){
