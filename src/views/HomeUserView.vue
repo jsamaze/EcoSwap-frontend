@@ -27,18 +27,31 @@
 
       <div class="sec container-fluid">
         <div class="row">
-            <div class="col">
-              <i class="fas fa-star"></i>
-              <span class="num" ref="points" @scroll="pointsShow" v-show="accPoints != null" v-element-visibility="onElementVisibility">{{ pointsShown }}</span>
-              <h3 class="title whitefont">Accumulated points</h3>
-              <h3 class="title whitefont">{{ tier }} tier</h3>
-              <button class="btn btn-primary" @click="$router.push('/reward')">Points</button>
-            </div>
+          <div class="col">
+            <i class="fas fa-star"></i>
+            <span class="num" ref="points" @scroll="pointsShow" v-show="accPoints != null" v-element-visibility="onElementVisibility">{{ pointsShown }}</span>
+            <h3 class="title whitefont">Accumulated points</h3>
+            <h4 class="title whitefont">
+              <span style="color: #18f98f">{{ tier }}</span> tier</h4>
+            <br>
+            <button class="btn btn-success" @click="$router.push('/reward')">Redeem rewards!</button>
+          </div>
         </div>
       </div>
 
-      <div class="sec2 container-fluid">
-        
+      <div class="sec2 container-fluid pt-3 ps-4">
+        <div class="row">
+          <h1 class="titleBold">Start swapping!</h1>
+        </div>
+        <div class="row pt-4">
+          <h3 class="title">My listed items</h3>
+        </div>
+        <div class="row pt-4">
+          <h3 class="title">My wishlist items</h3>
+        </div>
+        <div class="row pt-4">
+          <h3 class="title">My favourited items</h3>
+        </div>
       </div>
 
     </div>
