@@ -6,7 +6,7 @@
   // import ReviewView from './ReviewView.vue';
   import { useElementVisibility } from '@vueuse/core'
   import { vElementVisibility } from '@vueuse/components'
-  import { placeholder } from '../assets/assets'
+  import { placeholder, userPlaceholder } from '../assets/assets'
   import ItemCard from '../components/ItemCard.vue';
 
 </script>
@@ -47,7 +47,7 @@
         <!-- Left column with profile pic and username, values should be dynamic-->
         <div class="parent col-3 bg-info">
           <div class="row">
-              <img class="big center" :src="(user.imageURL && user.imageURL.length) == 0 ? placeholder : user.imageURL" id="imgHere">
+              <img class="big center" :src="(user.imageURL && user.imageURL.length) == 0 ? userPlaceholder : user.imageURL" id="imgHere">
               <h3 class="center" id="Username">{{ user.fullName }}</h3>
               <p class="center" id="PreferredBusStop">Preferred Bus Stop: {{user.preferredBusStop}}</p>
               <p class="center" id="UserRating">User Rating: {{user.avgRating ?? "-"}}</p>
