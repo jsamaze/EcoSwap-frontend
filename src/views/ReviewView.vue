@@ -33,18 +33,18 @@ import { useLoadStore } from '../store/InitialLoadStore';
       <div class="row m-5">
 
         <h3>
-          {{ $route.params.username }} average rating is {{ avgRating }}
+          {{ $route.params.username }}'s average rating: {{ avgRating }}
         </h3>
 
         <p>
-          When you complete a trade, a review will be generated. Fill it up to help improve our community
+          When you complete a trade, a review will be generated. Fill it up to help improve our community!
         </p>
 
         <h5 v-if="uncompletedReviews.length > 0">
           There are {{ uncompletedReviews.length }} review{{ uncompletedReviews.length > 1 ?'s' :'' }} to be completed
         </h5>
 
-        <select v-model="selectedOption">
+        <select v-model="selectedOption" class="p-2">
           <option value="received">Reviews received</option>
           <option value="given">Review given</option>
           <option value="incomplete">Review incomplete</option>
@@ -58,11 +58,11 @@ import { useLoadStore } from '../store/InitialLoadStore';
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item " v-for="review in reviews">
-                        Review from {{ review.by.username }}
-                        written on {{ moment(review.updatedAt).format("DD/MM/YYYY") }}
-                        for chat closed on {{ moment(review.createdAt).format("DD/MM/YYYY") }}
-                        <br>Rating: {{ review.rating }} out of 5
-                        <br>Comment: "{{ review.textContent }}"
+                        <b>Review from: </b>{{ review.by.username }}
+                        <br><b>Written on: </b>{{ moment(review.updatedAt).format("DD/MM/YYYY") }}
+                        <br><b>Deal closed on: </b>{{ moment(review.createdAt).format("DD/MM/YYYY") }}
+                        <br><b>Rating: </b>{{ review.rating }} out of 5
+                        <br><b>Comment: </b>"{{ review.textContent }}"
                     </li>
                     <li class="list-group-item" v-if="reviews.length == 0">
                       Empty
@@ -85,12 +85,12 @@ import { useLoadStore } from '../store/InitialLoadStore';
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item " v-for="review in completedReviews" >
-                        Review for {{ review.for.username }}
-                        written on {{ moment(review.updatedAt).format("DD/MM/YYYY") }}
-                        for chat closed on {{ moment(review.createdAt).format("DD/MM/YYYY") }}
+                      <b>Review for: </b> {{ review.for.username }}
+                      <br><b>Written on: </b>{{ moment(review.updatedAt).format("DD/MM/YYYY") }}
+                      <br><b>Deal closed on: </b>{{ moment(review.createdAt).format("DD/MM/YYYY") }}
 
-                        <br>Rating: {{ review.rating }} out of 5
-                        <br>Comment: "{{ review.textContent }}"
+                      <br><b>Rating: </b>{{ review.rating }} out of 5
+                      <br><b>Comment: </b> "{{ review.textContent }}"
                     </li>
                     <li class="list-group-item" v-if="completedReviews.length == 0">
                       Empty
@@ -111,8 +111,8 @@ import { useLoadStore } from '../store/InitialLoadStore';
             <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item" v-for="review in uncompletedReviews">
-                        For user: {{ review.for.username}}
-                        <br>Date of transaction: {{ moment(review.chat.createdAt).format("DD/MM/YYYY") }}
+                        <b>For user: </b>{{ review.for.username}}
+                        <b><br>Date of transaction: </b>{{ moment(review.chat.createdAt).format("DD/MM/YYYY") }}
 
                         <br> 
                         <GreenBtn data-bs-toggle="modal" data-bs-target="#exampleModal" @click="selectedReview=review">Write review</GreenBtn>
