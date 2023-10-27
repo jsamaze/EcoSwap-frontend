@@ -78,8 +78,19 @@ import { useLoadStore } from '../store/InitialLoadStore';
             </select>
 
           </div>
+<<<<<<< HEAD
           
           
+=======
+          <div class="heading" v-else>
+            <h3>Uncompleted Reviews</h3>
+          </div>
+          <select v-model="selectedOption" class="p-2 select">
+            <option value="received">Reviews received</option>
+            <option value="given">Review given</option>
+            <option value="incomplete" v-if="userStore.username==$route.params.username">Review incomplete</option>
+          </select>
+>>>>>>> cf379a0bf1a97720bc93cafb32d975668cbe34f7
         
 
 
