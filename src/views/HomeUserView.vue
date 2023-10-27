@@ -48,7 +48,7 @@
               <img :src="(user.imageURL && user.imageURL.length) == 0 ? userPlaceholder : user.imageURL" id="imgHere" style="width: 350px; display: flex; margin-left: auto; margin-right: auto;">
               <h1 class="mt-4" id="Username">{{ user.fullName }}</h1>
               <br>
-              <h4 id="PreferredBusStop"><span class="titleBold">Preferred Bus Stop:</span> {{user.preferredBusStop}}</h4>
+              <h4 id="PreferredBusStop"><span class="titleBold">Preferred Bus Stop:</span> {{busStopCode}} - {{ busStopDesc}} </h4>
               <h4 id="UserRating"><span class="titleBold">User Rating:</span> {{user.avgRating + " out of 5" ?? "-"}}</h4>
               <h4 id="Tier"><span class="titleBold">Tier:</span> <span :style="{color: user.tier}">{{user.tier}}</span></h4>
               
@@ -68,7 +68,7 @@
             <h2>My Listed Items <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h2>
             <!-- Card for Listed Items-->
             <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
-              <div class="col-4" v-for="itemL in listedItems">
+              <div class="col-md-4 col-6" v-for="itemL in listedItems">
                 <ItemCard :item="itemL">
 
                 </ItemCard>
@@ -81,7 +81,7 @@
             <h2>My Wishlist Items  <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h2>
             <!-- Card for Wishlist Items -->
             <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
-              <div class="col-4" v-for="itemW in wishlistItems">
+              <div class="col-md-4 col-6" v-for="itemW in wishlistItems">
                 <ItemCard :item="itemW">
 
                 </ItemCard>
@@ -89,12 +89,12 @@
             </div>
           </div>
 
-          <!--Wishlist Items-->
+          <!--Favourited Items-->
           <div class="row mb-3">
             <h2>My Favourited Items</h2>
             <!-- Card for Wishlist Items -->
             <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
-              <div class="col-4" v-for="itemF in favouritedItems">
+              <div class="col-md-4 col-6" v-for="itemF in favouritedItems">
                 <ItemCard :item="itemF">
 
                 </ItemCard>
@@ -150,6 +150,8 @@ export default {
       listedItems: [],
       wishlistItems: [],
       favouritedItems: [],
+      busStopCode:null,
+      busStopDesc:null,
       user: {}
 
     }
@@ -195,6 +197,8 @@ export default {
           this.netPoints = response.data.data.netPoints
           this.accPoints = response.data.data.accumulatedPoints
           this.tier = response.data.data.tier
+          this.busStopCode = response.data.data.busStop.BusStopCode
+          this.busStopDesc = response.data.data.busStop.Description
         }
       ).catch(
         error => {
@@ -226,9 +230,7 @@ export default {
 
       this.axios.get( `${import.meta.env.VITE_BACKEND}/items/liked`)
       .then(response=>{
-        console.log(response)
         this.favouritedItems = response.data.data
-        console.log(this.favouritedItems)
       })
     }
   },
