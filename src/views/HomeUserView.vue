@@ -35,7 +35,6 @@
           <i class="fas fa-star"></i>
           <span class="num" ref="points" @scroll="pointsShow" v-show="accPoints != null" v-element-visibility="onElementVisibility">{{ pointsShown }}</span>
           <h2 class="title whitefont">Points</h2>
-          <h3 class="title whitefont"><span :style="{color: user.tier}">{{ tier }}</span> tier</h3>
           <br>
           <button class="btn btn-lg btn-success mb-5" @click="$router.push('/reward')">Redeem rewards!</button>
         </div>
