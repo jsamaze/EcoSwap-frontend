@@ -21,7 +21,7 @@
 
 
 :hover , .chosen {
-    background: grey;
+    background:  #d9d9d9;
   }
 
 

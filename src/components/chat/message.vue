@@ -12,15 +12,18 @@
   padding: 1rem;
   width: fit-content;
   border-radius: 5px 5px 5px 0;
-  background-color: cornsilk;
-  color: midnightblue;
+  background-color:  #d2e296;
+  color:black;
+
 }
 
 
 /* Add this class for opp - actually its opposite logic  */
 /* them refers to user */
 .msgBoxThem {
-  background-color: lavender;
+  color: white;
+
+  background-color: #748e1e;
   border-radius: 5px 5px 0 5px;
   margin-left: auto;
   align-self: end;

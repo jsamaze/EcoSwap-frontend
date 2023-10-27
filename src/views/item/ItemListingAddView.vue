@@ -41,7 +41,9 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     </CustomCarousell>
 
                     <!-- end carousel -->
-                    You can add photos after this
+                    <h5 class="mt-3 text-center">
+                      You can add photos after this
+                    </h5>
                 </div>
                         <div class="col-sm-6">
 
@@ -160,10 +162,12 @@ export default {
       }).then(
         response => {
           this.$toast.success("Create new item")
+          console.log(response)
           this.$router.push(`/item/${response.data.id}/addPhoto`)
         }
       ).catch(
         response => {
+          console.log(response)
           this.$toast.error("Failed to create item")
         }
       ).finally(

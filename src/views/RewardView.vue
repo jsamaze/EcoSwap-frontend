@@ -13,104 +13,128 @@ import moment from "moment";
 <template>
   <!-- type your HTML here -->
 
+    <h1 class="titleBold text-center" style="font-size: xxx-large;">Points summary</h1>
+    <div class="text-center">
+      <H4><b>Total Points: </b>{{ netPoints }} </H4>
+      <H4><b>Current Tier: </b>{{ tier }} </H4>
+    </div>
 
    <MiddleCardForListing>
     
     <div class="container-fluid">
       <div class="row">
-        <h1 >Points summary: </h1>
+        <!-- <div style="padding-left: 27px;" class="col">
+          <h1 >Points summary: </h1>
+        </div> -->
         
-        <div class='col justify-content-center overflow-auto' style="height: 60vh;">
+        </div>
+        <div class="row">
+        <div class='col-lg-6 justify-content-center overflow-auto' style="height: 60vh;">
             <div class="white p-3">
-              <h3>Here is how you can get points</h3>
-                
-                <div class="card" style="width: 100%; height: auto;">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"> <b>List Item </b>+2 points </li>
-                  <li class="list-group-item"> <b>Remove Listed Item </b>-2 points </li>
-                  <li class="list-group-item"> <b>Successful Trade </b>+5 points </li>
-                    <!-- <li class="list-group-item " v-for="item in choices">
-                        <b>{{ item.rewardName }}</b>
-                        {{ (item.points > 0 ? "+" : "")+  item.points }} points
-                    </li> -->
-                </ul>
-                </div>
+              
+              <h4>Points Information</h4>
+                   
+                <table class="table" style=" text-align: center; border: 1px solid rgb(192, 192, 192);">
+                  <tr style="border: 1px solid rgb(192, 192, 192);">
+                    <th style="padding: 10px;">Action</th>
+                    <th>Points Range</th>
+                  </tr>
+                  <tr style="border: 1px solid rgb(192, 192, 192);">
+                    <td style="padding: 10px;">List Item</td>
+                    <td>+2 Points</td>
+                  </tr>
+                  <tr style="border: 1px solid rgb(192, 192, 192);">
+                    <td style="padding: 10px;">Remove Item</td>
+                    <td>-2 Points</td>
+                  </tr>
+                  <tr style="border: 1px solid rgb(192, 192, 192);">
+                    <td style="padding: 10px;">Trade</td>
+                    <td>+5 Points</td>
+                  </tr>
+                  
+              </table>
+                <br><h4>Tier Information</h4>
+                <table class="table" style=" text-align: center; border: 1px solid rgb(192, 192, 192);">
+              <tr style="border: 1px solid rgb(192, 192, 192);">
+                <th style="padding: 10px;">Tier</th>
+                <th>Points range</th>
+              </tr>
+              <tr style="border: 1px solid rgb(192, 192, 192);">
+                <td style="padding: 10px;">Green</td>
+                <td>0-99</td>
+              </tr>
+              <tr style="border: 1px solid rgb(192, 192, 192);">
+                <td style="padding: 10px;">Silver</td>
+                <td>100-299</td>
+              </tr>
+              <tr style="border: 1px solid rgb(192, 192, 192);">
+                <td style="padding: 10px;">Gold</td>
+                <td>300-499</td>
+              </tr>
+              <tr style="border: 1px solid rgb(192, 192, 192);">
+                <td style="padding: 10px;">Superstar</td>
+                <td>500+</td>
+              </tr>
+            </table>
+
                 <br>
-                <h3>Rewards</h3>
-                
-                <div class="card" style="width: 100%; height: auto;">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item " v-for="item in rewards">
-                        <b>{{ item.prizeTitle }}</b>
-                        <p>{{ item.prizeDescription }}</p>
-                        {{ Math.abs( item.points) }} points
-                        <GreenBtn @click="(Math.abs(item.points) <= netPoints) && redeem(item.rewardName)" :disabled="Math.abs(item.points) > netPoints" disabledPopover="Not enough points">Redeem</GreenBtn>
-                    </li>
-                </ul>
+                <!-- start -->
+                <div class="header">
+                  <h4>Transactions</h4>
                 </div>
+               
 
+                <div class="card" style="width: 100%; height: auto;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" :class="{'bg-success text-white' : rewards_rewardName.includes(transaction.rewardName) }" v-for="transaction in transactions">
+                            <!-- <b>{{ transaction.rewardName}}</b>  -->
+                            <div v-if="transaction.rewardName=='addListedItem'"><b>List Item</b></div>
+                            <div v-else-if="transaction.rewardName=='trade'"><b>Successful Trade</b></div>
+                            <div v-else><b>Redeemed: {{ transaction.rewardName}}</b></div>
+                            Date: {{ moment(transaction.createdAt).format("DD/MM/YYYY")}}
 
+                            <br>Points: {{ (transaction.points > 0 ? "+" : "")+  transaction.points }} points
+                          
+                        </li>
+                        <li class="list-group-item" v-if="transactions.length == 0">
+                          Empty
+                          
+                        </li>
+                    </ul>
 
+                    
+                    </div>
+                <!-- end -->
+                
 
             </div>
-            
-            
-                
-            
-            
-            
-
+          
       </div>
 
         <div class='col  justify-content-center overflow-auto' style="height: 60vh;">
           <div class="white p-3">
 
-            <H3>Accumulated Points: {{ accPoints }}</H3>
-            <H3>Total Net Points: {{ netPoints }}</H3>
-            <h3>Current Tier: {{ tier }}</h3>
+            <!-- <h4>Accumulated Points: {{ accPoints }}</h4> -->
+            <!-- <h4>Total Points: {{ netPoints }}</h4>
+            <h4>Current Tier: {{ tier }}</h4> -->
+               <!-- start -->
 
-            <table class="table table-striped">
-              <tr>
-                <th>Tier</th>
-                <th>Points range</th>
-              </tr>
-              <tr>
-                <td>Green</td>
-                <td>0-99</td>
-              </tr>
-              <tr>
-                <td>Silver</td>
-                <td>100-299</td>
-              </tr>
-              <tr>
-                <td>Gold</td>
-                <td>300-499</td>
-              </tr>
-              <tr>
-                <td>Superstar</td>
-                <td>500+</td>
-              </tr>
-            </table>
-
-
-           
-            <h3>Transactions</h3>
-
-            <div class="card" style="width: 100%; height: auto;">
+                <div class="header">
+                  <h4>Rewards</h4>
+                </div>
+                
+                
+                <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item" :class="{'bg-success text-white' : rewards_rewardName.includes(transaction.rewardName) }" v-for="transaction in transactions">
-                        <b>{{ transaction.rewardName}}</b>
-                        {{ moment(transaction.createdAt).format("DD/MM/YYYY")}}
-
-                        <br>{{ (transaction.points > 0 ? "+" : "")+  transaction.points }} points
-                       
-                    </li>
-                    <li class="list-group-item" v-if="transactions.length == 0">
-                      Empty
-                       
+                    <li class="list-group-item " v-for="item in rewards">
+                        <b>{{ item.prizeTitle }} ({{ Math.abs( item.points) }} points)</b>
+                        <br>{{ item.prizeDescription }}
+                        <p> Only for first {{ item.max }} redeemers. While stocks last!</p>
+                        <GreenBtn @click="(Math.abs(item.points) <= netPoints) && redeem(item.rewardName)" :disabled="Math.abs(item.points) > netPoints" disabledPopover="Not enough points">Redeem</GreenBtn>
                     </li>
                 </ul>
                 </div>
+                <!-- end -->
     
 
         </div>
@@ -124,8 +148,17 @@ import moment from "moment";
 
 <style scoped> 
 
+h1{
+  padding-top: 30px;
+}
 
-
+.header{
+  position: sticky;
+  top: 0;
+  background-color: white; /* Set the background color as needed */
+  z-index: 1;
+  padding-bottom: 10px;
+}
 </style>
 
 <script>

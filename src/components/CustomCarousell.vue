@@ -11,7 +11,7 @@
                                 <img :src="img" class="d-block w-100" alt="...">
                               </div>
                               <div v-for="img, idx in images.slice(1,images.length)" class="carousel-item" v-if="images.length>1">
-                                <img :src="img" class="d-block w-100" alt="...">
+                                <img v-lazy="img" class="d-block w-100" alt="...">
                               </div>
 
 

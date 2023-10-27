@@ -75,6 +75,8 @@ import bsModal from 'bootstrap/js/src/modal'
 <!-- modal end -->
 
 
+<!-- massive credit to https://catalincodes.com/posts/responsive-chat-with-css-grid -->
+
   <section ref="chatContainer" :class="chatContainerClasses" :style="{'height': chatHeight }">
 
 
@@ -83,6 +85,11 @@ import bsModal from 'bootstrap/js/src/modal'
     <Conversation :id='chat._id' v-for="chat,idx in currentChats" :username="userStore.username" :chat="chat" :chosen="chattingWith && idx ==0"
     @click="swapScreenToChatting"
      ></Conversation>
+
+     <div class="m-auto p-3 text-center" v-if="currentChats.length ==0">
+        You have yet to start a chat
+        <br> Browse through our marketplace to start trading!
+     </div>
   </div>
 
 
@@ -93,9 +100,7 @@ import bsModal from 'bootstrap/js/src/modal'
       <!-- to limit the length of full name max 14-->
 
     <!-- Hide this button when no chat is displayed -->
-    <button class="btn btn-light p-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-show="chattingWith">
-      🛒 🤝
-    </button>
+
   </header>
 
 
@@ -120,9 +125,12 @@ import bsModal from 'bootstrap/js/src/modal'
 
     <!-- input text or text area? -->
     <form @submit.prevent="submitMsg">
-      <input type="text" class="form-control" v-model="textContent">
+      <button type="button" class="btn p-1" style="background-color: #8a9f53;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  :disabled="!$route.params.username">
+      <img src="../../assets/images/trade.png" style="height:100%">
+    </button>
+      <input type="text" class="form-control" v-model="textContent" :disabled="!$route.params.username">
     
-      <input type="submit" class="btn btn-success" value="Send!" >
+      <input type="submit" class="btn btn-success" value="Send!" :disabled="!$route.params.username" >
     </form>
   </footer>
 
@@ -325,8 +333,11 @@ export default {
       })
     },
     submitMsg(){
-      this.sendMessage(this.textContent)
-      this.textContent=""
+      if(this.$route.params.username && this.textContent.trim().length > 0){
+        this.sendMessage(this.textContent)
+        this.textContent=""
+      }
+
     },
 
     updateMyItems(){
@@ -382,7 +393,7 @@ export default {
           }
         }
       ).catch(error => {
-        alert(error.response.data.status)
+        this.$toast.error(error.response.data.status)
       })
 
     },
@@ -430,8 +441,8 @@ export default {
       return (this.height-80) -(this.height*0.21) +'px'
     },
     truncatedChattingWith(){
-      var subStr = this.chattingWithFullName?.substr(0,14) ?? ""
-      return subStr + (subStr.length == 14 ?  "..." : "")
+      var subStr = this.chattingWithFullName?.substr(0,18) ?? ""
+      return subStr + (subStr.length == 18 ?  "..." : "")
 
     },
     secondButton(){

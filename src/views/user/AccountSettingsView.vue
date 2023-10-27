@@ -12,7 +12,7 @@ import * as yup from 'yup'
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/UserStore';
 import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
-import { placeholder } from '../../assets/assets';
+import { userPlaceholder } from '../../assets/assets';
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -22,85 +22,68 @@ import { placeholder } from '../../assets/assets';
   <!-- type your HTML here -->
 
 
-   <MiddleCardForListing>
     <div class="container-fluid">
-      <div class="row">
-        
-        <div class='col justify-content-center'>
-            <br><br>
-            <img class="w-100 m-3" :src="src">
-            <br>
-            <br>
-            <RouterLink to="/user/photo">
-              <GreenBtn>
-                Change Photo
-              </GreenBtn>
-            </RouterLink>
-
+      <div class="row mt-4 mb-2">
+        <div class="col">
+          <h1 class="titleBold text-center" style="font-size: xxx-large;">Account Settings</h1>
+        </div>
       </div>
 
-        <div class='col  justify-content-center'>
-          <div class="white p-3">
-     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
-      <form @submit="handleSubmit($event, update)" >
+      <div class="row" style="align-items: normal !important;">
 
-        <h1 class="title text-center">Account Settings</h1>
-        Your email is {{ emailVerified ? "" : "not " }}verified
-              <div v-if="!emailVerified">
-                <GreenBtn @click="verifyEmail">Click here to verify email</GreenBtn>
-              </div>
-              <br><br>
-        You cannot change your username: 
-        <span class="text-center fw-bold">{{ userStore.username }}</span>
-
-       
-        <TextInput  name="fullName">
-          Full name
-        </TextInput>
-        
-        
-            
-              
-              
-        <TextInput  name="email">
-          Email (If you change your email, you will need to receive OTP)
-        </TextInput>
-
-        
-
-          <TextInput name="about" as="textarea">
-                About
-          </TextInput>
-
-        
-        <GreenSubmitBtn>Save changes</GreenSubmitBtn>
-        <br>
-        <div class="text-center">
-          <h6 v-if="busStop">Current bus stop is : {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h6>
-          <h4 v-else>You are yet to choose a preferred bus stop!</h4>
-          <GreenBtn @click="$router.push('/user/busStop')">
-          Click here to change your preferred bus stop
-          </GreenBtn>
+        <div class='col-lg-4 col-sm-12 text-center p-3'>
+          <img :src="src" style="width: 350px; display: flex; margin-left: auto; margin-right: auto;">
+          <RouterLink to="/user/photo">
+            <GreenBtn>
+              Change photo
+            </GreenBtn>
+          </RouterLink>
+          <div class="mt-4">
+            <h4 v-if="busStop"><span class="titleBold">Preferred bus stop:</span> {{ busStop?.BusStopCode }} - {{ busStop?.Description }}</h4>
+            <h4 v-else>You have not chosen a preferred bus stop!</h4>
+            <GreenBtn @click="$router.push('/user/busStop')">
+            Change preferred bus stop
+            </GreenBtn>
+          </div>
         </div>
 
+        <div class='col'>
+          <div class="white p-3">
+            <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
+            <form @submit="handleSubmit($event, update)" >
+              <h4><span class="titleBold">Username:</span> {{ userStore.username }}</h4>
+              <br>
+              <h4 class="titleBold">
+                <TextInput  name="fullName">
+                  Full name
+                </TextInput>
+              </h4>
+              <h4 class="titleBold">
+                <TextInput  name="email" style="margin-bottom: 0% !important;">
+                  Email
+                </TextInput>
+              </h4>
+              Your email is <b>{{ emailVerified ? "" : "not " }}verified</b>
+              <div v-if="!emailVerified">
+                <GreenBtn @click="verifyEmail">Verify email</GreenBtn>
+              </div>
+              <br><br>
+              <h4 class="titleBold">
+                <TextInput name="about" as="textarea">
+                      About
+                </TextInput>
+              </h4>
 
-          
-          
+              <GreenBtn style="display: inline !important;" @click="changePassword">Change password</GreenBtn>
 
-          <GreenBtn @click="changePassword">Click here to change password</GreenBtn>
-
-         
-    </form>
-    </VeeForm>
-
-    
+              <GreenSubmitBtn style="margin-top: 70px !important;">Save changes</GreenSubmitBtn>
+          </form>
+          </VeeForm>
         </div>
         
       </div>
     </div>
 </div>
-
-   </MiddleCardForListing>
 </template>
 
 <style scoped> 
@@ -120,14 +103,11 @@ export default {
       initialValues: null,
       schema : yup.object().shape({
         fullName : yup.string().required(),
-        preferredBusStop : yup.string().max(5)
-        .test('Digits only', 'The field should have digits only', (value) =>  value.toString().length==0||/^\d+$/.test(value))
-        .label("Preferred Bus Stop"),
 
                 email : yup.string().required().email(),
       }),
       oldEmail: "",
-      src:placeholder,
+      src:userPlaceholder,
       emailVerified:false,
       busStop : null,
     }
@@ -153,6 +133,7 @@ export default {
             this.$toast.success("Success!")
 
             // this.$router.go(0) //replace later
+            loader.hide()
           }
         }
       ).catch (

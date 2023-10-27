@@ -67,7 +67,7 @@ export default {
         loader.hide()
         this.userStore.username= response.data.username
         this.userStore.userId= response.data.userId
-        this.$router.push(`/user/marketplace`)
+        this.$router.push(`/user/landing`)
       }).catch((error)=>{
         loader.hide()
         console.log(error)

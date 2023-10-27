@@ -27,6 +27,7 @@ import UserMarketplaceView from '../views/item/UserMarketplaceView.vue'
 import GuestMarketplaceView from '../views/item/GuestMarketplaceView.vue'
 
 import HomeGuestView from '../views/HomeGuestView.vue'
+import HomeUserView from '../views/HomeUserView.vue'
 
 import ChatView from '../views/chat/ChatView.vue'
 
@@ -36,6 +37,8 @@ import RewardView from '../views/RewardView.vue'
 import ReviewView from '../views/ReviewView.vue'
 
 import NotFoundView from '../views/NotFoundView.vue'
+
+import GuestMap from '../views/GuestMap.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -181,6 +184,26 @@ const router = createRouter({
       }
     },
 
+    {
+      path: '/user/landing',
+      name: 'User Homepage',
+      component: HomeUserView,
+      meta : {
+        needAuth : true,
+
+      },
+
+    },
+
+    {
+      path : '/guest/map',
+      name : 'Guest Map',
+      component : GuestMap,
+      meta : {
+        needAuth : false,
+      }
+    },
+
     // E. to manage user accounts
 
     {
@@ -241,7 +264,11 @@ const router = createRouter({
         needAuth :null,
       }
     },
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    // always scroll to top
+    return { top: 0 }
+  },
 })
 
 
@@ -278,7 +305,7 @@ router.beforeEach(async (to,from)=>{
           // backend is not on
           return {name : "NotFound"}
         }
-        if (error.response.status == 301) {
+        if (error.response.status == 401) {
           console.error(error);
           isLoggedIn=true
           //lets restore the piniaStore
@@ -299,7 +326,7 @@ router.beforeEach(async (to,from)=>{
   if (needAuth && !isLoggedIn){
       return { name :'Guest Homepage'}
   } else if (isLoggedIn && !needAuth)  {
-    return {name :'User Marketplace'}
+    return {name :'User Homepage'}
     }
   }
 )

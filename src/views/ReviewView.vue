@@ -9,7 +9,7 @@ import { Form as VeeForm } from 'vee-validate'
 
 import * as yup from 'yup'
 
-import { mapStores } from 'pinia';
+import { getActivePinia, mapStores } from 'pinia';
 import { useUserStore } from '../store/UserStore';
 import MiddleCardForListing from '../components/MiddleCardForListing.vue';
 import { placeholder } from '../assets/assets';
@@ -27,23 +27,83 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
 
    <MiddleCardForListing>
-    
+ 
+
     <div class="container-fluid">
       <div class="row m-5">
+
+        <h3>
+          {{ $route.params.username }}'s average rating: <span class="normal">{{ avgRating }} out of 5</span>
+        </h3>
+
+        <!-- <p>
+          When you complete a trade, a review will be generated. Fill it up to help improve our community!
+        </p> -->
+
+        <!-- <h5 v-if="uncompletedReviews.length > 0">
+          There are {{ uncompletedReviews.length }} review{{ uncompletedReviews.length > 1 ?'s' :'' }} to be completed
+        </h5> -->
+
+    <div v-if="userStore.username==$route.params.username||userStore.username == username">
+        <h5 v-if="uncompletedReviews.length == 1">
+          You have 1 incomplete review!
+        </h5>
+
+        <h5 v-else-if="uncompletedReviews.length == 0">
+          No incomplete reviews!
+        </h5>
+
+        <h5 v-else>
+          You have {{ uncompletedReviews.length }} incompleted reviews!
+        </h5>
+</div>
+
+        <div class=" review">
+
+          <div class="col-md-4 ">
+              <div class="heading" v-if="selectedOption =='received'">
+              <h3>Reviews {{ $route.params.username }} received</h3>
+              </div>
+              <div class="heading" v-else-if="selectedOption =='given'">
+                <h3>Reviews {{ $route.params.username }} wrote</h3>
+              </div>
+              <div class="heading" v-else>
+                <h3>Uncompleted Reviews</h3>
+              </div>
+
+          </div>
+
+          <div class="col-md-6">
+            <select v-model="selectedOption" class="p-2 select btn btn-lg d-md-inline d-md-block" >
+              <option value="received">Reviews received</option>
+              <option value="given">Review given</option>
+              <option value="incomplete" v-if="userStore.username==$route.params.username||userStore.username == username">Review incomplete</option>
+            </select>
+
+          </div>
+
+
+
+        </div>
+
+
         
-        
-        <div class='col justify-content-center'>
-            <div class="white p-3">
-                <h3>Reviews {{ $route.params.username }} got</h3>
+      <transition-slide>
+        <div class='col-12 justify-content-center' v-if="selectedOption =='received'">
+            <div class="white py-3">
+
+              
+                <!-- <h3>Reviews {{ $route.params.username }} received</h3> -->
+                
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item " v-for="review in reviews">
-                        Review from {{ review.by.username }}
-                        written on {{ moment(review.updatedAt).format("DD/MM/YYYY") }}
-                        for chat closed on {{ moment(review.createdAt).format("DD/MM/YYYY") }}
-                        <br>Rating: {{ review.rating }} out of 5
-                        <br>Comment: "{{ review.textContent }}"
+                        <b>Review from: </b>{{ review.by.username }}
+                        <br><b>Written on: </b>{{ moment(review.updatedAt).format("DD/MM/YYYY") }}
+                        <br><b>Deal closed on: </b>{{ moment(review.createdAt).format("DD/MM/YYYY") }}
+                        <br><b>Rating: </b>{{ review.rating }} out of 5
+                        <br><b>Comment: </b>"{{ review.textContent }}"
                     </li>
                     <li class="list-group-item" v-if="reviews.length == 0">
                       Empty
@@ -54,41 +114,46 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
             </div>
 
-            <h3>Reviews {{ $route.params.username }} wrote</h3>
+      </div>
+    </transition-slide>
+
+      <transition-slide>
+      <div class="col-12 justify-content-center"  v-if="selectedOption =='given'">
+        <div class="white py-3">
+
+        <!-- <h3>Reviews {{ $route.params.username }} wrote</h3> -->
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item " v-for="review in completedReviews" >
-                        Review for {{ review.for.username }}
-                        written on {{ moment(review.updatedAt).format("DD/MM/YYYY") }}
-                        for chat closed on {{ moment(review.createdAt).format("DD/MM/YYYY") }}
+                      <b>Review for: </b> {{ review.for.username }}
+                      <br><b>Written on: </b>{{ moment(review.updatedAt).format("DD/MM/YYYY") }}
+                      <br><b>Deal closed on: </b>{{ moment(review.createdAt).format("DD/MM/YYYY") }}
 
-                        <br>Rating: {{ review.rating }} out of 5
-                        <br>Comment: "{{ review.textContent }}"
+                      <br><b>Rating: </b>{{ review.rating }} out of 5
+                      <br><b>Comment: </b> "{{ review.textContent }}"
                     </li>
                     <li class="list-group-item" v-if="completedReviews.length == 0">
                       Empty
                     </li>
                 </ul>
-                </div>
-            
-            
-                
-            
-            
-            
+             </div>
+      </div>
 
       </div>
+    </transition-slide>
         <!-- hide this column if its not my reviews -->
-        <div class='col  justify-content-center' v-if="userStore.username == $route.params.username">
-          <div class="white p-3">
-            <h3>Uncompleted Reviews</h3>
+        <transition-slide>
+
+        <div class='col-12  justify-content-center' v-if="(userStore.username == $route.params.username || userStore.username == username) && selectedOption =='incomplete'">
+          <div class="white py-3">
+            <!-- <h3>Uncompleted Reviews</h3> -->
 
             <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item" v-for="review in uncompletedReviews">
-                        For user: {{ review.for.username}}
-                        <br>Date of transaction: {{ moment(review.chat.createdAt).format("DD/MM/YYYY") }}
+                        <b>For user: </b>{{ review.for.username}}
+                        <b><br>Date of transaction: </b>{{ moment(review.chat.createdAt).format("DD/MM/YYYY") }}
 
                         <br> 
                         <GreenBtn data-bs-toggle="modal" data-bs-target="#exampleModal" @click="selectedReview=review">Write review</GreenBtn>
@@ -106,7 +171,10 @@ import { useLoadStore } from '../store/InitialLoadStore';
         </div>
         
       </div>
+    </transition-slide>
+
     </div>
+
 </div>
 
    </MiddleCardForListing>
@@ -142,7 +210,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
       </div>
       <div class="modal-footer">
         <button type="button" @click.prevent class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-success" value="Save changes" v-if="values.textContent" data-bs-dismiss="modal"/>
+        <input type="submit" class="btn btn-success" value="Save changes" :disabled="!values.textContent" data-bs-dismiss="modal"/>
       </div>
     </form>
       </VeeForm>
@@ -152,19 +220,38 @@ import { useLoadStore } from '../store/InitialLoadStore';
 </template>
 
 <style scoped> 
+.select{
+  background-color: #d2e296;
+  /* width: 100%; */
+}
 
+.normal {
+    font-weight: normal; /* Set the font weight to normal to unbold the text */
+  }
 
+  .review{
+    display: flex;
+    align-items: center; 
+  }
+
+.heading{
+  padding-right: 50px;
+}
 
 </style>
 
 <script>
 export default {
+  props : ['username'],
   data(){
     return {
+      selectedOption: "received",
+
       uncompletedReviews :[],
       completedReviews : [],
 
       reviews : [],
+      avgRating : 0,
 
       selectedReview : {
         chat : { createdAt : 0},
@@ -210,9 +297,10 @@ export default {
           var ajax1 = await this.axios.get( `${import.meta.env.VITE_BACKEND}/chatReview`)
           this.uncompletedReviews = ajax1.data.data
         }
-        var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.$route.params.username}`)
+        var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${ this.username||this.$route.params.username}`)
         this.reviews = ajax2.data.data.reviewsReceived
         this.completedReviews = ajax2.data.data.reviewsWritten
+        this.avgRating = ajax2.data.data.avgRating ?? 0
       } catch (error) {
         console.log(error)
         this.$router.push("/")

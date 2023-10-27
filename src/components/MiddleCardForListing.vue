@@ -1,10 +1,10 @@
 <template>
     <div class="container-fluid"> 
-        <div class="row background justify-content-center">
+        <div class="row">
 
-            <div class="col-md-9"> 
+            <div class="col-11 align-self-center m-auto"> 
                 <!-- card -->
-                 <div class="card w-100 m-3 pb-0 h-auto min-vw-75 m-auto my-5  ">
+                <div class="card w-100 max-w-100 m-3 pb-0 h-auto m-auto my-5">
                 <div class="card-body  ">
                     <slot></slot>
                 </div>

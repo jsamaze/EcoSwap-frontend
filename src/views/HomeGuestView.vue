@@ -1,7 +1,13 @@
 <script setup>
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
-import GreenBtn from '../components/GreenBtn.vue';
+  import GreenBtn from '../components/GreenBtn.vue';
+  import {mapStores} from 'pinia'
+  import { useUserStore } from '../store/UserStore';
+
+
+  import { vElementVisibility } from '@vueuse/components'
+import CircularProgress from '../components/circularProgress.vue';
 
 </script>
 
@@ -20,14 +26,14 @@ import GreenBtn from '../components/GreenBtn.vue';
           <img src="../assets/images/leaf.png" id="leaf">
           <h1 class="titleBold text-center" id="text">Start your journey<br>with EcoSwap today!
             <!-- sign up button -->
-            <RouterLink to="/register" style="display: block; text-decoration: none;">
+            <RouterLink to="/register" class="d-block text-decoration-none">
               <GreenBtn class="button title">Sign Up Now!</GreenBtn>
             </RouterLink>
           </h1>
           <img src="../assets/images/plant.png" id="plant">
       </section>
 
-      <div class="sec">
+      <div class="sec container-fluid">
           
           <!-- users have saved part -->
           <div class="row p-5">
@@ -36,42 +42,13 @@ import GreenBtn from '../components/GreenBtn.vue';
           
           <!-- users  part-->
           <section class="circles" style="display: flex;">
-            <div class="circle" data-prog="25">
-              <svg width="250" height="250">
-                <circle r="100" cx="125" cy="125" class="track"></circle>
-                <circle r="100" cx="125" cy="125" class="progress"></circle>
-              </svg>
-              <div class="circle-inner">
-                <h1>25%</h1>
-              </div>
-            </div>
-            <div class="circle" data-prog="70">
-              <svg width="250" height="250">
-                <circle r="100" cx="125" cy="125" class="track"></circle>
-                <circle r="100" cx="125" cy="125" class="progress"></circle>
-              </svg>
-              <div class="circle-inner">
-                <h1>70%</h1>
-              </div>
-            </div>
-            <div class="circle" data-prog="75">
-              <svg width="250" height="250">
-                <circle r="100" cx="125" cy="125" class="track"></circle>
-                <circle r="100" cx="125" cy="125" class="progress"></circle>
-              </svg>
-              <div class="circle-inner">
-                <h1>75%</h1>
-              </div>
-            </div>
-            <div class="circle" data-prog="63">
-              <svg width="250" height="250">
-                <circle r="100" cx="125" cy="125" class="track"></circle>
-                <circle r="100" cx="125" cy="125" class="progress"></circle>
-              </svg>
-              <div class="circle-inner">
-                <h1>63%</h1>
-              </div>
-            </div>
+
+
+            <CircularProgress v-for="percent  in circularFinalPercentage" :percent="percent">
+            </CircularProgress>
+            
+
+
           </section>
           <br><br><br>
         </div>
@@ -151,49 +128,65 @@ import GreenBtn from '../components/GreenBtn.vue';
 
 <style>
 /* you can also import css files */
-@import "../assets/homepage.css"
+@import "../assets/homepage.css";
 
 </style>
 
 <script>
+const fn =  () => {
+        let value = window.scrollY;
+
+        leaf.style.top = Math.min(value * -1.5, leaf.height) + 'px';
+        leaf.style.left = value * 1.5 + 'px';
+        hill5.style.left = value * 1.5 + 'px';
+        hill4.style.left = value * -1.5 + 'px';
+        hill1.style.top = Math.min(value * 1,hill1.height) + 'px';
+    }
+
 
 export default {
-
   // this is data, website will reload if this change
   data() {
     return {
+      circularFinalPercentage : [25,70,75,63],
     }
+  },
+
+  computed :{
+    ...mapStores(useUserStore)
   },
 
   methods: {
-    test() {
-      // you need to use this in the methods
-    }
+    animateCircle(state,a){
+      console.log(state)
+      // if(!this.pointsVisible && state){
+      //   // this.pointsShown=0
+      //   var vm = this
+      //     this.counter = setInterval(function () {
+      //       if (vm.pointsShown >= vm.accPoints) {
+      //         clearInterval(vm.counter);
+      //       } else {
+      //         vm.pointsShown += 1;
+      //       }
+      //     }, 1000/this.accPoints);
+
+      // }
+    },
   },
 
+  beforeRouteLeave(){
+    window.removeEventListener('scroll', fn);
+  },
 
   //any ajax call to start is executed here
   mounted() {
-    //this happens when u load website
-    // dont forget to put the word this
+    // Parallax effect
+    let leaf = document.getElementById('leaf');
+    let hill1 = document.getElementById('hill1');
+    let hill4 = document.getElementById('hill4');
+    let hill5 = document.getElementById('hill5');
 
-    //dont forget to use this keyword
-    // this is a reference to the backend URL in .env.local file
-        let text = document.getElementById('text');
-        let leaf = document.getElementById('leaf');
-        let hill1 = document.getElementById('hill1');
-        let hill4 = document.getElementById('hill4');
-        let hill5 = document.getElementById('hill5');
-
-        window.addEventListener('scroll', () => {
-            let value = window.scrollY;
-
-            leaf.style.top = Math.min(value * -1.5, leaf.height) + 'px';
-            leaf.style.left = value * 1.5 + 'px';
-            hill5.style.left = value * 1.5 + 'px';
-            hill4.style.left = value * -1.5 + 'px';
-            hill1.style.top = Math.min(value * 1,hill1.height) + 'px';
-        });
+    window.addEventListener('scroll', fn);
   }
 }
 </script>

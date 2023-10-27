@@ -22,7 +22,7 @@
   .chat-header {
     padding-block: 12px;
     border: none;
-    background: #2a5717;
+    background: #41571e;
     color:white;
     font-size: 1rem;
   
@@ -103,7 +103,7 @@
     /* margin-bottom: 1rem; */
     padding-inline: 1rem;
     height:10vh;
-    background-color:rgb(21, 111, 141);
+    background-color:#2a5717;
   }
   
   footer form {
@@ -154,4 +154,9 @@
   footer > * {
     height:70%;
     box-sizing: border-box;
+  }
+
+  .conversations {
+    background-color: white;
+
   }

@@ -12,11 +12,17 @@ import axios from 'axios'
 import {createPinia} from 'pinia'
 import router from './router'
 
+import VueLazyLoad from 'vue3-lazyload'
+
+
 import ToastPlugin from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
 
 import {LoadingPlugin} from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
+
+import VueTransitions from '@morev/vue-transitions'
+import '@morev/vue-transitions/styles'
 
 import {useUserStore} from './store/UserStore'
 import { useLoadStore } from './store/InitialLoadStore';
@@ -24,14 +30,19 @@ import { useNotificationStore } from './store/NotificationStore';
 import { useChatStore } from './store/ChatStore';
 import { useItemChatStore } from './store/ItemChatStore';
 import { useSocketStore } from './store/SocketStore';
+import vueTransitions from '@morev/vue-transitions';
 
 
 axios.defaults.withCredentials=true;
 
 const app = Vue.createApp(App)
-app.use(ToastPlugin)
+app.use(ToastPlugin,{
+  position : 'top'
+})
 
 app.use(VueAxios, axios)
+
+app.use(vueTransitions)
 
 const pinia = createPinia()
 app.use(pinia)
@@ -49,6 +60,11 @@ app.use(LoadingPlugin, {
     opacity : 0.1,
 },{
 })
+app.use(VueLazyLoad)
+
+import veProgress from "vue-ellipse-progress";
+app.use(veProgress);
+
 
 app.mount('#app')
 

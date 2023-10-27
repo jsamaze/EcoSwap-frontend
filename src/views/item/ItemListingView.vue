@@ -13,7 +13,7 @@ import GreenBtn from '../../components/GreenBtn.vue'
 
   // //this is how you import external css files
   // import "../assets/base.css"
-import { placeholder } from '../../assets/assets'
+import { placeholder, userPlaceholder } from '../../assets/assets'
 import * as bootstrap from 'bootstrap'
 </script>
 
@@ -22,10 +22,7 @@ import * as bootstrap from 'bootstrap'
 
     <MiddleCardForListing>
       <div class="row">
-
-
           <div class="col-sm-6">
-    
             <Btn @click="$router.go(-1)">
               Back
             </Btn>
@@ -76,9 +73,17 @@ import * as bootstrap from 'bootstrap'
 
                             <div class="row">
                               <p>No of views : {{ views }}</p>
-                              <span><button class="btn btn-warning" @click="likeOrDislike" v-if="userStore.username">
-                                        {{ youLike ? "dislike" : "like" }}
-                                     </button>  <span v-else>Number of likes</span> {{ likes }}</span> 
+                              <span>
+
+                                <button  v-if="userStore.username" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
+                                  <img v-if="!youLike" style="height : 3rem;" src="../../assets/images/like.png">
+                                  <img v-else style="height : 3rem;" src="../../assets/images/unlike.png">
+                                </button>
+
+                                <span v-else>Number of likes</span> {{ likes }} 
+                                
+                                    
+                              </span> 
                             </div>
 
                             
@@ -106,17 +111,15 @@ import * as bootstrap from 'bootstrap'
                                 
                             </div>
 
-                            <div class="row" v-if="username == userStore.username">
+                            <div class="row justify-content-center text-center" v-if="username == userStore.username">
                               <RouterLink :to="`/item/${$route.params.itemId}/edit`">
-                                <GreenBtn >
-                                    Edit Listing
-                                  </GreenBtn>
-                              </RouterLink>
-
+                                 <GreenBtn>Edit Listing</GreenBtn>
+                                </RouterLink>
                             </div>
 
 
-                            <div class="row" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
+
+                            <div class="row justify-content-center text-center" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
                                   <GreenBtn @click="startChat">
                                     Start Chat about this item
                                   </GreenBtn>
@@ -193,15 +196,20 @@ export default {
       this.youLike ? this.likes++ : this.likes--
       }
     },
-    getOwnerPhoto(){
+    getOwnerPhoto(l){
+      let load = l ?? this.$loading.show()
       this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.username}`).then(response =>{
         console.log(response)
-        this.userPhotoURL = response.data.data.imageURL.length > 0 ? response.data.data.imageURL : placeholder
+        this.userPhotoURL = response.data.data.imageURL.length > 0 ? response.data.data.imageURL : userPlaceholder
+        this.preferredBusStop = response.data.data.busStop.Description ?? "not set yet"
       }).catch(error=>{
+        console.log(error)
         this.$toast.warning("Failed to fetch owner photo")
         this.userPhotoURL = placeholder
 
-      })
+      }).finally(
+        ()=> l.hide()
+      )
     },
     startChat(){
       var loader = this.$loading.show()
@@ -247,10 +255,13 @@ export default {
 
     var loader = this.$loading.show()
 
+
     this.axios.get(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}`)
         .then(response => {
+          this.username =response.data.data.user.username;
 
-            loader.hide()
+            this.getOwnerPhoto(loader)
+
 
             this.youLike = response.data.data.userLike ?? false;
 
@@ -269,13 +280,11 @@ export default {
              this.likes = response.data.data.noOfLikes;
              this.views = response.data.data.views
 
-             this.username =response.data.data.user.username;
-             this.preferredBusStop=response.data.data.user.preferredBusStop;
+            //  this.preferredBusStop=response.data.data.user.preferredBusStop;
 
              console.log(response.data);
             console.log(response.data.data.user.username)
 
-            this.getOwnerPhoto()
         })
         .catch( error => {
             console.log(error);
