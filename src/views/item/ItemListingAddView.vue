@@ -27,7 +27,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
   <!-- type your HTML here -->
 
 <MiddleCardForListing>
-  <div class="row">
+  <div class="row align-items-start">
                       <div class="col-sm-6">
                   
                   <Btn @click="$router.go(-1)">
