@@ -1,4 +1,4 @@
-<script setup>
+ <script setup>
   //import these to access GLOBAL state variables
   import '../../../node_modules/leaflet/dist/leaflet.css'
   import L from 'leaflet'
