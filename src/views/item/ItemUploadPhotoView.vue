@@ -199,6 +199,7 @@ export default {
                 this.showCanvas=false
                 this.load()
                 this.clearInputFile(this.$refs.fileInput)
+                this.sendButtonDisplay=false
               }
             );
             })
