@@ -1,4 +1,4 @@
-<script setup>
+ <script setup>
   //import these to access GLOBAL state variables
   import '../../../node_modules/leaflet/dist/leaflet.css'
   import L from 'leaflet'
@@ -81,13 +81,30 @@ import { useUserStore } from '../../store/UserStore'
             </div>
           </div>
 
+          <!-- must check for items in User Wishlist then ask them if they want to add-->
+          <div v-if="nearbyUserArr.length==0">
+            <h5> Sorry, we don't have any recommendations for you at the moment. <br>
+            Add more Wishlist Items so that we can better find matches for you.</h5>
+            <button type="button" class="btn btn-success">
+              Add Wishlist Items
+            </button>
+          </div>
+
+
+        </div>
+        <!--<RouterLink :to="`/item/${listedItem._id}`"></RouterLink>-->
+        <div class="col-9">
+          <div id="map"></div>
+          <!-- Get location of user fly to it-->
+        </div>
+
   </div>
-</div>
 </template>
 
 <style scoped>
 /* you can also import css files */
 #map { height: 100vh; }
+h5{text-align: left;}
 </style>
 
 <script>
@@ -120,6 +137,7 @@ export default {
       radiusInKm : 5,
 
       userPin : null,
+      wishlistItems: []
     }
   },
 
@@ -264,6 +282,8 @@ this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,options).th
   },
 
   created() {
+    //loading screen
+    //var load = this.$loading.show();
 
 
     this.load()
