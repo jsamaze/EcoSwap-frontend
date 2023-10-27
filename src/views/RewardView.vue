@@ -13,23 +13,27 @@ import moment from "moment";
 <template>
   <!-- type your HTML here -->
 
+    <h1 class="titleBold text-center" style="font-size: xxx-large;">Points summary</h1>
+    <div class="text-center">
+      <H4><b>Total Points: </b>{{ netPoints }} </H4>
+      <H4><b>Current Tier: </b>{{ tier }} </H4>
+    </div>
 
    <MiddleCardForListing>
     
     <div class="container-fluid">
       <div class="row">
-        <div style="padding-left: 27px;" class="col">
+        <!-- <div style="padding-left: 27px;" class="col">
           <h1 >Points summary: </h1>
-        </div>
+        </div> -->
         
         </div>
         <div class="row">
         <div class='col-lg-6 justify-content-center overflow-auto' style="height: 60vh;">
             <div class="white p-3">
-              <H4>Total Points: {{ netPoints }} | Current Tier: {{ tier }}</H4>
+              
               <h4>Points Information</h4>
-                
-               
+                   
                 <table class="table" style=" text-align: center; border: 1px solid rgb(192, 192, 192);">
                   <tr style="border: 1px solid rgb(192, 192, 192);">
                     <th style="padding: 10px;">Action</th>
@@ -75,7 +79,10 @@ import moment from "moment";
 
                 <br>
                 <!-- start -->
-                <h4>Transactions</h4>
+                <div class="header">
+                  <h4>Transactions</h4>
+                </div>
+               
 
                 <div class="card" style="width: 100%; height: auto;">
                     <ul class="list-group list-group-flush">
@@ -99,19 +106,9 @@ import moment from "moment";
                     </div>
                 <!-- end -->
                 
-                
-
-
-
 
             </div>
-            
-            
-                
-            
-            
-            
-
+          
       </div>
 
         <div class='col  justify-content-center overflow-auto' style="height: 60vh;">
@@ -120,13 +117,12 @@ import moment from "moment";
             <!-- <h4>Accumulated Points: {{ accPoints }}</h4> -->
             <!-- <h4>Total Points: {{ netPoints }}</h4>
             <h4>Current Tier: {{ tier }}</h4> -->
+               <!-- start -->
 
-           
-
-           
-            
-                <!-- start -->
-                <h4>Rewards</h4>
+                <div class="header">
+                  <h4>Rewards</h4>
+                </div>
+                
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
@@ -152,7 +148,17 @@ import moment from "moment";
 
 <style scoped> 
 
+h1{
+  padding-top: 30px;
+}
 
+.header{
+  position: sticky;
+  top: 0;
+  background-color: white; /* Set the background color as needed */
+  z-index: 1;
+  padding-bottom: 10px;
+}
 </style>
 
 <script>
