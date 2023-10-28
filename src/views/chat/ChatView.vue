@@ -468,6 +468,7 @@ export default {
     },
     async seeClosedChats (){
       if(!(this.chatClosed ==true && this.seeClosedChats) ){
+      var l = this.$loading.show()
         this.$router.push("/chat")
               //right panel info
       this.currentChatId = null
@@ -487,6 +488,7 @@ export default {
       //otherSelectedItem is in the itemChatStore also in id
       this.chatClosed = false
       await this.loadCurrentChats()
+      l.hide()
       }
 
     }
