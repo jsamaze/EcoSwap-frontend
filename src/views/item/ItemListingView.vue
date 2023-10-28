@@ -70,7 +70,9 @@ import * as bootstrap from 'bootstrap'
                             </div>
 
                             <div class="row">
-                              <p>No of views : {{ views }}</p>
+                              <p>
+                                <span ref="viewsHelp" data-bs-toggle="tooltip" data-bs-title="For not logged in users, views are not counted; For logged in users, for a duration of 5 minutes after a view, no additional view is counted">No of views : {{ views }}</span>
+                              </p>
                               <span>
 
                                 <button  v-if="userStore.username && username != userStore.username" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
