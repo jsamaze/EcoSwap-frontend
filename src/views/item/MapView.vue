@@ -10,6 +10,7 @@
   import { useLoadStore } from '../../store/InitialLoadStore'
   import { mapStores } from 'pinia'
   import { useUserStore } from '../../store/UserStore'
+  import GreenBtn from '../../components/GreenBtn.vue'
 
 </script>
 
@@ -17,26 +18,40 @@
   <!-- type your HTML here -->
   
   <MiddleCardForListing>
-    <h1>Find items near you!</h1>
-    <br>
+    <div class="container-fluid">
+      <h1>Find items near you!</h1>
+      <br>
+    </div>
 
 
       <form class="mb-3 " @submit.prevent="getLocationAddress()">
+        <!-- <div class="container-fluid">
+          <div class="row gy-5">
+            <input type="text" class="form-control-lg col-10 p-3" v-model="query" placeholder="Enter a location here...">
+            <button class="btn btn-success btn-lg col-2 p-3" v-on:click="getLocation()">Use your location</button>
+          </div>
+        </div>
+        <br> -->
+
         <div class="container-fluid">
-          <div class="row">
-            <input type="text" class="form-control-lg col-10" v-model="query" placeholder="Enter a location here...">
-            <button class="btn btn-success btn-lg col-2" v-on:click="getLocation()">Use your location</button>
+          <div class="row g-2">
+            <div class="col-xxl-10">
+              <input type="text" class="form-control-lg col-12" v-model="query" placeholder="Enter a location here...">
+            </div>
+            <div class="col-xxl-2">
+              <GreenBtn v-on:click="getLocation()">Use your location</GreenBtn>
+            </div>
           </div>
         </div>
         <br>
-
         
-        <div class="row col-md-8">
-          <label for="customRange2" class="form-label"><h3><b>Distance from the location: </b>{{ radiusInKm }} km </h3><input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm"></label>
+        <div class="container-fluid">
+          <div class="row">
+            <label for="customRange2" class="form-label"><h3><b>Distance from chosen location: </b>{{ radiusInKm }} km </h3><input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm"></label>
+          </div>
         </div>
-
         <div class="text-center">
-          <button class="btn btn-primary btn-lg">Search 
+          <button class="btn btn-success btn-lg">Search 
             <!-- Magnifying glass icon for search button-->
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -46,7 +61,7 @@
 
       </form>
       
-      <button class="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
         See what we recommend!
       </button>
 
@@ -58,12 +73,17 @@
 
     <!-- offcanvas -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       <div class="offcanvas-header">
+        
         <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-          <h3>Recommended Items</h3>
+          
+          <h3 class="titleBold">Recommended Items</h3>
+          
           <br>Click on a listing to see the owner's preferred meeting point
+          
         </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button> -->
       </div>
 
       <div class="offcanvas-body">
