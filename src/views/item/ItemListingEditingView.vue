@@ -54,7 +54,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     </RouterLink>
                             </div>
                     </div>
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center" v-if="done">
                       <button type="button" class=" text-center btn btn-danger btn-lg gradient-custom-4 text-white subtitle my-3"
                       data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Delete Listing!
@@ -165,6 +165,7 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
+      done: null,
       images:"",
       tags:[],
       schema : {
@@ -244,6 +245,8 @@ this.axios.get(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId
         })
 
         this.itemType=data.itemType
+
+this.done = data.done ?? false
 
         this.tags = data.tags
         this.category = data.category
