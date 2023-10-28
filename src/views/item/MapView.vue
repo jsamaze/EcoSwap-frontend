@@ -28,10 +28,11 @@
 
         <div class="container-fluid">
           <div class="row g-2">
-            <div class="col-xxl-10">
+            <div class="col-xxl-9">
               <input type="text" class="form-control-lg col-12" v-model="query" placeholder="Enter a location here...">
             </div>
-            <div class="col-xxl-2">
+            <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
+            <div class="col-xxl-2 text-center">
               <GreenBtn v-on:click="getLocation()">Use your location</GreenBtn>
             </div>
           </div>
@@ -92,7 +93,7 @@
                     <!-- later remove the link, use event listener to move to point on map where item Owner is -->
                     <div class="row">
                       <!-- Wondering how to add the photos here -->
-                      <div>{{listedItem.photoURLs}}</div>
+                      <div><img v-if="listedItem.photoURLs.length!=0" v-lazy="listedItem.photoURLs[0]" style="width: 50%; height: 50%;" class="rounded"/></div>
                       <div><h4 class="text-capitalize">{{listedItem.itemName}}</h4></div>
                       <div v-if="listedItem.category"><b>Category:</b> {{listedItem.category}}</div>
                       <div v-if="listedItem.condition" class="text-capitalize"><b>Condition:</b> {{listedItem.condition}}</div>
