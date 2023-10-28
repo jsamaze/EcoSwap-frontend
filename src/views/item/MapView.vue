@@ -17,33 +17,39 @@
   <!-- type your HTML here -->
   
   <MiddleCardForListing>
-    <h2>Find items near you!</h2>
-    <h4>We help you find items that match your wishlist.</h4>
+    <h1>Find items near you!</h1>
+    <br>
 
-    <div>
 
-      <form class="mb-3" @submit.prevent="getLocationAddress()">
-        <label for="exampleFormControlInput1" class="form-label">Enter an address or <button class="btn btn-success btn-sm" v-on:click="getLocation()">use your location</button> to find items within {{radiusInKm}}km</label>
-        <input type="text" class="form-control" v-model="query" placeholder="Enter a location here...">
-        <label for="customRange2" class="form-label">Distance from the location: {{ radiusInKm }} km</label>
-        <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
-
-          <div class="text-center">
-            <button class="btn btn-primary" >Search 
-              <!-- Magnifying glass icon for search button-->
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-              </svg>
-            </button>
+      <form class="mb-3 " @submit.prevent="getLocationAddress()">
+        <div class="container-fluid">
+          <div class="row">
+            <input type="text" class="form-control-lg col-10" v-model="query" placeholder="Enter a location here...">
+            <button class="btn btn-success btn-lg col-2" v-on:click="getLocation()">Use your location</button>
           </div>
+        </div>
+        <br>
+
+        
+        <div class="row col-md-8">
+          <label for="customRange2" class="form-label"><h3><b>Distance from the location: </b>{{ radiusInKm }} km </h3><input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm"></label>
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-primary btn-lg">Search 
+            <!-- Magnifying glass icon for search button-->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+          </button>
+        </div>
 
       </form>
-
+      
       <button class="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
         See what we recommend!
       </button>
 
-    </div>
 
     <div id="map"></div>
     <!-- Get location of user fly to it-->
@@ -99,6 +105,7 @@
 <style scoped>
 /* you can also import css files */
 #map { height: 100vh; }
+
 </style>
 
 <script>
