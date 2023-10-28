@@ -5,6 +5,7 @@ export const useChatStore = defineStore('chat',{
     sender : undefined,
     textContent : undefined,
     createdAt : undefined,
+    chatId : undefined,
   }),
 
 })

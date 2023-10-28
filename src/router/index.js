@@ -237,7 +237,7 @@ const router = createRouter({
     //F . Chat
 
     {
-      path: '/chat/:username?',
+      path: '/chat/:chatId?',
       name : 'Chat',
       component: ChatView,
       meta : {

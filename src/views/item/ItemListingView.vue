@@ -219,6 +219,7 @@ export default {
       }).then(
         (response) =>{
           this.$toast.success(`Successfully started chat with ${this.username}`)
+          this.$router.push(`/chat/${response.data.chatId}`)
         }).catch(
           error =>{
             console.log(error)
@@ -228,7 +229,6 @@ export default {
 
           ()=> {
             loader.hide()
-            this.$router.push(`/chat/${this.username}`)
           }
         )
     },

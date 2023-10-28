@@ -4,6 +4,7 @@ export const useItemChatStore = defineStore('itemChat',{
   state: () => ({
     username : undefined,
     items: [],
+    chatId : undefined,
   }),
 
 })

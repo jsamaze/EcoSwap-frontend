@@ -31,12 +31,12 @@ socket.on("connect_error", () => {
 
 
 
-socket.on("itemchat",(from,items)=>{
+socket.on("itemchat",(from,items,chatId)=>{
     // alert("update")
     // alert(from)
     // alert(ItemChatStore.items.sort().toString()==items.sort().toString())
     // alert(ItemChatStore.username && ItemChatStore.username == from)
-    if (itemChatStore.username && itemChatStore.username == from ){
+    if (itemChatStore.username && itemChatStore.username == from && itemChatStore.chatId == chatId ){
         console.log(items)
         itemChatStore.items = items
     }
@@ -46,6 +46,7 @@ socket.on("message",(message) => {
     chatStore.sender = message.sender
     chatStore.textContent = message.textContent
     chatStore.createdAt = message.createdAt
+    chatStore.chatId = message.chatId
 })
 
 socket.onAny(( eventName, username) => {

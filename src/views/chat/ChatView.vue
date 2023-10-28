@@ -11,6 +11,7 @@ import {socket} from '../../socket'
 import { useNotificationStore } from '../../store/NotificationStore';
 
 import bsModal from 'bootstrap/js/src/modal'
+import CircularProgress from '../../components/circularProgress.vue';
 </script>
 
 <template>
@@ -36,7 +37,7 @@ import bsModal from 'bootstrap/js/src/modal'
               <h3 class="text-center">Listed Items by me</h3>
 
               <div v-for="item in myListedItems">
-                <input :id="item._id" type="checkbox" v-model.lazy='mySelectedItems' :value="item._id" >
+                <input :id="item._id" type="checkbox" v-model.lazy='mySelectedItems' :value="item._id" :disabled="chatClosed">
                 <label :for="item._id" class="form-check-label d-inline">  {{ "   " +  item.itemName }}</label>
               </div>
               
@@ -81,10 +82,16 @@ import bsModal from 'bootstrap/js/src/modal'
 
 
   <div class="conversations" >
-    <button class="chat-header position-sticky top-0">Chats!</button>
+    <button class="chat-header position-sticky top-0 ">
+      Chats!
+      <div class="form-check form-switch " style="margin-left: 5%;">
+        <input class="form-check-input"  type="checkbox" role="switch" id="flexSwitchCheckChecked" v-model="seeClosedChats">
+        <label class="form-check-label" for="flexSwitchCheckChecked">See {{ seeClosedChats ? "completed" : ""}} trade {{ seeClosedChats ? "" : "in progress"}}</label>
+      </div>
+    </button>
     <Conversation :id='chat._id' v-for="chat,idx in currentChats" :username="userStore.username" :chat="chat" :chosen="chattingWith && idx ==0"
-    @click="swapScreenToChatting"
-     ></Conversation>
+    
+     @click="$route.params.chatId == chat._id ? swapScreenToChatting() : console.log('nothing :>> ', 'nothing');"></Conversation>
 
      <div class="m-auto p-3 text-center" v-if="currentChats.length ==0">
         You have yet to start a chat
@@ -125,12 +132,12 @@ import bsModal from 'bootstrap/js/src/modal'
 
     <!-- input text or text area? -->
     <form @submit.prevent="submitMsg">
-      <button type="button" class="btn p-1" style="background-color: #8a9f53;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  :disabled="!$route.params.username">
+      <button type="button" class="btn p-1" style="background-color: #8a9f53;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  :disabled="!$route.params.chatId">
       <img src="../../assets/images/trade.png" style="height:100%">
     </button>
-      <input type="text" class="form-control" v-model="textContent" :disabled="!$route.params.username">
+      <input type="text" class="form-control" v-model="textContent" :disabled="!$route.params.chatId">
     
-      <input type="submit" class="btn btn-success" value="Send!" :disabled="!$route.params.username" >
+      <input type="submit" class="btn btn-success" value="Send!" :disabled="!$route.params.chatId" >
     </form>
   </footer>
 
@@ -163,14 +170,16 @@ export default {
       width:0,
 
       //information about user
-      usernamesChattingNow : [],
+      chatIdChattingNow : [],
 
 
       //left panel info
       currentChats : [],
+      seeClosedChats : false,
 
       //right panel info
       firstScroll : false,
+      currentChatId : null,
       chattingWith : null,
       chattingWithFullName : null,
 
@@ -182,7 +191,7 @@ export default {
       mySelectedItems : [], // all in id only
       otherListedItems: [],
       //otherSelectedItem is in the itemChatStore also in id
-
+      chatClosed : false,
 
       //modal related
       seeChecklist : true,
@@ -210,19 +219,20 @@ export default {
     },
     swapScreenToConversations(){
       this.chatContainerClasses = 'chat-container ' + this.conversationsModeClass
-
     },
     async loadCurrentChats(){
 
 
       try {
-         var response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/chat`);
+         var response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/chat`,{
+          params : {closed : this.seeClosedChats}
+         });
          console.log(response)
 
           this.currentChats = response.data.data
 
-          this.usernamesChattingNow = this.currentChats.map(chat => {
-            return chat.buyer.username!=this.userStore.username ? chat.buyer.username : chat.seller.username
+          this.chatIdChattingNow = this.currentChats.map(chat => {
+            return chat._id
           })
       } catch (e) {
         console.log(e)
@@ -233,34 +243,48 @@ export default {
 
     async loadChat(){
       try {
-        this.chattingWith = this.$route.params.username 
+        this.currentChatId = this.$route.params.chatId 
 
-        var ajax1 =  await this.axios.get(`${import.meta.env.VITE_BACKEND}/chat/user/${this.chattingWith}`)
-        var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search/`,{
-                                params : { itemType : "Listed",
-                              username: this.userStore.username}
-                              })
-        var ajax3 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search/`,{
-                      params : { itemType : "Listed",
-                    username: this.chattingWith}
-                    })
+        var ajax1 =  await this.axios.get(`${import.meta.env.VITE_BACKEND}/chat/${this.currentChatId}`)
+
 
         var currentChat = ajax1.data.data
+        console.log(currentChat, 'currentChat')
         this.currentMessages = currentChat.messages
 
         this.myRole = currentChat.seller.username == this.userStore.username ? "seller" : "buyer"
-        this.mySelectedItems =  currentChat[this.myRole+"Items"].map((item)=>item._id )
+        this.chattingWith = currentChat.seller.username == this.userStore.username ? currentChat.buyer.username : currentChat.seller.username
+
         
         this.itemChatStore.username = this.chattingWith
         this.itemChatStore.items = currentChat[(this.myRole=='seller' ? 'buyer' : 'seller')+'Items'].map((item)=>item._id )
-
+        this.itemChatStore.chatId = currentChat._id
 
         this.endChatSuccessState = 
             (currentChat[this.myRole+'Close'] ? 'waiting' : (
               (currentChat.buyerClose || currentChat.sellerClose) ? 'needRespond' : null))
         
+        this.chatClosed = currentChat.sellerClose && currentChat.buyerClose
+        this.seeClosedChats = this.chatClosed
+
+        var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search/`,{
+                                params : { itemType : "Listed",
+                              username: this.userStore.username,
+                            traded : this.chatClosed ? true : false
+                          }
+                              })
+        var ajax3 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search/`,{
+                      params : { itemType : "Listed",
+                    username: this.chattingWith,
+                    traded : this.chatClosed ? true : false
+                          }
+
+                    })
+        
         this.myListedItems = ajax2.data.data
         this.otherListedItems = ajax3.data.data
+        this.mySelectedItems =  currentChat[this.myRole+"Items"].map((item)=>item._id )
+
         // this.scrollChat()
 
         this.swapScreenToChatting()
@@ -269,10 +293,11 @@ export default {
       } catch (e) {
         console.error(e)
         this.$toast.error("Failed to load user chat")
+        this.$router.push("/chat")
       }
     },
     scrollChat(){
-      console.log(this.$refs)
+      console.log('this.$refs :>> ', this.$refs);
       nextTick(
         this.$refs.msgs[this.$refs.msgs.length-1].$el.scrollIntoView({
         behavior : 'smooth'
@@ -280,22 +305,22 @@ export default {
       )
     },
     async checkParamsAndLoad(){
-      if (this.usernamesChattingNow.includes(this.$route.params.username)){
-      var index = this.usernamesChattingNow.indexOf(this.$route.params.username)
-      this.chattingWith = this.$route.params.username
+      // if (this.usernamesChattingNow.includes(this.$route.params.username)){
+      var index = this.chatIdChattingNow.indexOf(this.$route.params.chatId)
+      // this.chatIdChattingNow = this.$route.params.chatId
+      console.log('index :>> ', index);
 
       var chatToMove = this.currentChats[index]
       this.currentChats.splice(index,1)
       this.currentChats= [chatToMove, ...this.currentChats]
 
-      var usernameToMove = this.usernamesChattingNow[index]
-      this.usernamesChattingNow.splice(index,1)
-      this.usernamesChattingNow.unshift(usernameToMove)
+      var chatIdToMove = this.chatIdChattingNow[index]
+      this.chatIdChattingNow.splice(index,1)
+      this.chatIdChattingNow.unshift(chatIdToMove)
 
-      await this.loadChat()
-    } else {
-      this.$router.push('/chat')
-    }
+      // } else {
+    //   this.$router.push('/chat')
+    // }
     },
 
     sendMessage(textContent){
@@ -305,7 +330,7 @@ export default {
             createdAt: new Date().toISOString(),
           }]
       this.currentChats.forEach(element => {
-        if(element.seller.username == this.chattingWith ||element.buyer.username == this.chattingWith ){
+        if(element._id == this.currentChatId && (element.seller.username == this.chattingWith ||element.buyer.username == this.chattingWith )){
           element.latestMessage = {
             sender:this.myRole,
             textContent:textContent,
@@ -318,7 +343,7 @@ export default {
       socket.emit("sendMessage",{
         to : this.chattingWith,
         textContent: textContent,
-      }, async (response)=>{
+      },this.currentChatId, async (response)=>{
         if (response.code==200){
 
         } else {
@@ -333,7 +358,7 @@ export default {
       })
     },
     submitMsg(){
-      if(this.$route.params.username && this.textContent.trim().length > 0){
+      if(this.$route.params.chatId && this.textContent.trim().length > 0){
         this.sendMessage(this.textContent)
         this.textContent=""
       }
@@ -341,7 +366,8 @@ export default {
     },
 
     updateMyItems(){
-      socket.emit("updateItemChat",this.chattingWith,this.mySelectedItems,(response)=>{
+      if(!this.chatClosed){
+        socket.emit("updateItemChat",this.chattingWith,this.mySelectedItems,(response)=>{
         console.log(response)
         if (response.code==200){
 
@@ -353,6 +379,7 @@ export default {
           this.$router.go(0)
         }
       })
+      }
     },
 
     rejectEndChat(){
@@ -380,6 +407,7 @@ export default {
           switch (response.data.status){
             case "endChatSuccess":
               this.$toast.success("Trade is successful! The chat and items are now archived!")
+              this.sendMessage("This trade is now closed")
               this.$router.push('/')
               break;
             case "requestEndChatSuccess":
@@ -413,16 +441,54 @@ export default {
     currentMessages(){
       
       nextTick(()=>{
-        if(!this.firstScroll){
+        console.log('this.firstScroll :>> ', this.firstScroll);
+        console.log('this.currentMessages :>> ', this.currentMessages);
+
+        if(this.currentMessages.length > 0){
+          if(!this.firstScroll){
           this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight
           this.firstScroll=true
+          console.log('"whee" :>> ', this.firstScroll);
+
         } else {
-          this.scrollChat() 
+          console.log('(this.width<= 600 && this.chatContainerClasses== "chat-container messages-mode") :>> ', (this.width<= 600 && this.chatContainerClasses== "chat-container messages-mode"));
+          if( this.width > 600 || (this.width<= 600 && this.chatContainerClasses== "chat-container messages-mode")){
+            this.scrollChat()
+          }
         }
+        }
+
+
       })
     },
     mySelectedItems(){
-      this.debouncedChecklist()
+      if(this.chattingWith){
+        this.debouncedChecklist()
+      }
+    },
+    async seeClosedChats (){
+      if(!(this.chatClosed ==true && this.seeClosedChats) ){
+        this.$router.push("/chat")
+              //right panel info
+      this.currentChatId = null
+      this.chattingWith = null
+      this.chattingWithFullName = null
+
+      this.myRole = 'buyer'
+      this.currentMessages = []
+      this.firstScroll = false
+      this.textContent = ""
+
+      this.myListedItems = []
+      this.mySelectedItems = []// all in id only
+      this.otherListedItems= []
+      this.itemChatStore.username = null
+      this.itemChatStore.items =[]
+      //otherSelectedItem is in the itemChatStore also in id
+      this.chatClosed = false
+      await this.loadCurrentChats()
+      }
+
     }
   },
 
@@ -446,6 +512,9 @@ export default {
 
     },
     secondButton(){
+      if(this.chatClosed){
+        return "Trade is done"
+      }
       if(!this.endChatSuccessState){
         return "Request to close the trade"
       } else if (this.endChatSuccessState=='waiting'){
@@ -458,7 +527,7 @@ export default {
 
   },
 
-  async created(){
+  async mounted(){
     this.height =  window.innerHeight;   
     this.width = window.innerWidth;
 
@@ -470,14 +539,18 @@ export default {
       () => this.$route.params,
       async (toParams, previousParams) => {
         // react to route changes...
-        this.loadStore.loading= true
-        await this.checkParamsAndLoad()
-        this.loadStore.loading = false
+        if(toParams.chatId){
+          this.loadStore.loading= true
+          await this.loadChat()
+          await this.checkParamsAndLoad()
+          this.loadStore.loading = false
+          this.swapScreenToChatting()
+        }
       }
     )
 
     this.$watch(()=>this.chatStore.createdAt,function (newMessage){
-      if (this.chatStore.sender==this.chattingWith){
+      if ( this.chatStore.chatId == this.currentChatId){
         this.currentMessages= [...this.currentMessages, {
             sender: this.myRole=="buyer" ? "seller" : "buyer",
             textContent: this.chatStore.textContent,
@@ -485,7 +558,7 @@ export default {
         }]
       }
         this.currentChats.forEach(element => {
-        if(element.seller.username == this.chattingWith ||element.buyer.username == this.chattingWith ){
+        if((element.seller.username == this.chattingWith ||element.buyer.username == this.chattingWith) && element._id == this.chatStore.chatId ){
           element.latestMessage = {
             sender:this.myRole=="buyer" ? "seller" : "buyer",
             textContent: this.chatStore.textContent,
@@ -498,22 +571,22 @@ export default {
       switch (this.notificationStore.event) {
         case "newChat" : 
           await this.loadCurrentChats()
-          if (this.usernamesChattingNow.includes(this.$route.params.username)){
-            var index = this.usernamesChattingNow.indexOf(this.$route.params.username)
-            this.chattingWith = this.$route.params.username
+          // if (this.usernamesChattingNow.includes(this.$route.params.username)){
+          //   var index = this.usernamesChattingNow.indexOf(this.$route.params.username)
+          //   this.chattingWith = this.$route.params.username
 
-            var chatToMove = this.currentChats[index]
-            this.currentChats.splice(index,1)
-            this.currentChats= [chatToMove, ...this.currentChats]
+          //   var chatToMove = this.currentChats[index]
+          //   this.currentChats.splice(index,1)
+          //   this.currentChats= [chatToMove, ...this.currentChats]
 
-            var usernameToMove = this.usernamesChattingNow[index]
-            this.usernamesChattingNow.splice(index,1)
-            this.usernamesChattingNow.unshift(usernameToMove)
-          }
+          //   var usernameToMove = this.usernamesChattingNow[index]
+          //   this.usernamesChattingNow.splice(index,1)
+          //   this.usernamesChattingNow.unshift(usernameToMove)
+          // }
           break;
         case "endChatSuccess":
           if (this.notificationStore.usernameFrom == this.chattingWith){
-            this.$router.go()
+            this.$router.go(0)
           }
           break;
         case "requestEndChatSuccess":
@@ -533,16 +606,24 @@ export default {
     //start to load the chats
 
     this.loadStore.loading = true
+    if(this.$route.params.chatId){
+      await this.loadChat()
+    }
     await this.loadCurrentChats()
-    await this.checkParamsAndLoad()
+    if (this.$route.params.chatId){
+      console.log("trigger")
+      await this.checkParamsAndLoad()
+    }
+
     this.loadStore.loading = false
-  },
-  mounted() {
     this.myModal = bsModal.getOrCreateInstance(this.$refs.myModal)
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize);
     })
   },
+  // mounted() {
+
+  // },
 
   beforeDestroy() { 
     window.removeEventListener('resize', this.onResize); 

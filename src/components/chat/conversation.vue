@@ -1,5 +1,5 @@
 <template>
-    <button :class="styleObj"  @click="$router.push(`/chat/${usernameThem}`)">
+    <button :class="styleObj"  @click="$router.push(`/chat/${chat._id}`)">
       <div class="text-start fs-5">
         {{ fullName }}   
           <!-- to limit the length of full name max 14-->
