@@ -24,7 +24,7 @@
         <button class="btn btn-primary">Search</button>
       </form>
 
-      <label for="customRange2" class="form-label">distance from you : {{ radiusInKm }} km</label>
+      <label for="customRange2" class="form-label">Distance from you : {{ radiusInKm }} km</label>
       <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
 
 

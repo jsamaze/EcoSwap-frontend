@@ -15,50 +15,41 @@
 
 <template>
   <!-- type your HTML here -->
+  
   <MiddleCardForListing>
-    <!-- <div class="container-fluid"> -->
-      <!-- <div class="row"> -->
+    <h2>Find items near you!</h2>
+    <h4>We help you find items that match your wishlist.</h4>
 
-        <h3>Find items near you - we help u find listed items that match the wish list Items 
-            Click on the item in the list</h3>
+    <button class="btn btn-success" v-on:click="getLocation()">
+      Use your location
+    </button>
 
-        <button class="btn btn-success" v-on:click="getLocation()">
-          Use your location
-        </button>
+    <div>
 
-      <div>
+      <form class="mb-3" @submit.prevent="getLocationAddress()">
+        <label for="exampleFormControlInput1" class="form-label">Enter an address to find bus stops within 5km</label>
+        <input type="text" class="form-control" v-model="query" placeholder="123 Ecoswap Avenue">
+        <button class="btn btn-primary">Search</button>
+      </form>
+      
+      <label for="customRange2" class="form-label">distance from you : {{ radiusInKm }} km</label>
+      <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
 
-        <form class="mb-3" @submit.prevent="getLocationAddress()">
-          <label for="exampleFormControlInput1" class="form-label">Enter an address to find bus stops within 5km</label>
-          <input type="text" class="form-control" v-model="query" placeholder="123 Ecoswap Avenue">
-          <button class="btn btn-primary">Search</button>
-        </form>
-        
-        <label for="customRange2" class="form-label">distance from you : {{ radiusInKm }} km</label>
-        <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
+      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+        Recommended items for you!
+      </button>
 
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-          See items for you
-        </button>
+    </div>
 
-      </div>
-      <!-- </div> -->
+    <div id="map"></div>
+    <!-- Get location of user fly to it-->
 
+  </MiddleCardForListing>
 
-      <!-- <div class="row"> -->
-        <!--<RouterLink :to="`/item/${listedItem._id}`"></RouterLink>-->
-        <!-- <div class="col"> -->
-          <div id="map"></div>
-          <!-- Get location of user fly to it-->
-          <!-- </div> -->
-
-      <!-- </div> -->
-    <!-- </div> -->
-    </MiddleCardForListing>
     <!-- offcanvas -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Recommended Items for you<br>Click and close this canvas to see item owner's location</h5>
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel"><h3>Recommended Items</h3><br>Click on a listing to see the owner's preferred meeting point</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
 
