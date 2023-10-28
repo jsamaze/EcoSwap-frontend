@@ -67,7 +67,7 @@
             <h2>My Listed Items <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h2>
             <!-- Card for Listed Items-->
             <div class="row flex-nowrap overflow-auto justify-content-start">
-              <div class="col-md-4 col-6 " v-for="itemL in listedItems">
+              <div class="col-xl-3 col-md-5 col-sm-6 col-7" v-for="itemL in listedItems">
                 <ItemCard :item="itemL">
 
                 </ItemCard>
@@ -83,7 +83,7 @@
             <h2>My Wishlist Items  <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h2>
             <!-- Card for Wishlist Items -->
             <div class="row flex-nowrap overflow-auto justify-content-start">
-              <div class="col-md-4 col-6" v-for="itemW in wishlistItems">
+              <div class="col-xl-3 col-md-5 col-sm-6 col-7" v-for="itemW in wishlistItems">
                 <ItemCard :item="itemW">
 
                 </ItemCard>
@@ -99,7 +99,7 @@
             <h2>My Favourited Items</h2>
             <!-- Card for Favourited Items -->
             <div class="row flex-nowrap overflow-auto justify-content-start">
-              <div class="col-md-4 col-6" v-for="itemF in favouritedItems">
+              <div class="col-xl-3 col-md-5 col-sm-6 col-7" v-for="itemF in favouritedItems">
                 <ItemCard :item="itemF">
 
                 </ItemCard>
