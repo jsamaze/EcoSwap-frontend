@@ -27,13 +27,12 @@
     <div>
 
       <form class="mb-3" @submit.prevent="getLocationAddress()">
-        <label for="exampleFormControlInput1" class="form-label">Enter an address to find bus stops within 5km</label>
+        <label for="exampleFormControlInput1" class="form-label">Enter an address to find items within {{radiusInKm}}km of the chosen location</label>
         <input type="text" class="form-control" v-model="query" placeholder="123 Ecoswap Avenue">
+        <label for="customRange2" class="form-label">Distance from you : {{ radiusInKm }} km</label>
+        <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
         <button class="btn btn-primary">Search</button>
       </form>
-      
-      <label for="customRange2" class="form-label">distance from you : {{ radiusInKm }} km</label>
-      <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
 
       <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
         Recommended items for you!
