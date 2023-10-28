@@ -43,12 +43,12 @@
     <div class="container-fluid">
       <div class="row" style="align-items: normal !important;">
         <!-- Left column with profile pic and username, values should be dynamic-->
-        <div class='col-lg-4 col-sm-12 text-center pt-5 p-3'>
+        <div class='col-md-4 col-sm-12 text-center pt-5 p-3'>
               <img :src="(user.imageURL && user.imageURL.length) == 0 ? userPlaceholder : user.imageURL" id="imgHere" style="width: 350px; display: flex; margin-left: auto; margin-right: auto;">
               <h1 class="mt-4" id="Username">{{ user.fullName }}</h1>
               <br>
               <h4 id="PreferredBusStop"><span class="titleBold">Preferred Bus Stop:</span> {{busStopCode}} - {{ busStopDesc}} </h4>
-              <h4 id="UserRating"><span class="titleBold">User Rating:</span> {{user.avgRating + " out of 5" ?? "-"}}</h4>
+              <h4 id="UserRating"><span class="titleBold">User Rating:</span> {{!user.avgRating ? "no reviews yet" : user.avgRating+ " out of 5" ?? "-"}}</h4>
               <h4 id="Tier"><span class="titleBold">Tier:</span> <span :style="{color: user.tier}">{{user.tier}}</span></h4>
               
               <div class="d-block">
@@ -61,13 +61,13 @@
         </div>
 
         <!-- Right column with Listed Items and Wishlist Items-->
-        <div class="col pt-5 px-5" style="background-color: #cbd5c0;">
+        <div class="col-md-8 pt-5 px-5" style="background-color: #cbd5c0;">
           <!--Listed Items-->
           <div class="row mb-3">
             <h2>My Listed Items <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h2>
             <!-- Card for Listed Items-->
-            <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
-              <div class="col-md-4 col-6" v-for="itemL in listedItems">
+            <div class="row flex-nowrap overflow-auto justify-content-start">
+              <div class="col-md-4 col-6 " v-for="itemL in listedItems">
                 <ItemCard :item="itemL">
 
                 </ItemCard>
@@ -79,7 +79,7 @@
           <div class="row mb-3">
             <h2>My Wishlist Items  <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h2>
             <!-- Card for Wishlist Items -->
-            <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
+            <div class="row flex-nowrap overflow-auto justify-content-start">
               <div class="col-md-4 col-6" v-for="itemW in wishlistItems">
                 <ItemCard :item="itemW">
 
@@ -92,7 +92,7 @@
           <div class="row mb-3">
             <h2>My Favourited Items</h2>
             <!-- Card for Favourited Items -->
-            <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
+            <div class="row flex-nowrap overflow-auto justify-content-start">
               <div class="col-md-4 col-6" v-for="itemF in favouritedItems">
                 <ItemCard :item="itemF">
 
@@ -186,52 +186,50 @@ export default {
       }
     },
     
-    load (){
-      var l = this.$loading.show()
-      
-      this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`).then(
-        response =>{
-          this.user = response.data.data
-          console.log(this.user)
-          this.netPoints = response.data.data.netPoints
-          this.accPoints = response.data.data.accumulatedPoints
-          this.tier = response.data.data.tier
-          this.busStopCode = response.data.data.busStop.BusStopCode
-          this.busStopDesc = response.data.data.busStop.Description
-        }
-      ).catch(
-        error => {
-          console.log(error)
-          this.$toast.error('Error with fetching data')
-        }
-      ).finally(
-        () => l.hide()
-      )
+    async load() {
+    var loader = this.$loading.show()
 
-      this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
-      params : { 
-          itemType : 'Listed', // Listed or WishList (DEFAULT to listed)
-          username : this.userStore.username,
-          traded : false,
-      }
-      }).then(response=>{
-        this.listedItems = response.data.data
-      })
+    console.log(this.userStore.username);
+    try {
 
-      this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
-      params : { 
-          itemType : 'WishList', // Listed or WishList (DEFAULT to listed)
-          username : this.userStore.username,
-      }
-      }).then(response=>{
-        this.wishlistItems = response.data.data
-      })
+      let response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`)
 
-      this.axios.get( `${import.meta.env.VITE_BACKEND}/items/liked`)
-      .then(response=>{
-        this.favouritedItems = response.data.data
-      })
+      this.user = response.data.data
+      console.log(this.user)
+      this.netPoints = response.data.data.netPoints
+      this.accPoints = response.data.data.accumulatedPoints
+      this.tier = response.data.data.tier
+      this.busStopCode = response.data.data.busStop?.BusStopCode ?? ""
+      this.busStopDesc = response.data.data.busStop?.Description ?? ""
+
+      response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
+    params : { 
+        itemType : 'Listed', // Listed or WishList (DEFAULT to listed)
+        username : this.$route.params.username,
+        traded : false,
     }
+    })
+
+    this.listedItems = response.data.data
+
+
+    response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
+    params : { 
+        itemType : 'WishList', // Listed or WishList (DEFAULT to listed)
+        username : this.$route.params.username,
+    }
+    })
+
+    this.wishlistItems = response.data.data
+
+    } catch (e){
+      this.$toast.error("There is an error in fetching user data");
+      console.log(e)
+      // this.$router.go(-1)
+    } finally {
+      loader.hide()
+    }
+  }
   },
   
   beforeRouteLeave(){
