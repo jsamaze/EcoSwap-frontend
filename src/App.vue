@@ -168,11 +168,11 @@ export default {
         },
         "disconnected" : {
           toastType : "warning",
-          message : "You can no longer receive real time notification. Please refresh to reconnect"
+          message : "You can no longer receive real time notifications. Please refresh to reconnect!"
         },
         "connect_error" : {
           toastType : "error",
-          message : "Failed to connect to server for real time notification. Please try refreshing"
+          message : "Failed to connect to server for real time notifications. Please try refreshing!"
         },
         "message" : {
           toastType : "info",
@@ -186,21 +186,21 @@ export default {
          },
          "endChatSuccess":{
           toastType : "success",
-          message : `${this.notificationStore.usernameFrom} has agreed to close the trade. The chat will now be archived along with the items marked`
+          message : `${this.notificationStore.usernameFrom} has agreed to close the trade!`
          },
          "requestEndChatSuccess" : {
           toastType : "warning", 
-          message : `${this.notificationStore.usernameFrom} has requested to close the trade`,
+          message : `${this.notificationStore.usernameFrom} has requested to close the trade!`,
           click : `/chat/${this.notificationStore.usernameFrom}`
          } ,
          "resetEndChatSuccess" : {
           toastType : "warning",
-          message :  `${this.notificationStore.usernameFrom} has rejected your request to close the trade`,
+          message :  `${this.notificationStore.usernameFrom} has rejected your request to close the trade.`,
           click : `/chat/${this.notificationStore.usernameFrom}`
          },
          "expiredSession" : {
           toastType : "error",
-          message : "Your session has expired, please login again"
+          message : "Your session has expired, please login again!"
          }
       }
      }
