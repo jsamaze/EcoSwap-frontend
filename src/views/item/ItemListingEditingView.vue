@@ -54,7 +54,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     </RouterLink>
                             </div>
                     </div>
-                    <div class="d-flex justify-content-center" v-if="done">
+                    <div class="d-flex justify-content-center" v-if="!done">
                       <button type="button" class=" text-center btn btn-danger btn-lg gradient-custom-4 text-white subtitle my-3"
                       data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Delete Listing!
