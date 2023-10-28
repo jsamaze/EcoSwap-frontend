@@ -20,22 +20,18 @@ import * as bootstrap from 'bootstrap'
 <template>
   <!-- type your HTML here -->
 
-    <MiddleCardForListing>
-      <div class="row">
-          <div class="col-sm-6">
-            <Btn @click="$router.go(-1)">
-              Back
-            </Btn>
-
-              <br>
-
-
-              <CustomCarousell v-if="images && images.length>0" :images=images>
-
-              </CustomCarousell>
-
-          </div>
-                        <div class="col-sm-6">
+  <MiddleCardForListing>
+    <div class="row justify-content-start ms-2 mb-3">
+      <Btn style="margin: 0 !important; width: fit-content;" @click="$router.go(-1)">
+        Back
+      </Btn>
+    </div>
+    <div class="row align-items-start">
+      <div class="col-sm-6 mb-3">
+          <CustomCarousell v-if="images && images.length>0" :images=images>
+          </CustomCarousell>
+      </div>
+      <div class="col-sm-6">
 
                           <div class="row mt-5">
                             <div class="col">
@@ -43,8 +39,7 @@ import * as bootstrap from 'bootstrap'
                                 {{ itemType }}
                               </span>
                               <h1 class="title">{{itemName}}  </h1>
-                              <span class="badge text-bg-danger fs-3" v-if="done">Traded</span>
-
+                              
                             </div>  
                             </div>
 
@@ -63,7 +58,7 @@ import * as bootstrap from 'bootstrap'
                             <div class="row">
                                 <span class="subtitle">
                                 <span class="subtitle">Tags:</span>
-                                  {{ tags.length > 0 ? tags : "No tags" }}</span>
+                                  {{ tags }}</span>
                             </div>
 
                             <br>
@@ -71,21 +66,14 @@ import * as bootstrap from 'bootstrap'
                             <div class="row">
                                 <p class="subtitle">
                                 <span class="subtitle">Desciption:</span>
-                                {{(description?.length ?? "") > 0 ? description : "No description"}}</p>
+                                {{description}}</p>
                             </div>
 
                             <div class="row">
-
-                              <div class="col">
-
-                                <span ref="viewsHelp"  data-bs-toggle="tooltip" data-bs-title="For a duration of 5 minutes after every view, views from the same user does not count">No of views : {{ views }}</span>
-
-                              </div>
-                              
-                              <br>
+                              <p>No of views : {{ views }}</p>
                               <span>
 
-                                <button  v-if="userStore.username && (username != userStore.username)" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
+                                <button  v-if="userStore.username && username != userStore.username" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
                                   <img v-if="!youLike" style="height : 3rem;" src="../../assets/images/like.png">
                                   <img v-else style="height : 3rem;" src="../../assets/images/unlike.png">
                                 </button>
@@ -129,16 +117,15 @@ import * as bootstrap from 'bootstrap'
 
 
 
-                            <div class="row justify-content-center text-center" v-if="userStore.username && username != userStore.username && itemType != 'WishList' && !done">
+                            <div class="row justify-content-center text-center" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
                                   <GreenBtn @click="startChat">
                                     Start Chat about this item
                                   </GreenBtn>
                             </div>
 
-
-                        </div>
-                    </div>
-    </MiddleCardForListing>
+      </div>
+    </div>
+  </MiddleCardForListing>
 
 
 </template>
