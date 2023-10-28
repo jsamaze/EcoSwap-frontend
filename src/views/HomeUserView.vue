@@ -73,6 +73,9 @@
                 </ItemCard>
               </div>
             </div>
+            <div class="row text-center fs-3" v-if="listedItems.length == 0" :style="{'minHeight': '50vh'}">
+              No items to show
+            </div>
           </div>
 
           <!--Wishlist Items-->
@@ -86,6 +89,9 @@
                 </ItemCard>
               </div>
             </div>
+            <div class="row text-center fs-3" v-if="wishlistItems.length == 0" :style="{'minHeight': '50vh'}">
+            No items to show
+          </div>
           </div>
 
           <!--Favourited Items-->
@@ -99,6 +105,9 @@
                 </ItemCard>
               </div>
             </div>
+            <div class="row text-center fs-3" v-if="favouritedItems.length == 0" :style="{'minHeight': '50vh'}">
+            No items to show
+          </div>
           </div>
 
         </div>
@@ -212,6 +221,16 @@ export default {
 
     this.listedItems = response.data.data
 
+    response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
+    params : { 
+        itemType : 'Listed', // Listed or WishList (DEFAULT to listed)
+        username : this.$route.params.username,
+        traded : true,
+    }
+    })
+
+    this.listedItems = [...this.listedItems, ...response.data.data]
+
 
     response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
     params : { 
@@ -220,7 +239,13 @@ export default {
     }
     })
 
+
+
     this.wishlistItems = response.data.data
+
+    response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/liked`)
+
+    this.favouritedItems = response.data.data
 
     } catch (e){
       this.$toast.error("There is an error in fetching user data");

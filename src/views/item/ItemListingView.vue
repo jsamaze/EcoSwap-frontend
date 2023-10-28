@@ -28,6 +28,8 @@ import * as bootstrap from 'bootstrap'
             </Btn>
 
               <br>
+
+
               <CustomCarousell v-if="images && images.length>0" :images=images>
 
               </CustomCarousell>
@@ -41,7 +43,8 @@ import * as bootstrap from 'bootstrap'
                                 {{ itemType }}
                               </span>
                               <h1 class="title">{{itemName}}  </h1>
-                              
+                              <span class="badge text-bg-danger fs-3" v-if="done">Traded</span>
+
                             </div>  
                             </div>
 
@@ -60,7 +63,7 @@ import * as bootstrap from 'bootstrap'
                             <div class="row">
                                 <span class="subtitle">
                                 <span class="subtitle">Tags:</span>
-                                  {{ tags }}</span>
+                                  {{ tags.length > 0 ? tags : "No tags" }}</span>
                             </div>
 
                             <br>
@@ -68,14 +71,21 @@ import * as bootstrap from 'bootstrap'
                             <div class="row">
                                 <p class="subtitle">
                                 <span class="subtitle">Desciption:</span>
-                                {{description}}</p>
+                                {{(description?.length ?? "") > 0 ? description : "No description"}}</p>
                             </div>
 
                             <div class="row">
-                              <p>No of views : {{ views }}</p>
+
+                              <div class="col">
+
+                                <span ref="viewsHelp"  data-bs-toggle="tooltip" data-bs-title="For a duration of 5 minutes after every view, views from the same user does not count">No of views : {{ views }}</span>
+
+                              </div>
+                              
+                              <br>
                               <span>
 
-                                <button  v-if="userStore.username && username != userStore.username" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
+                                <button  v-if="userStore.username && (username != userStore.username)" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
                                   <img v-if="!youLike" style="height : 3rem;" src="../../assets/images/like.png">
                                   <img v-else style="height : 3rem;" src="../../assets/images/unlike.png">
                                 </button>
@@ -119,7 +129,7 @@ import * as bootstrap from 'bootstrap'
 
 
 
-                            <div class="row justify-content-center text-center" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
+                            <div class="row justify-content-center text-center" v-if="userStore.username && username != userStore.username && itemType != 'WishList' && !done">
                                   <GreenBtn @click="startChat">
                                     Start Chat about this item
                                   </GreenBtn>
@@ -171,6 +181,8 @@ export default {
       userPhotoURL : null,
 
       popover : null,
+
+      done: null,
 
 
     }
@@ -280,6 +292,8 @@ export default {
              this.likes = response.data.data.noOfLikes;
              this.views = response.data.data.views
 
+             this.done=response.data.data.done
+
             //  this.preferredBusStop=response.data.data.user.preferredBusStop;
 
              console.log(response.data);
@@ -295,6 +309,8 @@ export default {
     if(!this.userStore.username){
       this.popover = new bootstrap.Tooltip(this.$refs.username)
     }
+
+    this.popover2 = new bootstrap.Tooltip(this.$refs.viewsHelp)
   
   },
 
