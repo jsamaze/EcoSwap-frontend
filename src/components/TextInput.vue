@@ -4,7 +4,7 @@ import { Form as VeeForm, Field, ErrorMessage } from 'vee-validate';
 
 <template>
       <div class="form-outline mb-4">
-        <label class="form-label subtitle" >{{ title}}</label>
+        <label class="form-label subtitleBold" >{{ title}}</label>
         <Field :as="as" :rows="7" :rules="rules" :name="name" :type="name.toLowerCase().includes('password')? 'password' : 'text'" class="form-control form-control-lg"/>
         <ErrorMessage :name="name" class="text-danger"/>
       </div>
