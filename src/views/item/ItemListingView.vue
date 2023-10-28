@@ -1,4 +1,4 @@
-<script setup>
+<script setup></script>
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
 
@@ -20,115 +20,61 @@ import * as bootstrap from 'bootstrap'
 <template>
   <!-- type your HTML here -->
 
-  <MiddleCardForListing>
-    <div class="row justify-content-start ms-2 mb-3">
-      <Btn style="margin: 0 !important; width: fit-content;" @click="$router.go(-1)">
-        Back
-      </Btn>
+<MiddleCardForListing>
+  <div class="row justify-content-start ms-2 mb-3">
+    <Btn style="margin: 0 !important; width: fit-content;" @click="$router.go(-1)">
+      Back
+    </Btn>
+  </div>
+  <div class="row align-items-start">
+    <div class="col-sm-6 mb-3">
+        <CustomCarousell v-if="images && images.length>0" :images=images>
+        </CustomCarousell>
     </div>
-    <div class="row align-items-start">
-      <div class="col-sm-6 mb-3">
-          <CustomCarousell v-if="images && images.length>0" :images=images>
-          </CustomCarousell>
+    <div class="col-sm-6">
+
+      <div class="row justify-content-start">
+        <h1 class="title">{{itemName}}</h1>
+        <p class="badge background-dark-green fs-4" style="width: fit-content; margin-left: 12px;"> {{ itemType }}</p>
+        <span class="subtitle"><span class="subtitleBold">Category:</span> {{category}}</span>
+        <span class="subtitle text-capitalize"><span class="subtitleBold">Condition:</span> {{ condition }}</span>
+        <span class="subtitle"><span class="subtitleBold">Tags:</span> {{ tags }}</span>
+        <p class="subtitle"><span class="subtitleBold">Description:</span>
+        <br>
+        {{description}}</p>
+        <p><span class="subtitleBold">No of views:</span> {{ views }}</p>
+        <button  v-if="userStore.username && username != userStore.username" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
+          <img v-if="!youLike" style="height : 3rem;" src="../../assets/images/like.png">
+          <img v-else style="height : 3rem;" src="../../assets/images/unlike.png">
+        </button>
+        <p><span class="subtitleBold">Number of likes: </span> {{ likes }}</p>
+        <h6 class="titleBold">Listed by:</h6>
+        <div class="col-md-2 col-3 align-self-center">
+          <img :src="userPhotoURL" v-if="!!userPhotoURL">
+        </div>
+        <div class="col">
+          <RouterLink :to="userStore.username ? `/user/${username}` : ``">
+            <h6 class="subtitle">
+              <span ref="username" data-bs-toggle="tooltip" data-bs-title="Login to see more information!">{{ username }}</span>
+            </h6>
+          </RouterLink>
+            <h6 class="subtitle">Preferred bus stop: {{ preferredBusStop }}</h6>
+        </div>
       </div>
-      <div class="col-sm-6">
+        <div class="row justify-content-center text-center" v-if="username == userStore.username">
+          <RouterLink :to="`/item/${$route.params.itemId}/edit`">
+              <GreenBtn>Edit Listing</GreenBtn>
+            </RouterLink>
+        </div>
+        <div class="row justify-content-center text-center" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
+              <GreenBtn @click="startChat">
+                Start Chat about this item
+              </GreenBtn>
+        </div>
 
-                          <div class="row mt-5">
-                            <div class="col">
-                              <span class="badge background-dark-green float-end fs-4">
-                                {{ itemType }}
-                              </span>
-                              <h1 class="title">{{itemName}}  </h1>
-                              
-                            </div>  
-                            </div>
-
-                            <div class="row">
-                                <span class="subtitle">
-                                <span class="subtitle">Category:</span>
-                                {{category}}</span>
-                            </div>
-
-                            <div class="row">
-                                <span class="subtitle">
-                                <span class="subtitle">Condition:</span>
-                                {{ condition }}</span>
-                            </div>
-
-                            <div class="row">
-                                <span class="subtitle">
-                                <span class="subtitle">Tags:</span>
-                                  {{ tags }}</span>
-                            </div>
-
-                            <br>
-
-                            <div class="row">
-                                <p class="subtitle">
-                                <span class="subtitle">Desciption:</span>
-                                {{description}}</p>
-                            </div>
-
-                            <div class="row">
-                              <p>
-                                <span ref="viewsHelp" data-bs-toggle="tooltip" data-bs-title="For not logged in users, views are not counted; For logged in users, for a duration of 5 minutes after a view, no additional view is counted">No of views : {{ views }}</span>
-                              </p>
-                              <span>
-
-                                <button  v-if="userStore.username && username != userStore.username" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
-                                  <img v-if="!youLike" style="height : 3rem;" src="../../assets/images/like.png">
-                                  <img v-else style="height : 3rem;" src="../../assets/images/unlike.png">
-                                </button>
-
-                                <span v-else>Number of likes</span> {{ likes }} 
-                                
-                                    
-                              </span> 
-                            </div>
-
-                            
-                            <br>
-                            <div class="row">
-                                
-                                <h6 class="title">Listed by:</h6>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-2">
-                                  <img class="w-100" :src="userPhotoURL" v-if="!!userPhotoURL">
-                                </div>
-
-                                <div class="col-10">
-                                  <RouterLink :to="userStore.username ? `/user/${username}` : ``">
-                                    <h6 class="subtitle">
-                                      <span ref="username" data-bs-toggle="tooltip" data-bs-title="Login to see more">{{ username }}</span>
-                                    </h6>
-                                  </RouterLink>
-                                    <h6 class="subtitle">Preferred bus stop: {{ preferredBusStop }}</h6>
-                                    <!-- <h6 class="subtitle">50m away</h6> -->
-
-                                </div>
-                                
-                            </div>
-
-                            <div class="row justify-content-center text-center" v-if="username == userStore.username">
-                              <RouterLink :to="`/item/${$route.params.itemId}/edit`">
-                                 <GreenBtn>Edit Listing</GreenBtn>
-                                </RouterLink>
-                            </div>
-
-
-
-                            <div class="row justify-content-center text-center" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
-                                  <GreenBtn @click="startChat">
-                                    Start Chat about this item
-                                  </GreenBtn>
-                            </div>
-
-      </div>
     </div>
-  </MiddleCardForListing>
-
+  </div>
+</MiddleCardForListing>
 
 </template>
 

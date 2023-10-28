@@ -214,7 +214,7 @@ export default {
       response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
     params : { 
         itemType : 'Listed', // Listed or WishList (DEFAULT to listed)
-        username : this.$route.params.username,
+        username : this.userStore.username,
         traded : false,
     }
     })
@@ -224,7 +224,7 @@ export default {
     response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
     params : { 
         itemType : 'Listed', // Listed or WishList (DEFAULT to listed)
-        username : this.$route.params.username,
+        username : this.userStore.username,
         traded : true,
     }
     })

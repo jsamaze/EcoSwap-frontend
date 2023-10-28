@@ -72,7 +72,7 @@ export default {
           })    
       } catch (e){
         loader.hide()
-        this.$toast.error( "Failed to Register: " + e.response.data.problem)
+        this.$toast.error("Failed to Register: " + e.response.data.problem)
         this.$refs.form.resetForm();
 
       }
