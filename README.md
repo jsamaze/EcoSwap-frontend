@@ -13,6 +13,7 @@
 > This project is a Vue SPA using vue router with a REST API backend built on express js
 
 Our application (frontend) is deployed at the following [link](https://www.ecoswap.space).
+> Important the URL domain must have www otherwise you will not see our website
 The backend of the API is deployed [here](https://api.ecoswap.space).
 
 The Github repo of the frontend is [here](https://github.com/jsamaze/EcoSwap-frontend).
