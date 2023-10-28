@@ -13,7 +13,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
   <!-- promotion carousel -->
   <main>
-    <div id="marketplaceCarousel" class="container-fluid carousel slide" data-bs-ride="carousel">
+    <div id="marketplaceCarousel" class="container-fluid carousel slide p-0" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -42,11 +42,11 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 
     <!-- trending section -->
-    <MiddleCardForListing>
-      <div class="container-fluid" >
-      <h1 class="titleBold mt-5 text-center">Trending items... see more by creating an account</h1>
-      <div class="row">
-        <div class="col-md-3 col-6" v-for="item in items">
+
+    <div class="container-fluid p-0">
+      <h1 class="titleBold my-5 text-center" style="font-size: xxx-large;">Trending</h1>
+      <div class="row container-fluid flex-row m-0">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-6 mb-4" v-for="item in items">
           <ItemCard :item="item">
 
           </ItemCard>

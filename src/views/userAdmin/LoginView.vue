@@ -16,22 +16,16 @@ import * as yup from 'yup';
   <MiddleCol class="mt-3">
     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
       <form @submit="handleSubmit($event, login)">
-      <h1 class=" text-center mb-5 title display-5">Login</h1>
+      <h1 class="text-center mb-5 title display-5">Login</h1>
 
-      <TextInput  name="username">
-        Username or Email
-      </TextInput>
-      <TextInput name="password">
-      </TextInput>
-        
-        <GreenSubmitBtn>Login!</GreenSubmitBtn>
-        <br>
-        <p class="text-center text-muted mt-3 subtitle">Don't have an account? 
-        <RouterLink to="/register" class="fw-bold text-body">Register here</RouterLink>
+      <TextInput  name="username">Username or Email</TextInput>
+      <TextInput name="password"></TextInput>
+      <GreenSubmitBtn>Login</GreenSubmitBtn>
+      <p class="text-center text-muted mt-3 subtitle">Don't have an account?
+      <RouterLink to="/register" class="fw-bold text-body">Sign up here</RouterLink>
       </p>
-
       <p class="text-center text-muted mb-3 subtitle">Forgot your password?
-        <RouterLink to="/forgotPassword" class="fw-bold text-body">Click here</RouterLink>
+      <RouterLink to="/forgotPassword" class="fw-bold text-body">Click here</RouterLink>
       </p>
     </form>
     </VeeForm>
@@ -50,8 +44,8 @@ export default {
   data() {
     return {
       schema :  yup.object({
-        username: yup.string().required(),
-        password: yup.string().required().min(2),
+        username: yup.string().required().label("Username or Email"),
+        password: yup.string().required().min(2).label("Password"),
       })
     }
   },
