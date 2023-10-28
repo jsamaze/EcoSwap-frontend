@@ -25,13 +25,6 @@
 
 
       <form class="mb-3 " @submit.prevent="getLocationAddress()">
-        <!-- <div class="container-fluid">
-          <div class="row gy-5">
-            <input type="text" class="form-control-lg col-10 p-3" v-model="query" placeholder="Enter a location here...">
-            <button class="btn btn-success btn-lg col-2 p-3" v-on:click="getLocation()">Use your location</button>
-          </div>
-        </div>
-        <br> -->
 
         <div class="container-fluid">
           <div class="row g-2">
@@ -50,6 +43,7 @@
             <label for="customRange2" class="form-label"><h3><b>Distance from chosen location: </b>{{ radiusInKm }} km </h3><input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm"></label>
           </div>
         </div>
+
         <div class="text-center">
           <button class="btn btn-success btn-lg">Search 
             <!-- Magnifying glass icon for search button-->
@@ -74,7 +68,7 @@
     <!-- offcanvas -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
       <div class="offcanvas-header">        
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+        <h5 class="offcanvas-title mx-auto" id="offcanvasExampleLabel">
           <h3 class="titleBold">
             Recommended Items
             <button type="button" class="btn btn-lg btn-close align-self-end mx-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -82,7 +76,7 @@
         </h5>
       </div>
 
-      <div class="offcanvas-body">
+      <div class="offcanvas-body">  
 
         <!-- If no items are recommended-->
         <div v-if="nearbyUserArr.length==0">
@@ -97,15 +91,19 @@
                   <button class="accordion-button" :class="{ collapsed: idx >0}" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#collapse'+idx" @click="findItemOwner(listedItem)">
                     <!-- later remove the link, use event listener to move to point on map where item Owner is -->
                     <div class="row">
-                      <div><h4>Listed Item: {{listedItem.itemName}}</h4></div>
-                      <div>{{ listedItem.description }}</div>
+                      <!-- Wondering how to add the photos here -->
+                      <div>{{listedItem.photoURLs}}</div>
+                      <div><h4 class="text-capitalize">{{listedItem.itemName}}</h4></div>
+                      <div v-if="listedItem.category"><b>Category:</b> {{listedItem.category}}</div>
+                      <div v-if="listedItem.condition" class="text-capitalize"><b>Condition:</b> {{listedItem.condition}}</div>
+                      <div v-if="listedItem.description"><b>Description:</b> {{listedItem.description}}</div>
                     </div>
                   </button>
                 </h2>
                 <div :id="`collapse${idx}`" class="accordion-collapse collapse" :class="{show: idx === 0}" data-bs-parent="#accordionExample">
                   <div class="accordion-body">
+                    <h5 v-if="wishListItemMatch.length!=0">Matches these Wishlist items</h5> 
                     <ul>
-                      <h5>We found this item to match the following items in your Wishlist</h5>
                       <li v-for="item in wishListItemMatch">{{item.itemName}}</li>
                     </ul>
                   </div>
