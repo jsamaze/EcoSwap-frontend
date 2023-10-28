@@ -73,17 +73,13 @@
 
     <!-- offcanvas -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      <div class="offcanvas-header">
-        
+      <div class="offcanvas-header">        
         <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-          
-          <h3 class="titleBold">Recommended Items</h3>
-          
-          <br>Click on a listing to see the owner's preferred meeting point
-          
+          <h3 class="titleBold">
+            Recommended Items
+            <button type="button" class="btn btn-lg btn-close align-self-end mx-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </h3>
         </h5>
-          <!-- <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button> -->
       </div>
 
       <div class="offcanvas-body">
