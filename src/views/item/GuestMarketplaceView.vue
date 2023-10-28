@@ -42,7 +42,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 
     <!-- trending section -->
-
+    <MiddleCardForListing>
     <div class="container-fluid p-0">
       <h1 class="titleBold my-5 text-center" style="font-size: xxx-large;">Trending</h1>
       <div class="row container-fluid flex-row m-0">
