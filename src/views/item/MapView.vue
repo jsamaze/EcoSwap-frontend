@@ -35,7 +35,7 @@
       </form>
 
       <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-        Recommended items for you!
+        See what we recommended!
       </button>
 
     </div>
@@ -53,6 +53,12 @@
       </div>
 
       <div class="offcanvas-body">
+
+        <!-- If no items are recommended-->
+        <div v-if="nearbyUserArr.length==0">
+          There is no item to recommend nearby. Try choosing another location, or adding more items to your wishlist!
+        </div>
+
           <!-- Creating an accordion for each item with a loop -->
           <div class="accordion" id="accordionExample">
             <div class="accordion" id="accordionExample" style="margin-top: 10px">
@@ -77,9 +83,9 @@
               </div>
             </div>
           </div>
-
-  </div>
-</div>
+      </div>
+      
+    </div>
 </template>
 
 <style scoped>
