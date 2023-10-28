@@ -36,17 +36,21 @@ import * as bootstrap from 'bootstrap'
       <div class="row justify-content-start">
         <h1 class="title">{{itemName}}</h1>
         <p class="badge background-dark-green fs-4" style="width: fit-content; margin-left: 12px;"> {{ itemType }}</p>
+        <div class="row align-items-start">
+          <div class="col">
+            <button  v-if="userStore.username && username != userStore.username" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
+              <img v-if="!youLike" style="height : 3rem;" src="../../assets/images/like.png">
+              <img v-else style="height : 3rem;" src="../../assets/images/unlike.png">
+            </button>
+          </div>
+        </div>
         <span class="subtitle"><span class="subtitleBold">Category:</span> {{category}}</span>
         <span class="subtitle text-capitalize"><span class="subtitleBold">Condition:</span> {{ condition }}</span>
         <span class="subtitle"><span class="subtitleBold">Tags:</span> {{ tags }}</span>
         <p class="subtitle"><span class="subtitleBold">Description:</span>
         <br>
         {{description}}</p>
-        <p><span class="subtitleBold">No of views:</span> {{ views }}</p>
-        <button  v-if="userStore.username && username != userStore.username" class="btn" style="background-color: transparent;" @click="likeOrDislike" >
-          <img v-if="!youLike" style="height : 3rem;" src="../../assets/images/like.png">
-          <img v-else style="height : 3rem;" src="../../assets/images/unlike.png">
-        </button>
+        <p><span class="subtitleBold" ref="viewsHelp" data-bs-toggle="tooltip" data-bs-title="Log in for your view to count!">No of views:</span> {{ views }}</p>
         <p><span class="subtitleBold">Number of likes: </span> {{ likes }}</p>
         <h6 class="titleBold">Listed by:</h6>
         <div class="col-md-2 col-3 align-self-center">
@@ -55,20 +59,20 @@ import * as bootstrap from 'bootstrap'
         <div class="col">
           <RouterLink :to="userStore.username ? `/user/${username}` : ``">
             <h6 class="subtitle">
-              <span ref="username" data-bs-toggle="tooltip" data-bs-title="Login to see more information!">{{ username }}</span>
+              <span ref="username" data-bs-toggle="tooltip" data-bs-title="Log in to see more information!">{{ username }}</span>
             </h6>
           </RouterLink>
             <h6 class="subtitle">Preferred bus stop: {{ preferredBusStop }}</h6>
         </div>
       </div>
-        <div class="row justify-content-center text-center" v-if="username == userStore.username">
+        <div class="row" style="width: fit-content; margin: auto;" v-if="username == userStore.username">
           <RouterLink :to="`/item/${$route.params.itemId}/edit`">
-              <GreenBtn>Edit Listing</GreenBtn>
+              <GreenBtn>Edit listing</GreenBtn>
             </RouterLink>
         </div>
-        <div class="row justify-content-center text-center" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
+        <div class="row" style="width: fit-content; margin: auto;" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
               <GreenBtn @click="startChat">
-                Start Chat about this item
+                Start chat!
               </GreenBtn>
         </div>
 
@@ -118,7 +122,6 @@ export default {
       popover : null,
 
       done: null,
-
 
     }
   },
@@ -209,29 +212,26 @@ export default {
 
             this.getOwnerPhoto(loader)
 
-
             this.youLike = response.data.data.userLike ?? false;
 
             this.itemId = response.data.data._id
 
-             this.condition =response.data.data.condition;
-             this.category = response.data.data.category;
-             this.description = response.data.data.description;
-             this.itemName = response.data.data.itemName;
-             this.tags = response.data.data.tags.join(", ");
+            this.condition =response.data.data.condition;
+            this.category = response.data.data.category;
+            this.description = response.data.data.description;
+            this.itemName = response.data.data.itemName;
+            this.tags = response.data.data.tags.join(", ");
 
-             console.log(response.data.data)
-             this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : [placeholder];
-             this.itemType = response.data.data.itemType;
+            console.log(response.data.data)
+            this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : [placeholder];
+            this.itemType = response.data.data.itemType;
 
-             this.likes = response.data.data.noOfLikes;
-             this.views = response.data.data.views
+            this.likes = response.data.data.noOfLikes;
+            this.views = response.data.data.views
 
-             this.done=response.data.data.done
+            this.done=response.data.data.done
 
-            //  this.preferredBusStop=response.data.data.user.preferredBusStop;
-
-             console.log(response.data);
+            console.log(response.data);
             console.log(response.data.data.user.username)
 
         })

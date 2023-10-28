@@ -12,7 +12,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 <template>
   <!-- promotion carousel -->
-    <div id="marketplaceCarousel" class="container-fluid carousel slide" data-bs-ride="carousel">
+    <div id="marketplaceCarousel" class="container-fluid carousel slide p-0" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -42,26 +42,23 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
     <!-- trending horizontal scroll -->
 
-    <MiddleCardForListing>
-      <div class="container-fluid" >
-      <h1 class="titleBold mt-5 text-center">Trending</h1>
-      <div class="row overflow-auto flex-nowrap  justify-content-start">
-        <div class="col-md-3 col-6" v-for="item in items">
-          <ItemCard :item="item">
+    <div class="container-fluid" >
+    <h1 class="titleBold mt-5 text-center" style="font-size: xxx-large">Trending</h1>
+    <div class="row mx-3 my-5 overflow-auto flex-nowrap justify-content-start">
+      <div class="col-xl-2 col-md-3 col-sm-5 col-6" v-for="item in items">
+        <ItemCard :item="item">
 
-          </ItemCard>
-        </div>
+        </ItemCard>
       </div>
     </div>
+    </div>
 
-    </MiddleCardForListing>
     <!-- search bar -->
 
-    <MiddleCardForListing>
       <div class="container-fluid">
 
 <div class="row text-center">
-  <h1 class="titleBold">Search</h1>
+  <h1 class="titleBold my-4 text-center" style="font-size: xxx-large">Search</h1>
 </div>
 
 <div class="row justify-content-center">
@@ -72,7 +69,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 
 
-<input type="text" class="form-control" placeholder="Search for items" v-model="searchQuery">
+<input type="text" class="form-control" placeholder="Search by item name" v-model="searchQuery">
 
 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
@@ -80,7 +77,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 </svg>
 </button>
 <div class="dropdown-menu dropdown-menu-end p-3">
-<h6>By category</h6>
+<h6>Categories</h6>
 
 <div class="form-check">
   <input class="form-check-input" type="radio" name="category" id="null1" checked v-model="searchFilter.category" :value="null">
@@ -97,7 +94,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 <div class="dropdown-divider"></div>
 
-<h6>By condition</h6>
+<h6>Conditions</h6>
 
 <div class="form-check">
   <input class="form-check-input" type="radio" name="condition" id="null2" checked v-model="searchFilter.condition" :value="null">
@@ -109,14 +106,14 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 <div class="form-check" v-for="cond in condition">
   <input class="form-check-input" type="radio" name="condition" :id="cond" v-model="searchFilter.condition" :value="cond">
-  <label class="form-check-label" :for="cond">
+  <label class="form-check-label text-capitalize" :for="cond">
     {{ cond}}
   </label>
 </div>
 
 <div class="dropdown-divider"></div>
 
-<h6>By item type</h6>
+<h6>Item types</h6>
 
 
 <div class="form-check" v-for="cond in itemType">
@@ -128,29 +125,24 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 <div class="dropdown-divider"></div>
 
-<h6>By username</h6>
-
-
-<div class="mb-3">
-  <label for="exampleFormControlInput1" class="form-label">Username</label>
-  <input type="email" class="form-control" id="exampleFormControlInput1" v-model="searchFilter.username" placeholder="enter 1 username to filter with">
-</div>
-
-<div class="dropdown-divider"></div>
-
-<h6> By trade status</h6>
+<h6>Trade status</h6>
 
 <div class="form-check form-switch">
   <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="searchFilter.traded">
-  <label class="form-check-label" for="flexSwitchCheckDefault">Item has {{ searchFilter.traded ? "" : "NOT" }} been traded</label>
+  <label class="form-check-label" for="flexSwitchCheckDefault">{{ searchFilter.traded ? "Traded" : "NOT traded" }}</label>
 </div>
 
 <div class="dropdown-divider"></div>
 
-<h6> By tags</h6>
+<h6>Search by...</h6>
+
+
+<div class="mb-3">
+  <input type="email" class="form-control" id="exampleFormControlInput1" v-model="searchFilter.username" placeholder="Username">
+</div>
 
 <vue3-tags-input :tags="searchFilter.tags"
-    placeholder="enter some tags"
+    placeholder=" Tags"
     @on-tags-changed="handleChangeTag"
     />
     </div>
@@ -238,9 +230,6 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 </div>
 
 </div>
-
-
-    </MiddleCardForListing>
   
 
 
