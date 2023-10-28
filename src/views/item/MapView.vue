@@ -20,22 +20,27 @@
     <h2>Find items near you!</h2>
     <h4>We help you find items that match your wishlist.</h4>
 
-    <button class="btn btn-success" v-on:click="getLocation()">
-      Use your location
-    </button>
-
     <div>
 
       <form class="mb-3" @submit.prevent="getLocationAddress()">
-        <label for="exampleFormControlInput1" class="form-label">Enter an address to find items within {{radiusInKm}}km of the chosen location</label>
-        <input type="text" class="form-control" v-model="query" placeholder="123 Ecoswap Avenue">
-        <label for="customRange2" class="form-label">Distance from you : {{ radiusInKm }} km</label>
+        <label for="exampleFormControlInput1" class="form-label">Enter an address or <button class="btn btn-success btn-sm" v-on:click="getLocation()">use your location</button> to find items within {{radiusInKm}}km</label>
+        <input type="text" class="form-control" v-model="query" placeholder="Enter a location here...">
+        <label for="customRange2" class="form-label">Distance from the location: {{ radiusInKm }} km</label>
         <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
-        <button class="btn btn-primary">Search</button>
+
+          <div class="text-center">
+            <button class="btn btn-primary" >Search 
+              <!-- Magnifying glass icon for search button-->
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+            </button>
+          </div>
+
       </form>
 
-      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-        See what we recommended!
+      <button class="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+        See what we recommend!
       </button>
 
     </div>
