@@ -2,10 +2,10 @@
   import '../../node_modules/leaflet/dist/leaflet.css'
   import L  from 'leaflet'
   import {pinPicture, redPin} from "../assets/assets"
-import MiddleCardForListing from '../components/MiddleCardForListing.vue';
-import * as bootstrap from 'bootstrap'
-import { useLoadStore } from '../store/InitialLoadStore';
-import { mapStores } from 'pinia';
+  import MiddleCardForListing from '../components/MiddleCardForListing.vue';
+  import * as bootstrap from 'bootstrap'
+  import { useLoadStore } from '../store/InitialLoadStore';
+  import { mapStores } from 'pinia';
 
 </script>
 
@@ -59,7 +59,7 @@ export default {
         popupAnchor:  [0, -55] 
       }),
 
-      red: L.icon({
+        red: L.icon({
         iconUrl: redPin,
         iconSize: [40,59],
         iconAnchor: [20,59],

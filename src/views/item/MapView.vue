@@ -1,61 +1,68 @@
- <script setup>
+<script setup>
   //import these to access GLOBAL state variables
   import '../../../node_modules/leaflet/dist/leaflet.css'
   import L from 'leaflet'
   // //this is how you import external css files
   // import "../assets/base.css"
   import {pinPicture, redPin} from "../../assets/assets"
+  import MiddleCardForListing from "../../components/MiddleCardForListing.vue";
   import {RouterLink} from "vue-router"
   import { useLoadStore } from '../../store/InitialLoadStore'
   import { mapStores } from 'pinia'
-import { useUserStore } from '../../store/UserStore'
+  import { useUserStore } from '../../store/UserStore'
 
 </script>
 
 <template>
   <!-- type your HTML here -->
-    <div class="container-fluid">
+  <MiddleCardForListing>
+    <!-- <div class="container-fluid"> -->
+      <!-- <div class="row"> -->
 
+        <h3>Find items near you - we help u find listed items that match the wish list Items 
+            Click on the item in the list</h3>
 
-      <div class="row">
-        <h3>        Find items near you - we help u find listed items that match the wish list Items 
-          Click on the item in the list
-</h3>
-            <button class="btn btn-success" v-on:click="getLocation()">
+        <button class="btn btn-success" v-on:click="getLocation()">
           Use your location
-      </button>
-      <form class="mb-3" @submit.prevent="getLocationAddress()">
-        <label for="exampleFormControlInput1" class="form-label">Enter an address to find bus stops within 5km</label>
-        <input type="text" class="form-control" v-model="query" placeholder="123 Ecoswap Avenue">
-        <button class="btn btn-primary">Search</button>
-      </form>
-      
-      <label for="customRange2" class="form-label">distance from you : {{ radiusInKm }} km</label>
-      <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
+        </button>
 
-      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-        See items for you
-      </button>
+      <div>
+
+        <form class="mb-3" @submit.prevent="getLocationAddress()">
+          <label for="exampleFormControlInput1" class="form-label">Enter an address to find bus stops within 5km</label>
+          <input type="text" class="form-control" v-model="query" placeholder="123 Ecoswap Avenue">
+          <button class="btn btn-primary">Search</button>
+        </form>
+        
+        <label for="customRange2" class="form-label">distance from you : {{ radiusInKm }} km</label>
+        <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
+
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+          See items for you
+        </button>
+
       </div>
+      <!-- </div> -->
 
 
-      <div class="row">
+      <!-- <div class="row"> -->
         <!--<RouterLink :to="`/item/${listedItem._id}`"></RouterLink>-->
-        <div class="col">
+        <!-- <div class="col"> -->
           <div id="map"></div>
           <!-- Get location of user fly to it-->
-        </div>
+          <!-- </div> -->
 
-      </div>
-    </div>
-
+      <!-- </div> -->
+    <!-- </div> -->
+    </MiddleCardForListing>
     <!-- offcanvas -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Reccomended Items for you<br>Click and close this canvas to see item owner's location</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Recommended Items for you<br>Click and close this canvas to see item owner's location</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+
+      <div class="offcanvas-body">
           <!-- Creating an accordion for each item with a loop -->
           <div class="accordion" id="accordionExample">
             <div class="accordion" id="accordionExample" style="margin-top: 10px">
@@ -81,30 +88,13 @@ import { useUserStore } from '../../store/UserStore'
             </div>
           </div>
 
-          <!-- must check for items in User Wishlist then ask them if they want to add-->
-          <div v-if="nearbyUserArr.length==0">
-            <h5> Sorry, we don't have any recommendations for you at the moment. <br>
-            Add more Wishlist Items so that we can better find matches for you.</h5>
-            <button type="button" class="btn btn-success">
-              Add Wishlist Items
-            </button>
-          </div>
-
-
-        </div>
-        <!--<RouterLink :to="`/item/${listedItem._id}`"></RouterLink>-->
-        <div class="col-9">
-          <div id="map"></div>
-          <!-- Get location of user fly to it-->
-        </div>
-
   </div>
+</div>
 </template>
 
 <style scoped>
 /* you can also import css files */
 #map { height: 100vh; }
-h5{text-align: left;}
 </style>
 
 <script>
@@ -135,9 +125,7 @@ export default {
       nearbyUserArr: [],
       nearbyUsersIDs: undefined,
       radiusInKm : 5,
-
       userPin : null,
-      wishlistItems: []
     }
   },
 
@@ -282,8 +270,6 @@ this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,options).th
   },
 
   created() {
-    //loading screen
-    //var load = this.$loading.show();
 
 
     this.load()
