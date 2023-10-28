@@ -125,9 +125,11 @@ export default {
     putUserMarker(position){
       if(this.userPin){
         this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
+        this.userPin.bindPopup("You are here")
+        this.userPin.openPopup()
       } else {
         this.userPin = L.marker([position.coords.latitude, position.coords.longitude], {icon : this.red}).addTo(this.map)
-        this.userPin.bindPopup("You are here!")
+        this.userPin.bindPopup("Your Preferred Bus Stop is here!")
         this.userPin.openPopup()
       }
       this.map.flyTo([position.coords.latitude, position.coords.longitude],16);
