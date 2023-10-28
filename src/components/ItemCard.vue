@@ -6,7 +6,7 @@
     <div class="card-text subtitle text-truncate mx-3 mb-3">
       <span class="subtitleBold">Category:</span> {{ item.category }}<br>
       <span class="subtitleBold">Condition:</span> {{ item.condition }} <br>
-      <span class="subtitleBold">Tags:</span> {{ item.tags.slice(0,2).join(", ") }}<br>
+      <span class="subtitleBold">Tags:</span> {{ item.tags.length > 0 ? item.tags.slice(0,2).join(", ") : "no tags" }}<br>
       <span class="subtitleBold">Views: </span> {{ item.views }}<br>
       <span class="subtitleBold">Listed by: </span> {{ item.user.username }}<br>
     </div>

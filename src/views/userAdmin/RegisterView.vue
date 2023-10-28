@@ -13,27 +13,17 @@ import * as yup from 'yup'
   <MiddleCol>
     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
       <form @submit="handleSubmit($event, register)">
-      <div class="titleBold">
         <h1 class="title text-center mb-5 display-5">Register</h1>
-        <TextInput  name="username"></TextInput>
-        <TextInput  name="fullName">
-          Full name
-        </TextInput>
-        <TextInput  name="email"></TextInput>
-
-        <TextInput  name="password"></TextInput>
-        <TextInput name="passwordConfirmation">
-          Confirm Password
-        </TextInput>
-      </div>
-
-        
-        <GreenSubmitBtn>Register!</GreenSubmitBtn>
-
+        <TextInput name="username"></TextInput>
+        <TextInput name="fullName">Full name</TextInput>
+        <TextInput name="email"></TextInput>
+        <TextInput name="password"></TextInput>
+        <TextInput name="passwordConfirmation">Confirm password</TextInput>
+        <GreenSubmitBtn>Register</GreenSubmitBtn>
         <p class="text-center text-muted mt-5 mb-3 subtitle">Already have an account? 
         <RouterLink to="/login" class="fw-bold text-body">Login here</RouterLink>
-      </p>
-    </form>
+        </p>
+      </form>
     </VeeForm>
   </MiddleCol>
 
@@ -63,7 +53,7 @@ export default {
       fullName : yup.string().required().label("Full name"),
       email: yup.string().email("Please enter a valid email").required().label("Email"),
       })
-     }
+    }
     },
 
   methods: {

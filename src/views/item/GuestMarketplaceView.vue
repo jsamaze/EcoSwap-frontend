@@ -2,6 +2,7 @@
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
 import ItemCard from '../../components/ItemCard.vue';
+import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
   // this is how you import external css files
   // import "../assets/body.css"
@@ -41,7 +42,7 @@ import ItemCard from '../../components/ItemCard.vue';
 
 
     <!-- trending section -->
-
+    <MiddleCardForListing>
     <div class="container-fluid p-0">
       <h1 class="titleBold my-5 text-center" style="font-size: xxx-large;">Trending</h1>
       <div class="row container-fluid flex-row m-0">
@@ -52,6 +53,8 @@ import ItemCard from '../../components/ItemCard.vue';
         </div>
       </div>
     </div>
+
+    </MiddleCardForListing>
 
 
   </main>

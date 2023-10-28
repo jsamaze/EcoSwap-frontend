@@ -4,7 +4,7 @@ import { vElementVisibility } from '@vueuse/components';
 
 <template>
         <div class="circle" data-prog="25">
-            <ve-progress style="margin-top: 5%;" :progress="current" ></ve-progress>
+            <ve-progress style="margin-top: 5%;" :progress="current" :color="'#44571c'" :emptyColor="'#FFFFFF'" ></ve-progress>
             <svg width="250" height="250">
               <circle r="100" cx="125" cy="125" class="track"></circle>
               <circle r="100" cx="125" cy="125" class="progress"></circle>
@@ -45,7 +45,7 @@ export default {
                     } else {
                     vm.current += 1;
                     }
-                }, 200/this.percent);
+                }, 500/this.percent);
             } else if (!state && this.curState){
                 this.curState = false
                 this.current = 0

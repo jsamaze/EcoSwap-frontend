@@ -23,12 +23,12 @@
         {{ passwordReset ? "Reset Password" : "Confirm Email" }}
       </h1>
       <TextInput name="otp">
-        One Time Password
+        OTP
       </TextInput>
       <div v-if="passwordReset">
         <TextInput  name="password"></TextInput>
       <TextInput name="passwordConfirmation">
-        Confirm Password
+        Confirm password
       </TextInput>
 
       </div>
@@ -38,7 +38,7 @@
       </p>
 
         
-        <GreenSubmitBtn>Submit!</GreenSubmitBtn>
+        <GreenSubmitBtn>Submit</GreenSubmitBtn>
 
 
     </form>
@@ -63,15 +63,15 @@ export default {
   computed : {
     schema(){
       var s = {
-        otp : yup.number().min(0).max(999999).required().label("One time password"),
+        otp : yup.number().min(0).max(999999).required().label("OTP"),
     }
 
     if (this.passwordReset){
-      s.password= yup.string().min(8).required(),
+      s.password= yup.string().min(8).required().label("Password"),
       s.passwordConfirmation= yup
       .string()
       .oneOf([yup.ref('password')], 'Passwords do not match')
-      .required()
+      .required("Please confirm your password")
     }
     console.log(s)
     return yup.object().shape(s)
