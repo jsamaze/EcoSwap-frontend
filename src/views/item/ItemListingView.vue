@@ -65,14 +65,14 @@ import * as bootstrap from 'bootstrap'
             <h6 class="subtitle">Preferred bus stop: {{ preferredBusStop }}</h6>
         </div>
       </div>
-        <div class="row justify-content-center text-center" v-if="username == userStore.username">
+        <div class="row" style="width: fit-content; margin: auto;" v-if="username == userStore.username">
           <RouterLink :to="`/item/${$route.params.itemId}/edit`">
-              <GreenBtn>Edit Listing</GreenBtn>
+              <GreenBtn>Edit listing</GreenBtn>
             </RouterLink>
         </div>
-        <div class="row justify-content-center text-center" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
+        <div class="row" style="width: fit-content; margin: auto;" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
               <GreenBtn @click="startChat">
-                Start Chat about this item
+                Start chat!
               </GreenBtn>
         </div>
 

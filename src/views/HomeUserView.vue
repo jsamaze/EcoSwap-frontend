@@ -235,7 +235,7 @@ export default {
     response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
     params : { 
         itemType : 'WishList', // Listed or WishList (DEFAULT to listed)
-        username : this.$route.params.username,
+        username : this.userStore.username,
     }
     })
 
