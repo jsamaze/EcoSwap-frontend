@@ -38,7 +38,7 @@
       </div>
 
       <!-- Right column with Listed Items and Wishlist Items-->
-      <div class="col-8 pt-5 px-5" style="background-color: #cbd5c0;">
+      <div class="col-lg-8 col-sm-12 pt-5 px-5" style="background-color: #cbd5c0;">
         <!--Listed Items-->
         <div class="row mb-3">
           <h2>Listed Items <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==$route.params.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h2>
@@ -54,7 +54,7 @@
 
         <!--Wishlist Items-->
         <div class="row mb-3">
-          <h2>Wishlist Items  <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h2>
+          <h2>Wishlist Items <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h2>
           <!-- Card for Wishlist Items -->
           <div class="container scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2">
             <div class="col-md-4 col-6" v-for="itemW in wishlistItems">
