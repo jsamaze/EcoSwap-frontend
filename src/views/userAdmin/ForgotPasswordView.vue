@@ -32,7 +32,7 @@ import {Field, Form as VeeForm} from 'vee-validate'
     <TextInput name="username">
       </TextInput>
       
-      <GreenSubmitBtn>Generate OTP!</GreenSubmitBtn>
+      <GreenSubmitBtn>Generate OTP</GreenSubmitBtn>
 
     </form>
     </VeeForm>
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       schema :  yup.object().shape({
-      username : yup.string().required(),
+      username : yup.string().required().label("Username").__context,
       }),
       username : "",
       initialValues : {
@@ -74,7 +74,7 @@ export default {
       }).then(
         response => {
           load.hide()
-          this.$toast.success( "OTP sent - please check your email")
+          this.$toast.success( "OTP sent! Please check your email.")
           this.$router.push({ path: '/otp', query: { username: values.username } })
         }
       ).catch(
