@@ -6,29 +6,47 @@
   import * as bootstrap from 'bootstrap'
   import { useLoadStore } from '../store/InitialLoadStore';
   import { mapStores } from 'pinia';
-
+  import GreenBtn from '../components/GreenBtn.vue'
 </script>
 
 <template>
   <!-- type your HTML here -->
   <MiddleCardForListing>
-    <h2>See other users near you!</h2>
-
-    <button class="btn btn-success" v-on:click="getLocation()">
-          Use your location
-      </button>
-    <div>
-      <form class="mb-3" @submit.prevent="getLocationAddress()">
-        <label for="exampleFormControlInput1" class="form-label">Enter an address to find bus stops within 5km</label>
-        <input type="text" class="form-control" v-model="query" placeholder="123 Ecoswap Avenue">
-        <button class="btn btn-primary">Search</button>
-      </form>
-
-      <label for="customRange2" class="form-label">Distance from you : {{ radiusInKm }} km</label>
-      <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
-
-
+    <div class="container-fluid text-center my-4">
+      <h1 style="font-size: xxx-large;">Find users near you!</h1>
     </div>
+
+    <div class="container-fluid">
+      <div class="row g-2">
+        <div class="col-xxl-9">
+          <input type="text" class="form-control-lg col-12" v-model="query" placeholder="Enter a location here...">
+        </div>
+        <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
+        <div class="col-xxl-2 text-center">
+          <GreenBtn v-on:click="getLocation()">Use your location</GreenBtn>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <label for="customRange2" class="form-label">
+          <h3><b>Distance from chosen location: </b>{{ radiusInKm }} km </h3>
+          <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm"></label>
+      </div>
+    </div>
+
+    <form class="mb-3" @submit.prevent="getLocationAddress()">
+      <div class="text-center">
+        <button class="btn btn-success btn-lg">Search 
+          <!-- Magnifying glass icon for search button-->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg>
+        </button>
+      </div>
+    </form>
+
     <div id="map"></div>
   </MiddleCardForListing>
 
@@ -200,15 +218,27 @@ export default {
             icon: this.emoji,
           }).addTo(this.map)
 
-          temp.bindPopup(`${item.usernames.length} users are trading at the bus stop ${item.busStopName}. Sign up to chat with them!`)
+          if (item.usernames.length==1) {
+            temp.bindPopup(`${item.usernames.length} user is trading at the bus stop ${item.busStopName}. Sign up to chat with them!`)
 
-          temp.on('mouseover',function(e){
-              this.openPopup()
-          }),
-          temp.on('mouseout', function(e){
-            this.closePopup()
-          })
-          this.pointsArr.push(temp)
+            temp.on('mouseover',function(e){
+                this.openPopup()
+            }),
+            temp.on('mouseout', function(e){
+              this.closePopup()
+            })
+            this.pointsArr.push(temp)
+          } else {
+            temp.bindPopup(`${item.usernames.length} users are trading at the bus stop ${item.busStopName}. Sign up to chat with them!`)
+
+            temp.on('mouseover',function(e){
+                this.openPopup()
+            }),
+            temp.on('mouseout', function(e){
+              this.closePopup()
+            })
+            this.pointsArr.push(temp)
+          }
         })
       }).catch(
         e=>{

@@ -1,4 +1,4 @@
-<script setup></script>
+<script setup>
   //import these to access GLOBAL state variables
   import {RouterLink} from 'vue-router'
 

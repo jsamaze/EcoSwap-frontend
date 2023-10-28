@@ -18,9 +18,8 @@
   <!-- type your HTML here -->
   
   <MiddleCardForListing>
-    <div class="container-fluid">
-      <h1>Find items near you!</h1>
-      <br>
+    <div class="container-fluid text-center my-4">
+      <h1 style="font-size: xxx-large;">Find items near you!</h1>
     </div>
 
 
