@@ -50,7 +50,7 @@ const router = createRouter({
     // A. User Admin functions // new : let's categorise the views
     {
       path: '/register',  
-      name: 'register',
+      name: 'Register',
       component: RegisterView,
       meta : {
         needAuth :false, // new feature : if true, user must be logged in
@@ -60,7 +60,7 @@ const router = createRouter({
     },
     {
       path: '/login',
-      name: 'login',
+      name: 'Login',
       component: LoginView,
       meta : {
         needAuth :false,
@@ -76,7 +76,7 @@ const router = createRouter({
     },
     {
       path: '/otp',
-      name: 'OTP entry (for all purposes)',
+      name: 'OTP',
       component: OTPView,
       meta : {
         needAuth :null,
@@ -86,7 +86,7 @@ const router = createRouter({
     // B. ONE Item related views
     {
       path: '/item/:itemId/addPhoto',
-      name: 'item add photo',
+      name: 'Add item photo',
       component: ItemUploadPhotoView,
       meta : {
         needAuth :true,
@@ -94,7 +94,7 @@ const router = createRouter({
     },
     {
       path: '/item/:itemId/deletePhoto',
-      name: 'item delete photo',
+      name: 'Delete item photo',
       component: ItemDeletePhotoView,
       meta : {
         needAuth :true,
@@ -103,7 +103,7 @@ const router = createRouter({
 
     {
       path: '/item/:itemId',
-      name: 'item listing',
+      name: 'Item',
       component: ItemListingView,
       meta : {
         needAuth :null,
@@ -111,7 +111,7 @@ const router = createRouter({
     },
     {
       path: '/item/add',
-      name: 'item add',
+      name: 'Add Item',
       component: ItemListingAddView,
       meta : {
         needAuth :true,
@@ -120,7 +120,7 @@ const router = createRouter({
 
     {
       path: '/item/:itemId/edit',
-      name: 'item edit',
+      name: 'Edit Item',
       component: ItemListingEditingView,
       meta : {
         needAuth :true,
@@ -128,7 +128,7 @@ const router = createRouter({
     },
     {
       path: '/reward',
-      name: 'reward',
+      name: 'Reward',
       component: RewardView,
       meta : {
         needAuth :true,
@@ -136,7 +136,7 @@ const router = createRouter({
     },
     {
       path: '/review/:username',
-      name: 'review',
+      name: 'Review',
       component: ReviewView,
       meta : {
         needAuth :true,
@@ -165,7 +165,7 @@ const router = createRouter({
 
     {
       path: '/user/map',
-      name : 'Map',
+      name : 'User Map',
       component: MapView,
       meta : {
         needAuth :true,
@@ -217,7 +217,7 @@ const router = createRouter({
 
     {
       path: '/user/settings',
-      name : 'account settings',
+      name : 'Account Settings',
       component: AccountSettingsView,
       meta : {
         needAuth :true,
@@ -248,7 +248,7 @@ const router = createRouter({
     // Information of the Item Owner of the clicked listing
     {
       path: '/user/:username',
-      name: 'itemOwnerInformation',
+      name: 'User Information',
       component: ItemOwnerInformationView,
       meta : {
         needAuth :true,
@@ -258,7 +258,7 @@ const router = createRouter({
     //ETC - for not found page
     { 
       path: '/:pathMatch(.*)*', 
-      name: 'NotFound', 
+      name: 'Not Found', 
       component: NotFoundView,
       meta : {
         needAuth :null,
