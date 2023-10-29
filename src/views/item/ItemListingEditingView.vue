@@ -31,7 +31,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                       <div class="col-sm-6">
                   
                   <Btn @click="$router.push(`/item/${this.$route.params.itemId}`)">
-                    Back to Listing Page
+                    Back
                   </Btn>
 
                     <!-- carousel -->

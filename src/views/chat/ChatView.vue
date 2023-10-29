@@ -10,6 +10,8 @@ import { mapStores } from 'pinia';
 import {socket} from '../../socket'
 import { useNotificationStore } from '../../store/NotificationStore';
 
+import Btn from '../../components/Btn.vue';
+
 import bsModal from 'bootstrap/js/src/modal'
 import CircularProgress from '../../components/circularProgress.vue';
 </script>
@@ -100,8 +102,14 @@ import CircularProgress from '../../components/circularProgress.vue';
   </div>
 
 
-  <header class="p-3 m-0">
-    <button class="go-back bg-transparent me-3" id='back-button' @click="swapScreenToConversations">⬅️</button>
+  <header class=" m-0">
+
+    <Btn  class="go-back me-3 id='back-button" @click="swapScreenToConversations">
+      Back
+    </Btn>
+    <!-- <button class="go-back bg-transparent me-3" id='back-button' @click="swapScreenToConversations">
+    
+    </button> -->
       <h2>{{ chattingWith ? truncatedChattingWith : "No chat selected"}}</h2>  
 
       <!-- to limit the length of full name max 14-->

@@ -32,7 +32,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
     <div class="container-fluid">
       <div class="row justify-content-start m-3">
-        <Btn style="margin: 0 !important; width: fit-content;" @click="$router.push(this.$router.go(-1))">
+        <Btn style="margin: 0 !important; width: fit-content;" @click="$router.go(-1)">
           Back
         </Btn>
       </div>
