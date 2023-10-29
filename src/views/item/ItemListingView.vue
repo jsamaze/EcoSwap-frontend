@@ -21,7 +21,7 @@ import * as bootstrap from 'bootstrap'
   <!-- type your HTML here -->
 
 <MiddleCardForListing>
-  <div class="row justify-content-start ms-2 mb-3">
+  <div class="row justify-content-start m-3">
     <Btn style="margin: 0 !important; width: fit-content;" @click="$router.push('/user/marketplace')" v-if="userStore.username != username">
       Back to marketplace
     </Btn>
@@ -29,7 +29,7 @@ import * as bootstrap from 'bootstrap'
       Back to homepage
     </Btn>
   </div>
-  <div class="row align-items-start">
+  <div class="row align-items-start mt-4">
     <div class="col-sm-6 mb-3">
         <CustomCarousell v-if="images && images.length>0" :images=images>
         </CustomCarousell>
