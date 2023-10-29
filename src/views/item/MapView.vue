@@ -58,7 +58,7 @@
 
       </form>
       
-      <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      <button class="btn btn-dark mb-0 " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
         View recommended items
       </button>
 
@@ -101,7 +101,6 @@
                   <button class="accordion-button" :class="{ collapsed: idx >0}" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#collapse'+idx" @click="findItemOwner(listedItem)">
                     <!-- later remove the link, use event listener to move to point on map where item Owner is -->
                     <div class="row">
-                      <!-- Wondering how to add the photos here -->
                       <div><img v-if="listedItem.photoURLs.length!=0" v-lazy="listedItem.photoURLs[0]" style="width: 50%; height: 50%; margin-bottom: 5px;" class="rounded"/></div>
                       <div><h4 class="text-capitalize">{{listedItem.itemName}}</h4></div>
                       <div v-if="listedItem.category"><b>Category:</b> {{listedItem.category}}</div>
@@ -113,9 +112,9 @@
                 <div :id="`collapse${idx}`" class="accordion-collapse collapse" :class="{show: idx === 0}" data-bs-parent="#accordionExample">
                   <div class="accordion-body">
                     <h5 v-if="wishListItemMatch.length!=0">Matches these Wishlist items</h5> 
-                    <ul>
+                    <ol>
                       <li v-for="item in wishListItemMatch">{{item.itemName}}</li>
-                    </ul>
+                    </ol>
                   </div>
                 </div>
               </div>
