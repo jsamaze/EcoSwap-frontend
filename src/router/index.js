@@ -277,6 +277,8 @@ export default router
 //IMPORTANT : in privileged pages, there must be at least one privileged AJAX call that can indicate not logged in
 
 router.beforeEach(async (to,from)=>{
+
+  document.title = "EcoSwap - " +  to.matched[0].name
   const userStore = useUserStore();
 
   const loadStore = useLoadStore();
