@@ -41,10 +41,11 @@ import CircularProgress from '../components/circularProgress.vue';
           </div>
           
           <!-- users  part-->
-          <section class="circles" style="display: flex;">
+          <section class="circles " style="display: flex;">
 
 
-            <CircularProgress v-for="percent  in circularFinalPercentage" :percent="percent">
+            <CircularProgress v-for="el  in circularFinalPercentage" :percent="el.percent">
+              {{ el.text }}
             </CircularProgress>
             
 
@@ -148,7 +149,19 @@ export default {
   // this is data, website will reload if this change
   data() {
     return {
-      circularFinalPercentage : [25,70,75,63],
+      circularFinalPercentage : [{
+        percent : 25,
+        text : 'of land in Semakau landfill'
+      },{
+        percent : 70,
+        text : 'of money spent on electronics'
+      },{
+        percent : 75,
+        text : 'of water saved from clothes fabrication'
+      },{
+        percent : 63,
+        text : 'of things to say'
+      }],
     }
   },
 
