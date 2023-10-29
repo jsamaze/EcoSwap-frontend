@@ -5,6 +5,7 @@ import { mapStores } from 'pinia';
 import { useUserStore } from '../store/UserStore';
 import MiddleCardForListing from '../components/MiddleCardForListing.vue';
 import moment from "moment";
+import * as bootstrap from 'bootstrap';
   // //this is how you import external css files
   // import "../assets/base.css"
 
@@ -12,6 +13,75 @@ import moment from "moment";
 
 <template>
   <!-- type your HTML here -->
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="row">
+        <h1>My Points</h1>
+      </div>
+    </div>
+
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card w-100 max-w-100">
+            <div class="card-body">
+              <img src="src\assets\images\reward.png" style="width: 25%; height: 25%; margin-bottom: 3px;">
+              <h5 class="card-title ms-5" style="color: green;">GREEN</h5>
+              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 90%"></div>
+              </div>
+              <!-- numPoints needs to be dynamic so should implement function or what -->
+              <h6 class="card-subtitle mt-2 text-muted">{{ numPoints }} number of points needed to reach next tier</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card w-100 max-w-100">
+            <div class="card-body">
+              <div class="row">
+                <img src="src\assets\images\star.png" style="width: 25%; height: 25%; margin-bottom: 3px;">
+              </div>
+              <div class="row">
+                <h3>Accumulated Points: {{accPoints}}</h3>
+              </div>
+              <hr>
+                <div class="row">
+                  <h3>Available Points: {{ netPoints }}</h3>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <br>
+
+    <div class="row">
+      <div class="row bg-danger">My Rewards</div>
+      <div class="col bg-success">Card 1</div>
+      <div class="col bg-light">Card 2</div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="row bg-danger">Transaction details</div>
+      <div class="col bg-success">Card 1</div>
+      <div class="col bg-light">Card 2</div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="row bg-danger">Ways to earn rewards</div>
+      <div class="col bg-success">Card 1</div>
+      <div class="col bg-light">Card 2</div>
+    </div>
+  </div>
+
+
+
+
 
     <h1 class="titleBold text-center" style="font-size: xxx-large;">Points summary</h1>
     <div class="text-center">
@@ -141,6 +211,7 @@ h1{
   padding-top: 30px;
 }
 
+
 .header{
   position: sticky;
   top: 0;
@@ -173,6 +244,7 @@ export default {
       accPoints:0,
       tier:0,
       rewards_rewardName: [],
+      numPoints:0,
     }
   },
 
