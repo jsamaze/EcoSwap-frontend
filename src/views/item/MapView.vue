@@ -58,7 +58,7 @@
 
       </form>
       
-      <button class="btn btn-dark mb-0 " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      <button class="btn btn-dark mb-3 " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
         View recommended items
       </button>
 
