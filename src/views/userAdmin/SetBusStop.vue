@@ -28,11 +28,12 @@ import GreenBtn from '../../components/GreenBtn.vue';
         </div>
       </div>
     </div>
+    <br>
 
     <div class="container-fluid">
       <div class="row">
         <label for="customRange2" class="form-label">
-          <h3><b>Distance from chosen location: </b>{{ radiusInKm }} km </h3>
+          <h3><b>Distance from chosen location: </b><span style="color: green;">{{ radiusInKm }}</span> km </h3>
           <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm"></label>
       </div>
     </div>
