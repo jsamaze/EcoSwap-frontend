@@ -369,10 +369,10 @@ this.pointsArr.push(temp)
 
         var vm = this;
         let itemID = item._id;
-        temp.on('mouseover',function(e){
+        this.marker.on('mouseover',function(e){
           this.openPopup()
         }),
-          temp.on('mouseout', function(e){
+          this.marker.on('mouseout', function(e){
           this.closePopup()
           })
         this.marker.on('click', function(){
