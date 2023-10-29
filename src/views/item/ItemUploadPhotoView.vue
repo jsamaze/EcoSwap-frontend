@@ -34,8 +34,8 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
     <div class="row align-items-start">
                       <div class="col-sm-6">
                   
-                  <Btn @click="$router.go(-1)">
-                    Back
+                  <Btn @click="$router.push(`/item/${$route.params.itemId}/edit`)">
+                    Back to editing listing
                   </Btn>
 
                     <!-- carousel -->

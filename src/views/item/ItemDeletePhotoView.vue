@@ -47,9 +47,9 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
     </div>
 
     <RouterLink :to="`/item/${$route.params.itemId}/edit`" class="row text-decoration-none px-5">
-        <GreenBtn>
+        <Btn>
         Go back to editing listing
-        </GreenBtn>
+        </Btn>
     </RouterLink>
 
 

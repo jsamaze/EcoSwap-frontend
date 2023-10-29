@@ -46,19 +46,15 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
                     <div class="row mt-3">
                       <div class="btn-group " role="group" aria-label="Basic mixed styles example">
                       <RouterLink v-if="images.length < 5" :to='`/item/${$route.params.itemId}/addPhoto`' class="btn btn-success btn-lg">
-                      Add photos
+                      Edit photos
                     </RouterLink>
 
-                    <RouterLink  v-if="images[0] != placeholder" class="btn btn-warning btn-lg" :to='`/item/${$route.params.itemId}/deletePhoto`'>
-                      Delete photos
-                    </RouterLink>
-                            </div>
-                    </div>
-                    <div class="d-flex justify-content-center" v-if="!done">
-                      <button type="button" class=" text-center btn btn-danger btn-lg gradient-custom-4 text-white subtitle my-3"
+                    <button v-if="!done" type="button" class=" text-center btn btn-danger btn-lg gradient-custom-4 text-white subtitle "
                       data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Delete Listing!
                       </button>
+
+                            </div>
                     </div>
 
 
@@ -225,8 +221,10 @@ export default {
         e =>{
           console.log(e)
           this.$toast.success("Failed to delete item!")
-          this.$router.go(0)
+          this.load()
         }
+      ).finally(
+        ()=> l.hide()
       )
     },
     load(){
@@ -254,7 +252,7 @@ this.done = data.done ?? false
 
         if(data.user.username!= this.userStore.username){
           this.$toast.error("Access denied!")
-          this.$router.go(-1)
+          this.$router.push( `/item/${this.$route.params.itemId}`)
           return;
         }
 
@@ -266,7 +264,7 @@ this.done = data.done ?? false
     .catch( error => {
         console.log(error);
         this.$toast.error("Item loading error!")
-        this.$router.go(-1)
+        this.$route.push(`/item/${this.$route.params.itemId}`)
     });
     }
   },
