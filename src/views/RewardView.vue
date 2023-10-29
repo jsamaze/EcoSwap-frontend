@@ -93,7 +93,7 @@ import * as bootstrap from 'bootstrap';
       <div class="col-lg-6">
         <div class="card w-100 max-w-100 p-3 mb-3" style="height: fit-content">
           <div class="card-body">
-            <img src="src\assets\images\reward.png" style="width: 24%; height: 24%; margin-bottom: 3px;">
+            <img src="..\assets\images\reward.png" style="width: 24%; height: 24%; margin-bottom: 3px;">
             <h4 class="card-title" style="color: green;">GREEN</h4>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
               <div class="progress-bar" style="width: 90%"></div>
@@ -107,7 +107,7 @@ import * as bootstrap from 'bootstrap';
         <div class="card w-100 max-w-100 mb-3" style="height: 50%">
           <div class="card-body">
             <div class="row">
-              <img src="src\assets\images\star.png" style="width: 25%; height: 25%; margin-bottom: 3px;">
+              <img src="..\assets\images\star.png" style="width: 25%; height: 25%; margin-bottom: 3px;">
             </div>
             <hr>
             <div class="row">
