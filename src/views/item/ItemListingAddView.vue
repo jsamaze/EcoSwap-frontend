@@ -27,85 +27,64 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
   <!-- type your HTML here -->
 
 <MiddleCardForListing>
+  <div class="row justify-content-start m-3">
+    <Btn style="margin: 0 !important; width: fit-content;" @click="$router.push(`/user/landing`)">
+      Back
+    </Btn>
+  </div>
   <div class="row align-items-start">
-                      <div class="col-sm-6">
-                  
-                  <Btn @click="$router.push(`/user/landing`)">
-                    Back to homepage
-                  </Btn>
-
-                    <!-- carousel -->
-                    <br>
-                    <CustomCarousell  :images="[placeholder]">
-
-                    </CustomCarousell>
-
-                    <!-- end carousel -->
-                    <h5 class="mt-3 text-center">
-                      You can add photos after this
-                    </h5>
-                </div>
-                        <div class="col-sm-6">
-
-
+    <div class="col-11">
 
     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
       <form @submit="handleSubmit($event, create)" >
 
-        <div class="row mt-5">           
-            <h1 class="title">Create New Listing</h1>
-            <!-- <span class="badge text-bg-secondary float-end">Listing</span> -->                  
+        <div class="row mt-3">           
+            <h1 class="title">Create new listing</h1>
+                
         </div>
 
+        <div class="mt-2"> 
+          <label for="exampleFormControlInput1" class="form-label titleBold">Item type</label> 
+          <select class="form-select"  v-model="itemType">
+            <option >Listed</option>
+            <option >Wish list</option>
+          </select>
+        </div> 
 
-        <div class="mb-3"> 
-              <label for="exampleFormControlInput1" class="form-label title">Item Type</label> 
-              <select class="form-select"  v-model="itemType">
-                <option >Listed</option>
-                <option >WishList</option>
-              </select>
-
-          </div> 
-
-        <TextInput  name="itemName">
-          Item Name
+        <TextInput  name="itemName" class="mt-4">
+          Item name
         </TextInput>
 
+        <TextInput name="description" as="textarea">
+        </TextInput>
 
-          <TextInput name="description" as="textarea">
-          </TextInput>
+        <label for="exampleFormControlInput1" class="form-label titleBold">Category</label> 
+        <select class="form-select"  v-model="category">
+          <option >Kitchenware</option>
+          <option >Furniture</option>
+          <option >Electronics</option>
+          <option>Fashion</option>
+        </select>
 
+        <div class="mt-4"> 
+            <label for="exampleFormControlInput1" class="form-label titleBold">Condition</label> 
+            <select class="form-select"  v-model="condition">
+              <option value="new" selected>New</option>
+              <option value="old">Old</option>
+            </select>
+        </div> 
 
-
-          <div class="mb-3"> 
-              <label for="exampleFormControlInput1" class="form-label title">Category</label> 
-              <select class="form-select"  v-model="category">
-                <option >Kitchenware</option>
-                <option >Furniture</option>
-                <option >Electronics</option>
-                <option>Fashion</option>
-              </select>
-
-          </div> 
-
-          <div class="mb-3"> 
-              <label for="exampleFormControlInput1" class="form-label title">Category</label> 
-              <select class="form-select"  v-model="condition">
-                <option >new</option>
-                <option >old</option>
-              </select>
-          </div> 
-
+        <div class="mt-4">
+          <span class="titleBold">Tags</span>
           <vue3-tags-input :tags="tags"
-                   placeholder="enter some tags"
-                   @on-tags-changed="handleChangeTag"
-                   />
+            placeholder="Tags"
+            @on-tags-changed="handleChangeTag" class="mt-2"/>
+        </div>
 
+        <div class="mt-5">
+          <GreenSubmitBtn>Save</GreenSubmitBtn>
+        </div>
 
-
-
-        
-        <GreenSubmitBtn>Save!</GreenSubmitBtn>
     </form>
     </VeeForm>
                         </div>

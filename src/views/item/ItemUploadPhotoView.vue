@@ -31,36 +31,33 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 
   <MiddleCardForListing>
-    <div class="row align-items-start">
-                      <div class="col-sm-6">
-                  
-                  <Btn @click="$router.push(`/item/${$route.params.itemId}/edit`)">
-                    Back to editing listing
-                  </Btn>
+    <div class="row justify-content-start m-3">
+      <Btn style="margin: 0 !important; width: fit-content;" @click="$router.push(`/item/${$route.params.itemId}/edit`)">
+        Back to editing listing
+      </Btn>
+    </div>
+    <div class="row align-items-start mt-4">
+      <div class="col-sm-6 mb-3">
+      <!-- carousel -->
+      <CustomCarousell v-if="images && images.length>0" :images=images>
+      </CustomCarousell>
+      <!-- end carousel -->
+      <div class="row m-auto">
+        <RouterLink :to='`/item/${$route.params.itemId}/deletePhoto`'>
+          <GreenBtn v-if="images[0] != placeholder">
+            Delete photos
+          </GreenBtn>
+        </RouterLink>
+      </div>
+    </div>
+    <div class="col-sm-6">
 
-                    <!-- carousel -->
-                    <br>
-                    <CustomCarousell v-if="images && images.length>0" :images=images>
-
-                    </CustomCarousell>
-
-                    <!-- end carousel -->
-
-                    <RouterLink :to='`/item/${$route.params.itemId}/deletePhoto`'>
-                    <GreenBtn v-if="images[0] != placeholder">
-                      Delete photos
-                    </GreenBtn>
-                    </RouterLink>
-                </div>
-                        <div class="col-sm-6">
-
-                          <h1 class="title">Add photo to listing</h1>
-
+      <h1 class="title">Add photo to listing</h1>
 
       <!-- Component 1 of this page - the file upload button -->
       <div class="mb-3" v-show="showFileInput">
         <label for="formFile" class="form-label">Upload one photo at a time</label>
-        <input class="form-control " id="formFile" type="file" ref="fileInput" name="avatar" v-show="showFileInput" accept="image/*" @change="pictureUpload()" />
+        <input class="form-control" id="formFile" type="file" ref="fileInput" name="avatar" v-show="showFileInput" accept="image/*" @change="pictureUpload()" />
       </div>
 
       <div v-show="!optionsShow">
@@ -70,27 +67,16 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
             <img ref="imageCrop" class="img-fluid" alt="Picture" v-show="showCanvas" :style="{display:'block', maxWidth:'100%'}">
       </div>
 
-      <GreenBtn @click="send" id="SendButton" v-if="sendButtonDisplay">
-        Send!
-      </GreenBtn>
+      <Btn @click="send" id="SendButton" v-if="sendButtonDisplay">
+        Save changes
+      </Btn>
+      </div>
+
 
     </div>
+</div>
 
-    <div v-show="optionsShow" class="btn-group">
-      <GreenBtn @click="$router.go(0)">
-        Upload another photo
-      </GreenBtn >
-
-      <RouterLink :to='`/item/${$route.params.itemId}/edit`' class="my-3 btn btn-primary  btn-lg gradient-custom-4 text-white subtitle">
-        Edit other parts of listing
-      </RouterLink>
-
-    </div>
-
-
-                        </div>
-                    </div>
-  </MiddleCardForListing>
+</MiddleCardForListing>
                     
 
 
