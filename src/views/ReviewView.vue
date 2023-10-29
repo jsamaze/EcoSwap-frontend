@@ -73,7 +73,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-6 drop">
             <select v-model="selectedOption" class="p-2 select btn btn-lg d-md-inline d-md-block" >
               <option value="received">Reviews received</option>
               <option value="given">Review given</option>
@@ -222,8 +222,10 @@ import { useLoadStore } from '../store/InitialLoadStore';
 <style scoped> 
 .select{
   background-color: #d2e296;
-  /* width: 100%; */
+  width: 50%; 
 }
+
+
 
 .normal {
     font-weight: normal; /* Set the font weight to normal to unbold the text */
