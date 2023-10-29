@@ -1,7 +1,7 @@
 <script setup>
   //import these to access GLOBAL state variables
   import '../../../node_modules/leaflet/dist/leaflet.css'
-  import L from 'leaflet'
+  import L, { layerGroup } from 'leaflet'
   // //this is how you import external css files
   // import "../assets/base.css"
   import {pinPicture, redPin} from "../../assets/assets"
@@ -22,42 +22,45 @@
       <h1 style="font-size: xxx-large;">Find items near you!</h1>
     </div>
 
-
-      <form class="mb-3 " @submit.prevent="getLocationAddress()">
-
-        <div class="container-fluid">
-          <div class="row g-2">
-            <div class="col-xxl-9">
-              <input type="text" class="form-control-lg col-12" v-model="query" placeholder="Enter a location here...">
-            </div>
-            <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
-            <div class="col-xxl-2 text-center">
-              <GreenBtn v-on:click="getLocation()">Use your location</GreenBtn>
-            </div>
-          </div>
+    <div class="container-fluid">
+      <div class="row g-2">
+        <div class="col-xxl-9">
+          <input type="text" class="form-control-lg col-12" v-model="query" placeholder="Enter a location here...">
         </div>
-        <br>
+        <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
+        <div class="col-xxl-2 text-center">
+          <GreenBtn v-on:click="getLocation()">Use your location</GreenBtn>
+        </div>
+      </div>
+    </div>
+    <br>
         
-        <div class="container-fluid">
-          <div class="row">
-            <label for="customRange2" class="form-label"><h3><b>Distance from chosen location: </b><span style="color: green;">{{ radiusInKm }}</span> km </h3><input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm"></label>
-          </div>
-        </div>
 
-        <div class="text-center">
-          <button class="btn btn-success btn-lg">Search 
-            <!-- Magnifying glass icon for search button-->
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg>
-          </button>
-        </div>
+    <div class="container-fluid">
+      <div class="row">
+        <label for="customRange2" class="form-label">
+          <h3><b>Distance from chosen location: </b><span style="color: green;">{{ radiusInKm }}</span> km </h3>
+          <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
+        </label>
+      </div>
+    </div>
 
-      </form>
+    <form class="mb-3 " @submit.prevent="getLocationAddress()">
+
+      <div class="text-center">
+        <button class="btn btn-success btn-lg">Search 
+          <!-- Magnifying glass icon for search button-->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg>
+        </button>
+      </div>
+
+    </form>
       
-      <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-        See what we recommend!
-      </button>
+    <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      See what we recommend!
+    </button>
 
 
     <div id="map"></div>
@@ -92,7 +95,7 @@
                     <!-- later remove the link, use event listener to move to point on map where item Owner is -->
                     <div class="row">
                       <!-- Wondering how to add the photos here -->
-                      <div><img v-if="listedItem.photoURLs.length!=0" v-lazy="listedItem.photoURLs[0]" style="width: 50%; height: 50%;" class="rounded"/></div>
+                      <div><img v-if="listedItem.photoURLs.length!=0" v-lazy="listedItem.photoURLs[0]" style="width: 50%; height: 50%; margin-bottom: 5px;" class="rounded"/></div>
                       <div><h4 class="text-capitalize">{{listedItem.itemName}}</h4></div>
                       <div v-if="listedItem.category"><b>Category:</b> {{listedItem.category}}</div>
                       <div v-if="listedItem.condition" class="text-capitalize"><b>Condition:</b> {{listedItem.condition}}</div>
@@ -268,27 +271,25 @@ export default {
         options.params.latitude = position.coords.latitude
       }
 
-//get nearby user data
-this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyListingsRecommended`, options).then(response=>{
-  this.loadStore.loading=false
-  console.log(response,"nearbyUserArr array");
-  this.nearbyUserArr = response.data
-}).catch(
-  e => {
-    this.$toast.error("Issue with fetching data")
-    console.log(e)
-    this.$router.push("/")
-  }
-),
+      //get nearby user data
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyListingsRecommended`, options).then(response=>{
+        this.loadStore.loading=false
+        console.log(response,"nearbyUserArr array");
+        this.nearbyUserArr = response.data
+      }).catch(
+        e => {
+          this.$toast.error("Issue with fetching data")
+          console.log(e)
+          this.$router.push("/")
+        }
+      ),
 
 
-this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,options).then(response=>{
-  console.log(response,"nearbyUsersIDs object");
-  this.nearbyUsersIDs = response.data
-})
-    }
-
-
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,options).then(response=>{
+        console.log(response,"nearbyUsersIDs object");
+        this.nearbyUsersIDs = response.data
+      })
+          }
 
   },
 
@@ -297,7 +298,6 @@ this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,options).th
   },
 
   created() {
-
 
     this.load()
 
