@@ -227,7 +227,7 @@ export default {
     }).addTo(this.map)
 
     if (item.usernames.length==1) {
-      temp.bindPopup(`${item.usernames.length} user is trading at the bus stop: ${item.busStopName}. Sign up to chat with them!`)
+      temp.bindPopup(`${item.usernames.join(", ")} ${item.usernames > 1 ? " are" : " is"} trading at the bus stop: ${item.busStopName}`)
 
       temp.on('mouseover',function(e){
           this.openPopup()
@@ -314,8 +314,8 @@ export default {
         })
         this.showPosition({
           coords : {
-            latitude : response.data.data.busStop.loc.coordinates[1],
-            longitude : response.data.data.busStop.loc.coordinates[0]
+            latitude : response.data[0].lat,
+            longitude : response.data[0].lon
           }
         })
           this.putUserMarker({
@@ -330,6 +330,7 @@ export default {
         }
 
       } catch(e){
+        console.error(e)
         this.$toast.error("Error with fetching location data")
         this.loadStore.loading=false
       }
