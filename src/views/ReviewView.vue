@@ -2,6 +2,7 @@
   //import these to access GLOBAL state variables
 import {RouterLink} from 'vue-router'
 import TextInput from '../components/TextInput.vue';
+import Btn from '../components/Btn.vue';
 import GreenBtn from '../components/GreenBtn.vue';
 import GreenSubmitBtn from '../components/GreenSubmitBtn.vue';
 
@@ -30,56 +31,38 @@ import { useLoadStore } from '../store/InitialLoadStore';
  
 
     <div class="container-fluid">
-      <div class="row">
-
+      <div class="row justify-content-start m-3">
+        <Btn style="margin: 0 !important; width: fit-content;" @click="$router.push(this.$router.go(-1))">
+          Back
+        </Btn>
+      </div>
+      <div class="row m-1">
         <h3>
-          {{ $route.params.username }}'s average rating: <span class="normal">{{ avgRating != null ? avgRating + ' out of 5' : 'No reviews yet'}} </span>
+          {{ $route.params.username }}'s rating: <span class="normal">{{ avgRating != null ? avgRating + ' out of 5' : 'No reviews yet'}} </span>
         </h3>
 
-        <!-- <p>
-          When you complete a trade, a review will be generated. Fill it up to help improve our community!
-        </p> -->
+        <div v-if="userStore.username==$route.params.username||userStore.username == username">
+            <h5 v-if="uncompletedReviews.length == 1">
+              You have 1 incomplete review!
+            </h5>
 
-        <!-- <h5 v-if="uncompletedReviews.length > 0">
-          There are {{ uncompletedReviews.length }} review{{ uncompletedReviews.length > 1 ?'s' :'' }} to be completed
-        </h5> -->
+            <h5 v-else-if="uncompletedReviews.length == 0">
+              No incomplete reviews!
+            </h5>
 
-    <div v-if="userStore.username==$route.params.username||userStore.username == username">
-        <h5 v-if="uncompletedReviews.length == 1">
-          You have 1 incomplete review!
-        </h5>
+            <h5 v-else>
+              You have {{ uncompletedReviews.length }} incomplete reviews!
+            </h5>
+        </div>
 
-        <h5 v-else-if="uncompletedReviews.length == 0">
-          No incomplete reviews!
-        </h5>
+        <div class="review row m-3">
 
-        <h5 v-else>
-          You have {{ uncompletedReviews.length }} incompleted reviews!
-        </h5>
-</div>
-
-        <div class=" review row">
-
-          <div class="col-md-9 ">
-              <div class="heading" v-if="selectedOption =='received'">
-              <h3>Reviews {{ $route.params.username }} received</h3>
-              </div>
-              <div class="heading" v-else-if="selectedOption =='given'">
-                <h3>Reviews {{ $route.params.username }} wrote</h3>
-              </div>
-              <div class="heading" v-else>
-                <h3>Uncompleted Reviews</h3>
-              </div>
-
-          </div>
-
-          <div class="col-md-3 drop">
-            <select v-model="selectedOption" class="p-2 select btn btn-lg d-md-inline d-md-block w-100" >
-              <option value="received">Reviews received</option>
-              <option value="given">Review given</option>
-              <option value="incomplete" v-if="userStore.username==$route.params.username||userStore.username == username">Review incomplete</option>
+          <div class="col drop">
+            <select v-model="selectedOption" class="p-2 select btn btn-lg w-100" >
+              <option value="received">Reviews {{ $route.params.username }} received</option>
+              <option value="given">Reviews {{ $route.params.username }} wrote</option>
+              <option value="incomplete" v-if="userStore.username==$route.params.username||userStore.username == username">Incomplete reviews</option>
             </select>
-
           </div>
 
 
@@ -106,7 +89,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
                         <br><b>Comment: </b>"{{ review.textContent }}"
                     </li>
                     <li class="list-group-item" v-if="reviews.length == 0">
-                      Empty
+                      No reviews!
                     </li>
 
                 </ul>
@@ -134,10 +117,10 @@ import { useLoadStore } from '../store/InitialLoadStore';
                       <br><b>Comment: </b> "{{ review.textContent }}"
                     </li>
                     <li class="list-group-item" v-if="completedReviews.length == 0">
-                      Empty
+                      No reviews!
                     </li>
                 </ul>
-             </div>
+            </div>
       </div>
 
       </div>
@@ -161,7 +144,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
                        
                     </li>
                     <li class="list-group-item" v-if="uncompletedReviews.length == 0">
-                      Empty
+                      No reviews!
                     </li>
                 </ul>
                 </div>

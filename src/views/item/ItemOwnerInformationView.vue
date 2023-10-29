@@ -23,6 +23,7 @@
       <div class='col-md-4 col-sm-12 text-center pt-5 p-3'>
             <img :src="(user.imageURL && user.imageURL.length) == 0 ? userPlaceholder : user.imageURL" id="imgHere" style="width: 350px; display: flex; margin-left: auto; margin-right: auto;">
             <h1 class="mt-4" id="Username">{{ user.fullName }}</h1>
+            <h5 class="mt-4" id="Username">{{ !user.about ? "No description" : user.about }}</h5>
             <br>
             <h4 id="PreferredBusStop"><span class="titleBold">Preferred Bus Stop:</span> {{busStopCode}} - {{ busStopDesc}} </h4>
             <h4 id="UserRating"><span class="titleBold">User Rating:</span> {{!user.avgRating ? "no reviews yet" : user.avgRating+ " out of 5" ?? "-"}}</h4>
@@ -109,6 +110,7 @@ export default {
       user: {},
       busStopCode : "",
       busStopDesc : "",
+      about: null,
       favouritedItems : [],
     }
   },
@@ -135,6 +137,7 @@ export default {
 
       this.user = response.data.data
       console.log(this.user)
+      this.about = response.data.data.about
       this.netPoints = response.data.data.netPoints
       this.accPoints = response.data.data.accumulatedPoints
       this.tier = response.data.data.tier

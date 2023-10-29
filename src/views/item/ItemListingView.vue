@@ -22,7 +22,10 @@ import * as bootstrap from 'bootstrap'
 
 <MiddleCardForListing>
   <div class="row justify-content-start m-3">
-    <Btn style="margin: 0 !important; width: fit-content;" @click="this.$router.go(-1)" v-if="userStore.username != username">
+    <Btn style="margin: 0 !important; width: fit-content;" @click="$router.push('/user/marketplace')" v-if="userStore.username != username">
+      Back
+    </Btn>
+    <Btn style="margin: 0 !important; width: fit-content;" @click="$router.push(`/user/${username}`)" v-else>
       Back
     </Btn>
   </div>

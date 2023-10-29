@@ -4,7 +4,7 @@
     <div class="container p-0">
       <div class="row">
         <h4 class="col card-title subtitle text-truncate mx-3 mt-3">{{ item.itemName }}</h4>
-        <span class="col-3 badge text-bg-danger rounded-pill me-4" v-if="item.done">Traded</span>
+        <span class="col-4 badge text-bg-danger rounded-pill me-4" v-if="item.done">Traded</span>
       </div>
     </div>
     <div class="card-text subtitle text-truncate mx-3 mb-3">
