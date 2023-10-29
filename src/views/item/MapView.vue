@@ -57,11 +57,12 @@
         </div>
 
       </form>
-      
-      <button class="btn btn-dark mb-3 " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-        View recommended items
-      </button>
 
+      <div class="text-center">
+        <GreenBtn class="btn btn-lg btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+          View recommended items
+        </GreenBtn>
+      </div>
 
     <div id="map"></div>
     <!-- Get location of user fly to it-->
