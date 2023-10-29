@@ -169,9 +169,12 @@ export default {
       if(this.map){
         this.map.off()
         this.map.remove()
+        this.marker = null
       }
       this.map = L.map('map').setView([1.366667,103.85], 11);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+        zoomControl: true,zoom:1,zoomAnimation:false,fadeAnimation:true,markerZoomAnimation:true,
           maxZoom: 19,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(this.map);
