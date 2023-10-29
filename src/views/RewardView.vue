@@ -98,7 +98,7 @@ import * as bootstrap from 'bootstrap';
 
             <div v-if="tier != 'Superstar'">
               <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" :style="{width: `${percent}%`}">{{ percent }}%</div>
+              <div class="progress-bar progress-bar-striped progress-bar-animated" :style="{width: `${percent}%`}">{{ percent }}%</div>
             </div>
             <!-- numPoints needs to be dynamic so should implement function or what -->
             <h6 class="card-subtitle mt-2 text-muted">{{ numPoints }} points needed to reach next tier</h6>
