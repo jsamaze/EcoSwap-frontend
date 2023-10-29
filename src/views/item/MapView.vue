@@ -22,45 +22,45 @@
       <h1 style="font-size: xxx-large;">Find items near you!</h1>
     </div>
 
-    <div class="container-fluid">
-      <div class="row g-2">
-        <div class="col-xxl-9">
-          <input type="text" class="form-control-lg col-12" v-model="query" placeholder="Enter a location here...">
+
+      <form class="mb-3 " @submit.prevent="getLocationAddress()">
+
+        <div class="container-fluid">
+          <div class="row g-2">
+            <div class="col-xxl-9">
+              <input type="text" class="form-control-lg col-12" v-model="query" placeholder="Enter a location here...">
+            </div>
+            <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
+            <div class="col-xxl-2 text-center">
+              <GreenBtn v-on:click="getLocation()">Use your location</GreenBtn>
+            </div>
+          </div>
         </div>
-        <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
-        <div class="col-xxl-2 text-center">
-          <GreenBtn v-on:click="getLocation()">Use your location</GreenBtn>
-        </div>
-      </div>
-    </div>
-    <br>
+        <br>
         
+        <div class="container-fluid">
+          <div class="row">
+            <label for="customRange2" class="form-label">
+              <h3><b>Distance from chosen location: </b><span style="color: green;">{{ radiusInKm }}</span> km </h3>
+              <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
+            </label>
+          </div>
+        </div>
 
-    <div class="container-fluid">
-      <div class="row">
-        <label for="customRange2" class="form-label">
-          <h3><b>Distance from chosen location: </b><span style="color: green;">{{ radiusInKm }}</span> km </h3>
-          <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
-        </label>
-      </div>
-    </div>
+        <div class="text-center">
+          <button class="btn btn-success btn-lg">Search 
+            <!-- Magnifying glass icon for search button-->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+          </button>
+        </div>
 
-    <form class="mb-3 " @submit.prevent="getLocationAddress()">
-
-      <div class="text-center">
-        <button class="btn btn-success btn-lg">Search 
-          <!-- Magnifying glass icon for search button-->
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-          </svg>
-        </button>
-      </div>
-
-    </form>
+      </form>
       
-    <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-      See what we recommend!
-    </button>
+      <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+        See what we recommend!
+      </button>
 
 
     <div id="map"></div>
@@ -291,13 +291,16 @@ export default {
       })
           }
 
-  },
+
+
+        },
 
   computed : {
     ...mapStores(useLoadStore,useUserStore)
   },
 
   created() {
+
 
     this.load()
 
