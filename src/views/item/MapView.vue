@@ -160,32 +160,127 @@ export default {
       nearbyUsersIDs: undefined,
       radiusInKm : 5,
       userPin : null,
+      query : '',
     }
   },
 
   methods: {
+    createMap(){
+      if(this.map){
+        this.map.off()
+        this.map.remove()
+      }
+      this.map = L.map('map').setView([1.366667,103.85], 11);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(this.map);
+    },
 
     putUserMarker(position){
+      this.userPin = L.marker([position.coords.latitude, position.coords.longitude], {icon : this.red}
+        ).addTo(this.map)
+        this.userPin.bindPopup("You are here!")
+        this.userPin.openPopup()
+      this.map.flyTo([position.coords.latitude, position.coords.longitude],16);
+
+    },
+    showPosition(position){
+
+      this.busStopObj = new Map()
+      this.pointsArr = []
+
+
+      // bus stop within radius from a pt
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,{
+          params : {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              radiusInKm: this.radiusInKm,
+          }
+      })
+      .then(resp=>{
+        this.map.flyTo([position.coords.latitude,position.coords.longitude],14)
+
+        console.log(Object.entries(resp.data));
+        Object.entries(resp.data).forEach(([key,item]) => {
+          console.log(item)
+          if(this.busStopObj.has(item.preferredBusStop)){
+            this.busStopObj.get(item.preferredBusStop).usernames.push(item.username)
+          }else {
+            this.busStopObj.set(
+              item.preferredBusStop,
+
+              {
+                loc : item.loc,
+                usernames : [item.username],
+                busStopName : item.busStopName
+              }
+            )
+          }
+
+        })
+
+  this.busStopObj.forEach((item,key,map)=>{
+    var temp = L.marker([item.loc.coordinates[1],item.loc.coordinates[0]],{
+      icon: this.emoji,
+    }).addTo(this.map)
+
+    if (item.usernames.length==1) {
+      temp.bindPopup(`${item.usernames.length} user is trading at the bus stop: ${item.busStopName}. Sign up to chat with them!`)
+
+      temp.on('mouseover',function(e){
+          this.openPopup()
+      }),
+      temp.on('mouseout', function(e){
+        this.closePopup()
+      })
+      this.pointsArr.push(temp)
+    } else {
+      temp.bindPopup(`${item.usernames.length} users are trading at the bus stop: ${item.busStopName}. Sign up to chat with them!`)
+
+      temp.on('mouseover',function(e){
+          this.openPopup()
+      }),
+      temp.on('mouseout', function(e){
+        this.closePopup()
+      })
+      this.pointsArr.push(temp)
+    }
+  })
+}).catch(
+  e=>{
+    console.log(e, "here")
+    this.$toast.error("Error with fetching location data")
+  }
+).finally(
+  () =>{
+    this.loadStore.loading=false
+  }
+)
+
+
+
+
+},
+    putUserMarker(position){
       console.log('this.userPin :>> ', this.userPin);
-      if(this.userPin){
-        this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
-        this.userPin.bindPopup("You are here")
+      this.userPin = L.marker([position.coords.latitude, position.coords.longitude], {icon : this.red}
+        ).addTo(this.map)
+        this.userPin.bindPopup("You are here!")
         this.userPin.openPopup()
-      } else {
-        this.userPin = L.marker([position.coords.latitude, position.coords.longitude], {icon : this.red}).addTo(this.map)
-        this.userPin.bindPopup("Your Preferred Bus Stop is here!")
-        this.userPin.openPopup()
-      }
       this.map.flyTo([position.coords.latitude, position.coords.longitude],16);
 
     },
 
     getLocation() {
+      this.createMap()
       this.loadStore.loading=true
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((data) => {
           this.putUserMarker(data)
           this.load(data)
+          this.getLocation(data)
         },(e) =>{
           this.loadStore.loading=false
           this.$toast.warning("You have disabled sharing your location")
@@ -197,6 +292,7 @@ export default {
     },
 
     async getLocationAddress(){
+      this.createMap()
       try {
         this.loadStore.loading=true
         var response = await this.axios.get('https://nominatim.openstreetmap.org/search',{
@@ -214,6 +310,12 @@ export default {
           coords : {
             latitude : response.data[0].lat,
             longitude : response.data[0].lon
+          }
+        })
+        this.showPosition({
+          coords : {
+            latitude : response.data.data.busStop.loc.coordinates[1],
+            longitude : response.data.data.busStop.loc.coordinates[0]
           }
         })
           this.putUserMarker({
@@ -309,13 +411,19 @@ export default {
 
   created() {
 
-
+    
     this.load()
 
     this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`).then(
       response => {
         if(response.data.data.busStop){
           this.putUserMarker({
+          coords : {
+            latitude : response.data.data.busStop.loc.coordinates[1],
+            longitude : response.data.data.busStop.loc.coordinates[0]
+          }
+        })
+        this.showPosition({
           coords : {
             latitude : response.data.data.busStop.loc.coordinates[1],
             longitude : response.data.data.busStop.loc.coordinates[0]
@@ -332,7 +440,7 @@ export default {
   //any ajax call to start is executed here
   mounted() {
     // create an icon 
-
+    
 
     //put the javascript inside here
     this.map = L.map('map',{tap:false}).setView([1.402382926961625, 103.89701354063448], 13);
