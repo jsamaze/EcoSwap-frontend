@@ -59,7 +59,7 @@
       </form>
       
       <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-        See what we recommend!
+        View recommended items!
       </button>
 
 
