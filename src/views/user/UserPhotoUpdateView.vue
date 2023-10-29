@@ -80,6 +80,9 @@ export default {
               }
               vm.cropper = await new Cropper(imageElement,{
                   aspectRatio: 1, //you can change aspect ratio of cropper here
+                  zoomable: false,
+                  zoomOnTouch:false,
+                  zoomOnWheel:false,
               });
 
               // vm.showFileInput=false;
