@@ -20,13 +20,13 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
       </div>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="/src/assets/images/sergey-pesterev-JV78PVf3gGI-unsplash.jpg" class="d-block w-100" alt="...">
+          <img src="/src/assets/images/1.png" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-          <img src="/src/assets/images/sergey-pesterev-JV78PVf3gGI-unsplash.jpg" class="d-block w-100" alt="...">
+          <img src="/src/assets/images/2.png" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-          <img src="/src/assets/images/sergey-pesterev-JV78PVf3gGI-unsplash.jpg" class="d-block w-100" alt="...">
+          <img src="/src/assets/images/3.png" class="d-block w-100" alt="...">
         </div>
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#marketplaceCarousel" data-bs-slide="prev">
