@@ -25,6 +25,7 @@
         <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
         <div class="col-xxl-2 text-center">
           <GreenBtn type="button" v-on:click="getLocation()">Use your location</GreenBtn>
+          <GreenBtn v-on:click="getLocation()" type="button">Use your location</GreenBtn>
         </div>
       </div>
     </div>
