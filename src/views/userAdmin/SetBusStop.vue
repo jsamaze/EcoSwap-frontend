@@ -2,11 +2,11 @@
   import '../../../node_modules/leaflet/dist/leaflet.css'
   import L, { layerGroup }  from 'leaflet'
   import {pinPicture, redPin} from "../../assets/assets"
-import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
-import * as bootstrap from 'bootstrap'
-import { useLoadStore } from '../../store/InitialLoadStore';
-import { mapStores } from 'pinia';
-import GreenBtn from '../../components/GreenBtn.vue';
+  import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
+  import * as bootstrap from 'bootstrap'
+  import { useLoadStore } from '../../store/InitialLoadStore';
+  import { mapStores } from 'pinia';
+  import GreenBtn from '../../components/GreenBtn.vue';
 
 </script>
 
@@ -14,7 +14,7 @@ import GreenBtn from '../../components/GreenBtn.vue';
   <!-- type your HTML here -->
   <MiddleCardForListing>
     <div class="container-fluid text-center my-4">
-      <h1 style="font-size: xxx-large;">Set your Bus Stop location!</h1>
+      <h1 style="font-size: xxx-large;">Set your preferred bus stop!</h1>
     </div>
 
     <div class="container-fluid">
@@ -24,7 +24,8 @@ import GreenBtn from '../../components/GreenBtn.vue';
         </div>
         <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
         <div class="col-xxl-2 text-center">
-          <GreenBtn v-on:click="getLocation()">Use your location</GreenBtn>
+          <GreenBtn type="button" v-on:click="getLocation()">Use your location</GreenBtn>
+          <GreenBtn v-on:click="getLocation()" type="button">Use your location</GreenBtn>
         </div>
       </div>
     </div>
@@ -60,7 +61,7 @@ import GreenBtn from '../../components/GreenBtn.vue';
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Are you sure you want to set your Bus Stop to {{ selectedBusStop?.Description }}?
+        Set your preferred bus stop to {{ selectedBusStop?.Description }}?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -179,9 +180,6 @@ export default {
     },
 
     showPosition(position){
-
-      
-
       this.busStopObj = {}
       // this.pointsArr.forEach(
       //   e => {
@@ -197,7 +195,6 @@ export default {
       this.pointsArr = []
 
       this.busStopLayer = L.layerGroup().addTo(this.map);
-
 
       // bus stop within radius from a pt
       this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/radius`,{

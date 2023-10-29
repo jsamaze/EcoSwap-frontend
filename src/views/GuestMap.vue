@@ -23,7 +23,7 @@
         </div>
         <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
         <div class="col-xxl-2 text-center">
-          <GreenBtn v-on:click="getLocation()">Use your location</GreenBtn>
+          <GreenBtn type="button" v-on:click="getLocation()">Use your location</GreenBtn>
         </div>
       </div>
     </div>
@@ -220,7 +220,7 @@ export default {
           }).addTo(this.map)
 
           if (item.usernames.length==1) {
-            temp.bindPopup(`${item.usernames.length} user is trading at the bus stop ${item.busStopName}. Sign up to chat with them!`)
+            temp.bindPopup(`${item.usernames.length} user is trading at the bus stop: ${item.busStopName}. Sign up to chat with them!`)
 
             temp.on('mouseover',function(e){
                 this.openPopup()
@@ -230,7 +230,7 @@ export default {
             })
             this.pointsArr.push(temp)
           } else {
-            temp.bindPopup(`${item.usernames.length} users are trading at the bus stop ${item.busStopName}. Sign up to chat with them!`)
+            temp.bindPopup(`${item.usernames.length} users are trading at the bus stop: ${item.busStopName}. Sign up to chat with them!`)
 
             temp.on('mouseover',function(e){
                 this.openPopup()

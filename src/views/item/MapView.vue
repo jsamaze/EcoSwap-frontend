@@ -1,7 +1,7 @@
 <script setup>
   //import these to access GLOBAL state variables
   import '../../../node_modules/leaflet/dist/leaflet.css'
-  import L from 'leaflet'
+  import L, { layerGroup } from 'leaflet'
   // //this is how you import external css files
   // import "../assets/base.css"
   import {pinPicture, redPin} from "../../assets/assets"
@@ -32,7 +32,7 @@
             </div>
             <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
             <div class="col-xxl-2 text-center">
-              <GreenBtn v-on:click="getLocation()">Use your location</GreenBtn>
+              <GreenBtn type="button" v-on:click="getLocation()">Use your location</GreenBtn>
             </div>
           </div>
         </div>
@@ -40,7 +40,10 @@
         
         <div class="container-fluid">
           <div class="row">
-            <label for="customRange2" class="form-label"><h3><b>Distance from chosen location: </b><span style="color: green;">{{ radiusInKm }}</span> km </h3><input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm"></label>
+            <label for="customRange2" class="form-label">
+              <h3><b>Distance from chosen location: </b><span style="color: green;">{{ radiusInKm }}</span> km </h3>
+              <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange2" v-model="radiusInKm">
+            </label>
           </div>
         </div>
 
@@ -56,7 +59,7 @@
       </form>
       
       <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-        See what we recommend!
+        View recommended items
       </button>
 
 
@@ -80,7 +83,14 @@
 
         <!-- If no items are recommended-->
         <div v-if="nearbyUserArr.length==0">
-          There is no item to recommend nearby. Try choosing another location, or adding more items to your wishlist!
+          <h4>
+          There is no item to recommend nearby. 
+          <br>
+          Try choosing another location, or adding more items to your wishlist!
+          </h4>
+          <button type="button"  class="btn btn-success btn-lg mt-2" @click="$router.push('/item/add?itemType=WishList')">
+            Add wishlist items now!
+          </button>
         </div>
 
           <!-- Creating an accordion for each item with a loop -->
@@ -92,7 +102,7 @@
                     <!-- later remove the link, use event listener to move to point on map where item Owner is -->
                     <div class="row">
                       <!-- Wondering how to add the photos here -->
-                      <div><img v-if="listedItem.photoURLs.length!=0" v-lazy="listedItem.photoURLs[0]" style="width: 50%; height: 50%;" class="rounded"/></div>
+                      <div><img v-if="listedItem.photoURLs.length!=0" v-lazy="listedItem.photoURLs[0]" style="width: 50%; height: 50%; margin-bottom: 5px;" class="rounded"/></div>
                       <div><h4 class="text-capitalize">{{listedItem.itemName}}</h4></div>
                       <div v-if="listedItem.category"><b>Category:</b> {{listedItem.category}}</div>
                       <div v-if="listedItem.condition" class="text-capitalize"><b>Condition:</b> {{listedItem.condition}}</div>
@@ -157,6 +167,7 @@ export default {
   methods: {
 
     putUserMarker(position){
+      console.log('this.userPin :>> ', this.userPin);
       if(this.userPin){
         this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
         this.userPin.bindPopup("You are here")
@@ -175,13 +186,13 @@ export default {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((data) => {
           this.putUserMarker(data)
-          this.showPosition(data)
+          this.load(data)
         },(e) =>{
           this.loadStore.loading=false
           this.$toast.warning("You have disabled sharing your location")
         });
       } else { 
-        this.$toast.warning("You have disabled sharing your location")
+        this.$toast.warning("Your device is not compatible")
         this.loadStore.loading= false
       }
     },
@@ -267,30 +278,31 @@ export default {
         options.params.longitude = position.coords.longitude
         options.params.latitude = position.coords.latitude
       }
+      console.log('options :>> ', options);
 
-//get nearby user data
-this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyListingsRecommended`, options).then(response=>{
-  this.loadStore.loading=false
-  console.log(response,"nearbyUserArr array");
-  this.nearbyUserArr = response.data
-}).catch(
-  e => {
-    this.$toast.error("Issue with fetching data")
-    console.log(e)
-    this.$router.push("/")
-  }
-),
-
-
-this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,options).then(response=>{
-  console.log(response,"nearbyUsersIDs object");
-  this.nearbyUsersIDs = response.data
-})
-    }
+      //get nearby user data
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyListingsRecommended`, options).then(response=>{
+        this.loadStore.loading=false
+        console.log(response,"nearbyUserArr array");
+        this.nearbyUserArr = response.data
+      }).catch(
+        e => {
+          this.$toast.error("Issue with fetching data")
+          console.log(e)
+          this.$router.push("/")
+        }
+      ),
 
 
+      this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,options).then(response=>{
+        console.log(response,"nearbyUsersIDs object");
+        this.nearbyUsersIDs = response.data
+      })
+          }
 
-  },
+
+
+        },
 
   computed : {
     ...mapStores(useLoadStore,useUserStore)
