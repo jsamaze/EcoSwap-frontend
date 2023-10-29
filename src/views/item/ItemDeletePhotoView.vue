@@ -30,27 +30,25 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 <template>
   <!-- type your HTML here -->
 
-
   <MiddleCardForListing>
+    <div class="row justify-content-start m-3">
+      <Btn style="margin: 0 !important; width: fit-content;" @click="$router.push(`/item/${$route.params.itemId}/edit`)">
+        Back to editing listing
+      </Btn>
+    </div>
 
     <div class="row">
-      <h1 class="title text-center">Delete Photo from Listing</h1>
+      <h1 class="title text-center">Delete photo from listing</h1>
     </div>
 
     <div class="row justify-content-center">
 
-        <div class="col-sm-4 p-0 position-relative "  v-for="img, idx in images">
-            <button class="btn-close position-absolute top-0 end-0" @click="deletePhoto(idx)" ></button>
+        <div class="col-sm-4 p-3 position-relative "  v-for="img, idx in images">
+            <button class="btn btn-danger position-absolute start" @click="deletePhoto(idx)" >Delete</button>
             <img :src="img" class="w-100" style="min-width: 100%;">
         </div>
 
     </div>
-
-    <RouterLink :to="`/item/${$route.params.itemId}/edit`" class="row text-decoration-none px-5">
-        <Btn>
-        Go back to editing listing
-        </Btn>
-    </RouterLink>
 
 
     
@@ -92,11 +90,11 @@ export default {
                     this.$toast.info("This listing no longer has photos")
                     this.$router.push(`/item/${this.$route.params.itemId}/edit`)
                 }
-                this.$toast.success("Deleted the photo")
+                this.$toast.success("Photo deleted")
             }
         ).catch(
             e =>{
-                this.$toast.error("Failed to delete photo!")
+                this.$toast.error("Failed to delete photo")
                 this.load(load)
                 console.log(e)
             }

@@ -32,44 +32,41 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
           </Btn>
         </div>
 
-        <div class="row align-items-start">
-          <div class="col-sm-6">
-            <!-- carousel -->
-            <br>
-            <CustomCarousell v-if="images && images.length>0" :images=images>
+<div class="row align-items-start">
+  <div class="col-md-6">
+    <!-- carousel -->
+    <br>
+    <CustomCarousell v-if="images && images.length>0" :images=images>
 
-            </CustomCarousell>
+    </CustomCarousell>
 
-            <!-- end carousel -->
+    <!-- end carousel -->
 
-            <div class="row mt-4">
-                <RouterLink v-if="images.length < 5" :to='`/item/${$route.params.itemId}/addPhoto`' class="btn btn-success btn-md" style="width: fit-content;">
-                Edit photos
-                </RouterLink>
-            </div>
+    <div class="row mt-4">
+        <RouterLink v-if="images.length < 5" :to='`/item/${$route.params.itemId}/addPhoto`' class="btn btn-success btn-md" style="width: fit-content;">
+        Edit photos
+        </RouterLink>
+    </div>
 
-            <div class="row mt-4">
-              <button v-if="!done" type="button" class="btn btn-danger btn-md"
-                data-bs-toggle="modal" data-bs-target="#exampleModal" style="width: fit-content;">
-                  Delete listing
-              </button>
-            </div>
+    <div class="row mt-4">
+      <button v-if="!done" type="button" class="btn btn-danger btn-md"
+        data-bs-toggle="modal" data-bs-target="#exampleModal" style="width: fit-content;">
+          Delete listing
+      </button>
+    </div>
 
-          </div>
-                        <div class="col-sm-6">
+  </div>
 
-
-
+  <div class="col-md-6">
     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
       <form @submit="handleSubmit($event, update)" >
 
         <div class="row mt-3">           
-            <h1 class="title text-center">Edit {{ itemType }} Item</h1>
-            <!-- <span class="badge text-bg-secondary float-end">Listing</span> -->                  
+            <h1 class="title text-center">Edit {{ itemType }} Item</h1>                
         </div>
 
         <TextInput  name="itemName" class="mt-2">
-          Item Name
+          Item name
         </TextInput>
 
         <TextInput name="description" as="textarea">
@@ -88,29 +85,23 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
         <div class="mt-4 text-capitalize"> 
           <label for="exampleFormControlInput1" class="form-label titleBold">Condition</label> 
           <select class="form-select"  v-model="condition">
-            <option>New</option>
-            <option>Old</option>
+            <option value="new" selected>New</option>
+            <option value="old">Old</option>
           </select>
         </div>
 
         <div class="mt-4">
-          <h6>Tags</h6>
+          <span class="titleBold">Tags</span>
           <vue3-tags-input :tags="tags"
             placeholder="Tags"
-            @on-tags-changed="handleChangeTag"
-            />
+            @on-tags-changed="handleChangeTag" class="mt-2"/>
         </div>
-
-
-
-
-        
-        <GreenSubmitBtn>Save!</GreenSubmitBtn>
+        <GreenSubmitBtn>Save changes</GreenSubmitBtn>
     </form>
     </VeeForm>
-                        </div>
-                    </div>
-      </MiddleCardForListing>
+  </div>
+</div>
+</MiddleCardForListing>
 
 
 <!-- modal -->
