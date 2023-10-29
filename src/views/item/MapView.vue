@@ -161,17 +161,21 @@ export default {
       radiusInKm : 5,
       userPin : null,
       query : '',
+
+
+      nearbyUsersIDs : null,
+      userLoc : null,
     }
   },
 
   methods: {
-    createMap(){
+    createMap(arr){
       if(this.map){
         this.map.off()
         this.map.remove()
         this.marker = null
       }
-      this.map = L.map('map').setView([1.366667,103.85], 11);
+      this.map = L.map('map').setView(arr ?? [1.402382926961625, 103.89701354063448], 11);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
         zoomControl: true,zoom:1,zoomAnimation:false,fadeAnimation:true,markerZoomAnimation:true,
@@ -180,12 +184,14 @@ export default {
       }).addTo(this.map);
     },
 
-    putUserMarker(position){
+    putUserMarker(position, goThere){
       this.userPin = L.marker([position.coords.latitude, position.coords.longitude], {icon : this.red}
         ).addTo(this.map)
         this.userPin.bindPopup("You are here!")
         this.userPin.openPopup()
-      this.map.flyTo([position.coords.latitude, position.coords.longitude],16);
+        if(goThere){
+          this.map.flyTo([position.coords.latitude, position.coords.longitude],16);
+        }
 
     },
     showPosition(position){
@@ -203,54 +209,7 @@ export default {
           }
       })
       .then(resp=>{
-        this.map.flyTo([position.coords.latitude,position.coords.longitude],14)
-
-        console.log(Object.entries(resp.data));
-        Object.entries(resp.data).forEach(([key,item]) => {
-          console.log(item)
-          if(this.busStopObj.has(item.preferredBusStop)){
-            this.busStopObj.get(item.preferredBusStop).usernames.push(item.username)
-          }else {
-            this.busStopObj.set(
-              item.preferredBusStop,
-
-              {
-                loc : item.loc,
-                usernames : [item.username],
-                busStopName : item.busStopName
-              }
-            )
-          }
-
-        })
-
-  this.busStopObj.forEach((item,key,map)=>{
-    var temp = L.marker([item.loc.coordinates[1],item.loc.coordinates[0]],{
-      icon: this.emoji,
-    }).addTo(this.map)
-
-    if (item.usernames.length==1) {
-      temp.bindPopup(`${item.usernames.join(", ")} ${item.usernames > 1 ? " are" : " is"} trading at the bus stop: ${item.busStopName}`)
-
-      temp.on('mouseover',function(e){
-          this.openPopup()
-      }),
-      temp.on('mouseout', function(e){
-        this.closePopup()
-      })
-      this.pointsArr.push(temp)
-    } else {
-      temp.bindPopup(`${item.usernames.length} users are trading at the bus stop: ${item.busStopName}. Sign up to chat with them!`)
-
-      temp.on('mouseover',function(e){
-          this.openPopup()
-      }),
-      temp.on('mouseout', function(e){
-        this.closePopup()
-      })
-      this.pointsArr.push(temp)
-    }
-  })
+        this.placeNearbyUsers(resp)
 }).catch(
   e=>{
     console.log(e, "here")
@@ -266,22 +225,65 @@ export default {
 
 
 },
-    putUserMarker(position){
-      console.log('this.userPin :>> ', this.userPin);
-      this.userPin = L.marker([position.coords.latitude, position.coords.longitude], {icon : this.red}
-        ).addTo(this.map)
-        this.userPin.bindPopup("You are here!")
-        this.userPin.openPopup()
-      this.map.flyTo([position.coords.latitude, position.coords.longitude],16);
 
-    },
+
+placeNearbyUsers(resp){
+  this.busStopObj = new Map()
+console.log(Object.entries(resp.data));
+Object.entries(resp.data).forEach(([key,item]) => {
+  console.log(item)
+  if(this.busStopObj.has(item.preferredBusStop)){
+    this.busStopObj.get(item.preferredBusStop).usernames.push(item.username)
+  }else {
+    this.busStopObj.set(
+      item.preferredBusStop,
+
+      {
+        loc : item.loc,
+        usernames : [item.username],
+        busStopName : item.busStopName
+      }
+    )
+  }
+
+})
+
+this.busStopObj.forEach((item,key,map)=>{
+var temp = L.marker([item.loc.coordinates[1],item.loc.coordinates[0]],{
+icon: this.emoji,
+}).addTo(this.map)
+
+if (item.usernames.length==1) {
+temp.bindPopup(`${item.usernames.join(", ")} ${item.usernames > 1 ? " are" : " is"} trading at the bus stop: ${item.busStopName}`)
+
+temp.on('mouseover',function(e){
+  this.openPopup()
+}),
+temp.on('mouseout', function(e){
+this.closePopup()
+})
+this.pointsArr.push(temp)
+} else {
+  temp.bindPopup(`${item.usernames.join(", ")} ${item.usernames > 1 ? " are" : " is"} trading at the bus stop: ${item.busStopName}`)
+
+temp.on('mouseover',function(e){
+  this.openPopup()
+}),
+temp.on('mouseout', function(e){
+this.closePopup()
+})
+this.pointsArr.push(temp)
+}
+})
+},
 
     getLocation() {
       this.createMap()
       this.loadStore.loading=true
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((data) => {
-          this.putUserMarker(data)
+          this.userLoc = data
+          this.putUserMarker(data,true)
           this.load(data)
           this.showPosition(data)
         },(e) =>{
@@ -309,6 +311,12 @@ export default {
 
         if (response.data.length > 0){
           this.query=response.data[0].display_name
+          this.userLoc = {
+          coords : {
+            latitude : response.data[0].lat,
+            longitude : response.data[0].lon
+          }
+        }
           this.load({
           coords : {
             latitude : response.data[0].lat,
@@ -326,7 +334,7 @@ export default {
             latitude : response.data[0].lat,
             longitude : response.data[0].lon
           }
-        })
+        },true)
         } else {
           this.$toast.error("Did not find any location matching your query")
           this.loadStore.loading=false
@@ -348,26 +356,21 @@ export default {
       let ownerPBS = this.nearbyUsersIDs[ownerID].busStopName;
       console.log(ownerLat,ownerLon);
       // move current pin to ListedItemOwner and fly to it
-      if (this.marker) {
-        this.marker.setLatLng([ownerLat,ownerLon]);
-        this.map.flyTo([ownerLat,ownerLon],16);
+
+      this.createMap([ownerLat,ownerLon])
+      this.putUserMarker(this.userLoc)
+      this.placeNearbyUsers({
+        data : this.nearbyUsersIDs
+      })
+      this.marker = L.marker([ownerLat,ownerLon], {icon : this.emoji}).addTo(this.map);
+        this.map.setView([ownerLat,ownerLon],16);
         this.marker.bindPopup("The owner of "+item.itemName+" would prefer to meet at "+ownerPBS+"!").openPopup();
         var vm = this;
         let itemID = item._id;
         this.marker.on('click', function(){
           vm.$router.push("/item/"+itemID);
         })
-      }
-      else {
-        this.marker = L.marker([ownerLat,ownerLon], {icon : this.emoji}).addTo(this.map);
-        this.map.flyTo([ownerLat,ownerLon],16);
-        this.marker.bindPopup("The owner of "+item.itemName+" would prefer to meet at "+ownerPBS+"!").openPopup();
-        var vm = this;
-        let itemID = item._id;
-        this.marker.on('click', function(){
-          vm.$router.push("/item/"+itemID);
-        })
-      }
+
     },
 
     load(position){
@@ -402,6 +405,7 @@ export default {
       this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyUsers`,options).then(response=>{
         console.log(response,"nearbyUsersIDs object");
         this.nearbyUsersIDs = response.data
+        this.placeNearbyUsers({data : this.nearbyUsersIDs})
       })
           }
 
@@ -421,12 +425,18 @@ export default {
     this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`).then(
       response => {
         if(response.data.data.busStop){
+          this.userLoc = {
+          coords : {
+            latitude : response.data.data.busStop.loc.coordinates[1],
+            longitude : response.data.data.busStop.loc.coordinates[0]
+          }
+        }
           this.putUserMarker({
           coords : {
             latitude : response.data.data.busStop.loc.coordinates[1],
             longitude : response.data.data.busStop.loc.coordinates[0]
           }
-        })
+        },true)
         this.showPosition({
           coords : {
             latitude : response.data.data.busStop.loc.coordinates[1],
