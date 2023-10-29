@@ -76,7 +76,7 @@ import moment from "moment";
                 <td>500+</td>
               </tr>
             </table>
-
+            <p>Tier is based on accumulated points - before rewards redemption. Of which you have {{ accPoints }} points</p>
                 <br>
                 <!-- start -->
                 <div class="header">
