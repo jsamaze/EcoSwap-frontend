@@ -3,7 +3,7 @@ import { vElementVisibility } from '@vueuse/components';
 </script>
 
 <template>
-        <div class="circle" data-prog="25">
+        <div class="circle my-5" data-prog="25">
             <ve-progress style="margin-top: 5%;" :progress="current" :color="'#44571c'" :emptyColor="'#FFFFFF'" ></ve-progress>
             <svg width="250" height="250">
               <circle r="100" cx="125" cy="125" class="track"></circle>
@@ -12,6 +12,7 @@ import { vElementVisibility } from '@vueuse/components';
             <div class="circle-inner">
               <h1  v-element-visibility="animateCircle">{{percent}}%</h1>
             </div>
+            <h5 class="text-white mt-4"><slot></slot></h5>
           </div>
 </template>
 

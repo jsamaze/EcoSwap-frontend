@@ -26,14 +26,14 @@ import { useLoadStore } from '../store/InitialLoadStore';
   <!-- type your HTML here -->
 
 
-   <MiddleCardForListing>
+   <MiddleCardForListing class="">
  
 
     <div class="container-fluid">
-      <div class="row m-5">
+      <div class="row">
 
         <h3>
-          {{ $route.params.username }}'s average rating: <span class="normal">{{ avgRating }} out of 5</span>
+          {{ $route.params.username }}'s average rating: <span class="normal">{{ avgRating != null ? avgRating + ' out of 5' : 'No reviews yet'}} </span>
         </h3>
 
         <!-- <p>
@@ -58,9 +58,9 @@ import { useLoadStore } from '../store/InitialLoadStore';
         </h5>
 </div>
 
-        <div class=" review">
+        <div class=" review row">
 
-          <div class="col-md-4 ">
+          <div class="col-md-9 ">
               <div class="heading" v-if="selectedOption =='received'">
               <h3>Reviews {{ $route.params.username }} received</h3>
               </div>
@@ -73,8 +73,8 @@ import { useLoadStore } from '../store/InitialLoadStore';
 
           </div>
 
-          <div class="col-md-6 drop">
-            <select v-model="selectedOption" class="p-2 select btn btn-lg d-md-inline d-md-block" >
+          <div class="col-md-3 drop">
+            <select v-model="selectedOption" class="p-2 select btn btn-lg d-md-inline d-md-block w-100" >
               <option value="received">Reviews received</option>
               <option value="given">Review given</option>
               <option value="incomplete" v-if="userStore.username==$route.params.username||userStore.username == username">Review incomplete</option>
@@ -302,7 +302,7 @@ export default {
         var ajax2 = await this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${ this.username||this.$route.params.username}`)
         this.reviews = ajax2.data.data.reviewsReceived
         this.completedReviews = ajax2.data.data.reviewsWritten
-        this.avgRating = ajax2.data.data.avgRating ?? 0
+        this.avgRating = ajax2.data.data.avgRating 
       } catch (error) {
         console.log(error)
         this.$router.push("/")

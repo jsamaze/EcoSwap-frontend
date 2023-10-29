@@ -15,8 +15,8 @@ import moment from "moment";
 
     <h1 class="titleBold text-center" style="font-size: xxx-large;">Points summary</h1>
     <div class="text-center">
-      <H4><b>Total Points: </b>{{ netPoints }} </H4>
-      <H4><b>Current Tier: </b>{{ tier }} </H4>
+      <h4><b>Total Points: </b>{{ netPoints }} </h4>
+      <h4><b>Current Tier: </b>{{ tier }} </h4>
     </div>
 
    <MiddleCardForListing>
@@ -76,7 +76,7 @@ import moment from "moment";
                 <td>500+</td>
               </tr>
             </table>
-
+            <p>Tier is based on accumulated points - before rewards redemption of which you have {{ accPoints }} points</p>
                 <br>
                 <!-- start -->
                 <div class="header">
@@ -130,7 +130,8 @@ import moment from "moment";
                         <b>{{ item.prizeTitle }} ({{ Math.abs( item.points) }} points)</b>
                         <br>{{ item.prizeDescription }}
                         <p> Only for first {{ item.max }} redeemers. While stocks last!</p>
-                        <GreenBtn @click="(Math.abs(item.points) <= netPoints) && redeem(item.rewardName)" :disabled="Math.abs(item.points) > netPoints" disabledPopover="Not enough points">Redeem</GreenBtn>
+                        <GreenBtn @click="(Math.abs(item.points) <= netPoints) && redeem(item.rewardName)" v-if="Math.abs(item.points) <= netPoints">Redeem</GreenBtn>
+                         <button v-else disabled class="btn btn-lg btn-warning">Not enough points!</button>
                     </li>
                 </ul>
                 </div>
@@ -232,8 +233,8 @@ export default {
 
 
   //any ajax call to start is executed here
-  created() {
-    this.load()
-  }
+   async created() {
+    await this.load()
+   }
 }
 </script>
