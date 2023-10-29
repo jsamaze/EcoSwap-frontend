@@ -73,7 +73,7 @@ import * as bootstrap from 'bootstrap'
               <GreenBtn>Edit listing</GreenBtn>
             </RouterLink>
         </div>
-        <div class="row" style="width: fit-content; margin: auto;" v-if="userStore.username && username != userStore.username && itemType != 'WishList'">
+        <div class="row" style="width: fit-content; margin: auto;" v-if="userStore.username && username != userStore.username && itemType != 'WishList' && !done">
               <GreenBtn @click="startChat">
                 Start chat!
               </GreenBtn>
