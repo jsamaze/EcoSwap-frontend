@@ -364,9 +364,16 @@ this.pointsArr.push(temp)
       })
       this.marker = L.marker([ownerLat,ownerLon], {icon : this.emoji}).addTo(this.map);
         this.map.setView([ownerLat,ownerLon],16);
-        this.marker.bindPopup("The owner of "+item.itemName+" would prefer to meet at "+ownerPBS+"!").openPopup();
+        this.marker.bindPopup("The owner of "+item.itemName+`, ${item.user.username} , would prefer to meet at `+ownerPBS+"!").openPopup();
+
         var vm = this;
         let itemID = item._id;
+        temp.on('mouseover',function(e){
+          this.openPopup()
+        }),
+          temp.on('mouseout', function(e){
+          this.closePopup()
+          })
         this.marker.on('click', function(){
           vm.$router.push("/item/"+itemID);
         })
