@@ -148,6 +148,11 @@ h1{
   z-index: 1;
   padding-bottom: 10px;
 }
+
+.accordion{
+  --bs-accordion-btn-bg: #d2e296;
+  --bs-accordion-active-bg: #d2e296;
+}
 </style>
 
 <script>
