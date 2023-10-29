@@ -11,6 +11,7 @@
   import { mapStores } from 'pinia'
   import { useUserStore } from '../../store/UserStore'
   import GreenBtn from '../../components/GreenBtn.vue'
+  import { placeholder } from '../../assets/assets';
 
 </script>
 
@@ -102,7 +103,7 @@
                   <button class="accordion-button" :class="{ collapsed: idx >0}" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#collapse'+idx" @click="findItemOwner(listedItem)">
                     <!-- later remove the link, use event listener to move to point on map where item Owner is -->
                     <div class="row">
-                      <div><img v-if="listedItem.photoURLs.length!=0" v-lazy="listedItem.photoURLs[0]" style="width: 50%; height: 50%; margin-bottom: 5px;" class="rounded"/></div>
+                      <div><img v-if="listedItem.photoURLs.length!=0" v-lazy="listedItem.photoURLs.length > 0 ? listedItem.photoURLs[0] : placeholder" style="width: 50%; height: 50%; margin-bottom: 5px;" class="rounded"/></div>
                       <div><h4 class="text-capitalize">{{listedItem.itemName}}</h4></div>
                       <div v-if="listedItem.category"><b>Category:</b> {{listedItem.category}}</div>
                       <div v-if="listedItem.condition" class="text-capitalize"><b>Condition:</b> {{listedItem.condition}}</div>
