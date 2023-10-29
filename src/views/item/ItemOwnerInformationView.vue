@@ -27,7 +27,7 @@
             <br>
             <h4 id="PreferredBusStop"><span class="titleBold">Preferred Bus Stop:</span> {{busStopCode}} - {{ busStopDesc}} </h4>
             <h4 id="UserRating"><span class="titleBold">User Rating:</span> {{!user.avgRating ? "no reviews yet" : user.avgRating+ " out of 5" ?? "-"}}</h4>
-            <h4 id="Tier"><span class="titleBold">Tier:</span> <span :style="{color: user.tier}">{{user.tier}}</span></h4>
+            <h4 id="Tier"><span class="titleBold">Tier:</span> <span :class="REWARD_TIER[user.tier].cssColor">{{user.tier}}</span></h4>
             
             <div class="d-block">
               <GreenBtn @click="$router.push('/reward')" v-if="userStore.username==$route.params.username">Rewards</GreenBtn>
@@ -107,11 +107,39 @@ export default {
     return{
       listedItems: [],
       wishlistItems: [],
-      user: {},
+      user: {tier:'Superstar'},
       busStopCode : "",
       busStopDesc : "",
       about: null,
       favouritedItems : [],
+
+      REWARD_TIER : {
+        Green : {
+          cssColor : 'text-success',
+          range : 100,
+          start : 0,
+          end : 100,
+        },
+        Silver : {
+          cssColor : 'text-secondary',
+          range : 200,
+          start : 100,
+          end : 300,
+        },
+        Gold : {
+          cssColor : 'text-warning',
+          range : 200,
+          start : 300,
+
+          end : 500,
+        },
+        Superstar : {
+          cssColor : 'rainbow',
+          start : 500,
+          range: 100, // just here to prevent error
+          end : 600,
+        }
+      }
     }
   },
 

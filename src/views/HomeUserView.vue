@@ -52,7 +52,7 @@
               <h4 id="UserRating"><span class="titleBold">User Rating:</span> {{!user.avgRating ? "no reviews yet" : user.avgRating+ " out of 5" ?? "-"}}</h4>
 
 
-              <h4 id="Tier"><span class="titleBold">Tier:</span> <span :style="{color: user.tier}">{{user.tier}}</span></h4>
+              <h4 id="Tier"><span class="titleBold">Tier:</span> <span :class="REWARD_TIER[user.tier].cssColor">{{user.tier}}</span></h4>
               
               <div class="d-block">
                 <GreenBtn @click="$router.push('/reward')" v-if="userStore.username==user.username">Rewards</GreenBtn>
@@ -123,6 +123,15 @@
 
 <style>
 @import '@/assets/homepage.css';
+
+.rainbow {
+  font-weight: bold;
+  background: linear-gradient(to right, #ef5350, #f48fb1, #7e57c2, #2196f3, #26c6da, #43a047, #eeff41, #f9a825, #ff5722);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 </style>
 /* you can also import css files */
 
@@ -164,7 +173,35 @@ export default {
       busStopCode:null,
       busStopDesc:null,
       about:null,
-      user: {}
+      user: {tier:'Superstar'},
+
+      REWARD_TIER : {
+        Green : {
+          cssColor : 'text-success',
+          range : 100,
+          start : 0,
+          end : 100,
+        },
+        Silver : {
+          cssColor : 'text-secondary',
+          range : 200,
+          start : 100,
+          end : 300,
+        },
+        Gold : {
+          cssColor : 'text-warning',
+          range : 200,
+          start : 300,
+
+          end : 500,
+        },
+        Superstar : {
+          cssColor : 'rainbow',
+          start : 500,
+          range: 100, // just here to prevent error
+          end : 600,
+        }
+      }
 
     }
   },
