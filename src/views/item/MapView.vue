@@ -59,7 +59,7 @@
       </form>
       
       <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-        View recommended items!
+        View recommended items
       </button>
 
 
@@ -83,7 +83,14 @@
 
         <!-- If no items are recommended-->
         <div v-if="nearbyUserArr.length==0">
-          There is no item to recommend nearby. Try choosing another location, or adding more items to your wishlist!
+          <h4>
+          There is no item to recommend nearby. 
+          <br>
+          Try choosing another location, or adding more items to your wishlist!
+          </h4>
+          <button type="button"  class="btn btn-success btn-lg mt-2" @click="$router.push('/item/add?itemType=WishList')">
+            Add wishlist items now!
+          </button>
         </div>
 
           <!-- Creating an accordion for each item with a loop -->
