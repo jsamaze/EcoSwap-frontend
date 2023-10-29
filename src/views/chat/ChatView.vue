@@ -26,7 +26,7 @@ import CircularProgress from '../../components/circularProgress.vue';
         <h1 class="modal-title fs-5 text-dark" id="staticBackdropLabel">
           {{ modalHeading}}
         </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="seeChecklist=true"></button>
+        <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close" @click="seeChecklist=true"></button>
       </div>
       <div class="modal-body">
 
@@ -34,9 +34,9 @@ import CircularProgress from '../../components/circularProgress.vue';
         <div class="container" v-if="seeChecklist">
 
 
-          <div class="row">
+          <div class="row align-items-start">
             <div class="col-6">
-              <h3 class="text-center">Listed Items by me</h3>
+              <h5 class="text-center">Listed Items by me</h5>
 
               <div v-for="item in myListedItems">
                 <input :id="item._id" type="checkbox" v-model.lazy='mySelectedItems' :value="item._id" :disabled="chatClosed">
@@ -45,7 +45,7 @@ import CircularProgress from '../../components/circularProgress.vue';
               
             </div>
             <div class="col-6">
-              <h3 class="text-center">Listed Items by {{ truncatedChattingWith }}</h3>
+              <h5 class="text-center">Listed Items by {{ truncatedChattingWith }}</h5>
               <div v-for="item in otherListedItems">
                 <input type="checkbox" :value="item._id"  v-model="itemChatStore.items" disabled >
                 <label class="form-check-label d-inline">  {{ "   " +  item.itemName }}</label>
@@ -58,12 +58,11 @@ import CircularProgress from '../../components/circularProgress.vue';
         <div class="container" v-else>
           <h3 class="text-center my-3">
             {{ endChatSuccessState =='needRespond' ? `${chattingWithFullName} is inviting you to close the trade.` :""}} 
-             Do you want to close the deal with {{ chattingWithFullName }}?
+            Do you want to close the deal with {{ chattingWithFullName }}?
             </h3>
         </div>
       </div>
       <div class="modal-footer" v-if="seeChecklist">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-success" @click="switchModal" :disabled="endChatSuccessState=='waiting'">{{ secondButton }}</button>
       </div>
       <div class="modal-footer" v-else>
@@ -84,11 +83,11 @@ import CircularProgress from '../../components/circularProgress.vue';
 
 
   <div class="conversations" >
-    <button class="chat-header position-sticky top-0 ">
-      Chats!
-      <div class="form-check form-switch " style="margin-left: 5%;">
+    <button class="chat-header position-sticky top-0">
+      <h2 class="my-3">Chats</h2>
+      <div class="form-check form-switch my-2" style="margin-left: 5%;">
         <input class="form-check-input"  type="checkbox" role="switch" id="flexSwitchCheckChecked" v-model="seeClosedChats">
-        <label class="form-check-label" for="flexSwitchCheckChecked">See {{ seeClosedChats ? "completed" : ""}} trade {{ seeClosedChats ? "" : "in progress"}}</label>
+        <label class="form-check-label" for="flexSwitchCheckChecked">See {{ seeClosedChats ? "completed" : ""}} trades {{ seeClosedChats ? "" : "in progress"}}</label>
       </div>
     </button>
     <Conversation :id='chat._id' v-for="chat,idx in currentChats" :username="userStore.username" :chat="chat" :chosen="chattingWith && idx ==0"
@@ -102,7 +101,7 @@ import CircularProgress from '../../components/circularProgress.vue';
   </div>
 
 
-  <header class=" m-0">
+  <header class="m-0">
 
     <Btn  class="go-back me-3 id='back-button" @click="swapScreenToConversations">
       Back
@@ -125,25 +124,11 @@ import CircularProgress from '../../components/circularProgress.vue';
 
 
   <footer>
-    <!-- <div class="btn-group dropup">
-
-      <button type="button" class="btn btn-secondary dropdown-toggle btn btn-info" data-bs-toggle="dropdown" aria-expanded="false">
-        Options
-      </button>
-
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">End chat</a></li>
-        <li><a class="dropdown-item" href="#">Mark chat a success</a></li>
-      </ul>
-
-    </div> -->
-
-    <!-- input text or text area? -->
-    <form @submit.prevent="submitMsg">
-      <button type="button" class="btn p-1" style="background-color: #8a9f53;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  :disabled="!$route.params.chatId">
+    <form @submit.prevent="submitMsg" style="height: 3em;">
+      <button type="button" class="btn p-1" style="background-color: #8a9f53; width: 3.5em;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  :disabled="!$route.params.chatId">
       <img src="../../assets/images/trade.png" style="height:100%">
     </button>
-      <input type="text" class="form-control" v-model="textContent" :disabled="!$route.params.chatId">
+      <input type="text" class="form-control mx-2" v-model="textContent" :disabled="!$route.params.chatId">
     
       <input type="submit" class="btn btn-success" value="Send!" :disabled="!$route.params.chatId" >
     </form>
@@ -523,10 +508,10 @@ export default {
     },
     secondButton(){
       if(this.chatClosed){
-        return "Trade is done"
+        return "Trade completed"
       }
       if(!this.endChatSuccessState){
-        return "Request to close the trade"
+        return "Request to close trade"
       } else if (this.endChatSuccessState=='waiting'){
         return `Waiting for ${this.chattingWith}`
       } else {
