@@ -21,15 +21,12 @@ import * as bootstrap from 'bootstrap'
   <!-- type your HTML here -->
 
 <MiddleCardForListing>
-  <div class="row justify-content-start ms-2 mb-3">
-    <Btn style="margin: 0 !important; width: fit-content;" @click="$router.push('/user/marketplace')" v-if="userStore.username != username">
-      Back to marketplace
-    </Btn>
-    <Btn style="margin: 0 !important; width: fit-content;" @click="$router.push('/user/landing')" v-else>
-      Back to homepage
+  <div class="row justify-content-start m-3">
+    <Btn style="margin: 0 !important; width: fit-content;" @click="this.$router.go(-1)" v-if="userStore.username != username">
+      Back
     </Btn>
   </div>
-  <div class="row align-items-start">
+  <div class="row align-items-start mt-4">
     <div class="col-sm-6 mb-3">
         <CustomCarousell v-if="images && images.length>0" :images=images>
         </CustomCarousell>
@@ -37,7 +34,7 @@ import * as bootstrap from 'bootstrap'
     <div class="col-sm-6">
 
       <div class="row justify-content-start">
-        <h1 class="title">{{itemName}}</h1>
+        <h1 class="title">{{itemName}} <span class="badge text-bg-danger rounded-pill ms-1" v-if="done">Traded</span></h1>
         <p class="badge background-dark-green fs-4" style="width: fit-content; margin-left: 12px;"> {{ itemType }}</p>
         <div class="row align-items-start">
           <div class="col">
@@ -225,7 +222,6 @@ export default {
             this.itemName = response.data.data.itemName;
             this.tags = response.data.data.tags.join(", ");
 
-            console.log(response.data.data)
             this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : [placeholder];
             this.itemType = response.data.data.itemType;
 

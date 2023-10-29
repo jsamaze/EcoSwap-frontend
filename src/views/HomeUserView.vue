@@ -65,8 +65,8 @@
         <!-- Right column with Listed Items and Wishlist Items-->
         <div class="col-md-8 pt-5 px-5" style="background-color: #cbd5c0;">
           <!--Listed Items-->
-          <div class="row mb-3">
-            <h2>My Listed Items <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h2>
+          <div class="row mb-5">
+            <h2 class="ms-3 mb-3">My Listed Items <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h2>
             <!-- Card for Listed Items-->
             <div class="row flex-nowrap overflow-auto justify-content-start">
               <div class="col-xl-3 col-md-5 col-sm-6 col-7" v-for="itemL in listedItems">
@@ -81,8 +81,8 @@
           </div>
 
           <!--Wishlist Items-->
-          <div class="row mb-3">
-            <h2>My Wishlist Items  <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h2>
+          <div class="row mb-5">
+            <h2 class="ms-3 mb-3">My Wishlist Items  <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=WishList')">Add</button></h2>
             <!-- Card for Wishlist Items -->
             <div class="row flex-nowrap overflow-auto justify-content-start">
               <div class="col-xl-3 col-md-5 col-sm-6 col-7" v-for="itemW in wishlistItems">
@@ -97,8 +97,8 @@
           </div>
 
           <!--Favourited Items-->
-          <div class="row mb-3">
-            <h2>My Favourited Items</h2>
+          <div class="row mb-5">
+            <h2 class="ms-3 mb-3">My Favourited Items</h2>
             <!-- Card for Favourited Items -->
             <div class="row flex-nowrap overflow-auto justify-content-start">
               <div class="col-xl-3 col-md-5 col-sm-6 col-7" v-for="itemF in favouritedItems">
