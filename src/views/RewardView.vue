@@ -57,19 +57,19 @@ import * as bootstrap from 'bootstrap';
                       <th>Points range</th>
                     </tr>
                     <tr style="border: 1px solid rgb(192, 192, 192);">
-                      <td style="padding: 10px;">Green</td>
+                      <td style="padding: 10px;" class="text-success">Green</td>
                       <td>0-99</td>
                     </tr>
                     <tr style="border: 1px solid rgb(192, 192, 192);">
-                      <td style="padding: 10px;">Silver</td>
+                      <td style="padding: 10px;" class="text-secondary">Silver</td>
                       <td>100-299</td>
                     </tr>
                     <tr style="border: 1px solid rgb(192, 192, 192);">
-                      <td style="padding: 10px;">Gold</td>
+                      <td style="padding: 10px;" class="text-warning">Gold</td>
                       <td>300-499</td>
                     </tr>
                     <tr style="border: 1px solid rgb(192, 192, 192);">
-                      <td style="padding: 10px;">Superstar</td>
+                      <td style="padding: 10px;" class="rainbow">Superstar</td>
                       <td>500+</td>
                     </tr>
                   </table>
@@ -94,12 +94,20 @@ import * as bootstrap from 'bootstrap';
         <div class="card w-100 max-w-100 p-3 mb-3" style="height: fit-content">
           <div class="card-body">
             <img src="..\assets\images\reward.png" style="width: 24%; height: 24%; margin-bottom: 3px;">
-            <h4 class="card-title" style="color: green;">GREEN</h4>
-            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" style="width: 90%"></div>
+            <h4 class="card-title" :class="REWARD_TIER[tier].cssColor">{{ tier.toUpperCase() }}</h4>
+
+            <div v-if="tier != 'Superstar'">
+              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" :style="{width: `${percent}%`}">{{ percent }}%</div>
             </div>
             <!-- numPoints needs to be dynamic so should implement function or what -->
-            <h6 class="card-subtitle mt-2 text-muted">{{ numPoints }} number of points needed to reach next tier</h6>
+            <h6 class="card-subtitle mt-2 text-muted">{{ numPoints }} points needed to reach next tier</h6>
+
+            </div>
+
+            <div v-else>
+              <h6 class="card-subtitle mt-2 text-muted rainbow">You are at the highest tier</h6>
+            </div>
           </div>
         </div>
       </div>
@@ -129,14 +137,14 @@ import * as bootstrap from 'bootstrap';
 
     <div class="row">
       <div class="col-md-4" v-for="item in rewards">
-        <div class="card w-100 max-w-100 p-3 mb-3" style="height: fit-content">
+        <div class="card w-100 max-w-100 p-2 mb-3" style="height: fit-content">
           <div class="card-body">
-            <h5 class="card-title ms-5"><b>{{ item.prizeTitle }} ({{ Math.abs( item.points) }} points)</b></h5>
-            <h6 class="card-subtitle mt-2 text-muted text-center">{{ item.prizeDescription }} Only for first {{ item.max }} redeemers. While stocks last!</h6>
+            <h5 class="card-title text-center"><b>{{ item.prizeTitle }}<br> ({{ Math.abs( item.points) }} points)</b></h5>
+            <h6 class="card-subtitle mt-2 text-muted text-center">{{ item.prizeDescription }} <br> <br>Only for first {{ item.max }} redeemers. While stocks last!</h6>
             <br>
-            <div class="my-2 text-center">
+            <div class=" text-center">
               <GreenBtn @click="(Math.abs(item.points) <= netPoints) && redeem(item.rewardName)" v-if="Math.abs(item.points) <= netPoints">Redeem</GreenBtn>
-              <button v-else disabled class="btn btn-md btn-dark">Not enough points!</button>
+              <button v-else disabled class="btn btn-lg my-3 btn-dark">Not enough points!</button>
             </div>
           </div>
         </div>
@@ -159,15 +167,18 @@ import * as bootstrap from 'bootstrap';
             <th scope="col">Points</th>
           </tr>
         </thead>
-        <tbody v-for="(transaction,idx) in transactions">
-          <tr :class="{'table-success text-white' : rewards_rewardName.includes(transaction.rewardName) }">
+        <tbody >
+          <tr v-for="(transaction,idx) in transactions" :class="{'table-success text-white' : rewards_rewardName.includes(transaction.rewardName) }">
             <th scope="row">{{idx+1}}</th>
             <td v-if="transaction.rewardName=='addListedItem'"><b>List Item</b></td>
             <td v-else-if="transaction.rewardName=='trade'"><b>Successful Trade</b></td>
+            <td v-else-if="transaction.rewardName=='removeListedItem'"><b>Deleted Listed Item</b></td>
             <td v-else><b>Redeemed: {{ transaction.rewardName}}</b></td>
-            <td v-if="transactions.length!=0">Date: {{ moment(transaction.createdAt).format("DD/MM/YYYY")}}</td>
-            <td v-if="transactions.length!=0">Points: {{ (transaction.points > 0 ? "+" : "")+  transaction.points }} points</td>
-            <td v-if="transactions.length==0">No point transactions yet!</td>
+            <td v-if="transactions.length!=0">{{ moment(transaction.createdAt).format("DD/MM/YYYY")}}</td>
+            <td v-if="transactions.length!=0">{{ (transaction.points > 0 ? "+" : "")+  transaction.points }}</td>
+          </tr>
+          <tr v-if="transactions.length==0" >
+            <td colspan="4" class="text-center">No point transactions yet!</td>
           </tr>
         </tbody>
       </table>
@@ -177,6 +188,14 @@ import * as bootstrap from 'bootstrap';
 </template>
 
 <style scoped> 
+
+.rainbow {
+  font-weight: bold;
+  background: linear-gradient(to right, #ef5350, #f48fb1, #7e57c2, #2196f3, #26c6da, #43a047, #eeff41, #f9a825, #ff5722);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 h1{
   padding-top: 30px;
@@ -205,7 +224,15 @@ export default {
 
   // this is data, website will reload if this change
   computed : {
-    ...mapStores(useUserStore)
+    ...mapStores(useUserStore),
+
+    percent(){
+      return Math.floor(((this.accPoints-this.REWARD_TIER[this.tier].start)/(this.REWARD_TIER[this.tier].range))*100)
+    },
+
+    numPoints(){
+      return -(this.accPoints-this.REWARD_TIER[this.tier].end)
+    }
   },
   data() {
 
@@ -216,9 +243,36 @@ export default {
 
       netPoints:0,
       accPoints:0,
-      tier:0,
+      tier:'Superstar',
       rewards_rewardName: [],
-      numPoints:0,
+
+      REWARD_TIER : {
+        Green : {
+          cssColor : 'text-success',
+          range : 100,
+          start : 0,
+          end : 100,
+        },
+        Silver : {
+          cssColor : 'text-secondary',
+          range : 200,
+          start : 100,
+          end : 300,
+        },
+        Gold : {
+          cssColor : 'text-warning',
+          range : 200,
+          start : 300,
+
+          end : 500,
+        },
+        Superstar : {
+          cssColor : 'rainbow',
+          start : 500,
+          range: 100, // just here to prevent error
+          end : 600,
+        }
+      }
     }
   },
 
