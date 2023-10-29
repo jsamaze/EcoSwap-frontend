@@ -93,8 +93,8 @@ import * as bootstrap from 'bootstrap';
       <div class="col-lg-6">
         <div class="card w-100 max-w-100 p-3 mb-3" style="height: fit-content">
           <div class="card-body">
-            <img src="src\assets\images\reward.png" style="width: 25%; height: 25%; margin-bottom: 3px;">
-            <h5 class="card-title" style="color: green;">GREEN</h5>
+            <img src="src\assets\images\reward.png" style="width: 24%; height: 24%; margin-bottom: 3px;">
+            <h4 class="card-title" style="color: green;">GREEN</h4>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
               <div class="progress-bar" style="width: 90%"></div>
             </div>
@@ -149,31 +149,30 @@ import * as bootstrap from 'bootstrap';
       <h1>Transaction History</h1>
     </div>
 
-    <div class="row align-items-start">
-      <div class="col-md-6">
-        <MiddleCardForListing>
-          <div class="header">
-            <h3>Transactions</h3>
-          </div>
-          <div class="card" style="width: 100%; height: auto;">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item" :class="{'bg-success text-white' : rewards_rewardName.includes(transaction.rewardName) }" v-for="transaction in transactions">
-                  <!-- <b>{{ transaction.rewardName}}</b>  -->
-                  <div v-if="transaction.rewardName=='addListedItem'"><b>List Item</b></div>
-                  <div v-else-if="transaction.rewardName=='trade'"><b>Successful Trade</b></div>
-                  <div v-else><b>Redeemed: {{ transaction.rewardName}}</b></div>
-                  Date: {{ moment(transaction.createdAt).format("DD/MM/YYYY")}}
-                  <br>Points: {{ (transaction.points > 0 ? "+" : "")+  transaction.points }} points
-        
-              </li>
-              <li class="list-group-item" v-if="transactions.length == 0">
-                No point transactions yet!
-              </li>
-            </ul>
-          </div>
-        </MiddleCardForListing>
-      </div>
-    </div>
+    <MiddleCardForListing>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Action</th>
+            <th scope="col">Date</th>
+            <th scope="col">Points</th>
+          </tr>
+        </thead>
+        <tbody v-for="(transaction,idx) in transactions">
+          <tr :class="{'table-success text-white' : rewards_rewardName.includes(transaction.rewardName) }">
+            <th scope="row">{{idx+1}}</th>
+            <td v-if="transaction.rewardName=='addListedItem'"><b>List Item</b></td>
+            <td v-else-if="transaction.rewardName=='trade'"><b>Successful Trade</b></td>
+            <td v-else><b>Redeemed: {{ transaction.rewardName}}</b></td>
+            <td v-if="transactions.length!=0">Date: {{ moment(transaction.createdAt).format("DD/MM/YYYY")}}</td>
+            <td v-if="transactions.length!=0">Points: {{ (transaction.points > 0 ? "+" : "")+  transaction.points }} points</td>
+            <td v-if="transactions.length==0">No point transactions yet!</td>
+          </tr>
+        </tbody>
+      </table>
+    </MiddleCardForListing>
+
   </div>
 </template>
 
@@ -183,6 +182,9 @@ h1{
   padding-top: 30px;
 }
 
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #d2e296;
+}
 
 .header{
   position: sticky;
