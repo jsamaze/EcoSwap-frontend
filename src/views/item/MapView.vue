@@ -32,7 +32,7 @@
             </div>
             <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
             <div class="col-xxl-2 text-center">
-              <GreenBtn v-on:click="getLocation()">Use your location</GreenBtn>
+              <GreenBtn type="button" v-on:click="getLocation()">Use your location</GreenBtn>
             </div>
           </div>
         </div>
@@ -157,6 +157,7 @@ export default {
   methods: {
 
     putUserMarker(position){
+      console.log('this.userPin :>> ', this.userPin);
       if(this.userPin){
         this.userPin.setLatLng([position.coords.latitude, position.coords.longitude])
         this.userPin.bindPopup("You are here")
@@ -175,13 +176,13 @@ export default {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((data) => {
           this.putUserMarker(data)
-          this.showPosition(data)
+          this.load(data)
         },(e) =>{
           this.loadStore.loading=false
           this.$toast.warning("You have disabled sharing your location")
         });
       } else { 
-        this.$toast.warning("You have disabled sharing your location")
+        this.$toast.warning("Your device is not compatible")
         this.loadStore.loading= false
       }
     },
@@ -267,6 +268,7 @@ export default {
         options.params.longitude = position.coords.longitude
         options.params.latitude = position.coords.latitude
       }
+      console.log('options :>> ', options);
 
 //get nearby user data
 this.axios.get(`${import.meta.env.VITE_BACKEND}/busStop/nearbyListingsRecommended`, options).then(response=>{
