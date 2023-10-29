@@ -48,7 +48,11 @@
               <h1 class="mt-4" id="Username">{{ user.fullName }}</h1>
               <br>
               <h4 id="PreferredBusStop"><span class="titleBold">Preferred Bus Stop:</span> {{busStopCode}} - {{ busStopDesc}} </h4>
+<<<<<<< Updated upstream
               <h4 id="UserRating"><span class="titleBold">User Rating:</span> {{!user.avgRating ? "no reviews yet" : user.avgRating+ " out of 5" ?? "-"}}</h4>
+=======
+              <h4 id="UserRating"><span class="titleBold">User Rating:</span> {{user.avgRating + " out of 5" ?? "-"}}</h4> 
+>>>>>>> Stashed changes
               <h4 id="Tier"><span class="titleBold">Tier:</span> <span :style="{color: user.tier}">{{user.tier}}</span></h4>
               
               <div class="d-block">
