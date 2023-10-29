@@ -14,114 +14,41 @@ import * as bootstrap from 'bootstrap';
 <template>
   <!-- type your HTML here -->
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="row">
-        <h1>My Points</h1>
-      </div>
-    </div>
+  <h1 class="titleBold text-center" style="font-size: xxx-large;">Points Summary</h1>
 
-
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="card w-100 max-w-100">
-            <div class="card-body">
-              <img src="src\assets\images\reward.png" style="width: 25%; height: 25%; margin-bottom: 3px;">
-              <h5 class="card-title ms-5" style="color: green;">GREEN</h5>
-              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: 90%"></div>
-              </div>
-              <!-- numPoints needs to be dynamic so should implement function or what -->
-              <h6 class="card-subtitle mt-2 text-muted">{{ numPoints }} number of points needed to reach next tier</h6>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="card w-100 max-w-100">
-            <div class="card-body">
-              <div class="row">
-                <img src="src\assets\images\star.png" style="width: 25%; height: 25%; margin-bottom: 3px;">
-              </div>
-              <div class="row">
-                <h3>Accumulated Points: {{accPoints}}</h3>
-              </div>
-              <hr>
-                <div class="row">
-                  <h3>Available Points: {{ netPoints }}</h3>
+  <div class="container-fluid mt-5" style="max-width: 80%;">
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+            <h4>Points and tier information</h4>
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+          <div class="accordion-body">
+            <div class="container-fluid">
+              <div class="row align-items-start">
+                <div class='col-md-6 col-12 justify-content-center'>
+                  <h4>Point System</h4>
+                  <table class="table" style=" text-align: center; border: 1px solid rgb(192, 192, 192);">
+                    <tr style="border: 1px solid rgb(192, 192, 192);">
+                      <th style="padding: 10px;">Action</th>
+                      <th>Points Range</th>
+                    </tr>
+                    <tr style="border: 1px solid rgb(192, 192, 192);">
+                      <td style="padding: 10px;">List Item</td>
+                      <td>+2 Points</td>
+                    </tr>
+                    <tr style="border: 1px solid rgb(192, 192, 192);">
+                      <td style="padding: 10px;">Remove Item</td>
+                      <td>-2 Points</td>
+                    </tr>
+                    <tr style="border: 1px solid rgb(192, 192, 192);">
+                      <td style="padding: 10px;">Trade</td>
+                      <td>+5 Points</td>
+                    </tr>
+                  </table>
                 </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    <br>
-
-    <div class="row">
-      <div class="row bg-danger">My Rewards</div>
-      <div class="col bg-success">Card 1</div>
-      <div class="col bg-light">Card 2</div>
-    </div>
-
-    <br>
-
-    <div class="row">
-      <div class="row bg-danger">Transaction details</div>
-      <div class="col bg-success">Card 1</div>
-      <div class="col bg-light">Card 2</div>
-    </div>
-
-    <br>
-
-    <div class="row">
-      <div class="row bg-danger">Ways to earn rewards</div>
-      <div class="col bg-success">Card 1</div>
-      <div class="col bg-light">Card 2</div>
-    </div>
-  </div>
-
-
-
-
-
-    <h1 class="titleBold text-center" style="font-size: xxx-large;">Points summary</h1>
-    <div class="text-center">
-      <h4><b>Total Points: </b>{{ netPoints }} </h4>
-      <h4><b>Current Tier: </b><span :style="{color: tier} ">{{ tier }}</span> </h4>
-    </div>
-
-    <div class="container-fluid mt-5" style="max-width: 80%;">
-      <div class="accordion" id="accordionPanelsStayOpenExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-              Points and tier information
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-            <div class="accordion-body">
-              <div class="container-fluid">
-                <div class="row align-items-start">
-                  <div class='col-md-6 col-12 justify-content-center'>
-                    <h4>Point System</h4>
-                    <table class="table" style=" text-align: center; border: 1px solid rgb(192, 192, 192);">
-                      <tr style="border: 1px solid rgb(192, 192, 192);">
-                        <th style="padding: 10px;">Action</th>
-                        <th>Points Range</th>
-                      </tr>
-                      <tr style="border: 1px solid rgb(192, 192, 192);">
-                        <td style="padding: 10px;">List Item</td>
-                        <td>+2 Points</td>
-                      </tr>
-                      <tr style="border: 1px solid rgb(192, 192, 192);">
-                        <td style="padding: 10px;">Remove Item</td>
-                        <td>-2 Points</td>
-                      </tr>
-                      <tr style="border: 1px solid rgb(192, 192, 192);">
-                        <td style="padding: 10px;">Trade</td>
-                        <td>+5 Points</td>
-                      </tr>
-                    </table>
-                  </div>
                 <div class='col-md-6 col-12 justify-content-center'>
                   <h4>Tier System</h4>
                   <table class="table" style=" text-align: center; border: 1px solid rgb(192, 192, 192);">
@@ -156,12 +83,77 @@ import * as bootstrap from 'bootstrap';
     </div>
   </div>
 
-  <div class="container-fluid p-0">
+  <div class="container-fluid">
+
+    <div class="row mx-1">
+      <h1>My Points</h1>
+    </div>
+
+    <div class="row mx-1">
+      <div class="col-lg-6">
+        <div class="card w-100 max-w-100 p-3 mb-3" style="height: fit-content">
+          <div class="card-body">
+            <img src="src\assets\images\reward.png" style="width: 25%; height: 25%; margin-bottom: 3px;">
+            <h5 class="card-title" style="color: green;">GREEN</h5>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: 90%"></div>
+            </div>
+            <!-- numPoints needs to be dynamic so should implement function or what -->
+            <h6 class="card-subtitle mt-2 text-muted">{{ numPoints }} number of points needed to reach next tier</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card w-100 max-w-100 mb-3" style="height: 50%">
+          <div class="card-body">
+            <div class="row">
+              <img src="src\assets\images\star.png" style="width: 25%; height: 25%; margin-bottom: 3px;">
+            </div>
+            <hr>
+            <div class="row">
+              <h3>Accumulated Points: {{accPoints}}</h3>
+            </div>
+            <div class="row">
+              <h3>Available Points: {{ netPoints }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row mx-1">
+      <h1>My Rewards</h1>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4" v-for="item in rewards">
+        <div class="card w-100 max-w-100 p-3 mb-3" style="height: fit-content">
+          <div class="card-body">
+            <h5 class="card-title ms-5"><b>{{ item.prizeTitle }} ({{ Math.abs( item.points) }} points)</b></h5>
+            <h6 class="card-subtitle mt-2 text-muted text-center">{{ item.prizeDescription }} Only for first {{ item.max }} redeemers. While stocks last!</h6>
+            <br>
+            <div class="my-2 text-center">
+              <GreenBtn @click="(Math.abs(item.points) <= netPoints) && redeem(item.rewardName)" v-if="Math.abs(item.points) <= netPoints">Redeem</GreenBtn>
+              <button v-else disabled class="btn btn-md btn-dark">Not enough points!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row text-center">
+      <h1>Transaction History</h1>
+    </div>
+
     <div class="row align-items-start">
       <div class="col-md-6">
         <MiddleCardForListing>
           <div class="header">
-            <h3>Point transactions</h3>
+            <h3>Transactions</h3>
           </div>
           <div class="card" style="width: 100%; height: auto;">
             <ul class="list-group list-group-flush">
@@ -178,26 +170,6 @@ import * as bootstrap from 'bootstrap';
                 No point transactions yet!
               </li>
             </ul>
-          </div>
-        </MiddleCardForListing>
-      </div>
-      <div class="col-md-6">
-        <MiddleCardForListing>
-          <div class="header">
-            <h3>Rewards</h3>
-          </div>
-          <div class="card" style="width: 100%; height: auto;">
-          <ul class="list-group list-group-flush">
-              <li class="list-group-item " v-for="item in rewards">
-                  <b>{{ item.prizeTitle }} ({{ Math.abs( item.points) }} points)</b>
-                  <br>{{ item.prizeDescription }}
-                  Only for first {{ item.max }} redeemers. While stocks last!
-                  <div class="my-2">
-                    <GreenBtn @click="(Math.abs(item.points) <= netPoints) && redeem(item.rewardName)" v-if="Math.abs(item.points) <= netPoints">Redeem</GreenBtn>
-                    <button v-else disabled class="btn btn-md btn-dark">Not enough points!</button>
-                  </div>
-              </li>
-          </ul>
           </div>
         </MiddleCardForListing>
       </div>
