@@ -37,7 +37,7 @@ import * as bootstrap from 'bootstrap'
     <div class="col-sm-6">
 
       <div class="row justify-content-start">
-        <h1 class="title">{{itemName}}</h1>
+        <h1 class="title">{{itemName}} <span class="badge text-bg-danger rounded-pill ms-1" v-if="done">Traded</span></h1>
         <p class="badge background-dark-green fs-4" style="width: fit-content; margin-left: 12px;"> {{ itemType }}</p>
         <div class="row align-items-start">
           <div class="col">
@@ -225,7 +225,6 @@ export default {
             this.itemName = response.data.data.itemName;
             this.tags = response.data.data.tags.join(", ");
 
-            console.log(response.data.data)
             this.images = response.data.data.photoURL.length > 0 ? response.data.data.photoURL : [placeholder];
             this.itemType = response.data.data.itemType;
 
