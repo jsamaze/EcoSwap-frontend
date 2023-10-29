@@ -50,7 +50,7 @@ import * as bootstrap from 'bootstrap'
         <p class="subtitle"><span class="subtitleBold">Description:</span>
         <br>
         {{description}}</p>
-        <p><span class="subtitleBold" ref="viewsHelp" data-bs-toggle="tooltip" data-bs-title="Log in for your view to count!">No of views:</span> {{ views }}</p>
+        <p><span class="subtitleBold" ref="viewsHelp" data-bs-toggle="tooltip" :data-bs-title="userStore.username ? 'Only views 5 minutes apart from each other count':'Log in for your view to count!'">No of views:</span> {{ views }}</p>
         <p><span class="subtitleBold">Number of likes: </span> {{ likes }}</p>
         <h6 class="titleBold">Listed by:</h6>
         <div class="col-md-2 col-3 align-self-center">
