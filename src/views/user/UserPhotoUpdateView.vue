@@ -83,6 +83,8 @@ export default {
                   zoomable: false,
                   zoomOnTouch:false,
                   zoomOnWheel:false,
+                  movable:false,
+                  rotatable:false,
               });
 
               // vm.showFileInput=false;
