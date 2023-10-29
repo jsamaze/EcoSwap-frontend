@@ -26,39 +26,36 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 <template>
   <!-- type your HTML here -->
       <MiddleCardForListing>
+        <div class="row justify-content-start m-3">
+          <Btn style="margin: 0 !important; width: fit-content;" @click="$router.push(`/item/${this.$route.params.itemId}`)">
+            Back
+          </Btn>
+        </div>
 
-        <div class="row">
-                      <div class="col-sm-6">
-                  
-                  <Btn @click="$router.push(`/item/${this.$route.params.itemId}`)">
-                    Back
-                  </Btn>
+        <div class="row align-items-start">
+          <div class="col-sm-6">
+            <!-- carousel -->
+            <br>
+            <CustomCarousell v-if="images && images.length>0" :images=images>
 
-                    <!-- carousel -->
-                    <br>
-                    <CustomCarousell v-if="images && images.length>0" :images=images>
+            </CustomCarousell>
 
-                    </CustomCarousell>
+            <!-- end carousel -->
 
-                    <!-- end carousel -->
+            <div class="row mt-4">
+                <RouterLink v-if="images.length < 5" :to='`/item/${$route.params.itemId}/addPhoto`' class="btn btn-success btn-md" style="width: fit-content;">
+                Edit photos
+                </RouterLink>
+            </div>
 
+            <div class="row mt-4">
+              <button v-if="!done" type="button" class="btn btn-danger btn-md"
+                data-bs-toggle="modal" data-bs-target="#exampleModal" style="width: fit-content;">
+                  Delete listing
+              </button>
+            </div>
 
-                    <div class="row mt-3">
-                      <div class="btn-group " role="group" aria-label="Basic mixed styles example">
-                      <RouterLink v-if="images.length < 5" :to='`/item/${$route.params.itemId}/addPhoto`' class="btn btn-success btn-lg">
-                      Edit photos
-                    </RouterLink>
-
-                    <button v-if="!done" type="button" class=" text-center btn btn-danger btn-lg gradient-custom-4 text-white subtitle "
-                      data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Delete Listing!
-                      </button>
-
-                            </div>
-                    </div>
-
-
-                </div>
+          </div>
                         <div class="col-sm-6">
 
 
@@ -66,49 +63,43 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
     <VeeForm v-slot="{ handleSubmit }" ref="form" :validation-schema="schema" as="div" class="pb-3">
       <form @submit="handleSubmit($event, update)" >
 
-        <div class="row mt-5">           
-            <h1 class="title text-center">Edit Listing</h1>
+        <div class="row mt-3">           
+            <h1 class="title text-center">Edit {{ itemType }} Item</h1>
             <!-- <span class="badge text-bg-secondary float-end">Listing</span> -->                  
         </div>
 
-        <div class="text-center fs-5">
-          This is a {{ itemType }} item
-        </div>
-
-
-        <TextInput  name="itemName">
+        <TextInput  name="itemName" class="mt-2">
           Item Name
         </TextInput>
 
+        <TextInput name="description" as="textarea">
+        </TextInput>
 
-          <TextInput name="description" as="textarea">
-          </TextInput>
+        <div class="mt-2">
+          <label for="exampleFormControlInput1" class="form-label titleBold">Category</label> 
+          <select class="form-select"  v-model="category">
+            <option >Kitchenware</option>
+            <option >Furniture</option>
+            <option >Electronics</option>
+            <option>Fashion</option>
+          </select>
+        </div> 
 
+        <div class="mt-4 text-capitalize"> 
+          <label for="exampleFormControlInput1" class="form-label titleBold">Condition</label> 
+          <select class="form-select"  v-model="condition">
+            <option>New</option>
+            <option>Old</option>
+          </select>
+        </div>
 
-
-          <div class="mb-3"> 
-              <label for="exampleFormControlInput1" class="form-label title">Category</label> 
-              <select class="form-select"  v-model="category">
-                <option >Kitchenware</option>
-                <option >Furniture</option>
-                <option >Electronics</option>
-                <option>Fashion</option>
-              </select>
-
-          </div> 
-
-          <div class="mb-3"> 
-              <label for="exampleFormControlInput1" class="form-label title">Category</label> 
-              <select class="form-select"  v-model="condition">
-                <option >new</option>
-                <option >old</option>
-              </select>
-          </div> 
-
+        <div class="mt-4">
+          <h6>Tags</h6>
           <vue3-tags-input :tags="tags"
-                   placeholder="enter some tags"
-                   @on-tags-changed="handleChangeTag"
-                   />
+            placeholder="Tags"
+            @on-tags-changed="handleChangeTag"
+            />
+        </div>
 
 
 

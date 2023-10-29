@@ -73,11 +73,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
         
       <transition-slide>
         <div class='col-12 justify-content-center' v-if="selectedOption =='received'">
-            <div class="white py-3">
-
-              
-                <!-- <h3>Reviews {{ $route.params.username }} received</h3> -->
-                
+            <div class="white py-3">                
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
@@ -103,8 +99,6 @@ import { useLoadStore } from '../store/InitialLoadStore';
       <transition-slide>
       <div class="col-12 justify-content-center"  v-if="selectedOption =='given'">
         <div class="white py-3">
-
-        <!-- <h3>Reviews {{ $route.params.username }} wrote</h3> -->
                 
                 <div class="card" style="width: 100%; height: auto;">
                 <ul class="list-group list-group-flush">
@@ -163,7 +157,7 @@ import { useLoadStore } from '../store/InitialLoadStore';
    </MiddleCardForListing>
 
 <!-- modal -->
-   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -173,23 +167,24 @@ import { useLoadStore } from '../store/InitialLoadStore';
       <VeeForm v-slot="{ handleSubmit, values }" ref="form" :validation-schema="schema" as="div" class="pb-3">
         <form @submit="handleSubmit($event, sendReview)">
 
-          <select class="form-select" v-model="rating">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-
       <div class="modal-body">
-        For user: {{ selectedReview.for.username}}
-      <br>Date of transaction: {{ moment(selectedReview.chat.createdAt).format("DD/MM/YYYY") }}
-
-
-          <TextInput as="textarea" name="textContent">
-            Content
-          </TextInput>
-          <!-- {{ values }} -->
+        <b>For user:</b> {{ selectedReview.for.username}}
+        <br>
+        <b>Date of transaction:</b> {{ moment(selectedReview.chat.createdAt).format("DD/MM/YYYY") }}
+        <br>
+        <br>
+        <b>Rate this deal out of 5:</b>
+        <select class="form-select" v-model="rating">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <br>
+        <TextInput as="textarea" name="textContent">
+          Content
+        </TextInput>
       </div>
       <div class="modal-footer">
         <button type="button" @click.prevent class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
