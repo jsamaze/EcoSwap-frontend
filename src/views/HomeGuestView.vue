@@ -160,7 +160,7 @@ export default {
         text : 'of water saved from clothes fabrication'
       },{
         percent : 63,
-        text : 'of things to say'
+        text : 'of money spent on kitchenware'
       }],
     }
   },
