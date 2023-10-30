@@ -9,17 +9,33 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav" v-if="!userStore.username">
-      <router-link  to="/login" class="nav-item nav-link">Login</router-link>
-      <router-link   class="nav-item nav-link"  to="/">Home</router-link>
-      <router-link class="nav-item nav-link" to="/marketplace">Marketplace</router-link>
-      <router-link  class="nav-item nav-link" to="/guest/map">Map</router-link>
+      <router-link  to="/login" class="nav-item nav-link"  >
+        <span data-bs-target="#navbarNavAltMarkup" data-bs-toggle="collapse">Login</span>
+      </router-link>
+      <router-link   class="nav-item nav-link"  to="/">
+        <span data-bs-target="#navbarNavAltMarkup" data-bs-toggle="collapse">Home</span>  
+      </router-link>
+      <router-link class="nav-item nav-link" to="/marketplace">
+        <span data-bs-target="#navbarNavAltMarkup" data-bs-toggle="collapse">Marketplace</span>  
+      </router-link>
+      <router-link  class="nav-item nav-link" to="/guest/map">
+        <span data-bs-target="#navbarNavAltMarkup" data-bs-toggle="collapse">Map</span>  
+      </router-link>
     </div>
     <div class="navbar-nav" v-if="userStore.username">
-      <router-link class="nav-item nav-link" :to="`/user/landing`">Home</router-link>
-      <router-link class="nav-item nav-link" to="/user/marketplace">Marketplace</router-link>
-      <router-link class="nav-item nav-link" to="/user/map">Map</router-link>
-      <router-link class="nav-item nav-link" to="/chat">Chat</router-link>
-      <button class="btn btn-danger mx-3" @click="logout" >
+      <router-link class="nav-item nav-link" :to="`/user/landing`">
+        <span data-bs-target="#navbarNavAltMarkup" data-bs-toggle="collapse">Home</span>  
+      </router-link>
+      <router-link class="nav-item nav-link" to="/user/marketplace">
+        <span data-bs-target="#navbarNavAltMarkup" data-bs-toggle="collapse">Marketplace</span>  
+      </router-link>
+      <router-link class="nav-item nav-link" to="/user/map">
+        <span data-bs-target="#navbarNavAltMarkup" data-bs-toggle="collapse">Map</span>  
+      </router-link>
+      <router-link class="nav-item nav-link" to="/chat">
+        <span data-bs-target="#navbarNavAltMarkup" data-bs-toggle="collapse">Chat</span>  
+      </router-link>
+      <button class="btn btn-danger ms-3" @click="logout" data-bs-target="#navbarNavAltMarkup" data-bs-toggle="collapse">
         Logout
       </button>
     </div>
