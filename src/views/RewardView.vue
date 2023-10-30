@@ -202,9 +202,9 @@ h1{
 }
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-  background-color: #d2e296;
+  background-color: rgb(228, 250, 239);
 }
-
+/* rgb(228, 250, 239); */
 .header{
   position: sticky;
   top: 0;
