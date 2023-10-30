@@ -31,7 +31,7 @@
           </svg>
         </button>
       </span>
-      <div class="row mx-3 my-5 overflow-auto flex-nowrap justify-content-start">
+      <div class="row mx-3 overflow-auto flex-nowrap justify-content-start">
         <div class="col-xl-2 col-md-3 col-sm-5 col-6" v-for="item in items">
           <ItemCard :item="item">
 
@@ -52,16 +52,16 @@
               <p><b>Find items near you that match your wishlist!</b></p>
               <ol>
                 <li>Enter a location or use your current location</li>
-                <img src="/src/assets/images/UMap_modal1.gif">
+                <img src="/src/assets/images/UMap_modal1.gif" style="width: 90%;">
                 <br><br>
                 <li>Adjust the search radius</li>
-                <img src="/src/assets/images/UMap_modal2.gif">
+                <img src="/src/assets/images/UMap_modal2.gif" style="width: 90%;">
                 <br><br>
-                <li>Search and view recommended items</li>
-                <img src="/src/assets/images/UMap_modal3.gif">
+                <li>Search and view items that match your wishlist items</li>
+                <img src="/src/assets/images/UMap_modal3.gif" style="width: 90%;">
                 <br><br>
                 <li>See the item owner's preferred bus stop and more information about the item</li>
-                <img src="/src/assets/images/UMap_modal4.gif">
+                <img src="/src/assets/images/UMap_modal4.gif" style="width: 90%;">
               </ol>
             </div>
           </div>
@@ -71,12 +71,9 @@
         </div>
       </div>
     </div>
-
     <!-- modal end -->
-    <!-- modal start -->
 
       <form class="mb-3 " @submit.prevent="getLocationAddress()">
-
         <div class="container-fluid">
           <div class="row g-2">
             <div class="col-xxl-9">
