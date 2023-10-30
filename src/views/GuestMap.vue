@@ -28,6 +28,16 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Welcome to the marketplace!</h5>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="flexCheckDefault" @click="rememberMe(this,'GuestMap')">
+              <label class="form-check-label" for="flexCheckDefault">
+                Don't show again next time
+              </label>
+            </div>
+
+
+
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
