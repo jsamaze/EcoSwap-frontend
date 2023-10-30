@@ -72,7 +72,7 @@ export default {
       const bsCollapse = new bootstrap.Collapse(menuToggle)
       navLinks.forEach((l) => {
           l.addEventListener('click', () => { 
-            if(window.innerWidth <= 992){
+            if(window.innerWidth < 992){
               bsCollapse.toggle()
             }
            })
