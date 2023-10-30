@@ -517,6 +517,9 @@ this.pointsArr.push(temp)
     this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.userStore.username}`).then(
       response => {
         if(response.data.data.busStop){
+          if(localStorage.getItem("MapView")==null){
+            this.instructionalModal.show()
+          }
           this.userLoc = {
           coords : {
             latitude : response.data.data.busStop.loc.coordinates[1],
@@ -548,9 +551,7 @@ this.pointsArr.push(temp)
     // create an icon 
 
     this.instructionalModal= new bootstrap.Modal(this.$refs.instructionalModal)
-    if(localStorage.getItem("MapView")==null){
-      this.instructionalModal.show()
-    }
+
 
 
     
