@@ -17,10 +17,11 @@
             <!-- dont use v-if -->
             <img ref="imageCrop" src="" class="img-fluid" alt="Picture" v-show="showCanvas" :style="{display:'block', maxWidth:'100%'}">
       </div>
-
+      <div class="text-center">
       <GreenBtn @click="send" id="SendButton" v-if="sendButtonDisplay">
         Send!
       </GreenBtn>
+    </div>
               <!-- This is just a button for sending - feel free to use anything else  -->
 
   </MiddleCol>
