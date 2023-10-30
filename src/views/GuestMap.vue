@@ -13,46 +13,55 @@
   <!-- type your HTML here -->
   <MiddleCardForListing>
     <div class="container-fluid text-center my-4">
-      <h1 style="font-size: xxx-large;">Find users near you!</h1>
+      <span style="display: inline;">
+        <h1 style="font-size: xxx-large; display: inline-block; margin-right: 15px;">Find items near you!</h1>
+      <!-- modal start -->
+        <!-- Button trigger modal -->
+        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" style="border: 0; background-color: white;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-question-circle" viewBox="0 0 16 16" style="vertical-align:bottom;">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+          </svg>
+        </button>
+      </span>
+      <div class="row mx-3 overflow-auto flex-nowrap justify-content-start">
+        <div class="col-xl-2 col-md-3 col-sm-5 col-6" v-for="item in items">
+          <ItemCard :item="item">
+
+          </ItemCard>
+        </div>
+      </div>
     </div>
-
-    <!-- modal start -->
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Instructions
-    </button>
-
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Welcome to the marketplace!</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Welcome to the map!</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="trending">
-              Find items from users near you!
+            <div>
+              <p><b>Find users near you!</b></p>
+              <ol>
+                <li>Enter a location or use your current location</li>
+                <img src="/src/assets/images/UMap_modal1.gif" style="width: 90%;">
+                <br><br>
+                <li>Adjust the search radius</li>
+                <img src="/src/assets/images/UMap_modal2.gif" style="width: 90%;">
+                <br><br>
+                <li>Search and view items listed by nearby users</li>
+                <img src="/src/assets/images/GMap_modal3.gif" style="width: 90%;">
+              </ol>
             </div>
-            <br>
-            <div class="search">
-              1. Enter a location or use your current location
-              <br>2. Adjust search radius
-              <br>3. See what items we recommend
-              <br>4. Click on an item to see the owner's preferred bus stop
-              <br>5. Click on the owner's pin to see more information about the item
-            </div>
-
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
           </div>
         </div>
       </div>
     </div>
-
     <!-- modal end -->
-
     <div class="container-fluid">
       <div class="row g-2">
         <div class="col-xxl-9">
