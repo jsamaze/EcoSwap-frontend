@@ -92,8 +92,9 @@ import * as bootstrap from 'bootstrap';
     <div class="row mx-1">
       <div class="col-lg-6">
         <div class="card w-100 max-w-100 p-3 mb-3" style="height: fit-content">
-          <div class="card-body">
-            <img src="..\assets\images\reward.png" style="width: 24%; height: 24%; margin-bottom: 3px;">
+          <div class="card-body ">
+            <img src="..\assets\images\reward.png " style="width: 24%; height: 24%; margin-bottom: 3px;" >
+            
             <h4 class="card-title" :class="REWARD_TIER[tier].cssColor">{{ tier.toUpperCase() }}</h4>
 
             <div v-if="tier != 'Superstar'">
@@ -202,9 +203,9 @@ h1{
 }
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-  background-color: #d2e296;
+  background-color: rgb(228, 250, 239);
 }
-
+/* rgb(228, 250, 239); */
 .header{
   position: sticky;
   top: 0;
