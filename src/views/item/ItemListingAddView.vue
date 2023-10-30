@@ -46,8 +46,8 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
         <div class="mt-2"> 
           <label for="exampleFormControlInput1" class="form-label titleBold">Item type</label> 
           <select class="form-select"  v-model="itemType">
-            <option >Listed</option>
-            <option >Wish list</option>
+            <option value="Listed">Listed</option>
+            <option value="WishList">Wish list</option>
           </select>
         </div> 
 
@@ -60,10 +60,10 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
         <label for="exampleFormControlInput1" class="form-label titleBold">Category</label> 
         <select class="form-select"  v-model="category">
-          <option >Kitchenware</option>
-          <option >Furniture</option>
-          <option >Electronics</option>
-          <option>Fashion</option>
+          <option value="Kitchenware">Kitchenware</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Fashion">Fashion</option>
         </select>
 
         <div class="mt-4"> 

@@ -39,12 +39,28 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
       </button>
     </div>
 
-    <!-- modal start -->
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Instructions
-    </button>
+    <!-- trending horizontal scroll -->
 
+    <div class="container-fluid text-center" >
+      <span style="display: inline;">
+        <h1 class="titleBold mt-5" style="font-size: xxx-large; display: inline-block; margin-right: 15px;">Trending</h1>
+        <!-- modal start -->
+        <!-- Button trigger modal -->
+        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" style="border: 0; background-color: #eef3db;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-question-circle" viewBox="0 0 16 16" style="vertical-align:bottom;">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+          </svg>
+        </button>
+      </span>
+      <div class="row mx-3 my-5 overflow-auto flex-nowrap justify-content-start">
+        <div class="col-xl-2 col-md-3 col-sm-5 col-6" v-for="item in items">
+          <ItemCard :item="item">
+
+          </ItemCard>
+        </div>
+      </div>
+    </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -54,44 +70,29 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="trending">
-              See what other users are interested in! browse through the trending items!
+            <div>
+              <p>See what other users are interested in! Browse through the trending items!</p>
+              <img src="/src/assets/images/UMarketplace_modal1.gif">
+              <br>
+              <p>Have an item in mind? Try searching by item name, or use the filters to narrow your search!</p>
+              <img>
             </div>
-            <br>
-            <div class="search">
-              Have an item in mind? try searching by item name, or use the filters to narrow your search!
-            </div>
-
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
           </div>
         </div>
       </div>
     </div>
 
-    <!-- modal end -->
-
-
-    <!-- trending horizontal scroll -->
-
-    <div class="container-fluid" >
-    <h1 class="titleBold mt-5 text-center" style="font-size: xxx-large">Trending</h1>
-    <div class="row mx-3 my-5 overflow-auto flex-nowrap justify-content-start">
-      <div class="col-xl-2 col-md-3 col-sm-5 col-6" v-for="item in items">
-        <ItemCard :item="item">
-
-        </ItemCard>
-      </div>
-    </div>
-    </div>
+      <!-- modal end -->
 
     <!-- search bar -->
 
       <div class="container-fluid">
 
 <div class="row text-center">
-  <h1 class="titleBold my-4 text-center" style="font-size: xxx-large">Search</h1>
+  <h1 class="titleBold my-4" style="font-size: xxx-large">Search</h1>
 </div>
 
 <div class="row justify-content-center">
@@ -102,7 +103,7 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 
 
 
-<input type="text" class="form-control" placeholder="Search by item name" v-model="searchQuery">
+<input type="text" class="form-control" placeholder="Search by item name" v-model="searchQuery" style="border: 1px solid black;">
 
 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
@@ -198,8 +199,8 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
 </div>
 
 
-<div class="row " style="min-height:110vh" v-if="searchResults.length > 0">
-    <div class="col-md-3 col-6 py-3" v-for="item in searchResults.slice((page-1)*MAX_PER_PAGE,(page)*MAX_PER_PAGE)">
+<div class="row container-fluid flex-row m-0 pt-4" style="min-height:110vh" v-if="searchResults.length > 0">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-6 mb-4" v-for="item in searchResults.slice((page-1)*MAX_PER_PAGE,(page)*MAX_PER_PAGE)">
       <ItemCard :item="item" :key="item._id">
 
       </ItemCard>
@@ -339,7 +340,7 @@ export default {
 
       categories : [
       "Kitchenware",
-               "Furniture",
+              "Furniture",
               "Electronics",
               "Fashion"
       ],
