@@ -77,7 +77,6 @@ import MiddleCardForListing from '../../components/MiddleCardForListing.vue';
               <br>
               <p>Have an item in mind? Try searching by item name, or use the filters to narrow your search!</p>
               <img src="/src/assets/images/UMarketplace_modal2.gif">
-              <img>
             </div>
           </div>
           <div class="modal-footer">
