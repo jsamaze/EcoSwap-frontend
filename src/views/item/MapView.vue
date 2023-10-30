@@ -51,7 +51,7 @@
             <div>
               <p><b>Find items near you that match your wishlist!</b></p>
               <ol>
-                <li>Enter a location or use your current location</li>
+                <li>Enter an address or use your current location</li>
                 <img src="/src/assets/images/UMap_modal1.gif" style="width: 90%;">
                 <br><br>
                 <li>Adjust the search radius</li>
@@ -77,7 +77,7 @@
         <div class="container-fluid">
           <div class="row g-2">
             <div class="col-xxl-9">
-              <input type="text" class="form-control-lg col-12" v-model="query" placeholder="Enter a location here...">
+              <input type="text" class="form-control-lg col-12" v-model="query" placeholder="Enter an address here...">
             </div>
             <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
             <div class="col-xxl-2 text-center">
