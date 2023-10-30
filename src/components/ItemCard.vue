@@ -1,10 +1,12 @@
 <template>
   <div class="card card-block" @click="clickCard" style="cursor: pointer; width: 100%;">
     <img v-lazy="item.photoURLs.length > 0 ? item.photoURLs[0] : placeholder" class="card-img-top w-100 rounded">
+    <span class="badge text-bg-danger rounded-pill position-absolute fs-5 right-0 top-0" v-if="item.done">Traded</span>
     <div class="container p-0">
       <div class="row">
-        <h4 class="col card-title subtitle mx-3 mt-3 twoLines" id="itemname">{{ item.itemName }}
-          <span class="col-4 badge text-bg-danger rounded-pill me-4" v-if="item.done">Traded</span>
+        <h4 class="col card-title subtitle mx-3 mt-3 twoLines" id="itemname">
+
+          {{ item.itemName }}
         </h4>
       </div>
     </div>
