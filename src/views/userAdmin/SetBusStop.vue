@@ -20,7 +20,7 @@
     <div class="container-fluid">
       <div class="row g-2">
         <div class="col-xxl-9">
-          <input type="text" class="form-control-lg col-12" v-model="query" placeholder="Enter a location here...">
+          <input type="text" class="form-control-lg col-12" v-model="query" placeholder="Enter an address or a location name (e.g. SMU) here...">
         </div>
         <div class="col-xxl-1 text-center mt-3"><h2>OR</h2></div>
         <div class="col-xxl-2 text-center">
