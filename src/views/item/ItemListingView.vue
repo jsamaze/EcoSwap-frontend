@@ -154,7 +154,7 @@ export default {
       this.axios.get(`${import.meta.env.VITE_BACKEND}/user/${this.username}`).then(response =>{
         console.log(response)
         this.userPhotoURL = response.data.data.imageURL.length > 0 ? response.data.data.imageURL : userPlaceholder
-        this.preferredBusStop = response.data.data.busStop.Description ?? "not set yet"
+        this.preferredBusStop = response.data.data.busStop?.Description ?? "not set yet"
       }).catch(error=>{
         console.log(error)
         this.$toast.warning("Failed to fetch owner photo")

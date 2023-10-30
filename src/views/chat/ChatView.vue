@@ -84,8 +84,8 @@ import CircularProgress from '../../components/circularProgress.vue';
 
   <div class="conversations" >
     <button class="chat-header position-sticky top-0">
-      <h2 class="my-3">Chats</h2>
-      <div class="form-check form-switch my-2" style="margin-left: 5%;">
+      <h2 class="">Chats</h2>
+      <div class="form-check form-switch mb-2" style="margin-left: 5%;">
         <input class="form-check-input"  type="checkbox" role="switch" id="flexSwitchCheckChecked" v-model="seeClosedChats">
         <label class="form-check-label" for="flexSwitchCheckChecked">See {{ seeClosedChats ? "completed" : ""}} trades {{ seeClosedChats ? "" : "in progress"}}</label>
       </div>
@@ -109,7 +109,7 @@ import CircularProgress from '../../components/circularProgress.vue';
     <!-- <button class="go-back bg-transparent me-3" id='back-button' @click="swapScreenToConversations">
     
     </button> -->
-      <h2>{{ chattingWith ? truncatedChattingWith : "No chat selected"}}</h2>  
+      <h2 class="text-truncate">{{ chattingWith ? chattingWith : "No chat selected"}}</h2>  
 
       <!-- to limit the length of full name max 14-->
 

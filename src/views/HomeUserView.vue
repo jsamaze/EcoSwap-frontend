@@ -271,7 +271,7 @@ export default {
     }
     })
 
-    this.listedItems = [...this.listedItems, ...response.data.data]
+    this.listedItems = this.listedItems.concat(response.data.data)
 
 
     response = await this.axios.get(`${import.meta.env.VITE_BACKEND}/items/search`,{
