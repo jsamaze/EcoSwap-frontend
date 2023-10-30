@@ -64,7 +64,7 @@
         </div>
 
         <!-- Right column with Listed Items and Wishlist Items-->
-        <div class="col-md-8 pt-5 px-5" style="background-color: #cbd5c0;">
+        <div class="col-lg-8 pt-5 px-5" style="background-color: #cbd5c0;">
           <!--Listed Items-->
           <div class="row mb-5">
             <h2 class="ms-3 mb-3">My Listed Items <button type="button" class="btn btn-success btn-md" style="margin-left: 15px;" v-if="userStore.username==user.username" @click="$router.push('/item/add?itemType=Listed')">Add</button> </h2>
