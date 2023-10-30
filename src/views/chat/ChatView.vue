@@ -84,8 +84,8 @@ import CircularProgress from '../../components/circularProgress.vue';
 
   <div class="conversations" >
     <button class="chat-header position-sticky top-0">
-      <h2 class="my-3">Chats</h2>
-      <div class="form-check form-switch my-2" style="margin-left: 5%;">
+      <h2 class="">Chats</h2>
+      <div class="form-check form-switch mb-2" style="margin-left: 5%;">
         <input class="form-check-input"  type="checkbox" role="switch" id="flexSwitchCheckChecked" v-model="seeClosedChats">
         <label class="form-check-label" for="flexSwitchCheckChecked">See {{ seeClosedChats ? "completed" : ""}} trades {{ seeClosedChats ? "" : "in progress"}}</label>
       </div>
