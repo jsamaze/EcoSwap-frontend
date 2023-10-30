@@ -109,7 +109,7 @@ import CircularProgress from '../../components/circularProgress.vue';
     <!-- <button class="go-back bg-transparent me-3" id='back-button' @click="swapScreenToConversations">
     
     </button> -->
-      <h2>{{ chattingWith ? truncatedChattingWith : "No chat selected"}}</h2>  
+      <h2 class="text-truncate">{{ chattingWith ? chattingWith : "No chat selected"}}</h2>  
 
       <!-- to limit the length of full name max 14-->
 
