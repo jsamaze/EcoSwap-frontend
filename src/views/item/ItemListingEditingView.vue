@@ -197,7 +197,7 @@ export default {
       this.axios.delete(`${import.meta.env.VITE_BACKEND}/item/${this.$route.params.itemId}`).then(
         resp =>{
           this.$toast.success("Successfully deleted item!")
-          this.$router.push("/user/marketplace")
+          this.$router.push("/user/landing")
         }
       ).catch(
         e =>{
