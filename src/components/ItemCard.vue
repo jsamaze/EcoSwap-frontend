@@ -3,8 +3,9 @@
     <img v-lazy="item.photoURLs.length > 0 ? item.photoURLs[0] : placeholder" class="card-img-top w-100 rounded">
     <div class="container p-0">
       <div class="row">
-        <h4 class="col card-title subtitle mx-3 mt-3 twoLines" id="itemname">{{ item.itemName }}</h4>
-        <span class="col-4 badge text-bg-danger rounded-pill me-4" v-if="item.done">Traded</span>
+        <h4 class="col card-title subtitle mx-3 mt-3 twoLines" id="itemname">{{ item.itemName }}
+          <span class="col-4 badge text-bg-danger rounded-pill me-4" v-if="item.done">Traded</span>
+        </h4>
       </div>
     </div>
     <div class="card-text subtitle text-truncate  mx-3 text-capitalize mb-2">
