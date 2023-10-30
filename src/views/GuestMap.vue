@@ -16,6 +16,43 @@
       <h1 style="font-size: xxx-large;">Find users near you!</h1>
     </div>
 
+    <!-- modal start -->
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Instructions
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Welcome to the marketplace!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="trending">
+              Find items from users near you!
+            </div>
+            <br>
+            <div class="search">
+              1. Enter a location or use your current location
+              <br>2. Adjust search radius
+              <br>3. See what items we recommend
+              <br>4. Click on an item to see the owner's preferred bus stop
+              <br>5. Click on the owner's pin to see more information about the item
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal end -->
+
     <div class="container-fluid">
       <div class="row g-2">
         <div class="col-xxl-9">
