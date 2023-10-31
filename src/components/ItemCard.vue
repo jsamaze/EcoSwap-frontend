@@ -11,11 +11,11 @@
       </div>
     </div>
     <div class="card-text subtitle text-truncate  mx-3 text-capitalize mb-2">
-        {{ item.condition }} 
+      {{ item.category }}
         
         <br class="d-inline d-sm-none"> 
         
-        {{ item.category }}<br>
+        <span class="text-lowercase">({{ item.condition }})</span> <br>
     </div>
 
     <div class="d-none d-sm-inline mx-3 twoLines">
