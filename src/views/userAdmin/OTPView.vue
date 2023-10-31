@@ -66,8 +66,9 @@ export default {
         otp : yup.number().min(0).max(999999).required().label("OTP"),
     }
 
+
     if (this.passwordReset){
-      s.password= yup.string().min(8).required().label("Password"),
+      s.password= yup.string().min(8).required().matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,"Your password must have only letter and digit. At least one letter and one digit").label("Password"),
       s.passwordConfirmation= yup
       .string()
       .oneOf([yup.ref('password')], 'Passwords do not match')

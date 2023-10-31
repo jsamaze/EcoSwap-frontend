@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       schema :  yup.object().shape({
-      username : yup.string().required().label("Username").__context,
+      username : yup.string().required().label("Username"),
       }),
       username : "",
       initialValues : {

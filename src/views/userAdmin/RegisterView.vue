@@ -44,12 +44,14 @@ export default {
   data() {
     return {
       schema :  yup.object().shape({
-      password: yup.string().min(8).required().label("Password"),
+      password: yup.string().min(8).matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,"Your password must have only letter and digit. At least one letter and one digit").required().label("Password"),
       passwordConfirmation: yup
       .string()
       .required("Please confirm your password")
       .oneOf([yup.ref('password')], 'Passwords do not match'),
-      username : yup.string().required().label("Username"),
+      username : yup.string().required()
+       .test('Username', 'Username cannot contains space', (yourValue) =>
+            !yourValue.includes(' ')).label("Username"),
       fullName : yup.string().required().label("Full name"),
       email: yup.string().email("Please enter a valid email").required().label("Email"),
       })
