@@ -21,7 +21,7 @@ Meanwhile the backend repo is [here](https://github.com/jsamaze/EcoSwap-backend)
 2. Open a terminal and set the current directory to the backend folder. 
 3. Run `npm install` because the dependencies are excluded
 4. Run `node .` to run the backend
-5. Open a new terminal and set the current director to the frontend folder
+5. Open a new terminal and set the current directory to the frontend folder
 6. Run `npm install`
 7. Run `npm run dev` to run the frontend
 
