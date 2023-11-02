@@ -35,4 +35,4 @@ Meanwhile the backend repo is [here](https://github.com/jsamaze/EcoSwap-backend)
 | gabriella | 12345678 |
 | sharpay | 12345678 |
 
-Note : the passwords does not conform to the current registration password validation.
+Note : the passwords does not conform to the current registration password validation because the account is created before the validation rule are in place.
