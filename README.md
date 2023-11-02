@@ -1,26 +1,22 @@
-# EcoSwap - WAD Project by G6T10 
+# EcoSwap - WAD Project by G3T10 
 
-> Team members
+## Team members
 
-- JOSHUA SUMARLIN
-- SARAH THAUHEED
-- PANG HYIN KI
-- LIE WIE YONG JAKOB
-
-
-
+- JOSHUA SUMARLIN (jsumarlin.2022)
+- SARAH THAUHEED (sthauheed.2022)
+- PANG HYIN KI (hyinki.pang.2022)
+- LIE WIE YONG JAKOB (jakob.lie.2022)
 
 > This project is a Vue SPA using vue router with a REST API backend built on express js
 
 Our application (frontend) is deployed at the following [link](https://www.ecoswap.space).
-> Important the URL domain must have www otherwise you will not see our website
+> Important! the URL domain must have www otherwise you will not see our website
 The backend of the API is deployed [here](https://api.ecoswap.space).
 
 The Github repo of the frontend is [here](https://github.com/jsamaze/EcoSwap-frontend).
 Meanwhile the backend repo is [here](https://github.com/jsamaze/EcoSwap-backend).
 
 ### Setting up our application
-(Reminder to myself - need to configure for local running)
 1. Install Node Js version 18
 2. Open a terminal and set the current directory to the backend folder. 
 3. Run `npm install` because the dependencies are excluded
@@ -35,30 +31,8 @@ Meanwhile the backend repo is [here](https://github.com/jsamaze/EcoSwap-backend)
 |:-----------:|:-----------:|
 | hyinki | hyinkiii |
 | brandon | brandonn |
-| jane | janeeeee|
+| jane | panghyinki|
+| gabriella | 12345678 |
+| sharpay | 12345678 |
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+Note : the passwords does not conform to the current registration password validation.
