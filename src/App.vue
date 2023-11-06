@@ -177,12 +177,12 @@ export default {
         "message" : {
           toastType : "info",
           message : `${this.chatStore.sender} said ${this.chatStore.textContent}`,
-          click : `/chat/${this.chatStore.sender}`
+          // click : `/chat/${this.chatStore.sender}`
         }, 
          "newChat":{
           toastType : 'info',
           message : `${this.notificationStore.usernameFrom} started a chat with you!`,
-          click : `/chat/${this.notificationStore.usernameFrom}`
+          // click : `/chat/${this.notificationStore.usernameFrom}`
          },
          "endChatSuccess":{
           toastType : "success",
@@ -191,12 +191,12 @@ export default {
          "requestEndChatSuccess" : {
           toastType : "warning", 
           message : `${this.notificationStore.usernameFrom} has requested to close the trade!`,
-          click : `/chat/${this.notificationStore.usernameFrom}`
+          // click : `/chat/${this.notificationStore.usernameFrom}`
          } ,
          "resetEndChatSuccess" : {
           toastType : "warning",
           message :  `${this.notificationStore.usernameFrom} has rejected your request to close the trade.`,
-          click : `/chat/${this.notificationStore.usernameFrom}`
+          // click : `/chat/${this.notificationStore.usernameFrom}`
          },
          "expiredSession" : {
           toastType : "error",
