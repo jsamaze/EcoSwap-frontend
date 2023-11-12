@@ -16,6 +16,9 @@ The backend of the API is deployed [here](https://api.ecoswap.space).
 The Github repo of the frontend is [here](https://github.com/jsamaze/EcoSwap-frontend).
 Meanwhile the backend repo is [here](https://github.com/jsamaze/EcoSwap-backend).
 
+## Reflection by Joshua
+Please refer to file `joshua_reflection.md` at the root of this repository 
+
 ### Setting up our application
 1. Install Node Js version 18
 2. Open a terminal and set the current directory to the backend folder. 
